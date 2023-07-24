@@ -1,0 +1,247 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-07-17 19:03+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: backend/app/pkgs/tools/i18b.py:19
+msgid "DevOpsGPT"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:20
+msgid "切换为中文"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:21
+msgid "Start"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:22
+msgid "More"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:23
+msgid "Hello"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:24
+msgid "Login"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:25
+msgid "Logout"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:26
+msgid "Thinking..."
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:27
+msgid ""
+"Hello, I am the AI-assisted code development assistant, please select the"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:28
+msgid "to start the development task!"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:29
+msgid "I need to develop requirements in the"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:30
+msgid "Task APP"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:31
+msgid "Task ID"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:32
+msgid "Task repo"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:33
+msgid "Task branch: Based on"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:34
+msgid "to development"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:35
+msgid ""
+"Now, please tell me the requirements that need to be completed, describing "
+"them in as much detail as possible."
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:36
+msgid "Development requirements overview: "
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:37
+msgid "Development requirements details: "
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:38
+msgid ""
+"The requirements document has been generated, and the interface document "
+"will be generated after confirmation: "
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:39
+msgid ""
+"In order to better understand the requirements, I also need to confirm the "
+"following questions: "
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:40
+msgid ""
+"The interface documentation has been generated, and once confirmed, the "
+"analysis of how to modify the program code will begin: "
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:41
+msgid "Confirm interface document."
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:42
+msgid "Analyzing how to modify the"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:43
+msgid ""
+"code according to the requirement description, it is expected to take 1-6 "
+"minutes, please wait..."
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:44
+msgid ""
+"According to the above development tasks and the product database, I analyze "
+"that the following contents need to be modified:"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:45
+msgid "Start CI"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:46
+msgid "Submit code"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:47
+msgid "Auto check"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:48
+msgid "Modify file"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:49
+msgid "Reason for modification"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:50
+msgid "Adjust code"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:51
+msgid "Review code"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:52
+msgid "Status"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:53
+msgid "APP"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:54
+msgid "Select APP"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:55
+msgid "Requirement description"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:56
+msgid "Operation"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:57
+msgid "Submit"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:58
+msgid "Ok"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:59
+msgid "Edit"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:60
+msgid "Close"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:61
+msgid "Cancel"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:62
+msgid "Retry"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:63
+msgid "Restart"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:64
+msgid "Question"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:65
+msgid "Answer"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:66
+msgid "Initial code"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:67
+msgid "Self check"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:68
+msgid "Compile check"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:69
+msgid "Fix Compile check"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:70
+msgid "Static scan"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:71
+msgid "Fix Static scan"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:72
+msgid "No problem found in the current file, refer to other solutions:"
+msgstr ""

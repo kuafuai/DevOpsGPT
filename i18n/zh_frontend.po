@@ -1,0 +1,246 @@
+# Language i18n/zh translations for PACKAGE package.
+# Copyright (C) 2023 THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# booboo <mac@booboo.local>, 2023.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-07-17 18:35+0800\n"
+"PO-Revision-Date: 2023-07-17 18:36+0800\n"
+"Last-Translator: booboo <mac@booboo.local>\n"
+"Language-Team: Language i18n/zh\n"
+"Language: i18n/zh_frontend\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: backend/app/pkgs/tools/i18b.py:19
+msgid "DevOpsGPT"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:20
+msgid "切换为中文"
+msgstr "Switch to English"
+
+#: backend/app/pkgs/tools/i18b.py:21
+msgid "Start"
+msgstr "开始"
+
+#: backend/app/pkgs/tools/i18b.py:22
+msgid "More"
+msgstr "更多"
+
+#: backend/app/pkgs/tools/i18b.py:23
+msgid "Hello"
+msgstr "你好"
+
+#: backend/app/pkgs/tools/i18b.py:24
+msgid "Login"
+msgstr "登录"
+
+#: backend/app/pkgs/tools/i18b.py:25
+msgid "Logout"
+msgstr "退出登录"
+
+#: backend/app/pkgs/tools/i18b.py:26
+msgid "Thinking..."
+msgstr "思考中..."
+
+#: backend/app/pkgs/tools/i18b.py:27
+msgid ""
+"Hello, I am the AI-assisted code development assistant, please select the"
+msgstr "你好，我是 AI 辅助需求开发助手，请先选择"
+
+#: backend/app/pkgs/tools/i18b.py:28
+msgid "to start the development task!"
+msgstr "开始开发任务吧！"
+
+#: backend/app/pkgs/tools/i18b.py:29
+msgid "I need to develop requirements in the"
+msgstr "我需要在"
+
+#: backend/app/pkgs/tools/i18b.py:30
+msgid "Task APP"
+msgstr "开发应用"
+
+#: backend/app/pkgs/tools/i18b.py:31
+msgid "Task ID"
+msgstr "任务编号"
+
+#: backend/app/pkgs/tools/i18b.py:32
+msgid "Task repo"
+msgstr "涉及仓库"
+
+#: backend/app/pkgs/tools/i18b.py:33
+msgid "Task branch: Based on"
+msgstr "分支规范: 基于"
+
+#: backend/app/pkgs/tools/i18b.py:34
+msgid "to development"
+msgstr "开发"
+
+#: backend/app/pkgs/tools/i18b.py:35
+msgid ""
+"Now, please tell me the requirements that need to be completed, describing "
+"them in as much detail as possible."
+msgstr "现在，请告诉我需要完成的需求，尽量描述详细。"
+
+#: backend/app/pkgs/tools/i18b.py:36
+msgid "Development requirements overview: "
+msgstr "需求概述："
+
+#: backend/app/pkgs/tools/i18b.py:37
+msgid "Development requirements details: "
+msgstr "详细描述："
+
+#: backend/app/pkgs/tools/i18b.py:38
+msgid ""
+"The requirements document has been generated, and the interface document "
+"will be generated after confirmation: "
+msgstr "需求文档已生成，确认后将生成接口文档："
+
+#: backend/app/pkgs/tools/i18b.py:39
+msgid ""
+"In order to better understand the requirements, I also need to confirm the "
+"following questions: "
+msgstr "为了更好的理解需求，我还需要确认以下问题："
+
+#: backend/app/pkgs/tools/i18b.py:40
+msgid ""
+"The interface documentation has been generated, and once confirmed, the "
+"analysis of how to modify the program code will begin: "
+msgstr "接口文档已生成，确认后将开始分析如何修改程序代码："
+
+#: backend/app/pkgs/tools/i18b.py:41
+msgid "Confirm interface document."
+msgstr "确认接口文档。"
+
+#: backend/app/pkgs/tools/i18b.py:42
+msgid "Analyzing how to modify the"
+msgstr "正在根据需求描述分析如何修改"
+
+#: backend/app/pkgs/tools/i18b.py:43
+msgid ""
+"code according to the requirement description, it is expected to take 1-6 "
+"minutes, please wait..."
+msgstr "代码，预计需要 1-6 分钟，请稍等..."
+
+#: backend/app/pkgs/tools/i18b.py:44
+msgid ""
+"According to the above development tasks and the product database, I analyze "
+"that the following contents need to be modified:"
+msgstr "根据以上开发任务以及产品的资料库，我分析需要修改以下内容："
+
+#: backend/app/pkgs/tools/i18b.py:45
+msgid "Start CI"
+msgstr "持续集成"
+
+#: backend/app/pkgs/tools/i18b.py:46
+msgid "Submit code"
+msgstr "提交代码"
+
+#: backend/app/pkgs/tools/i18b.py:47
+msgid "Auto check"
+msgstr "自我检查"
+
+#: backend/app/pkgs/tools/i18b.py:48
+msgid "Modify file"
+msgstr "文件信息"
+
+#: backend/app/pkgs/tools/i18b.py:49
+msgid "Reason for modification"
+msgstr "修改原因"
+
+#: backend/app/pkgs/tools/i18b.py:50
+msgid "Adjust code"
+msgstr "调整代码"
+
+#: backend/app/pkgs/tools/i18b.py:51
+msgid "Review code"
+msgstr "查看代码"
+
+#: backend/app/pkgs/tools/i18b.py:52
+msgid "Status"
+msgstr "状态"
+
+#: backend/app/pkgs/tools/i18b.py:53
+msgid "APP"
+msgstr "应用"
+
+#: backend/app/pkgs/tools/i18b.py:54
+msgid "Select APP"
+msgstr "选择应用"
+
+#: backend/app/pkgs/tools/i18b.py:55
+msgid "Requirement description"
+msgstr "开发需求"
+
+#: backend/app/pkgs/tools/i18b.py:56
+msgid "Operation"
+msgstr "操作"
+
+#: backend/app/pkgs/tools/i18b.py:57
+msgid "Submit"
+msgstr "提交"
+
+#: backend/app/pkgs/tools/i18b.py:58
+msgid "Ok"
+msgstr "好的"
+
+#: backend/app/pkgs/tools/i18b.py:59
+msgid "Edit"
+msgstr "编辑"
+
+#: backend/app/pkgs/tools/i18b.py:60
+msgid "Close"
+msgstr "关闭"
+
+#: backend/app/pkgs/tools/i18b.py:61
+msgid "Cancel"
+msgstr "取消"
+
+#: backend/app/pkgs/tools/i18b.py:62
+msgid "Retry"
+msgstr "重试"
+
+#: backend/app/pkgs/tools/i18b.py:63
+msgid "Restart"
+msgstr "重启"
+
+#: backend/app/pkgs/tools/i18b.py:64
+msgid "Question"
+msgstr "问题"
+
+#: backend/app/pkgs/tools/i18b.py:65
+msgid "Answer"
+msgstr "回答"
+
+#: backend/app/pkgs/tools/i18b.py:66
+msgid "Initial code"
+msgstr "初始代码"
+
+#: backend/app/pkgs/tools/i18b.py:67
+msgid "Self check"
+msgstr "自我检查"
+
+#: backend/app/pkgs/tools/i18b.py:68
+msgid "Compile check"
+msgstr "编译检查"
+
+#: backend/app/pkgs/tools/i18b.py:69
+msgid "Fix Compile check"
+msgstr "修复编译问题"
+
+#: backend/app/pkgs/tools/i18b.py:70
+msgid "Static scan"
+msgstr "静态扫描"
+
+#: backend/app/pkgs/tools/i18b.py:71
+msgid "Fix Static scan"
+msgstr "修复扫描问题"
+
+#: backend/app/pkgs/tools/i18b.py:72
+msgid "当前文件未发现问题，参考其他解决方案："
+msgstr ""

@@ -1,0 +1,121 @@
+.ui.container {
+  width: 1127px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+.ui.text.container.ai-textcontainer {
+  width: 1127px !important;
+  max-width: 1127px !important;
+  padding: 0px;
+}
+
+.ai-code-container {
+  background-color: #f1f1f1;
+  margin: 10px 0 10px 0;
+  padding: 20px;
+}
+
+.ai-content {
+  margin-top: 2px;
+  padding-left: 0px !important;
+}
+
+.user-code-container {
+  background-color: rgb(255, 255, 255);
+  padding: 20px;
+}
+
+#generate-code-div {
+  padding-left: 0px;
+}
+
+#cancel-task-div {
+  padding-right: 0px;
+}
+
+
+pre {
+  background: #4c4b4b;
+  border: 1px solid #ddd;
+  border-left: 3px solid #f36d33;
+  color: #e4e4ed;
+  page-break-inside: avoid;
+  font-family: monospace;
+  font-size: 15px;
+  line-height: 1.6;
+  margin-bottom: 1.6em;
+  max-width: 100%;
+  max-height: 600px;
+  overflow: auto;
+  padding: 1em 1.5em;
+  display: block;
+  word-wrap: break-word;
+  white-space: break-spaces;
+}
+
+.code-actions {
+  text-align: right;
+  margin-top: -24px;
+  padding: 5px;
+  color: rgba(217, 217, 227, var(--tw-text-opacity));
+  background-color: #3f3c3c;
+  border: 1px solid #ddd;
+  border-top: 0px;
+  border-left: 3px solid #f36d33;
+}
+
+.code-actions button {
+  background-color: #3f3c3c;
+    color: #dfdfdf;
+    font-family: inherit;
+    font-size: 100%;
+    cursor: pointer;
+    margin: 0px;
+    padding-left: 10px;
+    border: 0px;
+}
+
+.myTextarea {
+  resize: none; /* Prevent resizing of the textarea */
+  overflow: auto; /* Add scrollbar when content exceeds the height */
+  max-height: 200px; /* Set the maximum height to 200 pixels */
+}
+
+.font-size-13 {
+  font-size: 13px !important;
+}
+
+.marigin-top-4 {
+  margin-top: 4px;
+}
+
+.margin-top-0 {
+  margin-top: 0px !important;
+}
+
+.fenzhiguifan {
+  border-width: 1px;
+  border-radius: 5px;
+  width: 130px;
+}
+
+.CodeMirror {
+  height: auto !important;
+  min-height: 400px;
+}
+
+.watermark {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0.05;
+  pointer-events: none;
+  z-index: 9999;
+  font-size: 36px;
+  color: #000;
+  background-repeat: repeat;
+}

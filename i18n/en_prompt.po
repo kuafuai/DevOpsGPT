@@ -1,0 +1,23 @@
+# Language i18n/en translations for PACKAGE package.
+# Copyright (C) 2023 THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# booboo <mac@booboo.local>, 2023.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-07-18 14:25+0800\n"
+"PO-Revision-Date: 2023-07-18 14:26+0800\n"
+"Last-Translator: booboo <mac@booboo.local>\n"
+"Language-Team: Language i18n/en\n"
+"Language: i18n/en_prompt\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: backend/app/pkgs/prompt/requirement.py:68
+msgid ""
+"Prerequisites, Detailed Operation Steps, Expected Results, Other Explanatory "
+"Notes."
+msgstr ""

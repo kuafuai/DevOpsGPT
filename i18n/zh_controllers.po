@@ -1,0 +1,97 @@
+# Language i18n/zh translations for PACKAGE package.
+# Copyright (C) 2023 THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# booboo <mac@booboo.local>, 2023.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-07-17 14:54+0800\n"
+"PO-Revision-Date: 2023-07-17 14:55+0800\n"
+"Last-Translator: booboo <mac@booboo.local>\n"
+"Language-Team: Language i18n/zh\n"
+"Language: i18n/zh_controllers\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: backend/app/controllers/app.py:33
+msgid "Failed to add an application."
+msgstr "添加应用失败。"
+
+#: backend/app/controllers/app.py:49
+msgid "Failed to get applications."
+msgstr "获取应用失败。"
+
+#: backend/app/controllers/step_api.py:31
+msgid "Failed to clarify API."
+msgstr "接口澄清失败。"
+
+#: backend/app/controllers/step_code.py:28
+msgid "Failed to edit file with new task."
+msgstr "修改代码失败。"
+
+#: backend/app/controllers/step_code.py:40
+msgid "Failed to check file."
+msgstr "代码检查失败。"
+
+#: backend/app/controllers/step_code.py:55
+msgid "Failed to merge old and new code."
+msgstr "新旧代码整合失败。"
+
+#: backend/app/controllers/step_code.py:72
+msgid "Failed to reference repair no reference file found."
+msgstr "根据参考文件调整代码失败，参考文件不存在。"
+
+#: backend/app/controllers/step_code.py:76
+msgid "Reference repair failed for unknown reasons."
+msgstr "根据参考文件调整代码失败，原因未知。"
+
+#: backend/app/controllers/step_devops.py:53
+msgid "Compile check pass."
+msgstr "编译检查通过。"
+
+#: backend/app/controllers/step_devops.py:60
+msgid "Compile check failed for unknown reasons."
+msgstr "编译检查失败，原因未知。"
+
+#: backend/app/controllers/step_devops.py:74
+msgid "Static code scan passed."
+msgstr "静态扫描通过。"
+
+#: backend/app/controllers/step_devops.py:81
+msgid "Static code scan failed for unknown reasons."
+msgstr "静态扫描失败，原因未知。"
+
+#: backend/app/controllers/step_requirement.py:30
+msgid "Failed to clarify requirement."
+msgstr "需求澄清失败。"
+
+#: backend/app/controllers/step_subtask.py:69
+msgid "Failed to split task."
+msgstr "任务分解失败。"
+
+#: backend/app/controllers/task.py:54
+msgid "Failed to set up app."
+msgstr "初始化应用失败。"
+
+#: backend/app/controllers/user.py:20
+msgid "Login successful."
+msgstr "登录成功。"
+
+#: backend/app/controllers/user.py:28
+msgid "Logout successful."
+msgstr "登出成功。"
+
+#: backend/app/controllers/workspace.py:25
+msgid "Saved code successfully."
+msgstr "保存代码成功。"
+
+#: backend/app/controllers/workspace.py:43
+msgid "Create workspace successfully."
+msgstr "创建 workspace 成功。"
+
+#: backend/app/controllers/workspace.py:45
+msgid "Failed to create workspace."
+msgstr "创建 workspace 失败。"
