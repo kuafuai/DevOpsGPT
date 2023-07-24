@@ -4,3 +4,4 @@ nohup.out*
 backend/env.yaml
 env.yaml
 .DS_Store
+workspace
