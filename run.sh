@@ -38,7 +38,7 @@ function start_frontend() {
 
     echo $response
     if [ "$response" = "404" ]; then
-        echo "\n\nService started successfully, please use browser to visit: http://127.0.0.1:$frontend_port"
+        echo -e "\n\nService started successfully, please use browser to visit: http://127.0.0.1:$frontend_port"
         break
     else
         echo "Service has not started yet, please wait..."

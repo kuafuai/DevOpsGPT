@@ -4,7 +4,7 @@ from config import GRADE
 
 
 def getEmptyTaskInfo():
-    return {"memory": {"appconfig": {"appName": ""}, "originalPrompt": "", "repoPath": ""}}
+    return {"memory": {"appconfig": {"appName": ""}, "originalPrompt": "", "repoPath": "", "clarifyRequirement": ""}}
 
 
 def getTaskInfo(username, appName, appID, appIntro, repoList, apiDocUrl, sourceBranch, featureBranch):
