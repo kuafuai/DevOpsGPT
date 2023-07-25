@@ -31,15 +31,15 @@
 ## 功能演示（点击播放）
 - Java SpringBoot，开发一个新接口，实现新增用户信息
 
-[![添加用户](files/demo-adduser.jpeg){:height="40%" width="40%"}](https://www.bilibili.com/video/BV1vu411V7jT)
+<a href="https://www.bilibili.com/video/BV1vu411V7jT" target="_blank"><img src="files/demo-adduser.jpeg" width="50%"></a>
 
 - Python，用GPT对接企业微信，实现自动总结会议纪要，并发送到企微群中
 
-[![添加用户](files/demo-gptmeeting.jpeg){:height="40%" width="40%"}](https://www.bilibili.com/video/BV1Vz4y1t7F8/)
+<a href="https://www.bilibili.com/video/BV1Vz4y1t7F8" target="_blank"><img src="files/demo-gptmeeting.jpeg" width="50%"></a>
 
 - Java SpringBoot，飞书天气预报机器人，实现获取天气信息，并发送到飞书群中
 
-[![飞书机器人](files/demo-jiqiren.jpeg){:height="40%" width="40%"}](https://www.bilibili.com/video/BV1DV4y147no)
+<a href="https://www.bilibili.com/video/BV1DV4y147no" target="_blank"><img src="files/demo-jiqiren.jpeg" width="50%"></a>
 
 
 ## 工作流程

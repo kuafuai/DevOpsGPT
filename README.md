@@ -28,7 +28,7 @@ Welcome to the AI Driven Software Development Automation Solution, abbreviated a
 
 ## Demo（Click to play video）
 
-[![Demo video](docs/files/demo-adduser-en.jpeg){:height="40%" width="40%"}](https://www.youtube.com/watch?v=IWUPbGrJQOU)
+<a href="https://www.youtube.com/watch?v=IWUPbGrJQOU" target="_blank"><img src="docs/files/demo-adduser-en.jpeg" width="50%"></a>
 
 
 ## Workflow
