@@ -375,7 +375,7 @@ function login() {
     }
 
     errorCallback = function(error) {
-        $("#login-message").html(data.error)
+        $("#login-message").html(error)
         $("#login-message").fadeOut().fadeIn()
     }
 

@@ -2,8 +2,8 @@ from flask import Blueprint, request, session
 from app.controllers.common import json_response
 from app.pkgs.tools.i18b import getI18n
 from app.pkgs.tools.i18b import getFrontendText
-from app.models import User
-from app.models.user import UserPro
+from app.models.user import User
+from app.models.user_pro import UserPro
 from config import GRADE
 from config import LANGUAGE
 
