@@ -94,6 +94,7 @@ APPS: |
         "project": {
             "project_base_prompt": "作为一个资深JAVA系统架构师，基于MVC设计框架并使用Spring Boot和MyBatis3作为开发框架的Java项目中进行开发",
             "project_info": "development_language：Java\ndevelopment_framework：SpringBoot+Mybatis3\ndatabase：SQLite",
+            "project_struct": "service_name: java_demo_backend\ndevelopment_language: Java\ndevelopment_framework: SpringBoot+Mybatis3\ndatabase: SQLite\ndirectory_structure:\n- dir:src/main/resources/db/migration,description:flyway数据库版本管理sql脚本文件,新增和修改表字段\n- dir:src/main/java/com/aiassistant/model,description:数据库字段映射实体类\n- dir:src/main/java/com/aiassistant/mapper,description:定义数据库交互Mapper接口\n- dir:src/main/resources/mapper,description:文件类型是xml，是数据库操作SQL语句与Mapper的映射\n- dir:src/main/java/com/aiassistant/service,description:业务层Service接口定义\n- dir:src/main/java/com/aiassistant/service/impl,description:业务层Service接口具体实现\n- dir:src/main/java/com/aiassistant/controller,description:对外服务接口\n- dir:src/main/java/com/aiassistant/utils,description:通用工具类目录",
             "project_lib": "- Lombok\n- OkHttp\n- Jsoup\n- Gson\n- Flyway\n- MyBatis3",
             "project_code_require": {
                 "MyBatis3": "- Sql脚本文件命名规则 VyyyymmddHHMM__description.sql，例如：V202307081234__create_target.sql。",
