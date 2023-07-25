@@ -37,7 +37,7 @@ function start_frontend() {
     response=$(curl -s -o /dev/null -w "%{http_code}" 127.0.0.1:$backend_port)
 
     echo $response
-    if [ "$response" = "404" ]; then
+    if [ "$response" = "404" ] || [ "$response" = "200" ]; then
         echo -e "\n\nService started successfully, please use browser to visit: http://127.0.0.1:$frontend_port"
         break
     else

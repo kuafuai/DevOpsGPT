@@ -20,19 +20,24 @@ DEVOPS_TOOLS: "local"
 GITLAB_URL: ""
 GITLAB_CLONE_URL: ""
 GITLAB_TOKEN: ""
+AUTO_LOGIN: true
+USERS: |
+  {
+    "demo_user": "123456"
+  }
 
-# 应用：大的概念，包含多个服务、 服务：比如后端服务、前端服务、微服务
-# - name、intro：仅展示用
-# - service_structure（服务架构基本信息以及包含的项目信息）
-#     澄清需求中 clarifyRequirement（结合架构信息拆分任务）、organize（结合架构信息分析需要修改的项目）
-# - project.project_struct（项目的文件目录结构信息）
-#     拆分子任务中，拆分字流程会用到 setp1Task
-# - project.project_info（项目的基本信息）
-#     拆分子任务中，获取lib列表会用到 setpReqChooseLib（结合项目信息分析要用到哪些lib包）
-# - project.project_lib（项目的lib包使用规范信息）
-#     拆分子任务中，获取lib列表会用到 setpReqChooseLib（结合lib列表分析要用到哪些lib包）
+# Application: Large concept, including multiple services, services: such as back-end services, front-end services, microservices
+# - name、intro: for display only
+# - service_structure（Basic information about the application architecture and included project information）
+#     clarifyRequirement（Split tasks with architectural information）、organize（Analyze the items that need to be modified with architectural information）
+# - project.project_struct（File directory structure information for the services）
+#     setp1Task（The word splitting process is used in the molecule splitting task）
+# - project.project_info（Basic information about the services）
+#     setpReqChooseLib（Analyze which lib packages to use in conjunction with service information）
+# - project.project_lib（The service's lib package usage specification information）
+#     setpReqChooseLib（Analyze which lib packages to use in conjunction with the lib list）
 # - api_doc_url
-#     要保持这个唯一，会用这个区匹配 api_doc
+#     To keep this one unique, we'll match it with api_doc
 APPS: |
   [
     {
@@ -69,7 +74,7 @@ APPS: |
         "project": {
             "project_base_prompt": "You need to develop both front-end and back-end code",
             "project_info": "development_language: python and html\ndevelopment_framework: flask and jquery+semantic-ui",
-            "project_struct": "directory_structure:\n- dir: backend, description:后端服务目录\n- dir: frontend, description:前端服务目录",
+            "project_struct": "directory_structure:\n- dir: backend, description:Back-end service directory\n- dir: frontend, description:Front-end service directory",
             "project_lib": "- flask(python Web framework)\n- jquery(JavaScript library)\n- semantic-ui(User interface library)\n- openai(chatgpt sdk)",
             "project_code_require": {
                 "flask": "- python uses flask to provide web services",

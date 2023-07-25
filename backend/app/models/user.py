@@ -1,6 +1,8 @@
-from flask import session
-from config import APPS
+from config import APPS, USERS
 
-class UserPro():
+class User():
     def checkPassword(username, password):
-        return True
+        if username in USERS and USERS[username] == password:
+            return True
+        else:
+            return False

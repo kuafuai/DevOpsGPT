@@ -4,8 +4,7 @@ from app.controllers import register_controllers
 from flask import Flask, request, session
 from flask_cors import CORS
 from app.models.task import getEmptyTaskInfo
-from config import GRADE
-from config import APP_SECRET_KEY, BACKEND_DEBUG, BACKEND_HOST, BACKEND_PORT, AICODER_ALLOWED_ORIGIN
+from config import APP_SECRET_KEY, BACKEND_DEBUG, BACKEND_HOST, BACKEND_PORT, AICODER_ALLOWED_ORIGIN, AUTO_LOGIN
 
 app = Flask(__name__)
 CORS(app)
@@ -14,10 +13,10 @@ app.config.from_pyfile('config.py')
 
 @app.before_request
 def require_login():
-    if GRADE == "base":
+    if AUTO_LOGIN:
         if "username" not in session:
             session['logged_in'] = True
-            session['username'] = "admin"
+            session['username'] = "demo_user"
             session[session["username"]] = getEmptyTaskInfo()
 
     if request.path == '/user/language' or request.path == '/user/login':
