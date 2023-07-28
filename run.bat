@@ -1,4 +1,5 @@
 @echo off
+setlocal enabledelayedexpansion
 
 call :get_python3
 
