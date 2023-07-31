@@ -1,24 +1,27 @@
+from app.pkgs.devops.devops_gitlab import DevopsGitlab
+from app.pkgs.devops.devops_local import DevopsLocal
 from config import DEVOPS_TOOLS
-from app.pkgs.devops.gitlab_tools import get_file_content as gitlab_get_file_content
-from app.pkgs.devops.local_tools import get_file_content as local_get_file_content
-from app.pkgs.devops.gitlab_tools import trigger_pipeline as gitlab_trigger_pipeline
-from app.pkgs.devops.local_tools import trigger_pipeline as local_trigger_pipeline
 
+def triggerPipeline(filePath, branchName, repoPath):
+    if DEVOPS_TOOLS == 'local':
+        obj = DevopsLocal()
+    elif DEVOPS_TOOLS == 'gitlab':
+        obj = DevopsGitlab()
+    
+    return obj.triggerPipeline(obj, filePath, branchName, repoPath)
 
-def get_file_content(file_path, branch_name, repopath):
-    try: 
-        if DEVOPS_TOOLS == 'local':
-            return local_get_file_content(file_path, branch_name, repopath)
-        elif DEVOPS_TOOLS == 'gitlab':
-            return gitlab_get_file_content(file_path, branch_name, repopath)
-    except Exception as e:
-        return False, ""
+def getPipelineStatus(piplineId, repoPath):
+    if DEVOPS_TOOLS == 'local':
+        obj = DevopsLocal()
+    elif DEVOPS_TOOLS == 'gitlab':
+        obj = DevopsGitlab()
+    
+    return obj.getPipelineStatus(piplineId, repoPath)
 
-def trigger_pipeline(branch_name, repopath):
-    try: 
-        if DEVOPS_TOOLS == 'local':
-            return local_trigger_pipeline(branch_name, repopath)
-        elif DEVOPS_TOOLS == 'gitlab':
-            return gitlab_trigger_pipeline(branch_name, repopath)
-    except Exception as e:
-        return False, ""
+def getPipelineJobLogs(repopath, pipeline_id, job_id):
+    if DEVOPS_TOOLS == 'local':
+        obj = DevopsLocal()
+    elif DEVOPS_TOOLS == 'gitlab':
+        obj = DevopsGitlab()
+    
+    return obj.getPipelineJobLogs(obj, repopath, pipeline_id, job_id)

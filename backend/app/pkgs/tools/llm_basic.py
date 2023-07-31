@@ -1,6 +1,7 @@
 import threading
 import time
 import openai
+from app.pkgs.tools.llm_interface import LLMInterface
 from config import LLM_MODEL
 from config import GPT_KEYS
 
@@ -29,19 +30,20 @@ def get_next_api_key():
     time.sleep(80)
     return get_next_api_key()
 
-def chartGPT(msg_current):
-    print("chartGPT - message:", flush=True)
-    print(msg_current, flush=True)
-    openai.api_key = get_next_api_key()
-    print("chartGPT - get api key:"+openai.api_key, flush=True)
+class LLMBase(LLMInterface):
+    def chatCompletion(self, context):
+        print("chartGPT - message:", flush=True)
+        print(context, flush=True)
+        openai.api_key = get_next_api_key()
+        print("chartGPT - get api key:"+openai.api_key, flush=True)
 
-    response = openai.ChatCompletion.create(
-        model= LLM_MODEL,
-        messages=msg_current,
-        max_tokens=12000,
-        temperature=0,
-    )
+        response = openai.ChatCompletion.create(
+            model= LLM_MODEL,
+            messages=context,
+            max_tokens=12000,
+            temperature=0,
+        )
 
-    response_text = response["choices"][0]["message"]["content"]
-    print("chartGPT - response_text:"+response_text, flush=True)
-    return response_text, True
+        response_text = response["choices"][0]["message"]["content"]
+        print("chartGPT - response_text:"+response_text, flush=True)
+        return response_text, True

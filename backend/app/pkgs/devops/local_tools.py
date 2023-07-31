@@ -1,11 +1,10 @@
 import subprocess
 import platform
-import os
 from app.pkgs.tools.utils_tool import detect_programming_language, get_last_n_lines
 from app.pkgs.tools.file_tool import read_file_content
 from config import WORKSPACE_PATH
 
-def get_file_content(file_path, branch_name, repopath):
+def getFileContent(file_path, branch_name, repopath):
     path = WORKSPACE_PATH + repopath + "/" + file_path
 
     try:
@@ -17,10 +16,7 @@ def get_file_content(file_path, branch_name, repopath):
 
     return True, content 
 
-def trigger_pipeline(branch_name, repopath):
-    return "The pipeline cannot be run locally now, you can view the configuration and select tools such as gitlab.", 0, "", False
-
-def compile_check(ws_path,repo_path):
+def compileCheck(ws_path,repo_path):
     print("compile_check:")
     print(ws_path)
 
@@ -41,7 +37,7 @@ def compile_check(ws_path,repo_path):
         return False, stderr
     return True, result.stdout
 
-def lint_check(ws_path, repo_path, file_path):
+def lintCheck(ws_path, repo_path, file_path):
     print("check_lint:"+ws_path)
     if detect_programming_language(file_path) == "Python":
         result = subprocess.run(

@@ -1,13 +1,14 @@
 from app.pkgs.knowledge.app_info import getSwagger
-from app.pkgs.tools.llm_tool import askLLM
+from app.pkgs.tools.llm import chatCompletion
+from app.pkgs.prompt.api_interface import ApiInterface
 
-
-def clarifyAPI(user_prompt, apiDocUrl):
-    message, ctx, success = step1ApiDocTasks(user_prompt, apiDocUrl)
-    if success:
-        return step2GenApiDoc(message, ctx)
-    else:
-        return message, False
+class ApiBasic(ApiInterface):
+    def clarifyAPI(self, userPrompt, apiDocUrl):
+        message, ctx, success = step1ApiDocTasks(userPrompt, apiDocUrl)
+        if success:
+            return step2GenApiDoc(message, ctx)
+        else:
+            return message, False
     
 def step2GenApiDoc(message, context):
     context.append({
@@ -21,7 +22,7 @@ def step2GenApiDoc(message, context):
         
 Without any dialogue or explanation, just output the final interface document only."""})
 
-    return askLLM(context)
+    return chatCompletion(context)
 
 def step1ApiDocTasks(user_prompt, apiDocUrl):
     swaggerDoc, success = getSwagger(apiDocUrl)
@@ -48,6 +49,6 @@ interface document：
 """
 
     context.append({"role": "system", "content": content})
-    message, success = askLLM(context)
+    message, success = chatCompletion(context)
 
     return message, context, success

@@ -2,7 +2,6 @@ from flask import Blueprint, request, session
 from app.controllers.common import json_response
 from app.models.task import getTaskInfo, getEmptyTaskInfo
 from app.pkgs.tools.i18b import getI18n
-from app.pkgs.tools.i18b import getFrontendText
 from config import GRADE
 
 bp = Blueprint('task', __name__, url_prefix='/task')

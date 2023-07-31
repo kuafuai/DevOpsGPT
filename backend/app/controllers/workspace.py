@@ -1,9 +1,8 @@
 import re
 from flask import request, session
 from app.controllers.common import json_response
-from app.pkgs.devops.gitlab_tools import pull_code
-from app.pkgs.devops.gitlab_tools import check_and_create_branch, update_file_content
 from app.pkgs.tools.i18b import getI18n
+from app.pkgs.devops.git_tools import pullCode, createBranch, pushCode
 from config import GRADE
 from config import WORKSPACE_PATH
 from app.pkgs.tools.file_tool import get_ws_path, write_file_content
@@ -34,10 +33,11 @@ def create():
     fature_branch = request.json.get('feature_branch')
     ws_path = get_ws_path(task_id)
 
+    # todo clone template from git(by independent config)
     if GRADE == "base":
         success = True
     else:
-        success = pull_code(ws_path, repo_path, base_branch, fature_branch)
+        success = pullCode(ws_path, repo_path, base_branch, fature_branch)
 
     if success:
         return _("Create workspace successfully.")
@@ -76,9 +76,9 @@ def gitpush():
 
     plugin = {"name": 'push_code', "uuid": frontUuid}
 
-    check_and_create_branch(session[userName]['memory']['appconfig']['sourceBranch'],
+    createBranch(session[userName]['memory']['appconfig']['sourceBranch'],
                             session[userName]['memory']['appconfig']['featureBranch'], parts[0])
-    result, success = update_file_content(
+    result, success = pushCode(
         parts[2], session[userName]['memory']['appconfig']['featureBranch'], parts[0], code, commitMsg)
     newPrompt = "基于 " + \
         session[userName]['memory']["repoPath"]+" 代码分支进行自动化集成测试"

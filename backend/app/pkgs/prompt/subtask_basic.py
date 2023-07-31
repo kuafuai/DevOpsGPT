@@ -1,40 +1,41 @@
 import json
 import time
-from app.pkgs.tools.llm_tool import askLLM
+from app.pkgs.tools.llm import chatCompletion
 from app.pkgs.knowledge.app_info import getProjectBasePrompt, getProjectAppInfo, getProjectLib, getProjectStruct, \
     getProjectCoderequire
 from app.pkgs.tools.utils_tool import fix_llm_json_str
+from app.pkgs.prompt.subtask_interface import SubtaskInterface
 from config import MODE
 from app.pkgs.tools.i18b import getCurrentLanguageName
 
+class SubtaskBasic(SubtaskInterface):
+    def splitTask(self, feature, serviceName, apiDocUrl):
+        if MODE == "FAKE":
+            time.sleep(10)
+            return TEST_RESULT, True
 
-def splitTask(feature, serviceName, apiDocUrl):
-    if MODE == "FAKE":
-        time.sleep(10)
-        return TEST_RESULT, True
+        appBasePrompt, _ = getProjectBasePrompt(apiDocUrl)
 
-    appBasePrompt, _ = getProjectBasePrompt(apiDocUrl)
+        data, success = setpReqChooseLib(feature, appBasePrompt, apiDocUrl)
+        code_require = []
+        default_msg, _ = getProjectCoderequire(apiDocUrl, "Default")
+        code_require.append(default_msg)
+        for t in data:
+            name = t['name']
+            require_msg, _ = getProjectCoderequire(apiDocUrl, name)
+            code_require.append(require_msg)
 
-    data, success = setpReqChooseLib(feature, appBasePrompt, apiDocUrl)
-    code_require = []
-    default_msg, _ = getProjectCoderequire(apiDocUrl, "Default")
-    code_require.append(default_msg)
-    for t in data:
-        name = t['name']
-        require_msg, _ = getProjectCoderequire(apiDocUrl, name)
-        code_require.append(require_msg)
+        code_require = list(set(code_require))
+        print(f"==============================={code_require}")
+        specification = '\n'.join(code_require)
 
-    code_require = list(set(code_require))
-    print(f"==============================={code_require}")
-    specification = '\n'.join(code_require)
-
-    message, ctx, success = setp1Task(feature, appBasePrompt, apiDocUrl, specification)
-    if success:
-        ctx_clone = ctx[:]
-        #message, ctx, success = setp2Again(message, ctx, msg)
-        return setp3Code(message, ctx_clone, apiDocUrl, appBasePrompt, specification, serviceName)
-    else:
-        return message, False
+        message, ctx, success = setp1Task(feature, appBasePrompt, apiDocUrl, specification)
+        if success:
+            ctx_clone = ctx[:]
+            #message, ctx, success = setp2Again(message, ctx, msg)
+            return setp3Code(message, ctx_clone, apiDocUrl, appBasePrompt, specification, serviceName)
+        else:
+            return message, False
 
 
 def setp3Code(message, context, apiDocUrl, appBasePrompt, msg, serviceName):
@@ -95,7 +96,7 @@ JSON Field description:
         """
     })
 
-    data, success = askLLM(context)
+    data, success = chatCompletion(context)
     
     data = fix_llm_json_str(data)
 
@@ -120,7 +121,7 @@ def setp2Again(message, context, msg):
 """
     })
 
-    message, success = askLLM(context)
+    message, success = chatCompletion(context)
 
     return message, context, success
 
@@ -147,7 +148,7 @@ Development Tasks:
 ````
 """
     context.append({"role": "system", "content": content})
-    message, success = askLLM(context)
+    message, success = chatCompletion(context)
 
     return message, context, success
 
@@ -178,7 +179,7 @@ def setpReqChooseLib(feature, appBasePrompt, apiDocUrl):
 ```
     """
     context.append({"role": "system", "content": content})
-    message, success = askLLM(context)
+    message, success = chatCompletion(context)
 
     context.append({
         "role": "assistant",
@@ -196,7 +197,7 @@ You should only directly respond in JSON format as described below, Ensure the r
 """
     })
 
-    data, success = askLLM(context)
+    data, success = chatCompletion(context)
 
     return json.loads(data), success
 
@@ -228,7 +229,7 @@ Note: Keep conversations in """ + getCurrentLanguageName() + """.
     """
 
     context.append({"role": "system", "content": content})
-    data, success = askLLM(context)
+    data, success = chatCompletion(context)
 
     return json.loads(data), success
 
