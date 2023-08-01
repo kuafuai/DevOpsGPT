@@ -1,51 +1,53 @@
 import json
 
 from flask import session
-from app.pkgs.tools.llm_tool import askLLM
 from app.pkgs.tools.i18b import getI18n
 from app.pkgs.tools.i18b import getCurrentLanguageName
 from app.pkgs.knowledge.app_info import getServiceStruct
 from app.pkgs.tools.utils_tool import fix_llm_json_str
+from app.pkgs.prompt.requirement_interface import RequirementInterface
+from app.pkgs.tools.llm import chatCompletion
 
-def clarifyRequirement(user_prompt, global_context, appName):
-    _ = getI18n("prompt") 
-    requirementsDetail = _("Prerequisites, Detailed Operation Steps, Expected Results, Other Explanatory Notes.")
+class RequirementBasic(RequirementInterface):
+    def clarifyRequirement(self, userPrompt, globalContext):
+        _ = getI18n("prompt") 
+        requirementsDetail = _("Prerequisites, Detailed Operation Steps, Expected Results, Other Explanatory Notes.")
 
-    username = session['username']
-    apiDocUrl = session[username]['memory']['appconfig']['apiDocUrl']
-    appStruct, _ = getServiceStruct(apiDocUrl)
- 
-    firstPrompt = ""
-    preContext = []
-    try:
-        preContext = json.loads(global_context)
-    except Exception as e:
-        print(str(e))
+        username = session['username']
+        apiDocUrl = session[username]['memory']['appconfig']['apiDocUrl']
+        appStruct, _ = getServiceStruct(apiDocUrl)
+    
+        firstPrompt = ""
+        preContext = []
+        try:
+            preContext = json.loads(globalContext)
+        except Exception as e:
+            print(str(e))
 
-    maxCycle = 2
-    message = ""
-    if len(preContext) == 0:
-        session[session["username"]]["memory"]["clarifyRequirement"] = ""
-        firstPrompt = user_prompt
-    elif len(preContext) < maxCycle:
-        firstPrompt = preContext[0]["content"]
-        session[session["username"]]["memory"]["clarifyRequirement"] += user_prompt + "\n"
-        
-        preContext = preContext[1:]
-        preContext.append({
-            "role": "user",
-            "content": user_prompt + """
+        maxCycle = 2
+        message = ""
+        if len(preContext) == 0:
+            session[session["username"]]["memory"]["clarifyRequirement"] = ""
+            firstPrompt = userPrompt
+        elif len(preContext) < maxCycle:
+            firstPrompt = preContext[0]["content"]
+            session[session["username"]]["memory"]["clarifyRequirement"] += userPrompt + "\n"
+            
+            preContext = preContext[1:]
+            preContext.append({
+                "role": "user",
+                "content": userPrompt + """
 
 Is there anything else unclear? If yes, continue asking less than 3 unclear questions in the same format as before, If no, only directly respond \"Nothing more to clarify.\"
 """
-        })
-    else:
-        firstPrompt = preContext[0]["content"]
-        session[session["username"]]["memory"]["clarifyRequirement"] += user_prompt
+            })
+        else:
+            firstPrompt = preContext[0]["content"]
+            session[session["username"]]["memory"]["clarifyRequirement"] += userPrompt
 
-    if len(preContext) < maxCycle:
-        finalContext = [
-            {
+        if len(preContext) < maxCycle:
+            finalContext = [
+                {
                 "role": "system",
                 "content": """As a senior full stack developer. Your task is to read user software development requirement and clarify or confirm them to complete a requirement document that integrates the requirement into the application. The document should include """+requirementsDetail+""".
 
@@ -68,19 +70,19 @@ Follow the JSON response exactly as above.
 
 Note: Keep conversations in """+getCurrentLanguageName()+""".
 """
-            }
-        ]
-        finalContext.extend(preContext)
+                }
+            ]
+            finalContext.extend(preContext)
 
-        message, success = askLLM(finalContext)
-        
-        if message.find("Nothing more to clarify") != -1 or message.find('"question":""') != -1 :
+            message, success = chatCompletion(finalContext)
+            
+            if message.find("Nothing more to clarify") != -1 or message.find('"question":""') != -1 :
+                return organize(firstPrompt, requirementsDetail)
+        else:
             return organize(firstPrompt, requirementsDetail)
-    else:
-        return organize(firstPrompt, requirementsDetail)
 
-    
-    return json.loads(message), success
+        
+        return json.loads(message), success
     
 def organize(firstPrompt, requirementsDetail):
     username = session['username']
@@ -127,6 +129,6 @@ Note: Keep conversations in """+getCurrentLanguageName()+""".
 """
     })
 
-    message, success = askLLM(Organize)
+    message, success = chatCompletion(Organize)
     message = fix_llm_json_str(message)
     return json.loads(message), success

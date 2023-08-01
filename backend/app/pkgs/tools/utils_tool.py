@@ -1,7 +1,7 @@
 import json
 import re
 
-from app.pkgs.tools.llm_tool import askLLM
+from app.pkgs.tools.llm import chatCompletion
 
 
 def detect_programming_language(file_path):
@@ -67,7 +67,7 @@ def fix_llm_json_str(string):
                     ```"""
                 }]
 
-                message, success = askLLM(ctx)
+                message, success = chatCompletion(ctx)
                 pattern = r'```json(.*?)```'
                 match = re.findall(pattern, message, re.DOTALL)
                 if match:

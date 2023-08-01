@@ -1,12 +1,8 @@
 from flask import request, session
-import json
-import re
 from app.controllers.common import json_response
-from app.pkgs.prompt.code import aiReferenceRepair
 from app.pkgs.tools.i18b import getI18n
-from config import GRADE
-from app.pkgs.prompt.code import aiGenCode, aiMergeCode, aiCheckCode, aiFixError
-from app.pkgs.devops.devops import get_file_content
+from app.pkgs.prompt.prompt import aiGenCode, aiMergeCode, aiCheckCode, aiFixError, aiReferenceRepair
+from app.pkgs.devops.local_tools import getFileContent
 from flask import Blueprint
 
 bp = Blueprint('step_code', __name__, url_prefix='/step_code')
@@ -68,7 +64,7 @@ def reference_repair():
     appName = session[userName]['memory']['appconfig']['appName']
     branch = session[userName]['memory']['appconfig']['sourceBranch']
 
-    hasGitCode, referenceCode =  get_file_content(referenceFile, branch, repo)
+    hasGitCode, referenceCode =  getFileContent(referenceFile, branch, repo)
     if not hasGitCode:
         raise Exception(_("Failed to reference repair no reference file found."))
 
