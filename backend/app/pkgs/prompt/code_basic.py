@@ -136,7 +136,7 @@ class CodeBasic(CodeInterface):
         return json.loads(fix_llm_json_str(data)), success
 
 
-    def aiGenCode(self, fileTask, newTask, appName, newCode):
+    def aiGenCode(self, fileTask, newTask, newCode):
         prompt = f"""
     As a senior full stack developer. you need to modify the "basic code" based on the "change suggestions" and return all the complete code that works well. The code style is consistent with the "base code", do not destroy the original function. 
 

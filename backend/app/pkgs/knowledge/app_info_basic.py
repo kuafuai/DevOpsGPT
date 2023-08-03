@@ -1,0 +1,103 @@
+from app.models.app import App
+from app.pkgs.knowledge.app_info_interface import AppInfoInterface
+
+class AppInfoBasic(AppInfoInterface):
+    def getAppArchitecture(self, appID):
+        appID = int(appID)
+
+        apps = App.getAll("")
+        appArchitecture = ""
+        for app in apps:
+            if app["id"] == appID:
+                services = app["service"]
+                for service in services:
+                    appArchitecture += service["intro"]+"\n\n"
+
+        return appArchitecture.strip(), True
+    
+    def getServiceSwagger(self, appID, serviceName):
+        appID = int(appID)
+
+        apps = App.getAll("")
+        swaggerDoc = ""
+        for app in apps:
+            if app["id"] == appID:
+                services = app["service"]
+                for service in services:
+                    if service["name"] == serviceName:
+                        swaggerDoc = service["api_doc"]
+
+        return swaggerDoc, True
+
+    def getServiceBasePrompt(self, appID, serviceName):
+        appID = int(appID)
+
+        apps = App.getAll("")
+        appBasePrompt = ""
+        for app in apps:
+            if app["id"] == appID:
+                services = app["service"]
+                for service in services:
+                    if service["name"] == serviceName:
+                        appBasePrompt = service["base_prompt"]
+
+        return appBasePrompt, True
+
+
+    def getServiceIntro(self, appID, serviceName):
+        appID = int(appID)
+
+        apps = App.getAll("")
+        appInfo = ""
+        for app in apps:
+            if app["id"] == appID:
+                services = app["service"]
+                for service in services:
+                    if service["name"] == serviceName:
+                        appInfo = service["intro"]
+
+        return appInfo, True
+    
+    def getServiceLib(self, appID, serviceName):
+        appID = int(appID)
+
+        apps = App.getAll("")
+        appLib = ""
+        for app in apps:
+            if app["id"] == appID:
+                services = app["service"]
+                for service in services:
+                    if service["name"] == serviceName:
+                        appLib = service["lib"]
+
+        return appLib, True
+
+    def getServiceStruct(self, appID, serviceName):
+        appID = int(appID)
+
+        apps = App.getAll("")
+        projectStruct = ""
+        for app in apps:
+            if app["id"] == appID:
+                services = app["service"]
+                for service in services:
+                    if service["name"] == serviceName:
+                        projectStruct = service["struct"]
+
+        return projectStruct, True
+
+    def getServiceSpecification(self, appID, serviceName, LibName):
+        appID = int(appID)
+
+        apps = App.getAll("")
+        coderequire = ""
+        for app in apps:
+            if app["id"] == appID:
+                services = app["service"]
+                for service in services:
+                    if service["name"] == serviceName:
+                        requires = service['specification']
+                        if LibName in requires:
+                            coderequire = requires[LibName]
+        return coderequire, True
+

@@ -1,75 +1,60 @@
-from app.models.app import App
+from app.pkgs.knowledge.app_info_basic import AppInfoBasic
+from app.pkgs.knowledge.app_info_pro import AppInfoPro
+from config import GRADE
 
 
-def getSwagger(apiDocUrl):
-    apps = App.getAll("")
-    swaggerDoc = ""
-    for app in apps:
-        if app["api_doc_url"] == apiDocUrl:
-            swaggerDoc = app["api_doc"]
+def getAppArchitecture(appID):
+    if GRADE == "base":
+        obj = AppInfoBasic()
+    else:
+        obj = AppInfoPro()
+        
+    return obj.getAppArchitecture(appID)
 
-    return swaggerDoc, True
+def getServiceSwagger(appID, serviceName):
+    if GRADE == "base":
+        obj = AppInfoBasic()
+    else:
+        obj = AppInfoPro()
+        
+    return obj.getServiceSwagger(appID, serviceName)
 
+def getServiceBasePrompt(appID, serviceName):
+    if GRADE == "base":
+        obj = AppInfoBasic()
+    else:
+        obj = AppInfoPro()
+        
+    return obj.getServiceBasePrompt(appID, serviceName)
 
-def getServiceStruct(apiDocUrl):
-    apps = App.getAll("")
-    serviceStructure = ""
-    for app in apps:
-        if app["api_doc_url"] == apiDocUrl:
-            serviceStructure = app["service_structure"]
+def getServiceIntro(appID, serviceName):
+    if GRADE == "base":
+        obj = AppInfoBasic()
+    else:
+        obj = AppInfoPro()
+        
+    return obj.getServiceIntro(appID, serviceName)
 
-    return serviceStructure, True
+def getServiceLib(appID, serviceName):
+    if GRADE == "base":
+        obj = AppInfoBasic()
+    else:
+        obj = AppInfoPro()
+        
+    return obj.getServiceLib(appID, serviceName)
 
+def getServiceStruct(appID, serviceName):
+    if GRADE == "base":
+        obj = AppInfoBasic()
+    else:
+        obj = AppInfoPro()
+        
+    return obj.getServiceStruct(appID, serviceName)
 
-def getProjectBasePrompt(apiDocUrl):
-    apps = App.getAll("")
-    appBasePrompt = ""
-    for app in apps:
-        if app["api_doc_url"] == apiDocUrl:
-            project = app["project"]
-            appBasePrompt = project["project_base_prompt"]
-
-    return appBasePrompt, True
-
-
-def getProjectAppInfo(apiDocUrl):
-    apps = App.getAll("")
-    appInfo = ""
-    for app in apps:
-        if app["api_doc_url"] == apiDocUrl:
-            project = app["project"]
-            appInfo = project["project_info"]
-
-    return appInfo, True
-
-def getProjectStruct(apiDocUrl):
-    apps = App.getAll("")
-    projectStruct = ""
-    for app in apps:
-        if app["api_doc_url"] == apiDocUrl:
-            project = app["project"]
-            projectStruct = project["project_struct"]
-
-    return projectStruct, True
-
-def getProjectLib(apiDocUrl):
-    apps = App.getAll("")
-    appLib = ""
-    for app in apps:
-        if app["api_doc_url"] == apiDocUrl:
-            project = app["project"]
-            appLib = project["project_lib"]
-
-    return appLib, True
-
-def getProjectCoderequire(apiDocUrl, name):
-    apps = App.getAll("")
-    coderequire = ""
-    for app in apps:
-        if app["api_doc_url"] == apiDocUrl:
-            project = app["project"]
-            requires = project['project_code_require']
-            if name in requires:
-                coderequire = requires[name]
-    return coderequire, True
-
+def getServiceSpecification(appID, serviceName, LibName):
+    if GRADE == "base":
+        obj = AppInfoBasic()
+    else:
+        obj = AppInfoPro()
+        
+    return obj.getServiceSpecification(appID, serviceName, LibName)

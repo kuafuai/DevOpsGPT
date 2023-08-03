@@ -10,23 +10,23 @@ from app.pkgs.prompt.code_basic import CodeBasic
 from app.pkgs.prompt.code_pro import CodePro
 from config import GRADE
 
-def clarifyRequirement(user_prompt, global_context):
+def clarifyRequirement(userPrompt, globalContext, appArchitecture):
     if GRADE == "base":
         obj = RequirementBasic()
     else:
         obj = RequirementPro()
         
-    return obj.clarifyRequirement(user_prompt, global_context)
+    return obj.clarifyRequirement(userPrompt, globalContext, appArchitecture)
 
-def clarifyAPI(user_prompt, global_context):
+def clarifyAPI(userPrompt, apiDoc):
     if GRADE == "base":
         obj = ApiBasic()
     else:
         obj = ApiPro()
         
-    return obj.clarifyAPI(user_prompt, global_context)
+    return obj.clarifyAPI(userPrompt, apiDoc)
 
-def splitTask(feature, serviceName, apiDocUrl):
+def splitTask(newfeature, serviceName, appBasePrompt, projectInfo, projectLib, serviceStruct, appID):
     if GRADE == "base":
         obj = SubtaskBasic()
     else:
@@ -37,7 +37,7 @@ def splitTask(feature, serviceName, apiDocUrl):
         else:
             obj = SubtaskPro()
 
-    return obj.splitTask(feature, serviceName, apiDocUrl)
+    return obj.splitTask(newfeature, serviceName, appBasePrompt, projectInfo, projectLib, serviceStruct, appID)
 
 def aiReferenceRepair(newCode, referenceCode, fileTask):
     if GRADE == "base":
@@ -79,10 +79,10 @@ def aiMergeCode(fileTask, appName, baseCode, newCode):
         
     return obj.aiMergeCode(fileTask, appName, baseCode, newCode)
 
-def aiGenCode(fileTask, newTask, appName, newCode):
+def aiGenCode(fileTask, newTask, newCode):
     if GRADE == "base":
         obj = CodeBasic()
     else:
         obj = CodePro()
         
-    return obj.aiGenCode(fileTask, newTask, appName, newCode)
+    return obj.aiGenCode(fileTask, newTask, newCode)

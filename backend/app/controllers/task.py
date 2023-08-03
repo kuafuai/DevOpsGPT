@@ -25,28 +25,15 @@ def clear_up():
 def setup_app():
     _ = getI18n("controllers")
     data = request.json
-    appName = data['app_name']
-    appId = data['app_id']
-    appIntro = data['app_intro']
-    repoList = data['repo_list']
-    apiDocUrl = data["api_doc_url"]
+    appID = data['app_id']
     sourceBranch = data['source_branch']
     featureBranch = data['feature_branch']
     username = session['username']
 
-    session[username]['memory']['appconfig'], success = getTaskInfo(username, appName, appId,
-                                                                    appIntro,  repoList, apiDocUrl,
-                                                                    sourceBranch, featureBranch)
+    session[username]['memory']['task_info'], success = getTaskInfo(username, appID, sourceBranch, featureBranch)
     session.update()
 
     if success:
-        # the base version does not split the service
-        if GRADE == "base":
-            repoList = [session[username]['memory']['appconfig']['taskID']]
-        return {"app_name": appName, 
-                "repo_list": repoList,
-                "source_branch": sourceBranch,
-                "feature_branch": featureBranch,
-                "task_id": session[username]['memory']['appconfig']['taskID']}
+        return {"task_id": session[username]['memory']['task_info']['task_id']}
     else:
         raise Exception(_("Failed to set up app."))

@@ -2,10 +2,11 @@ from flask import request, session
 from app.controllers.common import json_response
 from app.pkgs.devops.local_tools import getFileContent
 from app.pkgs.tools.i18b import getI18n
-from app.pkgs.knowledge.app_info import getSwagger
 from app.pkgs.tools.file_tool import get_ws_path
 from flask import Blueprint
 from app.pkgs.prompt.prompt import splitTask
+from app.pkgs.knowledge.app_info import getServiceSwagger
+from app.pkgs.knowledge.app_info import getServiceBasePrompt, getServiceIntro, getServiceLib, getServiceStruct
 
 bp = Blueprint('step_subtask', __name__, url_prefix='/step_subtask')
 
@@ -18,13 +19,14 @@ def analysis():
     apiDoc = data['api_doc']
     username = session['username']
     requirementDoc = session[username]['memory']['originalPrompt']
-    appName = session[username]['memory']['appconfig']['appName']
-    sourceBranch = session[username]['memory']['appconfig']['sourceBranch']
-    apiDocUrl = session[username]['memory']['appconfig']['apiDocUrl']
-    wsPath = get_ws_path(session[username]['memory']['appconfig']['taskID'])
+    sourceBranch = session[username]['memory']['task_info']['source_branch']
+    wsPath = get_ws_path(session[username]['memory']['task_info']['task_id'])
 
-    defaultSwaggerDoc, success = getSwagger(apiDocUrl)
-    if len(defaultSwaggerDoc) > 0:
+    # todo Use llm to determine which interface documents to adjust
+    appID = session[username]['memory']['task_info']['app_id']
+    defaultApiDoc, success = getServiceSwagger(appID, 1)
+
+    if len(defaultApiDoc) > 0:
         newfeature = requirementDoc+"""
 
 接口文档：
@@ -35,20 +37,25 @@ def analysis():
     else:
         newfeature = requirementDoc
         
-    filesToEdit, success = splitTask(newfeature, serviceName, apiDocUrl)
+    appBasePrompt, _ = getServiceBasePrompt(appID, serviceName)
+    projectInfo, _ = getServiceIntro(appID, serviceName)
+    projectLib, _ = getServiceLib(appID, serviceName)
+    serviceStruct,_ = getServiceStruct(appID, serviceName)
+
+    filesToEdit, success = splitTask(newfeature, serviceName, appBasePrompt, projectInfo, projectLib, serviceStruct, appID)
 
     if success:
-        for serviceIdx, service in enumerate(filesToEdit):
+        for serviceNamex, service in enumerate(filesToEdit):
             for index, file in enumerate(service["files"]):
-                isSuccess, oldCode = getFileContent(file["file-path"], sourceBranch, filesToEdit[serviceIdx]["service-name"])
-                filesToEdit[serviceIdx]["files"][index]["old-code"] = oldCode
+                isSuccess, oldCode = getFileContent(file["file-path"], sourceBranch, filesToEdit[serviceNamex]["service-name"])
+                filesToEdit[serviceNamex]["files"][index]["old-code"] = oldCode
                 if not isSuccess:
-                    filesToEdit[serviceIdx]["files"][index]["old-code"] = ''
+                    filesToEdit[serviceNamex]["files"][index]["old-code"] = ''
 
-                isSuccess, referenceCode = getFileContent(file["reference-file"], sourceBranch, filesToEdit[serviceIdx]["service-name"])
-                filesToEdit[serviceIdx]["files"][index]["reference-code"] = referenceCode
+                isSuccess, referenceCode = getFileContent(file["reference-file"], sourceBranch, filesToEdit[serviceNamex]["service-name"])
+                filesToEdit[serviceNamex]["files"][index]["reference-code"] = referenceCode
                 if not isSuccess:
-                    filesToEdit[serviceIdx]["files"][index]["reference-code"] = ''
+                    filesToEdit[serviceNamex]["files"][index]["reference-code"] = ''
     
         plugin = {"name": 'task_list', "info": filesToEdit}
         session[username]['memory']['tasks'] = filesToEdit # 这里不更新session，只给前端用

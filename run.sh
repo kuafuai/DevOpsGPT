@@ -84,7 +84,7 @@ start_frontend $PYTHON_CMD &
 frontend_pid=$!
 
 # start the backend service
-$PYTHON_CMD backend/run.py 
+$PYTHON_CMD backend/run.py
 
 # or run the `ps -ef | grep 8080` command to get the PID and `kill PID` to stop
 kill_by_port $(get_config_value "FRONTEND_PORT")

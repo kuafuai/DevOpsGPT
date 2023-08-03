@@ -21,6 +21,6 @@ class CodePro(CodeInterface):
         # The current version does not support this feature
         return [], False
 
-    def aiGenCode(self, fileTask, newTask, appName, newCode):
+    def aiGenCode(self, fileTask, newTask, newCode):
         # The current version does not support this feature
         return [], False
