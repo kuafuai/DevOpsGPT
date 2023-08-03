@@ -1,8 +1,25 @@
 LANGUAGE: 'en' # en、zh
 GPT_KEYS: |
-  {
-    "sk-xxxxxx": {"count": 0, "timestamp": 0}
-  }
+    {
+        "openai": {
+            "keys": [
+                {"sk-xxxx": {"count": 0, "timestamp": 0}},
+                {"sk-yyyy": {"count": 0, "timestamp": 0}}
+            ],
+            "api_type": "openai",
+            "api_base": "https://api.openai.com",
+            "api_version": "v1"
+        },
+        "azure": {
+            "keys": [
+                {"sk-zzzz": {"count": 0, "timestamp": 0}}
+            ],
+            "api_type": "azure",
+            "api_base": "https://example-gpt.openai.azure.com/",
+            "api_version": "2023-05-15",
+            "deployment_id": "deployment-name"
+        }
+    }
 LLM_MODEL: "gpt-3.5-turbo-16k-0613"
 
 FRONTEND_PORT: 8080
