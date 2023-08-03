@@ -1,6 +1,7 @@
 import threading
 import time
 import openai
+import litellm
 from app.pkgs.tools.llm_interface import LLMInterface
 from config import LLM_MODEL
 from config import GPT_KEYS
@@ -37,12 +38,21 @@ class LLMBase(LLMInterface):
         openai.api_key = get_next_api_key()
         print("chartGPT - get api key:"+openai.api_key, flush=True)
 
-        response = openai.ChatCompletion.create(
-            model= LLM_MODEL,
-            messages=context,
-            max_tokens=12000,
-            temperature=0,
-        )
+        if LLM_MODEL in litellm.models:
+                # see litellm supported models here: https://litellm.readthedocs.io/en/latest/supported/
+                response = litellm.completion(
+                model= LLM_MODEL,
+                messages=context,
+                max_tokens=12000,
+                temperature=0,
+            )
+        else:
+            response = openai.ChatCompletion.create(
+                model= LLM_MODEL,
+                messages=context,
+                max_tokens=12000,
+                temperature=0,
+            )
 
         response_text = response["choices"][0]["message"]["content"]
         print("chartGPT - response_text:"+response_text, flush=True)
