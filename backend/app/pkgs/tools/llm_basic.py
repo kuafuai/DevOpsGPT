@@ -54,7 +54,7 @@ class LLMBase(LLMInterface):
             model= LLM_MODEL,
             deployment_id = provider_data.get("deployment_id", None),
             messages=context,
-            max_tokens=12000,
+            max_tokens=10000,
             temperature=0,
         )
 
