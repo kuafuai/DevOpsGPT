@@ -3,6 +3,7 @@ from app.controllers.common import json_response
 from flask import Blueprint
 from app.pkgs.tools.i18b import getI18n
 from app.pkgs.prompt.prompt import clarifyRequirement
+from app.pkgs.knowledge.app_info import getAppArchitecture
 
 bp = Blueprint('step_requirement', __name__, url_prefix='/step_requirement')
 
@@ -14,11 +15,12 @@ def clarify():
     globalContext = request.json.get('global_context')
     userName = session["username"]
 
-    appName = session[userName]['memory']['appconfig']['appName']
-    if len(appName) == 0:
+    appID = session[userName]['memory']['task_info']['app_id']
+    if len(appID) == 0:
         raise Exception(_("Please select the application you want to develop."))
-            
-    msg, success = clarifyRequirement(userPrompt, globalContext)
+    
+    appArchitecture, _ = getAppArchitecture(appID)
+    msg, success = clarifyRequirement(userPrompt, globalContext, appArchitecture)
 
     if success:
         return {'message': msg, 'memory': session[userName]['memory']}

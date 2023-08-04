@@ -1,44 +1,43 @@
 import json
 import time
 from app.pkgs.tools.llm import chatCompletion
-from app.pkgs.knowledge.app_info import getProjectBasePrompt, getProjectAppInfo, getProjectLib, getProjectStruct, \
-    getProjectCoderequire
 from app.pkgs.tools.utils_tool import fix_llm_json_str
 from app.pkgs.prompt.subtask_interface import SubtaskInterface
+from app.pkgs.knowledge.app_info import getServiceSpecification, getServiceStruct
 from config import MODE
 from app.pkgs.tools.i18b import getCurrentLanguageName
 
 class SubtaskBasic(SubtaskInterface):
-    def splitTask(self, feature, serviceName, apiDocUrl):
+    def splitTask(self, feature, serviceName, appBasePrompt, projectInfo, projectLib, serviceStruct, appID):
         if MODE == "FAKE":
             time.sleep(10)
             return TEST_RESULT, True
 
-        appBasePrompt, _ = getProjectBasePrompt(apiDocUrl)
+        
 
-        data, success = setpReqChooseLib(feature, appBasePrompt, apiDocUrl)
+        data, success = setpReqChooseLib(feature, appBasePrompt, projectInfo, projectLib)
         code_require = []
-        default_msg, _ = getProjectCoderequire(apiDocUrl, "Default")
+        default_msg, _ = getServiceSpecification(appID, serviceName, "Default")
         code_require.append(default_msg)
         for t in data:
             name = t['name']
-            require_msg, _ = getProjectCoderequire(apiDocUrl, name)
+            require_msg, _ = getServiceSpecification(appID, serviceName, name)
             code_require.append(require_msg)
 
         code_require = list(set(code_require))
         print(f"==============================={code_require}")
         specification = '\n'.join(code_require)
 
-        message, ctx, success = setp1Task(feature, appBasePrompt, apiDocUrl, specification)
+        message, ctx, success = setp1Task(feature, appBasePrompt, serviceStruct, specification)
         if success:
             ctx_clone = ctx[:]
             #message, ctx, success = setp2Again(message, ctx, msg)
-            return setp3Code(message, ctx_clone, apiDocUrl, appBasePrompt, specification, serviceName)
+            return setp3Code(message, ctx_clone, appBasePrompt, specification, serviceName)
         else:
             return message, False
 
 
-def setp3Code(message, context, apiDocUrl, appBasePrompt, msg, serviceName):
+def setp3Code(message, context, appBasePrompt, msg, serviceName):
     context.append({
         "role": "assistant",
         "content": message
@@ -126,9 +125,7 @@ def setp2Again(message, context, msg):
     return message, context, success
 
 
-def setp1Task(feature, appBasePrompt, apiDocUrl, specification):
-    projectStruct, _ = getProjectStruct(apiDocUrl)
-
+def setp1Task(feature, appBasePrompt, serviceStruct, specification):
     context = []
     content = appBasePrompt + """。你的任务是根据下面提供的应用的基本信息 "Application Information" 和 "开发要求" ，一步一步思考，从完成代码开发的角度将下面提供的 "Development Tasks" 拆分成多个操作步骤，每个步骤不能重复并尽可能详细描述。
 注意只分析步骤不要写代码，分解要适当合理，既不要过度拆分也不要漏掉关键步骤。
@@ -136,7 +133,7 @@ def setp1Task(feature, appBasePrompt, apiDocUrl, specification):
 
 Application Information（注意：directory_structure 是项目的目录结构描述。）：
 ```
-""" + projectStruct + """
+""" + serviceStruct + """
 ```
 
 开发要求：
@@ -154,10 +151,7 @@ Development Tasks:
 
 
 # choose lib by req
-def setpReqChooseLib(feature, appBasePrompt, apiDocUrl):
-    projectInfo, _ = getProjectAppInfo(apiDocUrl)
-    projectLib, _ = getProjectLib(apiDocUrl)
-
+def setpReqChooseLib(feature, appBasePrompt, projectInfo, projectLib):
     context = []
     content = appBasePrompt + """，你的任务是分析需求找合适的组件的名字。一步一步的思考，结合已有的项目信息以及已有组件列表，分析用户输入的需求使用哪些组件，注意只在已有组件里选择。注意请不要写代码
 

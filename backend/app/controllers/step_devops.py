@@ -15,7 +15,7 @@ def trigger_ci():
     repo_path = request.json.get('repo_path')
 
     username = session['username']
-    branch = session[username]['memory']['appconfig']['featureBranch']
+    branch = session[username]['memory']['task_info']['feature_branch']
 
     result, piplineID, piplineUrl, success = triggerPipeline(branch, repo_path)
     if success:
@@ -40,7 +40,7 @@ def plugin_ci():
 @json_response
 def check_compile():
     _ = getI18n("controllers")
-    task_id = session[session['username']]['memory']['appconfig']['taskID']
+    task_id = session[session['username']]['memory']['task_info']['task_id']
     repo_path = request.json.get('repo_path')
     ws_path = WORKSPACE_PATH+task_id+'/'+repo_path
 
@@ -61,7 +61,7 @@ def check_compile():
 @json_response
 def check_lint():
     _ = getI18n("controllers")
-    task_id = session[session['username']]['memory']['appconfig']['taskID']
+    task_id = session[session['username']]['memory']['task_info']['task_id']
     file_path = request.json.get('file_path')
     repo_path = request.json.get('service_name')
     ws_path = WORKSPACE_PATH+task_id+'/'+repo_path

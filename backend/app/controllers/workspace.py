@@ -14,7 +14,7 @@ bp = Blueprint('workspace', __name__, url_prefix='/workspace')
 @json_response
 def save_code():
     _ = getI18n("controllers")
-    task_id = session[session['username']]['memory']['appconfig']['taskID']
+    task_id = session[session['username']]['memory']['task_info']['task_id']
     file_path = request.json.get('file_path')
     repo_path = request.json.get('service_name')
     code = request.json.get('code')
@@ -27,7 +27,7 @@ def save_code():
 @json_response
 def create():
     _ = getI18n("controllers")
-    task_id =  session[session['username']]['memory']['appconfig']['taskID']
+    task_id =  session[session['username']]['memory']['task_info']['task_id']
     repo_path = request.json.get('repo_path')
     base_branch = request.json.get('base_branch')
     fature_branch = request.json.get('feature_branch')
@@ -76,10 +76,10 @@ def gitpush():
 
     plugin = {"name": 'push_code', "uuid": frontUuid}
 
-    createBranch(session[userName]['memory']['appconfig']['sourceBranch'],
-                            session[userName]['memory']['appconfig']['featureBranch'], parts[0])
+    createBranch(session[userName]['memory']['task_info']['source_branch'],
+                            session[userName]['memory']['task_info']['feature_branch'], parts[0])
     result, success = pushCode(
-        parts[2], session[userName]['memory']['appconfig']['featureBranch'], parts[0], code, commitMsg)
+        parts[2], session[userName]['memory']['task_info']['feature_branch'], parts[0], code, commitMsg)
     newPrompt = "基于 " + \
         session[userName]['memory']["repoPath"]+" 代码分支进行自动化集成测试"
     

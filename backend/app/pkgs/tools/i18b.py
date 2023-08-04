@@ -35,6 +35,8 @@ def getFrontendText():
         "hello": _("Hello"),
         "login": _("Login"),
         "logout": _("Logout"),
+        "error":_("ERROR"),
+        "service_modification_item_empty":_("The services involved are not analyzed. Check whether the application architecture information is accurate"),
         "ai_think": _("Thinking..."),
         "ai_start_1": _("Hello, I am the AI-assisted code development assistant, please select the"),
         "ai_start_2": _("to start the development task!"),

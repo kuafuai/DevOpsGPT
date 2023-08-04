@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-07-17 15:21+0800\n"
+"POT-Creation-Date: 2023-08-02 18:55+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: backend/app/controllers/app.py:33
+#: backend/app/controllers/app.py:32
 msgid "Failed to add an application."
 msgstr ""
 
@@ -25,67 +25,75 @@ msgstr ""
 msgid "Failed to get applications."
 msgstr ""
 
-#: backend/app/controllers/step_api.py:31
+#: backend/app/controllers/step_api.py:29
 msgid "Failed to clarify API."
 msgstr ""
 
-#: backend/app/controllers/step_code.py:28
+#: backend/app/controllers/step_code.py:22
 msgid "Failed to edit file with new task."
 msgstr ""
 
-#: backend/app/controllers/step_code.py:40
+#: backend/app/controllers/step_code.py:35
 msgid "Failed to check file."
 msgstr ""
 
-#: backend/app/controllers/step_code.py:55
+#: backend/app/controllers/step_code.py:51
 msgid "Failed to merge old and new code."
 msgstr ""
 
-#: backend/app/controllers/step_code.py:72
+#: backend/app/controllers/step_code.py:69
 msgid "Failed to reference repair no reference file found."
 msgstr ""
 
-#: backend/app/controllers/step_code.py:76
+#: backend/app/controllers/step_code.py:73
 msgid "Reference repair failed for unknown reasons."
 msgstr ""
 
-#: backend/app/controllers/step_devops.py:53
+#: backend/app/controllers/step_devops.py:50
 msgid "Compile check pass."
 msgstr ""
 
-#: backend/app/controllers/step_devops.py:60
+#: backend/app/controllers/step_devops.py:57
 msgid "Compile check failed for unknown reasons."
 msgstr ""
 
-#: backend/app/controllers/step_devops.py:74
+#: backend/app/controllers/step_devops.py:72
 msgid "Static code scan passed."
 msgstr ""
 
-#: backend/app/controllers/step_devops.py:81
+#: backend/app/controllers/step_devops.py:79
 msgid "Static code scan failed for unknown reasons."
 msgstr ""
 
-#: backend/app/controllers/step_requirement.py:30
+#: backend/app/controllers/step_requirement.py:20
+msgid "Please select the application you want to develop."
+msgstr ""
+
+#: backend/app/controllers/step_requirement.py:28
 msgid "Failed to clarify requirement."
 msgstr ""
 
-#: backend/app/controllers/step_subtask.py:69
+#: backend/app/controllers/step_subtask.py:65
 msgid "Failed to split task."
 msgstr ""
 
-#: backend/app/controllers/task.py:50 backend/app/controllers/task.py:57
+#: backend/app/controllers/task.py:39
 msgid "Failed to set up app."
 msgstr ""
 
-#: backend/app/controllers/user.py:20
+#: backend/app/controllers/user.py:28
 msgid "Login successful."
 msgstr ""
 
-#: backend/app/controllers/user.py:28
+#: backend/app/controllers/user.py:38
 msgid "Logout successful."
 msgstr ""
 
-#: backend/app/controllers/workspace.py:25
+#: backend/app/controllers/user.py:54
+msgid "success."
+msgstr ""
+
+#: backend/app/controllers/workspace.py:23
 msgid "Saved code successfully."
 msgstr ""
 

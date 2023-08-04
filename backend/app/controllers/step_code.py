@@ -15,9 +15,8 @@ def edit_file_task():
     newCode = request.json.get('new_code')
     fileTask = request.json.get('file_task')
     userName = session["username"]
-    appName = session[userName]['memory']['appconfig']['appName']
 
-    re, success = aiGenCode(fileTask, newTask, appName, newCode)
+    re, success = aiGenCode(fileTask, newTask, newCode)
     if not success:
         raise Exception(_("Failed to edit file with new task."))
 
@@ -44,7 +43,7 @@ def merge_file():
     newCode = request.json.get('new_code')
     fileTask = request.json.get('file_task')
     userName = session["username"]
-    appName = session[userName]['memory']['appconfig']['appName']
+    appName = session[userName]['memory']['task_info']['app_name']
 
     re, success = aiMergeCode(fileTask, appName, baseCode, newCode)
     if not success:
@@ -61,8 +60,8 @@ def reference_repair():
     referenceFile = request.json.get('reference_file')
     repo = request.json.get('repo')
     userName = session["username"]
-    appName = session[userName]['memory']['appconfig']['appName']
-    branch = session[userName]['memory']['appconfig']['sourceBranch']
+    appName = session[userName]['memory']['task_info']['app_name']
+    branch = session[userName]['memory']['task_info']['source_branch']
 
     hasGitCode, referenceCode =  getFileContent(referenceFile, branch, repo)
     if not hasGitCode:

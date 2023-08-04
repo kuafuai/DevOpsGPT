@@ -24,5 +24,5 @@ class CodeInterface(ABC):
         pass
 
     @abstractmethod
-    def aiGenCode(self, fileTask, newTask, appName, newCode):
+    def aiGenCode(self, fileTask, newTask, newCode):
         pass

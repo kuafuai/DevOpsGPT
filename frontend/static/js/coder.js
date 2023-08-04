@@ -32,6 +32,7 @@ function sendAjaxRequest(url, method, requestData, successCallback, errorCallbac
             } catch (error) {
                 try {
                     errorCallback(data.error);
+                    console.error(error);
                 } catch (error) {
                     myAlert("ERROR", error);
                     console.error(error);
@@ -41,6 +42,7 @@ function sendAjaxRequest(url, method, requestData, successCallback, errorCallbac
             console.log(data.error)
             try {
                 errorCallback(data.error);
+                console.error(error);
             } catch (error) {
                 myAlert("ERROR", error);
                 console.error(error);
@@ -121,7 +123,7 @@ function modelInfoRead(appName, appCode) {
     sendAjaxRequest('/app/get', 'POST', requestData, successCallback, alertErrorCallback, true, false)
 }
 
-function modelSelected(appName, appID, appIntro, apiDocUrl, repos) {
+function modelSelected(appName, appID, repos) {
     source_branch = $("#model_source_branch_" + appID).val()
     feature_branch = $("#model_feature_branch_" + appID).val()
     customPrompt = globalFrontendText["ai_select_app"] + ": " + appName
@@ -131,15 +133,15 @@ function modelSelected(appName, appID, appIntro, apiDocUrl, repos) {
 
     thinkUI(customPrompt, globalFrontendText["ai_think"])
 
-    requestData = JSON.stringify({ "app_name": appName, "app_id": appID, "app_intro": appIntro, "api_doc_url": apiDocUrl, "source_branch": source_branch, "feature_branch": feature_branch, "repo_list": repos.split(',') })
+    requestData = JSON.stringify({ "app_id": appID, "source_branch": source_branch, "feature_branch": feature_branch })
 
     successCallback = function(data){
         data = data.data
         globalChangeServiceList = data.repo_list
-        str = globalFrontendText["ai_selected_app_1"] + ": "+data['app_name']
-            +"<br />"+ globalFrontendText["ai_selected_app_2"] +": "+data["task_id"]
-            +"<br />"+ globalFrontendText["ai_selected_app_3"] +": "+data["repo_list"]
-            +"<br />"+ globalFrontendText["ai_selected_app_4"] +data["source_branch"]+" "+ globalFrontendText["ai_selected_app_5"] +" "+data["feature_branch"]
+        str = globalFrontendText["ai_selected_app_1"] + ": " + appName
+            +"<br />"+ globalFrontendText["ai_selected_app_2"] + ": "+ data["task_id"]
+            +"<br />"+ globalFrontendText["ai_selected_app_3"] + ": "+ repos
+            +"<br />"+ globalFrontendText["ai_selected_app_4"] + source_branch +" "+ globalFrontendText["ai_selected_app_5"] +" "+ feature_branch
             +"<br /><br />" + globalFrontendText["ai_selected_app_6"];
         const url = window.location;
         const newUrl = url.origin + '?task_id=' + data.task_id;
@@ -174,6 +176,12 @@ $(document).ready(function () {
         successCallback = function(data) {
             var str = ''
             data.data.apps.forEach(function (app, element_index, element_array) {
+                var repos = ""
+                app.service.forEach(function (service) {
+                    repos += service["name"]+", "
+                })
+                repos = repos.replace(/, $/g, '')
+
                 str += `
                     <div class="item" style="padding: 15px 0px;">
                         <div class="content">
@@ -187,7 +195,7 @@ $(document).ready(function () {
                         </div>
                         <div class="description" style="line-height: 25px;">`+app.intro+`</div>
                         <!-- div class="ui button green model-selected" onClick="modelInfoRead('`+app.name+`','`+app.id+`', '`+escapeHtml(app.intro)+`', '`+app.api_doc_url+`', '`+app.repos+`')" style="float: right;"></div -->
-                        <div class="ui button blue model-selected" onClick="modelSelected('`+app.name+`','`+app.id+`', '`+escapeHtml(app.intro)+`', '`+app.api_doc_url+`', '`+app.repos+`')" style="float: right;">`+globalFrontendText["start"]+`</div> 
+                        <div class="ui button blue model-selected" onClick="modelSelected('`+app.name+`','`+app.id+`', '`+repos+`')" style="float: right;">`+globalFrontendText["start"]+`</div> 
                         </div>
                     </div>
                 `
@@ -935,7 +943,7 @@ function pluginTaskList(info) {
     info.forEach(function (element, element_index, element_array) {
         service_name = element["service-name"]
         globalTasks[service_name.replace("/","-")] = element["files"]
-        createWS(service_name, globalMemory.appconfig.sourceBranch, globalMemory.appconfig.featureBranch)
+        createWS(service_name, globalMemory["task_info"]["source_branch"], globalMemory["task_info"]["feature_branch"])
         var service_str = `
             <h4 class="ui horizontal divider header">
                 <i class="coffee icon brown"></i>
@@ -944,7 +952,7 @@ function pluginTaskList(info) {
             <div class="ui yellow visible message">`+globalFrontendText["operation"]+`: 
                 <button class="ui green button tiny" onclick="checkCompile('`+ service_name +`', 0);"><i class="tasks icon"></i>`+globalFrontendText["auto_check"]+`</button>
                 <button class="ui blue button tiny" onclick="startPush('`+ service_name +`');"><i class="tasks icon"></i>`+globalFrontendText["submit_code"]+`</button>
-                <button class="ui teal button tiny" onClick="startCi('`+ service_name + `','` + globalMemory.appconfig.featureBranch + `')"><i class="tasks icon"></i>`+globalFrontendText["start_ci"]+`</button>
+                <button class="ui teal button tiny" onClick="startCi('`+ service_name + `','` + globalMemory["task_info"]["feature_branch"] + `')"><i class="tasks icon"></i>`+globalFrontendText["start_ci"]+`</button>
             </div>
         `;
         element["files"].forEach(function (file, file_index, file_array) {
@@ -1156,7 +1164,7 @@ function clarify(customPrompt, thisElement) {
     thinkUI(customPrompt, globalFrontendText["ai_think"])
 
     var userName = getParameterByName('userName');
-    var requestData = JSON.stringify({ 'user_prompt': customPrompt, 'userName': userName, 'global_context': JSON.stringify(globalContext) })
+    var requestData = JSON.stringify({ 'user_prompt': customPrompt, 'global_context': JSON.stringify(globalContext) })
     var retruBtn = '<br /><br /><button class="ui green button" onClick="clarify(\''+escapeHtml(customPrompt)+'\', this)">重试</button>'
 
     successCallback = function(data){
@@ -1168,11 +1176,13 @@ function clarify(customPrompt, thisElement) {
         globalContext.push({ role: 'user', content: customPrompt })
         globalContext.push({ role: 'assistant', content: msg })            
         if (msg.includes("development_requirements_overview")) {
-            if (msgJson["service_modification_item"].length > 0) {
+            if (msgJson["services_involved"].length > 0) {
                 globalChangeServiceList = []
-                msgJson["service_modification_item"].forEach(function (element, element_index, element_array) {
+                msgJson["services_involved"].forEach(function (element, element_index, element_array) {
                     globalChangeServiceList.push(element["service-name"])
                 })
+            } else {
+                myAlert(globalFrontendText["error"], globalFrontendText["service_modification_item_empty"])
             }
             msg = globalFrontendText["ai_requirement_clarify_1"]+"\n"+msgJson.development_requirements_overview+"\n\n"+globalFrontendText["ai_requirement_clarify_2"]+"\n"+msgJson.development_requirements_detail
             str = '<br /><br /><button class="ui green button" onClick="taskOk(\''+escapeHtml(msg)+'\', this, \'requirement_doc\')">'+globalFrontendText["submit"]+'</button><button class="ui blue button" onclick="taskChange(\''+escapeHtml(msg)+'\', \'requirement_doc\')">'+globalFrontendText["edit"]+'</button>'
