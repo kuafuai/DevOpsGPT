@@ -53,7 +53,7 @@ GOTO:EOF
     call :get_config_value BACKEND_PORT
 
     REM Wait for the backend service to start
-    for /l %%i in (1, 1, 15) do (
+    for /l %%i in (1, 1, 20) do (
         set "response="
         for /f "delims=" %%a in ('set HTTP_PROXY= & set HTTPS_PROXY= & set ALL_PROXY= & http_proxy= & https_proxy= & all_proxy= & curl -s -o nul -w "%%{http_code}" http://127.0.0.1:%BACKEND_PORT%') do set "response=%%a"
 
@@ -63,8 +63,7 @@ GOTO:EOF
             echo Service started successfully, please use a browser to visit: http://127.0.0.1:!FRONTEND_PORT!
             GOTO :starFrontend
         ) else (
-            echo Service has not started yet, please wait...
-            timeout /t 10 > nul
+            timeout /t 5 > nul
         )
     )
     :starFrontend

@@ -32,7 +32,7 @@ function start_frontend() {
     echo $!
 
     backend_port=$(get_config_value "BACKEND_PORT")
-    for ((i=1; i<=15; i++))
+    for ((i=1; i<=20; i++))
     do
     response=$(HTTP_PROXY= HTTPS_PROXY= ALL_PROXY= http_proxy= https_proxy= all_proxy= curl -s -o /dev/null -w "%{http_code}" 127.0.0.1:$backend_port)
 
@@ -40,8 +40,7 @@ function start_frontend() {
         echo -e "\n\nService started successfully, please use browser to visit: http://127.0.0.1:$frontend_port"
         break
     else
-        echo "Service has not started yet, please wait..."
-        sleep 10
+        sleep 5
     fi
     done
 }
