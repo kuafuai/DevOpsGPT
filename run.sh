@@ -34,9 +34,8 @@ function start_frontend() {
     backend_port=$(get_config_value "BACKEND_PORT")
     for ((i=1; i<=15; i++))
     do
-    response=$(curl -s -o /dev/null -w "%{http_code}" 127.0.0.1:$backend_port)
+    response=$(HTTP_PROXY= HTTPS_PROXY= ALL_PROXY= http_proxy= https_proxy= all_proxy= curl -s -o /dev/null -w "%{http_code}" 127.0.0.1:$backend_port)
 
-    echo $response
     if [ "$response" = "404" ] || [ "$response" = "200" ]; then
         echo -e "\n\nService started successfully, please use browser to visit: http://127.0.0.1:$frontend_port"
         break
@@ -64,10 +63,12 @@ function kill_by_port() {
     esac
     if [ -z "$pid" ]; then
         echo "The port is not in use: $port"
-        exit 1
     fi
     kill -9 $pid
 }
+
+kill_by_port $(get_config_value "FRONTEND_PORT")
+kill_by_port $(get_config_value "BACKEND_PORT")
 
 PYTHON_CMD=$(get_python3)
 
@@ -81,7 +82,6 @@ fi
 
 # start the frontend service
 start_frontend $PYTHON_CMD &
-frontend_pid=$!
 
 # start the backend service
 $PYTHON_CMD backend/run.py

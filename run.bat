@@ -55,7 +55,7 @@ GOTO:EOF
     REM Wait for the backend service to start
     for /l %%i in (1, 1, 15) do (
         set "response="
-        for /f "delims=" %%a in ('curl -s -o nul -w "%%{http_code}" http://127.0.0.1:%BACKEND_PORT%') do set "response=%%a"
+        for /f "delims=" %%a in ('set HTTP_PROXY= & set HTTPS_PROXY= & set ALL_PROXY= & http_proxy= & https_proxy= & all_proxy= & curl -s -o nul -w "%%{http_code}" http://127.0.0.1:%BACKEND_PORT%') do set "response=%%a"
 
         echo !response!
         if "!response!"=="404" (
