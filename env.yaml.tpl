@@ -1,4 +1,6 @@
 LANGUAGE: 'en' # en、zh
+# Configure the interface information of openai and azure. If a certain type of interface is not needed, please completely delete the corresponding element (openai\ azure). 
+# 配置 openai 和 azure 的接口信息，如果不需要某个类型的接口，请将对应的元素整个删除掉（openai\ azure），注意数组中最后一个元素后面不要加逗号
 GPT_KEYS: |
     {
         "openai": {
@@ -6,9 +8,9 @@ GPT_KEYS: |
                 {"sk-xxxx": {"count": 0, "timestamp": 0}},
                 {"sk-yyyy": {"count": 0, "timestamp": 0}}
             ],
-            "api_type": "openai",
-            "api_base": "https://api.openai.com",
-            "api_version": "v1"
+            "api_type": "open_ai",
+            "api_base": "https://api.openai.com/v1",
+            "api_version": "2020-11-07"
         },
         "azure": {
             "keys": [
