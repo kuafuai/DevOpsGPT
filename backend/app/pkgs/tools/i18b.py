@@ -84,4 +84,5 @@ def getFrontendText():
         "static_scan": _("Static scan"),
         "fix_static_scan": _("Fix Static scan"),
         "no_problem_this_file": _("No problem found in the current file, refer to other solutions:"),
+        "backend_return_error": _("The back-end service returns an exception. Contact the administrator to check the terminal service logs and browser consol."),
     }

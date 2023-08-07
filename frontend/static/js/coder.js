@@ -41,7 +41,7 @@ function sendAjaxRequest(url, method, requestData, successCallback, errorCallbac
         } else {
             console.log(data.error)
             try {
-                errorCallback(data.error);
+                errorCallback(data.error + "<br />" + globalFrontendText["backend_return_error"]);
                 console.error(error);
             } catch (error) {
                 myAlert("ERROR", error);
@@ -51,7 +51,7 @@ function sendAjaxRequest(url, method, requestData, successCallback, errorCallbac
     }).fail(function () {
         errorMsg = "Network request exception."
         try {
-            errorCallback(errorMsg);
+            errorCallback(errorMsg + "<br />" + globalFrontendText["backend_return_error"]);
         } catch (error) {
             console.error(error);
             myAlert("ERROR", error);
@@ -337,6 +337,7 @@ function language() {
 
     errorCallback = function(data) {
         $("#my-login").modal('show')
+        myAlert("Error 错误", "The back-end service interface cannot be accessed. Please check the terminal service log and browser console. <br /><br />无法访问后端服务接口，请检查终端服务日志以及浏览器控制台报错信息。")
     }
 
     sendAjaxRequest('/user/language', 'GET', "", successCallback, errorCallback, true, false)
