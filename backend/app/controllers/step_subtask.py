@@ -24,14 +24,14 @@ def analysis():
 
     # todo Use llm to determine which interface documents to adjust
     appID = session[username]['memory']['task_info']['app_id']
-    defaultApiDoc, success = getServiceSwagger(appID, 1)
+    defaultApiDoc, success = getServiceSwagger(appID, 0)
 
     if len(defaultApiDoc) > 0:
         newfeature = requirementDoc+"""
 
-接口文档：
+You need to think on the basis of the following interface documentation：
 ```
-"""+apiDoc+"""
+"""+apiDoc.replace("```", "")+"""
 ```
 """
     else:
@@ -45,20 +45,19 @@ def analysis():
     filesToEdit, success = splitTask(newfeature, serviceName, appBasePrompt, projectInfo, projectLib, serviceStruct, appID)
 
     if success:
-        for serviceNamex, service in enumerate(filesToEdit):
-            for index, file in enumerate(service["files"]):
-                isSuccess, oldCode = getFileContent(file["file-path"], sourceBranch, filesToEdit[serviceNamex]["service-name"])
-                filesToEdit[serviceNamex]["files"][index]["old-code"] = oldCode
-                if not isSuccess:
-                    filesToEdit[serviceNamex]["files"][index]["old-code"] = ''
+        for index, file in enumerate(filesToEdit):
+            isSuccess, oldCode = getFileContent(file["file-path"], sourceBranch, serviceName)
+            filesToEdit[index]["old-code"] = oldCode
+            if not isSuccess:
+                filesToEdit[index]["old-code"] = ''
 
-                isSuccess, referenceCode = getFileContent(file["reference-file"], sourceBranch, filesToEdit[serviceNamex]["service-name"])
-                filesToEdit[serviceNamex]["files"][index]["reference-code"] = referenceCode
-                if not isSuccess:
-                    filesToEdit[serviceNamex]["files"][index]["reference-code"] = ''
+            isSuccess, referenceCode = getFileContent(file["reference-file"], sourceBranch, serviceName)
+            filesToEdit[index]["reference-code"] = referenceCode
+            if not isSuccess:
+                filesToEdit[index]["reference-code"] = ''
     
-        plugin = {"name": 'task_list', "info": filesToEdit}
-        session[username]['memory']['tasks'] = filesToEdit # 这里不更新session，只给前端用
+        plugin = {"name": 'task_list', "info": {"files":filesToEdit, "service_name": serviceName}}
+        session[username]['memory']['tasks'] = filesToEdit # There is no session update here, just for the frontend
 
         return {'plugin': plugin, 'memory': session[username]['memory']}
     else:

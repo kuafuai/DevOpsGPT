@@ -28,7 +28,7 @@ class CodeBasic(CodeInterface):
     You should only directly respond in JSON format as described below, Ensure the response must can be parsed by Python json.loads, Response Format example:
     {"reasoning": "{Explain the thought process of the problem step by step}","code": "{Optimized final complete code}"}
 
-    Use """+getCurrentLanguageName()+"""" dialogue
+    Please respond in """+getCurrentLanguageName()+"""".
     """
 
         context = [{"role": "user", "content": prompt}]
@@ -48,7 +48,7 @@ class CodeBasic(CodeInterface):
     You should only directly respond in JSON format as described below, Ensure the response must can be parsed by Python json.loads, Response Format example:
     [{"file-path": "file-path", "solution-analysis":"solution-analysis"}]
 
-    Note: Keep conversations in """+getCurrentLanguageName()+""".
+    Please respond in """+getCurrentLanguageName()+"""".
     """
 
         context = [{"role": "user", "content": prompt}]
@@ -73,7 +73,7 @@ class CodeBasic(CodeInterface):
     You should only directly respond in JSON format as described below, Ensure the response must can be parsed by Python json.loads, Response Format example:
     {"reasoning": "{Explain the thought process of the problem step by step"}","code": "{Optimized final complete code or initial code}"}
 
-    Use """+getCurrentLanguageName()+"""" dialogue
+    Please respond in """+getCurrentLanguageName()+"""".
     """
 
         context = [{"role": "user", "content": prompt}]
@@ -98,7 +98,7 @@ class CodeBasic(CodeInterface):
     You should only directly respond in JSON format as described below, Ensure the response must can be parsed by Python json.loads, Response Format example:
     {"reasoning": "{Explain the thought process of the problem step by step}","code": "{Optimized final complete code or initial code}"}
 
-    Use """+getCurrentLanguageName()+"""" dialogue
+    Please respond in """+getCurrentLanguageName()+"""".
     """
 
         context = [{"role": "user", "content": prompt}]
@@ -128,7 +128,7 @@ class CodeBasic(CodeInterface):
     You should only directly respond in JSON format as described below, Ensure the response must can be parsed by Python json.loads, Response Format example:
     {"reasoning": "{Explain the thought process of the problem step by step}","code": "{Optimized final complete code}"}
 
-    Use """+getCurrentLanguageName()+"""" dialogue
+    Please respond in """+getCurrentLanguageName()+"""".
     """
 
         context = [{"role": "user", "content": prompt}]
@@ -155,7 +155,7 @@ class CodeBasic(CodeInterface):
     {"reasoning": "{Explain the thought process of the problem step by step}","code": "{Optimized final complete code}"}
     Ensure the response must can be parsed by Python json.loads
 
-    Use """+getCurrentLanguageName()+"""" dialogue
+    Please respond in """+getCurrentLanguageName()+"""".
     """
 
         context = [{"role": "user", "content": prompt}]

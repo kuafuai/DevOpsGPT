@@ -26,6 +26,9 @@ class AppInfoBasic(AppInfoInterface):
                 for service in services:
                     if service["name"] == serviceName:
                         swaggerDoc = service["api_doc"]
+                    # todo Use llm to determine which interface documents to adjust
+                    if len(service["api_doc"]) > 0:
+                        swaggerDoc = service["api_doc"]
 
         return swaggerDoc, True
 

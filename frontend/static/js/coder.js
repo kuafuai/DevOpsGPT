@@ -936,61 +936,59 @@ function getIdxByUUID(service_name, uuid) {
 }
 
 function pluginTaskList(info) {
-    var str = `
-    <p>`+globalFrontendText["ai_api_subtask"]+`</p>
-  `
-    var service_name = ""
-    info.forEach(function (element, element_index, element_array) {
-        service_name = element["service-name"]
-        globalTasks[service_name.replace("/","-")] = element["files"]
-        createWS(service_name, globalMemory["task_info"]["source_branch"], globalMemory["task_info"]["feature_branch"])
-        var service_str = `
-            <h4 class="ui horizontal divider header">
-                <i class="coffee icon brown"></i>
-                `+ service_name + `
-            </h4>
-            <div class="ui yellow visible message">`+globalFrontendText["operation"]+`: 
-                <button class="ui green button tiny" onclick="checkCompile('`+ service_name +`', 0);"><i class="tasks icon"></i>`+globalFrontendText["auto_check"]+`</button>
-                <button class="ui blue button tiny" onclick="startPush('`+ service_name +`');"><i class="tasks icon"></i>`+globalFrontendText["submit_code"]+`</button>
-                <button class="ui teal button tiny" onClick="startCi('`+ service_name + `','` + globalMemory["task_info"]["feature_branch"] + `')"><i class="tasks icon"></i>`+globalFrontendText["start_ci"]+`</button>
-            </div>
-        `;
-        element["files"].forEach(function (file, file_index, file_array) {
-            var uuid = Math.random().toString(36).substr(2, 9) + Date.now().toString();
-            globalTasks[service_name.replace("/","-")][file_index].uuid = uuid
-            gloablCode["newCode_" + uuid] = element_array[element_index]["files"][file_index]["code"]
-            gloablCode["oldCode_" + uuid] = element_array[element_index]["files"][file_index]["old-code"]
-            service_str = service_str + `
-                <table class="ui definition table">
-                <tbody id="task_tbod_`+ uuid + `">
-                    <tr>
-                    <td class="two wide column">`+globalFrontendText["modify_file"]+`</td>
-                    <td>`+ file["file-path"] + `</td>
-                    </tr>
-                    <tr>
-                    <td>`+globalFrontendText["reasonfor_for_modification"]+`</td>
-                    <td>`+ file["code-interpreter"] + `</td>
-                    </tr>
-                    <tr>
-                    <td>`+globalFrontendText["status"]+`</td>
-                    <td id="task_status_td_`+ uuid + `">
-                        <button class="ui circular check green icon button task_status_button tiny" id="task_status_` + uuid + `" data-content="" onClick="showCode(this)" show-code-key="`+file["file-path"]+`" show-code-reason=""><i class="check icon"></i> `+globalFrontendText["initial_code"]+`</button>
-                    </td>
-                    </tr>
-                    <tr>
-                    <td>`+globalFrontendText["operation"]+`</td>
-                    <td id="task_`+ uuid + `">
-                        <button class="ui tiny blue button" onClick="editTask('` + service_name + `',` + file_index + `)"><i class="edit outline icon"></i>`+globalFrontendText["adjust_code"]+`</button>
-                        <button class="ui orange button tiny" onClick="editFileTask('` + service_name + `',` + file_index + `)"><i class="play icon"></i>`+globalFrontendText["restart"]+`</button>
-                        <button class="ui brown button tiny"  onClick="compareCode('`+ uuid + `')"><i class="code icon"></i>`+globalFrontendText["review_code"]+`</button>
-                    </td>
-                    </tr>
-                </tbody>
-                </table>
-            `
-        });
-        str += service_str;
+    var str = `<p>`+globalFrontendText["ai_api_subtask"]+`</p>`
+
+    var service_name = info["service_name"]
+    globalTasks[service_name.replace("/","-")] = info["files"]
+    createWS(service_name, globalMemory["task_info"]["source_branch"], globalMemory["task_info"]["feature_branch"])
+    var service_str = `
+        <h4 class="ui horizontal divider header">
+            <i class="coffee icon brown"></i>
+            `+ service_name + `
+        </h4>
+        <div class="ui yellow visible message">`+globalFrontendText["operation"]+`: 
+            <button class="ui green button tiny" onclick="checkCompile('`+ service_name +`', 0);"><i class="tasks icon"></i>`+globalFrontendText["auto_check"]+`</button>
+            <button class="ui blue button tiny" onclick="startPush('`+ service_name +`');"><i class="tasks icon"></i>`+globalFrontendText["submit_code"]+`</button>
+            <button class="ui teal button tiny" onClick="startCi('`+ service_name + `','` + globalMemory["task_info"]["feature_branch"] + `')"><i class="tasks icon"></i>`+globalFrontendText["start_ci"]+`</button>
+        </div>
+    `;
+
+    info["files"].forEach(function (file, file_index, file_array) {
+        var uuid = Math.random().toString(36).substr(2, 9) + Date.now().toString();
+        globalTasks[service_name.replace("/","-")][file_index].uuid = uuid
+        gloablCode["newCode_" + uuid] = file["code"]
+        gloablCode["oldCode_" + uuid] = file["old-code"]
+        service_str = service_str + `
+            <table class="ui definition table">
+            <tbody id="task_tbod_`+ uuid + `">
+                <tr>
+                <td class="two wide column">`+globalFrontendText["modify_file"]+`</td>
+                <td>`+ file["file-path"] + `</td>
+                </tr>
+                <tr>
+                <td>`+globalFrontendText["reasonfor_for_modification"]+`</td>
+                <td>`+ file["code-interpreter"] + `</td>
+                </tr>
+                <tr>
+                <td>`+globalFrontendText["status"]+`</td>
+                <td id="task_status_td_`+ uuid + `">
+                    <button class="ui circular check green icon button task_status_button tiny" id="task_status_` + uuid + `" data-content="" onClick="showCode(this)" show-code-key="`+file["file-path"]+`" show-code-reason=""><i class="check icon"></i> `+globalFrontendText["initial_code"]+`</button>
+                </td>
+                </tr>
+                <tr>
+                <td>`+globalFrontendText["operation"]+`</td>
+                <td id="task_`+ uuid + `">
+                    <button class="ui tiny blue button" onClick="editTask('` + service_name + `',` + file_index + `)"><i class="edit outline icon"></i>`+globalFrontendText["adjust_code"]+`</button>
+                    <button class="ui orange button tiny" onClick="editFileTask('` + service_name + `',` + file_index + `)"><i class="play icon"></i>`+globalFrontendText["restart"]+`</button>
+                    <button class="ui brown button tiny"  onClick="compareCode('`+ uuid + `')"><i class="code icon"></i>`+globalFrontendText["review_code"]+`</button>
+                </td>
+                </tr>
+            </tbody>
+            </table>
+        `
     });
+    str += service_str;
+
     var ai_code_class = service_name.replace("/","-")
     if ($('.ai-code.'+ai_code_class).length > 0) {
         $(".ai-code."+ai_code_class).eq($('.ai-code.'+ai_code_class).length - 1).html(str);
@@ -998,11 +996,9 @@ function pluginTaskList(info) {
         $(".ai-code").eq($('.ai-code').length - 1).html(str);
     }
     
-    info.forEach(function (element, element_index, element_array) {
-        element["files"].forEach(function (file, file_index, file_array) {
-            var uuid = element_array[element_index]["files"][file_index].uuid;
-            $("#task_status_"+uuid).attr("show-code-value", escapeHtml(gloablCode["newCode_" + uuid]));
-        });
+    info["files"].forEach(function (file, file_index, file_array) {
+        var uuid = file.uuid;
+        $("#task_status_"+uuid).attr("show-code-value", escapeHtml(gloablCode["newCode_" + uuid]));
     });
 
     $(".ai-code").eq($('ai-code').length - 1).hide().fadeIn('fast');
@@ -1010,16 +1006,14 @@ function pluginTaskList(info) {
     $('.task_status_button').popup();
 
     setTimeout(function () {
-        info.forEach(function (element, element_index, element_array) {
-            element["files"].forEach(function (file, file_index, file_array) {
-                if (file["old-code"].length > 0) {
-                    mergeCode(file["uuid"], file["code"], file["old-code"], file["code-interpreter"], element["service-name"], file["file-path"])
-                } else if (file["code"].length > 0 && typeof file["reference-code"] !== "undefined" && file["reference-code"].length > 0) {
-                    referenceRepair(file["code"], file["code-interpreter"], file["uuid"], file["reference-file"], file["service-name"], file["file-path"])
-                } else {
-                    checkCode(file["code"], file["code-interpreter"], file["uuid"], file["file-path"], element["service-name"])
-                }
-            })
+        info["files"].forEach(function (file, file_index, file_array) {
+            if (file["old-code"].length > 0) {
+                mergeCode(file["uuid"], file["code"], file["old-code"], file["code-interpreter"], info["service_name"], file["file-path"])
+            } else if (file["code"].length > 0 && typeof file["reference-code"] !== "undefined" && file["reference-code"].length > 0) {
+                referenceRepair(file["code"], file["code-interpreter"], file["uuid"], file["reference-file"], info["service_name"], file["file-path"])
+            } else {
+                checkCode(file["code"], file["code-interpreter"], file["uuid"], file["file-path"], info["service_name"])
+            }
         })
     }, 1000);
 }

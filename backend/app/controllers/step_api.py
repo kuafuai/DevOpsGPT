@@ -16,7 +16,7 @@ def gen_interface_doc():
 
     # todo Use llm to determine which interface documents to adjust
     appID = session[username]['memory']['task_info']['app_id']
-    apiDoc, success = getServiceSwagger(appID, 1)
+    apiDoc, success = getServiceSwagger(appID, 0)
 
     msg, success = clarifyAPI(userPrompt, apiDoc)
 
