@@ -13,8 +13,6 @@ class SubtaskBasic(SubtaskInterface):
             time.sleep(10)
             return TEST_RESULT, True
 
-        
-
         data, success = setpReqChooseLib(feature, appBasePrompt, projectInfo, projectLib)
         code_require = []
         default_msg, _ = getServiceSpecification(appID, serviceName, "Default")
@@ -25,72 +23,66 @@ class SubtaskBasic(SubtaskInterface):
             code_require.append(require_msg)
 
         code_require = list(set(code_require))
-        print(f"==============================={code_require}")
+        print(f"get code_require:{code_require}")
         specification = '\n'.join(code_require)
 
         message, ctx, success = setp1Task(feature, appBasePrompt, serviceStruct, specification)
         if success:
             ctx_clone = ctx[:]
-            #message, ctx, success = setp2Again(message, ctx, msg)
-            return setp3Code(message, ctx_clone, appBasePrompt, specification, serviceName)
+            return setp2Code(message, ctx_clone, appBasePrompt, specification, serviceName)
         else:
             return message, False
 
 
-def setp3Code(message, context, appBasePrompt, msg, serviceName):
+def setp2Code(message, context, appBasePrompt, msg, serviceName):
     context.append({
         "role": "assistant",
         "content": message
     })
 
-    serviceNameStr = '"'+serviceName+'"'
-
     context.append({
         "role": "user",
         "content": appBasePrompt + """。
 
-根据拆分后的所有子步骤在"""+serviceNameStr+"""服务下写出完整的可运行代码
-要求：
+Write full runnable code based on all the split substeps
+Comply with the following requirements：
 """ + msg + """
 
 You will write a very long answer. Make sure that every detail of the architecture is, in the end, implemented as code.
-Make sure that every detail of the architecture is, in the end, implemented as code.
-Make sure that every detail of the architecture is, in the end, implemented as code.
+
 Think step by step and reason yourself to the right decisions to make sure we get it right.
+You will first lay out the names of the core classes, functions, methods that will be necessary, as well as a quick comment on their purpose.
+
+Then you will output the content of each file including ALL code.
+
 Please note that the code should be fully functional. No placeholders. Constantly rethinking whether the code is complete.
 Then you will output the content of each file including ALL code. 
+Ensure to implement all code, if you are unsure, write a plausible implementation.
 Each file must strictly follow a JSON code block format as below.
 
 Format example:
 ```
-[{
-  "service-name": """+serviceNameStr+""",
-  "files": [{
+[
+    {
       "file-path": "src/aaa.java",
-      "reference-file": "reference-file",
+      "reference-file": "",
       "code": "import org.springframework.web.bind.annotation.RestController;\\n@RestController\\npublic class TargetController",
-      "code-interpreter": "在代码中增加一个新的方法 getFile，输入：repopath、filepath，返回：filecontent",
+      "code-interpreter": "Please respond in """+getCurrentLanguageName()+""""."
     },
     {
       "file-path": "main.go",
-      "reference-file": "reference-file",
+      "reference-file": "",
       "code": "package main\\n func readFile(filePath str)\\n{\\n  return io.readFile(filePath)\\n}",
-      "code-interpreter": "在入口文件中增加一个新的接口readFile，输入:filePath,调用io包读取文件内容,返回:fileContent"
+      "code-interpreter": "Please respond in """+getCurrentLanguageName()+""""."
     }
-  ]
-}
 ]
 Do not explain the code, just give the JSON, Ensure the response can be parsed by Python json.loads.
 
 JSON Field description:
 ```
-0. "service-name": the value only can be """+serviceName+""".
-1. "code-interpreter": field must be in chinese.
-2. "code": Please note that the code should be fully functional. No placeholders, and should not contain pseudocode or unfinished code or todo code. Ensure correlation and integrity between different code files to ensure that all code works correctly.
-3. "code-interpreter": As a senior developer, you must explain the "code" you provide in detail in "code-interpreter" field, and this explain should be independent. For example: specific variable names and types to be added and modified, method names to be added or modified, parameter names, and so on.
-4. "file-path": Do not include "service-name" in the path. 
-5. "files" need to be group by "service-name"
-6. "reference-file": Inference only based on the "Directory structure" "reference-file" filed above, if you don't know leave it blank.
+1. "code": Please note that the code should be fully functional, No placeholders, and should not contain pseudocode or unfinished code or todo code. Ensure correlation and integrity between different code files to ensure that all code works correctly. You must always reflect that the code has been fully provided without todo matters.
+2. "code-interpreter": As a senior developer, you must explain the "code" you provide in detail, and this explain should be independent. For example: specific variable names and types to be added and modified, method names to be added or modified, parameter names, and so on. Please respond in """+getCurrentLanguageName()+"""".
+5. "reference-file": Inference only based on the "Directory structure" "reference-file" filed above, if you don't know leave it blank.
 ```
         """
     })
@@ -104,42 +96,22 @@ JSON Field description:
 
     return json.loads(data), success
 
-
-def setp2Again(message, context, msg):
-    context.append({
-        "role": "assistant",
-        "content": message
-    })
-
-    context.append({
-        "role": "user",
-        "content": """结合已拆分的子步骤，再根据要求检查一遍。一步一步思考，再仔细分析子步骤，每个子步骤尽可能详细描述。注意请不要写代码。
-
-要求：
-""" + msg + """
-"""
-    })
-
-    message, success = chatCompletion(context)
-
-    return message, context, success
-
-
 def setp1Task(feature, appBasePrompt, serviceStruct, specification):
     context = []
-    content = appBasePrompt + """。你的任务是根据下面提供的应用的基本信息 "Application Information" 和 "开发要求" ，一步一步思考，从完成代码开发的角度将下面提供的 "Development Tasks" 拆分成多个操作步骤，每个步骤不能重复并尽可能详细描述。
-注意只分析步骤不要写代码，分解要适当合理，既不要过度拆分也不要漏掉关键步骤。
-注意步骤中不应该包含与编码工作无关的内容，比如：准备环境、执行测试、执行打包部署等。
+    content = appBasePrompt + """. Your job is to think step by step according to the basic "Code directory structure" and "Development specification" provided below, and break down the "Development requirement" provided below into multiple steps from the perspective of completing code development. Each step needs to be detailed.
+Be careful to analyze only the steps, do not write code, and decomposition should be appropriate and reasonable, neither over-splitting nor missing key steps.
 
-Application Information（注意：directory_structure 是项目的目录结构描述。）：
+Note that, these steps should not include anything that is not related to developing code, such as preparing the environment, performing tests, performing packaging, deploying, and so on.
+
+Code directory structure:
 ```
 """ + serviceStruct + """
 ```
 
-开发要求：
+Development specification:
 """ + specification + """  
 
-Development Tasks:
+Development requirement:
 ```
 """ + feature + """
 ````
@@ -153,21 +125,21 @@ Development Tasks:
 # choose lib by req
 def setpReqChooseLib(feature, appBasePrompt, projectInfo, projectLib):
     context = []
-    content = appBasePrompt + """，你的任务是分析需求找合适的组件的名字。一步一步的思考，结合已有的项目信息以及已有组件列表，分析用户输入的需求使用哪些组件，注意只在已有组件里选择。注意请不要写代码
+    content = appBasePrompt + """, Your task is to analyze the requirements and find the appropriate component names. Think step by step, combine the existing project information and the existing component list, analyze the user input requirements to use which components, be careful to select only among the existing components. Please do not write code
 
-注意返回的组件名称，只需要包含名字不需要包含说明，另外组件名字必须和组件列表中保持完全一致。
+Note that the returned component name must contain only the name but not the description. In addition, the component name must be exactly the same as that in the component list.
 
-项目信息：
+Service Information:
 ```
 """ + projectInfo + """
 ```
     
-组件列表：
+components list:
 ```
 """ + projectLib + """
 ```
 
-需求：
+requirements:
 ```
 """ + feature + """
 ```
@@ -194,39 +166,6 @@ You should only directly respond in JSON format as described below, Ensure the r
     data, success = chatCompletion(context)
 
     return json.loads(data), success
-
-
-# 分析需求分类
-def setpReqCls(feature):
-    context = []
-    content = """As a system architect, your task is to analyze user requirements and determine the type of requirement. When developing within an existing project, you should think step by step.
-    
-Requirement classifications:
-```
-System Integration Requirements(SIR): These involve integrating different systems, components, or modules together to achieve a broader range of functionality or business objectives.
-System Management Requirements(SMR): These involve managing and maintaining various resources and data within the system.
-Web Scraping Requirements(WSR): These refer to automated programs that gather information from the internet, typically by parsing web page content to extract the desired data.
-Composite Requirements(CMR): These refer to combining multiple independent functional requirements to achieve a more comprehensive and complex business objective.
-```
-
-The user will provide the requirements, you will provide only the output in the exact format specified below with no explanation or conversation.
-```
-{"type":"type","reason":"reason"}
-```
-
-Requirement：
-```
-""" + feature + """
-```
-
-Note: Keep conversations in """ + getCurrentLanguageName() + """.
-    """
-
-    context.append({"role": "system", "content": content})
-    data, success = chatCompletion(context)
-
-    return json.loads(data), success
-
 
 # just for test
 TEST_RESULT = [{

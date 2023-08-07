@@ -40,7 +40,7 @@ def get_next_api_key():
 
 class LLMBase(LLMInterface):
     def chatCompletion(self, context):
-        print("chartGPT - message:", flush=True)
+        print("chatGPT - message:", flush=True)
         print(context, flush=True)
         provider_data, key = get_next_api_key()
         
@@ -48,7 +48,7 @@ class LLMBase(LLMInterface):
         openai.api_type = provider_data["api_type"]
         openai.api_base = provider_data["api_base"]
         openai.api_version = provider_data["api_version"]
-        print("chartGPT - get api key:"+openai.api_key, flush=True)
+        print("chatGPT - get api key:"+openai.api_key, flush=True)
 
         response = openai.ChatCompletion.create(
             model= LLM_MODEL,
@@ -59,5 +59,5 @@ class LLMBase(LLMInterface):
         )
 
         response_text = response["choices"][0]["message"]["content"]
-        print("chartGPT - response_text:"+response_text, flush=True)
+        print("chatGPT - response_text:"+response_text, flush=True)
         return response_text, True

@@ -74,7 +74,7 @@ APPS: |
                 "name": "free_demo",
                 "base_prompt": "You can choose any appropriate development language",
                 "intro": "service name: free_demo\nrole of service: used to develop any requirements\ndevelopment language: no limit\ndevelopment framework: no limit",
-                "api_doc_url": "3",
+                "api_doc_url": "",
                 "api_doc": "",
                 "struct": "no limit",
                 "lib": "no limit",
@@ -103,7 +103,7 @@ APPS: |
                     "name": "python_demo",
                     "flask": "- python uses flask to provide web services",
                     "jquery": "- js uses the jQuery framework",
-                    "openai": "- sdk for openai's chartgpt",
+                    "openai": "- sdk for openai's chatgpt",
                     "semantic-ui": "- The front page uses the semantic-ui style library",
                     "Default": "- You need to develop both front-end and back-end code"
                 }
@@ -137,8 +137,10 @@ APPS: |
             },
             {
                 "name": "java_demo_frontend",
-                "base_prompt": "",
+                "base_prompt": "The back-end interface has been provided, and only some front-end functions need to be developed",
                 "intro": "service name: java_demo_frontend\nrole of service: used to develop frontend-end requirements\ndevelopment_language: html+js\ndevelopment_framework: jquery+semantic-ui",
+                "api_doc_url": "",
+                "api_doc": "",
                 "struct": "- dir:html,description:html files\n- dir:js,description:JavaScript files\n- dir:css,description:css files",
                 "lib": "- Semantic-ui\n- jQuery",
                 "specification": {
