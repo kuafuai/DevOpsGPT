@@ -48,7 +48,9 @@ class LLMBase(LLMInterface):
         openai.api_type = provider_data["api_type"]
         openai.api_base = provider_data["api_base"]
         openai.api_version = provider_data["api_version"]
+        openai.proxy = None if provider_data["proxy"]=="None" else provider_data["proxy"]
         print("chatGPT - get api key:"+openai.api_key, flush=True)
+        print(f"provider_data:{provider_data}")
 
         response = openai.ChatCompletion.create(
             model= LLM_MODEL,
