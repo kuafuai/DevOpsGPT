@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-08-02 17:03+0800\n"
+"POT-Creation-Date: 2023-08-07 17:54+0800\n"
 "PO-Revision-Date: 2023-07-17 18:36+0800\n"
 "Last-Translator: booboo <mac@booboo.local>\n"
 "Language-Team: Language i18n/zh\n"
@@ -253,4 +253,10 @@ msgstr "修复扫描问题"
 
 #: backend/app/pkgs/tools/i18b.py:86
 msgid "No problem found in the current file, refer to other solutions:"
-msgstr ""
+msgstr "当前文件未发现问题，参考其他解决方案："
+
+#: backend/app/pkgs/tools/i18b.py:87
+msgid ""
+"The back-end service returns an exception. Contact the administrator to "
+"check the terminal service logs and browser consol."
+msgstr "后端服务返回异常，请联系管理员检查终端服务日志以及浏览器控制台报错信息。"
