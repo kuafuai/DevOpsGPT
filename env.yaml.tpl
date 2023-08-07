@@ -8,7 +8,8 @@ GPT_KEYS: |
             ],
             "api_type": "open_ai",
             "api_base": "https://api.openai.com/v1",
-            "api_version": "2020-11-07"
+            "api_version": "2020-11-07",
+            "proxy": "None"
         }
         ,
         "azure": {
@@ -18,7 +19,8 @@ GPT_KEYS: |
             "api_type": "azure",
             "api_base": "https://example-gpt.openai.azure.com/",
             "api_version": "2023-05-15",
-            "deployment_id": "deployment-name"
+            "deployment_id": "deployment-name",
+            "proxy": "None"
         }
     }
 
