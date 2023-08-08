@@ -29,13 +29,13 @@ AI Driven Software Development Automation Solution（略称: DevOpsGPT）へよ�
 
 ## デモ（クリックしてビデオを再生）
 
-<a href="https://www.youtube.com/watch?v=IWUPbGrJQOU" target="_blank"><img src="docs/files/demo-adduser-en.jpeg" width="50%"></a>
+<a href="https://www.youtube.com/watch?v=IWUPbGrJQOU" target="_blank"><img src="files/demo-adduser-en.jpeg" width="50%"></a>
 
 
 ## ワークフロー
 上記の紹介とデモを通じて、DevOpsGPT が既存プロジェクトにおける要件開発の自動化プロセス全体をどのように実現しているのかに興味を持たれたことでしょう。以下は、プロセス全体の概要です:
 
-![ワークフロー](docs/files/intro-flow-en.png)
+![ワークフロー](files/intro-flow-en.png)
 
 - 要求文書の明確化 DevOpsGPT と対話し、要件ドキュメントの詳細を明確にし、確認する。
 - インターフェース・ドキュメントの生成: DevOpsGPT は要件に基づいてインターフェース・ドキュメントを生成し、開発者のインターフェース設計と実装を容易にします。
@@ -48,12 +48,12 @@ AI Driven Software Development Automation Solution（略称: DevOpsGPT）へよ�
 
 1. 最新のコードをクローンするか、リリースされたバージョンを選択します。
 2. 設定ファイルを作成する: `env.yaml.tpl` をコピーし、`env.yaml` にリネームする。
-3. 設定ファイルを修正する: 設定ファイルを修正する。`env.yaml` を編集し、GPT トークンなど必要な情報を追加する（詳細な手順は[ドキュメントリンク](docs/DOCUMENT.md)を参照）。
+3. 設定ファイルを修正する: 設定ファイルを修正する。`env.yaml` を編集し、GPT トークンなど必要な情報を追加する（詳細な手順は[ドキュメントリンク](./DOCUMENT.md)を参照）。
 4. サービスを実行します: Linux や Mac では `sh run.sh` を、Windows では `run.bat` をダブルクリックする。
 5. サービスにアクセスする: ブラウザからサービスにアクセスする（スタートアップログでアクセスアドレスを確認する、デフォルトは http://127.0.0.1:8080）。
 6. 要件開発を完了する: ページの指示に従って要件開発を完了し、生成されたコードを `./workspace` ディレクトリに表示します。
 
-詳細なドキュメントと設定パラメータについては、[ドキュメントリンク](docs/DOCUMENT.md)を参照してください。
+詳細なドキュメントと設定パラメータについては、[ドキュメントリンク](./DOCUMENT.md)を参照してください。
 
 
 ## 制限事項
@@ -68,7 +68,7 @@ AI Driven Software Development Automation Solution（略称: DevOpsGPT）へよ�
 - 開発要求の迅速なインポート、ソフトウェア開発と配備の並行自動化のための新しい製品体験。
 - より多くのソフトウェアエンジニアリングツールと専門的なツールを導入し、AI プランニングとエクゼキューションの下で様々なソフトウェア開発タスクを迅速に完了する。
 
-DevOpsGPT プロジェクトに参加し、ソフトウェア開発の自動化と革新に[コントリビュート](./docs/CONTRIBUTING.md)することで、よりスマートで効率的なソフトウェアシステムを構築してください！
+DevOpsGPT プロジェクトに参加し、ソフトウェア開発の自動化と革新に[コントリビュート](./CONTRIBUTING.md)することで、よりスマートで効率的なソフトウェアシステムを構築してください！
 
 ## 免責事項
 
