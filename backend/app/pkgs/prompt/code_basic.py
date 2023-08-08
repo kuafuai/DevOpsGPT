@@ -103,7 +103,12 @@ class CodeBasic(CodeInterface):
 
         context = [{"role": "user", "content": prompt}]
         data, success = chatCompletion(context)
-        return json.loads(fix_llm_json_str(data)), success
+
+        jsonData = json.loads(fix_llm_json_str(data))
+        if '"initial code"}' in data:
+            jsonData["code"] = code
+
+        return jsonData, success
 
 
     def aiMergeCode(self, task, baseCode, newCode):

@@ -26,3 +26,7 @@ class AppInfoInterface(ABC):
     @abstractmethod
     def getServiceSpecification(self, appID, serviceName, LibName):
         pass
+
+    @abstractmethod
+    def getServiceGitPath(appID, serviceName):
+        pass

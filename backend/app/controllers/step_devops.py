@@ -4,6 +4,8 @@ from app.pkgs.prompt.prompt import aiAnalyzeError
 from app.pkgs.devops.local_tools import compileCheck, lintCheck
 from app.pkgs.tools.i18b import getI18n
 from app.pkgs.devops.devops import triggerPipeline, getPipelineStatus
+from app.pkgs.knowledge.app_info import getServiceGitPath
+from app.pkgs.tools.file_tool import get_ws_path
 from config import WORKSPACE_PATH
 from flask import Blueprint
 
@@ -41,10 +43,13 @@ def plugin_ci():
 def check_compile():
     _ = getI18n("controllers")
     task_id = session[session['username']]['memory']['task_info']['task_id']
-    repo_path = request.json.get('repo_path')
-    ws_path = WORKSPACE_PATH+task_id+'/'+repo_path
+    serviceName = request.json.get('repo_path')
+    wsPath = get_ws_path(task_id)
+    username = session['username']
+    appID = session[username]['memory']['task_info']['app_id']
+    gitPath, success = getServiceGitPath(appID, serviceName)
 
-    success, message = compileCheck(ws_path, repo_path)
+    success, message = compileCheck(wsPath, gitPath)
 
     if success:
         reasoning = _("Compile check pass.")

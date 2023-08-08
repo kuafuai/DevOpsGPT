@@ -1019,8 +1019,12 @@ function pluginTaskList(info) {
     }, 1000);
 }
 
-function startPush(service_name) {
-    myAlert("Tips", "The git push cannot be run locally now, you can view the configuration and select tools such as gitlab.")
+function startPush(serviceName) {
+    var requestData = JSON.stringify({ 'service_name': serviceName})
+
+    successCallback = function(data){}
+
+    sendAjaxRequest('/workspace/gitpush', "POST", requestData, successCallback, alertErrorCallback, true, false)
 }
 
 function startCi(repo_path, repo_branch) {  

@@ -18,16 +18,17 @@ def getFileContent(file_path, branch_name, repopath):
 
 def compileCheck(ws_path,repo_path):
     print("compile_check:")
-    print(ws_path)
+    gitCwd = ws_path+'/'+repo_path
+    print(gitCwd)
 
     if platform.system() == 'Windows':
         sub = ['build.cmd']
         result = subprocess.run(
-            sub, capture_output=True, text=True, shell=True, cwd=ws_path)
+            sub, capture_output=True, text=True, shell=True, cwd=gitCwd)
     else:
         sub = ['sh', 'build.sh']
         result = subprocess.run(
-            sub, capture_output=True, text=True, cwd=ws_path)
+            sub, capture_output=True, text=True, cwd=gitCwd)
 
     print(result)
     if result.returncode != 0:

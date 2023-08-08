@@ -28,37 +28,47 @@ class SubtaskBasic(SubtaskInterface):
 
         message, ctx, success = setp1Task(feature, appBasePrompt, serviceStruct, specification)
         if success:
-            ctx_clone = ctx[:]
-            return setp2Code(message, ctx_clone, appBasePrompt, specification, serviceName)
+            return setp2Code(message, feature, appBasePrompt, specification, serviceStruct)
         else:
             return message, False
 
 
-def setp2Code(message, context, appBasePrompt, msg, serviceName):
+def setp2Code(message, feature, appBasePrompt, specification, serviceStruct):
+    context = []
     context.append({
-        "role": "assistant",
-        "content": message
-    })
+        "role": "system",
+        "content": """
+As a senior full stack developer. 
+You will get "Code directory structure" and "Development specification" and "Development requirement" and "Development steps" for code to write.  
 
-    context.append({
-        "role": "user",
-        "content": appBasePrompt + """。
+Code directory structure:
+```
+""" + serviceStruct + """
+```
 
-Write full runnable code based on all the split substeps
-Comply with the following requirements：
-""" + msg + """
+Development specification:
+""" + specification + """  
 
-You will write a very long answer. Make sure that every detail of the architecture is, in the end, implemented as code.
+Development requirement:
+```
+""" + feature + """
+````
 
-Think step by step and reason yourself to the right decisions to make sure we get it right.
-You will first lay out the names of the core classes, functions, methods that will be necessary, as well as a quick comment on their purpose.
+Development steps
+```
+""" + message + """
+```
+
+
+According to the above information, you will write a very long answer. Make sure that requirements are properly and fully implemented in code.
+Think step by step to make sure our code is complete and run correctly.
+Don't be lazy, don't miss any code, all code should respond to the output.
+
+Please note that the code should be fully functional. No placeholders no todo. Constantly rethinking whether the code is complete. Ensure correlation and integrity between different code files to ensure that all code works correctly.
 
 Then you will output the content of each file including ALL code.
-
-Please note that the code should be fully functional. No placeholders. Constantly rethinking whether the code is complete.
-Then you will output the content of each file including ALL code. 
-Ensure to implement all code, if you are unsure, write a plausible implementation.
 Each file must strictly follow a JSON code block format as below.
+Please respond in """+getCurrentLanguageName()+"""".
 
 Format example:
 ```
@@ -66,23 +76,22 @@ Format example:
     {
       "file-path": "src/aaa.java",
       "reference-file": "",
-      "code": "import org.springframework.web.bind.annotation.RestController;\\n@RestController\\npublic class TargetController",
-      "code-interpreter": "Please respond in """+getCurrentLanguageName()+""""."
+      "code-interpreter": "",
+      "code": ""
     },
     {
       "file-path": "main.go",
       "reference-file": "",
-      "code": "package main\\n func readFile(filePath str)\\n{\\n  return io.readFile(filePath)\\n}",
-      "code-interpreter": "Please respond in """+getCurrentLanguageName()+""""."
+      "code-interpreter": "",
+      "code": ""
     }
 ]
-Do not explain the code, just give the JSON, Ensure the response can be parsed by Python json.loads.
+Do not explain, return JSON directly, Ensure the response can be parsed by Python json.loads.
 
 JSON Field description:
 ```
-1. "code": Please note that the code should be fully functional, No placeholders, and should not contain pseudocode or unfinished code or todo code. Ensure correlation and integrity between different code files to ensure that all code works correctly. You must always reflect that the code has been fully provided without todo matters.
-2. "code-interpreter": As a senior developer, you must explain the "code" you provide in detail, and this explain should be independent. For example: specific variable names and types to be added and modified, method names to be added or modified, parameter names, and so on. Please respond in """+getCurrentLanguageName()+"""".
-5. "reference-file": Inference only based on the "Directory structure" "reference-file" filed above, if you don't know leave it blank.
+1. "code-interpreter": As a senior developer, you first need to design the code and add detailed instructions. For example: lay out the names of the core classes, functions, methods that will be necessary, specific variable names and types to be added and modified, method names to be added or modified, parameter names, and so on. this field respond in """+getCurrentLanguageName()+"""".
+2. "reference-file": Inference only based on the "Directory structure" "reference-file" filed above, if you don't know leave it blank.
 ```
         """
     })
@@ -109,12 +118,16 @@ Code directory structure:
 ```
 
 Development specification:
+```
 """ + specification + """  
+```
 
 Development requirement:
 ```
 """ + feature + """
 ````
+
+Do not explain and talk, directly respond substeps.
 """
     context.append({"role": "system", "content": content})
     message, success = chatCompletion(context)

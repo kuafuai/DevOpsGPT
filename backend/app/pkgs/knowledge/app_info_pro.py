@@ -31,3 +31,6 @@ class AppInfoPro(AppInfoInterface):
         # The current version does not support this feature
         return "", False
 
+    def getServiceGitPath(self, appID, serviceName):
+        # The current version does not support this feature
+        return "", False
