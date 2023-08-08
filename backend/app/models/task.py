@@ -14,7 +14,7 @@ def getEmptyTaskInfo():
 
 
 def getTaskInfo(username, appID, sourceBranch, featureBranch):
-    taskID = username+'-'+datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
+    taskID = username+'-'+datetime.datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
 
     taskInfo = {
         "app_id": appID,
