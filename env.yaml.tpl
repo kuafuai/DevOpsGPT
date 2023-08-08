@@ -40,13 +40,14 @@ BACKEND_DEBUG: true
 APP_SECRET_KEY: 'Es*lsnGptDevOps'
 WORKSPACE_PATH: './workspace/'
 SQLALCHEMY_DATABASE_URI: 'sqlite:///app.db'
-DEMO_TASK_ID:  'demo-task'
 MODE: "REAL" # FAKE、REAL
 GRADE: "base"
 DEVOPS_TOOLS: "local"
-GITLAB_URL: ""
-GITLAB_CLONE_URL: ""
-GITLAB_TOKEN: ""
+GIT_ENABLED: true  # Whether to enable Git. If yes, pull code from Git(Note APPS.git_path configuration item). 是否开启Git，如果开启将从Git中拉代码（注意 APPS.git_path 配置项）
+GIT_URL: "https://github.com"
+GIT_TOKEN: "xxxx"   # Get from here https://github.com/settings/tokens
+GIT_USERNAME: "xxxx"
+GIT_EMAIL: "xxxx@x.x"
 AUTO_LOGIN: true
 USERS: |
   {
@@ -74,6 +75,7 @@ APPS: |
         "service": [
             {
                 "name": "free_demo",
+                "git_path": "kuafuai/template_freestyleApp",
                 "base_prompt": "You can choose any appropriate development language",
                 "intro": "service name: free_demo\nrole of service: used to develop any requirements\ndevelopment language: no limit\ndevelopment framework: no limit",
                 "api_doc_url": "",
@@ -95,6 +97,7 @@ APPS: |
         "service": [
             {
                 "name": "python_demo",
+                "git_path": "kuafuai/template_pythonWebApp",
                 "base_prompt": "You need to develop both front-end and back-end code",
                 "intro": "service name: python_demo\nrole of service: used to develop front-end and back-end requirements\ndevelopment language: python and html\ndevelopment framework: flask and jquery+semantic-ui",
                 "api_doc_url": "2",
@@ -121,6 +124,7 @@ APPS: |
         "service": [
             {
                 "name": "java_demo_backend",
+                "git_path": "kuafuai/template_javaWebApp_backend",
                 "base_prompt": "作为一个资深JAVA系统架构师，基于MVC设计框架并使用Spring Boot和MyBatis3作为开发框架的Java项目中进行开发",
                 "intro": "service name: java_demo_backend\nrole of service: used to develop back-end requirements\ndevelopment language: Java\ndevelopment framework: SpringBoot+Mybatis3\ndatabase: SQLite",
                 "api_doc_url": "1",
@@ -139,6 +143,7 @@ APPS: |
             },
             {
                 "name": "java_demo_frontend",
+                "git_path": "kuafuai/template_javaWebApp_frontend",
                 "base_prompt": "The back-end interface has been provided, and only some front-end functions need to be developed",
                 "intro": "service name: java_demo_frontend\nrole of service: used to develop frontend-end requirements\ndevelopment_language: html+js\ndevelopment_framework: jquery+semantic-ui",
                 "api_doc_url": "",

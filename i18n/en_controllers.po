@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-08-02 18:55+0800\n"
+"POT-Creation-Date: 2023-08-08 16:16+0800\n"
 "PO-Revision-Date: 2023-07-17 15:03+0800\n"
 "Last-Translator: booboo <mac@booboo.local>\n"
 "Language-Team: Language i18n/en\n"
@@ -28,23 +28,23 @@ msgstr ""
 msgid "Failed to clarify API."
 msgstr ""
 
-#: backend/app/controllers/step_code.py:22
+#: backend/app/controllers/step_code.py:21
 msgid "Failed to edit file with new task."
 msgstr ""
 
-#: backend/app/controllers/step_code.py:35
+#: backend/app/controllers/step_code.py:34
 msgid "Failed to check file."
 msgstr ""
 
-#: backend/app/controllers/step_code.py:51
+#: backend/app/controllers/step_code.py:50
 msgid "Failed to merge old and new code."
 msgstr ""
 
-#: backend/app/controllers/step_code.py:69
+#: backend/app/controllers/step_code.py:68
 msgid "Failed to reference repair no reference file found."
 msgstr ""
 
-#: backend/app/controllers/step_code.py:73
+#: backend/app/controllers/step_code.py:72
 msgid "Reference repair failed for unknown reasons."
 msgstr ""
 
@@ -72,7 +72,7 @@ msgstr ""
 msgid "Failed to clarify requirement."
 msgstr ""
 
-#: backend/app/controllers/step_subtask.py:65
+#: backend/app/controllers/step_subtask.py:64
 msgid "Failed to split task."
 msgstr ""
 
@@ -92,14 +92,22 @@ msgstr ""
 msgid "success."
 msgstr ""
 
-#: backend/app/controllers/workspace.py:23
+#: backend/app/controllers/workspace.py:27
 msgid "Saved code successfully."
 msgstr ""
 
-#: backend/app/controllers/workspace.py:43
+#: backend/app/controllers/workspace.py:50
 msgid "Create workspace successfully."
 msgstr ""
 
-#: backend/app/controllers/workspace.py:45
+#: backend/app/controllers/workspace.py:52
 msgid "Failed to create workspace."
+msgstr ""
+
+#: backend/app/controllers/workspace.py:72
+msgid "Push code successfully."
+msgstr ""
+
+#: backend/app/controllers/workspace.py:74
+msgid "Failed to push code."
 msgstr ""

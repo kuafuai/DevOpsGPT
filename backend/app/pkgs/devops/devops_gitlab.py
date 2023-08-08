@@ -2,16 +2,16 @@ import gitlab
 import html
 import re
 from app.pkgs.devops.devops_interface import DevopsInterface
-from config import GITLAB_TOKEN, GITLAB_URL, GITLAB_CLONE_URL
+from config import GIT_TOKEN, GIT_URL
 
 class DevopsGitlab(DevopsInterface):
     def triggerPipeline(self, branch_name, repopath):
         try:
-            gl = gitlab.Gitlab(GITLAB_URL, GITLAB_TOKEN, api_version='4')
+            gl = gitlab.Gitlab(GIT_URL, GIT_TOKEN, api_version='4')
 
             project = gl.projects.get(repopath)
             pipeline = project.pipelines.create({'ref': branch_name})
-            pipeline_url = GITLAB_URL + \
+            pipeline_url = GIT_URL + \
                 repopath + '/-/pipelines/' + str(pipeline.id)
             return "Get pipline status...", str(pipeline.get_id()), pipeline_url, True
         except Exception as e:
@@ -20,7 +20,7 @@ class DevopsGitlab(DevopsInterface):
 
     def getPipelineStatus(self, pipline_id, repopath):
         try:
-            gl = gitlab.Gitlab(GITLAB_URL, GITLAB_TOKEN, api_version='4')
+            gl = gitlab.Gitlab(GIT_URL, GIT_TOKEN, api_version='4')
 
             project = gl.projects.get(repopath)
 
@@ -47,7 +47,7 @@ class DevopsGitlab(DevopsInterface):
 
     def getPipelineJobLogs(self, repopath, pipeline_id, job_id):
         try:
-            gl = gitlab.Gitlab(GITLAB_URL, GITLAB_TOKEN, api_version='4')
+            gl = gitlab.Gitlab(GIT_URL, GIT_TOKEN, api_version='4')
 
             project = gl.projects.get(repopath)
             job = project.jobs.get(job_id)
@@ -76,7 +76,7 @@ class DevopsGitlab(DevopsInterface):
     #         print("get_file_content-repopath:" + repopath)
     #         print("get_file_content-branch_name:" + branch_name)
     #         print("get_file_content-file_path:" + file_path)
-    #         gl = gitlab.Gitlab(GITLAB_URL, private_token=GITLAB_TOKEN, api_version='4')
+    #         gl = gitlab.Gitlab(GIT_URL, private_token=GIT_TOKEN, api_version='4')
 
     #         project = gl.projects.get(repopath)
 

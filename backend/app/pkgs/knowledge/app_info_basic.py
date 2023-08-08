@@ -104,3 +104,16 @@ class AppInfoBasic(AppInfoInterface):
                             coderequire = requires[LibName]
         return coderequire, True
 
+    def getServiceGitPath(self, appID, serviceName):
+        appID = int(appID)
+
+        apps = App.getAll("")
+        gitPath = ""
+        for app in apps:
+            if app["id"] == appID:
+                services = app["service"]
+                for service in services:
+                    if service["name"] == serviceName:
+                        gitPath = service["git_path"]
+
+        return gitPath, True

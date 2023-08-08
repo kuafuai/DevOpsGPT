@@ -58,3 +58,11 @@ def getServiceSpecification(appID, serviceName, LibName):
         obj = AppInfoPro()
         
     return obj.getServiceSpecification(appID, serviceName, LibName)
+
+def getServiceGitPath(appID, serviceName):
+    if GRADE == "base":
+        obj = AppInfoBasic()
+    else:
+        obj = AppInfoPro()
+        
+    return obj.getServiceGitPath(appID, serviceName)

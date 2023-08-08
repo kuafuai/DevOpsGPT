@@ -2,8 +2,9 @@ import re
 from flask import request, session
 from app.controllers.common import json_response
 from app.pkgs.tools.i18b import getI18n
-from app.pkgs.devops.git_tools import pullCode, createBranch, pushCode
-from config import GRADE
+from app.pkgs.devops.git_tools import pullCode, pushCode
+from app.pkgs.knowledge.app_info import getServiceGitPath
+from config import GIT_ENABLED
 from config import WORKSPACE_PATH
 from app.pkgs.tools.file_tool import get_ws_path, write_file_content
 from flask import Blueprint
@@ -16,9 +17,12 @@ def save_code():
     _ = getI18n("controllers")
     task_id = session[session['username']]['memory']['task_info']['task_id']
     file_path = request.json.get('file_path')
-    repo_path = request.json.get('service_name')
+    serviceName = request.json.get('service_name')
     code = request.json.get('code')
-    path = WORKSPACE_PATH+task_id+'/'+repo_path+"/"+file_path
+    username = session['username']
+    appID = session[username]['memory']['task_info']['app_id']
+    gitPath, success = getServiceGitPath(appID, serviceName)
+    path = WORKSPACE_PATH+task_id+'/'+gitPath+"/"+file_path
     write_file_content(path, code)
     return _("Saved code successfully.")
 
@@ -28,59 +32,44 @@ def save_code():
 def create():
     _ = getI18n("controllers")
     task_id =  session[session['username']]['memory']['task_info']['task_id']
-    repo_path = request.json.get('repo_path')
+    serviceName = request.json.get('repo_path')
     base_branch = request.json.get('base_branch')
     fature_branch = request.json.get('feature_branch')
     ws_path = get_ws_path(task_id)
+    username = session['username']
+    appID = session[username]['memory']['task_info']['app_id']
+    gitPath, success = getServiceGitPath(appID, serviceName)
 
     # todo clone template from git(by independent config)
-    if GRADE == "base":
+    if not GIT_ENABLED:
         success = True
     else:
-        success = pullCode(ws_path, repo_path, base_branch, fature_branch)
+        success, msg = pullCode(ws_path, gitPath, base_branch, fature_branch)
 
     if success:
         return _("Create workspace successfully.")
     else:
-        raise Exception(_("Failed to create workspace."))
+        raise Exception(_("Failed to create workspace.")+f"In the {ws_path} directory, {msg}")
 
 @bp.route('/gitpush', methods=['POST'])
 @json_response
 def gitpush():
     _ = getI18n("controllers")
-    args = request.json
-    userPrompt = args['text']
-    frontUuid = args['frontUuid']
-    userName = session['username']
-    
-    pattern = r'(\S+:\S+:\S+)'
-    matches = re.findall(pattern, userPrompt)
-    parts = matches[0].split(':')
-    session[userName]['memory']["repoPath"] = parts[0] + \
-        ":"+parts[1]+":"+parts[2]
+    username = session['username']
+    commitMsg = session[username]['memory']['originalPrompt']
+    task_id =  session[username]['memory']['task_info']['task_id']
+    serviceName = request.json.get('service_name')
+    fatureBranch = session[username]['memory']['task_info']['feature_branch']
+    wsPath = get_ws_path(task_id)
+    appID = session[username]['memory']['task_info']['app_id']
+    gitPath, success = getServiceGitPath(appID, serviceName)
 
-    pattern = r"```\n(.*?)\n```"
-    match = re.search(pattern, userPrompt, re.DOTALL)
-    code = ""
-    if match:
-        code = match.group(1)
+    if not GIT_ENABLED:
+        raise Exception(_("Failed to push code.")+f" You did not set Git parameters in the configuration file.")
     else:
-        return
+        success, msg = pushCode(wsPath, gitPath, fatureBranch, commitMsg)
 
-    pattern = r"commitMsg:(.*)"
-    match = re.search(pattern, userPrompt, re.DOTALL)
-    commitMsg = ""
-    if match:
-        commitMsg = match.group(1)
-    print("match:"+match.group(1))
-
-    plugin = {"name": 'push_code', "uuid": frontUuid}
-
-    createBranch(session[userName]['memory']['task_info']['source_branch'],
-                            session[userName]['memory']['task_info']['feature_branch'], parts[0])
-    result, success = pushCode(
-        parts[2], session[userName]['memory']['task_info']['feature_branch'], parts[0], code, commitMsg)
-    newPrompt = "基于 " + \
-        session[userName]['memory']["repoPath"]+" 代码分支进行自动化集成测试"
-    
-    return 
+    if success:
+        return _("Push code successfully.")
+    else:
+        raise Exception(_("Failed to push code.")+f"In the {wsPath} directory, {msg}")
