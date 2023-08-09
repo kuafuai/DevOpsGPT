@@ -20,6 +20,9 @@ def getI18n(domain):
     except Exception as e:
         language = LANGUAGE
 
+    if language is None:
+        language = LANGUAGE
+
     translate = gettext.translation(domain=domain, localedir="./i18n", languages=[language])
     translate.install()
     i18n = translate.gettext
