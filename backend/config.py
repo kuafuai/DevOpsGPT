@@ -3,10 +3,18 @@ import yaml
 
 
 def read_config(key):
-    file_path = "env.yaml"
-    with open(file_path, 'r', encoding='utf-8') as file:
-        config = yaml.safe_load(file)
-        value = config.get(key)
+    try:
+        file_path = "env.yaml"
+        with open(file_path, 'r', encoding='utf-8') as file:
+            config = yaml.safe_load(file)
+            value = config.get(key)
+    except Exception as e:
+        print(f"\033[91mError: Failed to read the {key} configuration, please 【copy a new env.yaml from env.yaml.tpl】 and reconfigure it according to the documentation. \033[0m")
+        exit()
+    if value is None:
+        print(f"\033[91mError: Failed to read the {key} configuration, please 【copy a new env.yaml from env.yaml.tpl】 and reconfigure it according to the documentation. \033[0m")
+        exit()
+
     return value
 
 BACKEND_HOST = read_config("BACKEND_HOST")

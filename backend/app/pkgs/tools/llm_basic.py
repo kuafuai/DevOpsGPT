@@ -52,14 +52,19 @@ class LLMBase(LLMInterface):
         print("chatGPT - get api key:"+openai.api_key, flush=True)
         print(f"provider_data:{provider_data}")
 
-        response = openai.ChatCompletion.create(
-            model= LLM_MODEL,
-            deployment_id = provider_data.get("deployment_id", None),
-            messages=context,
-            max_tokens=10000,
-            temperature=0,
-        )
+        try:
+            response = openai.ChatCompletion.create(
+                model= LLM_MODEL,
+                deployment_id = provider_data.get("deployment_id", None),
+                messages=context,
+                max_tokens=10000,
+                temperature=0,
+            )
 
-        response_text = response["choices"][0]["message"]["content"]
-        print("chatGPT - response_text:"+response_text, flush=True)
-        return response_text, True
+            response_text = response["choices"][0]["message"]["content"]
+            print("chatGPT - response_text:"+response_text, flush=True)
+            return response_text, True
+        except Exception as e:
+            msg = "\nError: Failed to access GPT, please check whether your network can connect to GPT and terminal proxy is running properly.\n"
+            print(f"\033[91m{msg} \033[0m")
+            raise e
