@@ -72,4 +72,4 @@ def gitpush():
     if success:
         return _("Push code successfully.")
     else:
-        raise Exception(_("Failed to push code.")+f"In the {wsPath} directory, {msg}")
+        raise Exception(_("Failed to push code.")+f"In the {wsPath}/{gitPath} directory, {msg}")
