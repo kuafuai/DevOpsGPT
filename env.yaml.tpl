@@ -43,7 +43,7 @@ SQLALCHEMY_DATABASE_URI: 'sqlite:///app.db'
 MODE: "REAL" # FAKE、REAL
 GRADE: "base"
 DEVOPS_TOOLS: "local" # local、gitlab、github  Please refer to the official documentation of the tool to learn how to use it. 请查阅相关工具的官方文档了解如何使用
-GIT_ENABLED: true  # Whether to enable Git. If yes, pull code from Git(Note APPS.git_path configuration item). 是否开启Git，如果开启将从Git中拉代码（注意 APPS.git_path 配置项）
+GIT_ENABLED: true  # Whether to enable Git. If yes, pull code from Git(Note APPS.service.git_path configuration item). 是否开启Git，如果开启将从Git中拉代码（注意 APPS.service.git_path 配置项）
 GIT_URL: "https://github.com"  # https://github.com、https://gitlab.com
 GIT_API: "https://api.github.com" # https://api.github.com
 GIT_TOKEN: "xxxx"   # Get from here https://github.com/settings/tokens、https://gitlab.com/-/profile/personal_access_tokens
@@ -55,16 +55,6 @@ USERS: |
     "demo_user": "123456"
   }
 
-# APPS: Large concept, including multiple services, services: such as back-end services, front-end services, microservices
-# - name、intro: for display only
-# - project.struct（File directory structure information for the services）
-#     setp1Task（The word splitting process is used in the molecule splitting task）
-# - project.intro（Basic information about the services）
-#     setpReqChooseLib（Analyze which lib packages to use in conjunction with service information）
-# - project.lib（The service's lib package usage specification information）
-#     setpReqChooseLib（Analyze which lib packages to use in conjunction with the lib list）
-# - api_doc_url
-#     To keep this one unique, we'll match it with api_doc
 APPS: |
   [
     {
