@@ -14,14 +14,17 @@ bp = Blueprint('step_devops', __name__, url_prefix='/step_devops')
 @bp.route('/trigger_ci', methods=['POST'])
 @json_response
 def trigger_ci():
-    repo_path = request.json.get('repo_path')
+    serviceName = request.json.get('repo_path')
+    username = session['username']
+    appID = session[username]['memory']['task_info']['app_id']
+    gitPath, success = getServiceGitPath(appID, serviceName)
 
     username = session['username']
     branch = session[username]['memory']['task_info']['feature_branch']
 
-    result, piplineID, piplineUrl, success = triggerPipeline(branch, repo_path)
+    result, piplineID, piplineUrl, success = triggerPipeline(branch, gitPath)
     if success:
-        return {"name": 'ci', "info": {"piplineID": piplineID, "repopath": repo_path, "piplineUrl": piplineUrl}}
+        return {"name": 'ci', "info": {"piplineID": piplineID, "repopath": gitPath, "piplineUrl": piplineUrl}}
     else:
         raise Exception(result)
 

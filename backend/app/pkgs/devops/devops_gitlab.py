@@ -11,11 +11,10 @@ class DevopsGitlab(DevopsInterface):
 
             project = gl.projects.get(repopath)
             pipeline = project.pipelines.create({'ref': branch_name})
-            pipeline_url = GIT_URL + \
-                repopath + '/-/pipelines/' + str(pipeline.id)
+            pipeline_url = GIT_URL + '/' + repopath + '/-/pipelines/' + str(pipeline.id)
             return "Get pipline status...", str(pipeline.get_id()), pipeline_url, True
         except Exception as e:
-            return "Failed to trigger pipline:" + str(e), 0, "", False
+            return f"Failed to trigger pipline giturl:{GIT_URL} repopath:{repopath} branch:{branch_name}, Error:" + str(e), 0, "", False
 
 
     def getPipelineStatus(self, pipline_id, repopath):
@@ -38,7 +37,7 @@ class DevopsGitlab(DevopsInterface):
                     'job_name': job.name,
                     'status': job.status,
                     'duration': job.duration,
-                    'log': get_pipeline_job_logs(repopath, pipline_id, job.id)
+                    'log': self.getPipelineJobLogs(repopath, pipline_id, job.id)
                 })
 
             return list(reversed(job_info))
@@ -53,23 +52,23 @@ class DevopsGitlab(DevopsInterface):
             job = project.jobs.get(job_id)
             logs = job.trace()
 
-            return self.remove_color_codes(logs)
+            return removeColorCodes(logs)
         except Exception as e:
             return "Failed to get log: " + str(e)
 
 
-    def remove_color_codes(log_string):
-        unicode_string = log_string.decode('unicode_escape')
-        color_regex = re.compile(r'\x1b\[[0-9;]*m')
-        cleaned_string = re.sub(color_regex, '', unicode_string)
-        cleaned_string = re.sub(r'\n', '<br>', unicode_string)
-        cleaned_string = re.sub(r'\r', '<br>', cleaned_string)
-        cleaned_string = re.sub('"', ' ', cleaned_string)
-        cleaned_string = re.sub("'", ' ', cleaned_string)
-        cleaned_string = re.sub(
-            r'(\x9B|\x1B\[)[0-?]*[ -\/]*[@-~]', ' ', cleaned_string)
-        cleaned_string = html.escape(cleaned_string)
-        return cleaned_string
+def removeColorCodes(log_string):
+    unicode_string = log_string.decode('unicode_escape')
+    color_regex = re.compile(r'\x1b\[[0-9;]*m')
+    cleaned_string = re.sub(color_regex, '', unicode_string)
+    cleaned_string = re.sub(r'\n', '<br>', unicode_string)
+    cleaned_string = re.sub(r'\r', '<br>', cleaned_string)
+    cleaned_string = re.sub('"', ' ', cleaned_string)
+    cleaned_string = re.sub("'", ' ', cleaned_string)
+    cleaned_string = re.sub(
+        r'(\x9B|\x1B\[)[0-?]*[ -\/]*[@-~]', ' ', cleaned_string)
+    cleaned_string = html.escape(cleaned_string)
+    return cleaned_string
 
     # def getFileContent(self, file_path, branch_name, repopath):
     #     try:
