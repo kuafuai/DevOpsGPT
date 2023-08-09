@@ -117,3 +117,17 @@ class AppInfoBasic(AppInfoInterface):
                         gitPath = service["git_path"]
 
         return gitPath, True
+    
+    def getServiceGitWorkflow(self, appID, serviceName):
+        appID = int(appID)
+
+        apps = App.getAll("")
+        gitWorkflow = ""
+        for app in apps:
+            if app["id"] == appID:
+                services = app["service"]
+                for service in services:
+                    if service["name"] == serviceName:
+                        gitWorkflow = service["git_workflow"]
+
+        return gitWorkflow, True

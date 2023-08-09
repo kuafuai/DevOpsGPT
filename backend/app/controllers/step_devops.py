@@ -4,7 +4,7 @@ from app.pkgs.prompt.prompt import aiAnalyzeError
 from app.pkgs.devops.local_tools import compileCheck, lintCheck
 from app.pkgs.tools.i18b import getI18n
 from app.pkgs.devops.devops import triggerPipeline, getPipelineStatus
-from app.pkgs.knowledge.app_info import getServiceGitPath
+from app.pkgs.knowledge.app_info import getServiceGitPath, getServiceGitWorkflow
 from app.pkgs.tools.file_tool import get_ws_path
 from config import WORKSPACE_PATH
 from flask import Blueprint
@@ -18,11 +18,12 @@ def trigger_ci():
     username = session['username']
     appID = session[username]['memory']['task_info']['app_id']
     gitPath, success = getServiceGitPath(appID, serviceName)
+    gitWorkflow, success = getServiceGitWorkflow(appID, serviceName)
 
     username = session['username']
     branch = session[username]['memory']['task_info']['feature_branch']
 
-    result, piplineID, piplineUrl, success = triggerPipeline(branch, gitPath)
+    result, piplineID, piplineUrl, success = triggerPipeline(branch, gitPath, gitWorkflow)
     if success:
         return {"name": 'ci', "info": {"piplineID": piplineID, "repopath": gitPath, "piplineUrl": piplineUrl}}
     else:

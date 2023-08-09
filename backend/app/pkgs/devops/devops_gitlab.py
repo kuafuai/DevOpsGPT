@@ -5,7 +5,7 @@ from app.pkgs.devops.devops_interface import DevopsInterface
 from config import GIT_TOKEN, GIT_URL
 
 class DevopsGitlab(DevopsInterface):
-    def triggerPipeline(self, branch_name, repopath):
+    def triggerPipeline(self, branch_name, repopath, gitWorkflow):
         try:
             gl = gitlab.Gitlab(GIT_URL, GIT_TOKEN, api_version='4')
 
