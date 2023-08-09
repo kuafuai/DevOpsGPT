@@ -42,10 +42,10 @@ WORKSPACE_PATH: './workspace/'
 SQLALCHEMY_DATABASE_URI: 'sqlite:///app.db'
 MODE: "REAL" # FAKE、REAL
 GRADE: "base"
-DEVOPS_TOOLS: "local"
+DEVOPS_TOOLS: "local" # local、gitlab、github
 GIT_ENABLED: true  # Whether to enable Git. If yes, pull code from Git(Note APPS.git_path configuration item). 是否开启Git，如果开启将从Git中拉代码（注意 APPS.git_path 配置项）
-GIT_URL: "https://github.com"
-GIT_TOKEN: "xxxx"   # Get from here https://github.com/settings/tokens
+GIT_URL: "https://github.com"  # https://github.com、https://gitlab.com
+GIT_TOKEN: "xxxx"   # Get from here https://github.com/settings/tokens、https://gitlab.com/-/profile/personal_access_tokens
 GIT_USERNAME: "xxxx"
 GIT_EMAIL: "xxxx@x.x"
 AUTO_LOGIN: true
