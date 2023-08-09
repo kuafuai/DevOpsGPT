@@ -1,60 +1,61 @@
-## Quick Start
+# Quick Start
 
 1. Clone the latest code or select a released version.
 2. Generate the configuration file: Copy `env.yaml.tpl` and rename it to `env.yaml`.
-3. Modify the configuration file: Edit `env.yaml` and add the necessary information such as GPT Token (refer to [documentation link](DOCUMENT.md) for detailed instructions).
+3. Modify the configuration file: Edit `env.yaml` and add the necessary information such as GPT Token .
 4. Run the service: Execute `sh run.sh` on Linux or Mac, or double-click `run.bat` on Windows.
 5. Access the service: Access the service through a browser (check the startup log for the access address, default is http://127.0.0.1:8080).
 6. Complete requirement development: Follow the instructions on the page to complete requirement development, and view the generated code in the `./workspace` directory.
 
-For detailed documentation and configuration parameters, please refer to the [documentation link](DOCUMENT.md).
+# Configuration Details
 
-## Config Parameters Explanation
+### Basic Configuration
 
-### Basic Configuration Class
-1. FRONTEND_PORT/BACKEND_PORT: The frontend and backend ports.
-2. LANGUAGE: The language used.
-3. LLM_MODEL: The model being used.
-4. GPT_KEYS: Tokens for GPT.
-5. USERS: Configuration for login users.
+1. FRONTEND_PORT, BACKEND_PORT: Frontend and backend ports.
+2. AICODER_ALLOWED_ORIGIN: Allowed cross-origin addresses for the backend, matching the frontend's access address. Note: If you're not accessing the website via 127.0.0.1, manually modify `apiUrl` in frontend/static/js/coder.js.
+3. LANGUAGE: Language.
+4. LLM_MODEL: Model.
+5. GPT_KEYS: Keys for GPT, configure OpenAI and Azure API information (replace sk-xxxx with your key). If you don't need a certain type of API, delete the corresponding element entirely (openai/azure). Note: Do not add a comma after the last element in the array. You might need to use a global proxy to access the API.
+6. USERS: Login user configuration.
 
-### APP Configuration
-The "app" refers to the chosen development application. The first step in using the product is to select a specific development application.
+### Git Configuration
 
-- name/intro: Some display information for the frontend.
-- project.project_base_prompt: The basic prompt for coding in the project.
-- project.project_info: Basic project information, such as the development language, framework, and other relevant details.
-- project.project_struct: The project's directory structure.
-- project.project_lib: Components used in the project, such as Gson, OkHttp, etc.
-- project.project_code_require: Requirements for coding with project components, for example, using the Lombok plugin to simplify code.
+DevOpsGPT supports integration with Git. When enabled, development tasks can pull and push code from Git.
 
-## 快速开始
+1. GIT_ENABLED: Enable Git.
+2. GIT_URL: Configure your Git address, e.g., https://github.com, https://gitlab.com.
+3. GIT_TOKEN: Configure your Git token, obtainable from here: https://github.com/settings/tokens, https://gitlab.com/-/profile/personal_access_tokens.
+4. GIT_USERNAME: Git login username.
+5. GIT_EMAIL: Git email.
+6. APPS.service.git_path: Git path corresponding to the application, including the group, e.g., kuafuai/template_freestyleApp.
 
-1. 克隆最新代码或选择已发布的版本。
-2. 生成配置文件：复制 `env.yaml.tpl` 并重命名为 `env.yaml`。
-3. 修改配置文件：编辑 `env.yaml`，添加GPT Token等必要信息（详细说明请参考[文档链接](DOCUMENT.md)）。
-4. 运行服务：在 Linux 或 Mac 上执行 `sh run.sh`，在 Windows 上双击运行 `run.bat`。
-5. 访问服务：通过浏览器访问服务（启动日志中提供的访问地址，默认为 http://127.0.0.1:8080）。
-6. 完成需求开发：按照页面引导完成需求开发，在 `./workspace` 目录下查看生成的代码。
+### CI/CD Tool Configuration
 
-详细文档和配置参数请参考[文档链接](DOCUMENT.md)。
+DevOpsGPT supports integration with CI tools like GitlabCI, GithubActions, etc., triggering your pipeline upon code submission.
 
-## 配置文件参数说明
+<img src="files/ci.png" width="80%">
 
-### 基础配置类
+1. Complete the "Git Configuration" section above.
+2. GIT_API: Configure the Git API address, e.g., https://api.github.com.
+3. If using Gitlab, set up the pipeline, e.g., [.gitlab-ci.yml](https://github.com/kuafuai/template_javaWebApp_backend/blob/master/.gitlab-ci.yml). Also, configure Gitlab runner in Gitlab, details in the [Gitlab documentation](https://docs.gitlab.com/runner/).
+4. If using Github, set up the pipeline, e.g., [default.yaml](https://github.com/kuafuai/template_javaWebApp_backend/blob/master/.github/workflows/default.yaml). Refer to the [Github documentation](https://docs.github.com/en/actions/learn-github-actions) for details.
 
-1. FRONTEND_PORT/BACKEND_PORT ：前端端口和后端端口
-2. LANGUAGE：语言
-3. LLM_MODEL：模型
-4. GPT_KEYS：GPT的token
-5. USERS：登录用户配置
+### APPS Configuration
 
-### APP配置
-app是选择开发的应用。在使用产品的第一步就是选择某个开发应用
+APPS contains information about the applications you need to develop. The first step in using the product is selecting a development application. During development, this information guides how the application should be designed and developed. In the open-source version, this information needs to be maintained manually. We'll provide AI intelligent analysis to automatically generate relevant information in the commercial version.
 
-- name/intro：前端一些展示信息
-- project.project_base_prompt：项目写代码的基础prompt
-- project.project_info：项目基本信息；比如开发语言、开发框架等一些信息
-- project.project_struct：项目目录结构
-- project.project_lib：项目中使用的组件；比如Gson、OkHttp等
-- project.project_code_require：项目组件写代码的要求；比如使用Lombok插件简化代码等
+- app: Application, including multiple services like backend, frontend, microservices.
+- name, intro: Display purposes only.
+- service.name: Service name, must be unique.
+- service.git_workflow: Github workflow name, effective only when Github CI is enabled.
+- service.git_path: Git path, should include group, e.g., kuafuai/template_freestyleApp.
+- service.base_prompt: Basic starting prompt, affects task development effectiveness.
+- service.intro: Basic information about the service.
+  - setpReqChooseLib (analysis of libraries/packages used together with service information).
+- service.api_doc_url: API documentation URL, used to dynamically retrieve API documentation.
+- service.api_doc: Current API documentation.
+- service.struct: File directory structure information for the service.
+  - setp1Task (used for breaking down tasks).
+- service.lib: Libraries/packages available for the service.
+  - setpReqChooseLib (analysis of libraries/packages used together).
+- service.specification: Specification for using library packages.
