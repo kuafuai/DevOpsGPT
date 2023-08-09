@@ -1029,7 +1029,9 @@ function pluginTaskList(info) {
 function startPush(serviceName) {
     var requestData = JSON.stringify({ 'service_name': serviceName})
 
-    successCallback = function(data){}
+    successCallback = function(data){
+        myAlert(globalFrontendText["ok"], data.data)
+    }
 
     sendAjaxRequest('/workspace/gitpush', "POST", requestData, successCallback, alertErrorCallback, true, false)
 }

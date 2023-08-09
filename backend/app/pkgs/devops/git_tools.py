@@ -1,8 +1,5 @@
 import subprocess
-
-import gitlab
-from config import GIT_TOKEN, GIT_URL, GIT_USERNAME
-from config import WORKSPACE_PATH
+from config import GIT_TOKEN, GIT_URL, GIT_USERNAME, GIT_EMAIL
 
 def pullCode(ws_path, repo_path, base_branch, feature_branch):    
     result = subprocess.run(
@@ -30,17 +27,22 @@ def pullCode(ws_path, repo_path, base_branch, feature_branch):
 def pushCode(wsPath, gitPath, fatureBranch, commitMsg):
     gitCwd = wsPath+'/'+gitPath
 
+    subprocess.run(
+        ['git', 'config', '--local', 'user.name', GIT_USERNAME], capture_output=True, text=True, cwd=gitCwd)
+    subprocess.run(
+        ['git', 'config', '--local', 'user.email', GIT_EMAIL], capture_output=True, text=True, cwd=gitCwd)
+
     result = subprocess.run(
         ['git', 'add', '.'], capture_output=True, text=True, cwd=gitCwd)
     if result.returncode != 0:
         print(result.stderr)
-        return False, result.stderr
+        print(result.stdout)
     
     result = subprocess.run(
         ['git', 'commit', '-m', commitMsg], capture_output=True, text=True, cwd=gitCwd)
     if result.returncode != 0:
+        print(result.stdout)
         print(result.stderr)
-        return False, result.stderr
 
     gitUrl = genCloneUrl(gitPath)
     print(f"pushCode start {gitUrl} {fatureBranch} {gitPath} {wsPath}")
@@ -48,7 +50,7 @@ def pushCode(wsPath, gitPath, fatureBranch, commitMsg):
         ['git', 'push', 'origin', fatureBranch], capture_output=True, text=True, cwd=gitCwd)
     if result.returncode != 0:
         print(result.stderr)
-        return False, result.stderr
+        return False, "git push failed:"+result.stderr
 
     print(f"push code success. in {wsPath}")
     return True, f"push code success. in {wsPath}"
@@ -56,8 +58,9 @@ def pushCode(wsPath, gitPath, fatureBranch, commitMsg):
 def genCloneUrl(gitPath):
     # Extract the domain from the giturl
     domain = GIT_URL.split("//")[1]
+    prot = GIT_URL.split("//")[0]
 
     # Combine the components to form the final URL
-    finalUrl = f"https://{GIT_USERNAME}:{GIT_TOKEN}@{domain}/{gitPath}.git"
+    finalUrl = f"{prot}//{GIT_USERNAME}:{GIT_TOKEN}@{domain}/{gitPath}.git"
 
     return finalUrl
