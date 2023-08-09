@@ -66,3 +66,11 @@ def getServiceGitPath(appID, serviceName):
         obj = AppInfoPro()
         
     return obj.getServiceGitPath(appID, serviceName)
+
+def getServiceGitWorkflow(appID, serviceName):
+    if GRADE == "base":
+        obj = AppInfoBasic()
+    else:
+        obj = AppInfoPro()
+        
+    return obj.getServiceGitWorkflow(appID, serviceName)
