@@ -1,4 +1,5 @@
 import json
+import re
 import time
 from app.pkgs.tools.llm import chatCompletion
 from app.pkgs.tools.utils_tool import fix_llm_json_str
@@ -11,8 +12,10 @@ class SubtaskBasic(SubtaskInterface):
     def splitTask(self, feature, serviceName, appBasePrompt, projectInfo, projectLib, serviceStruct, appID):
         if MODE == "FAKE":
             time.sleep(10)
-            return TEST_RESULT, True
-
+            jsonData = parse_chat(TEST_RESULT)
+            return jsonData, True
+        
+        # get libs 
         data, success = setpReqChooseLib(feature, appBasePrompt, projectInfo, projectLib)
         code_require = []
         default_msg, _ = getServiceSpecification(appID, serviceName, "Default")
@@ -21,96 +24,120 @@ class SubtaskBasic(SubtaskInterface):
             name = t['name']
             require_msg, _ = getServiceSpecification(appID, serviceName, name)
             code_require.append(require_msg)
-
         code_require = list(set(code_require))
         print(f"get code_require:{code_require}")
         specification = '\n'.join(code_require)
 
-        message, ctx, success = setp1Task(feature, appBasePrompt, serviceStruct, specification)
+        # subtask
+        subtask, ctx, success = setpSubTask(feature, appBasePrompt, serviceStruct, specification)
         if success:
-            return setp2Code(message, feature, appBasePrompt, specification, serviceStruct)
+            # pseudocode
+            pseudocode, success = setpPseudocode(ctx, subtask,  serviceStruct, appBasePrompt)
+            if success:
+                return setpGenCode(pseudocode, feature, appBasePrompt, specification, serviceStruct)
+            else:
+                return pseudocode, False
         else:
-            return message, False
+            return subtask, False
 
 
-def setp2Code(message, feature, appBasePrompt, specification, serviceStruct):
+def setpGenCode(pseudocode, feature, appBasePrompt, specification, serviceStruct):
     context = []
     context.append({
         "role": "system",
         "content": """
-As a senior full stack developer. 
-You will get "Code directory structure" and "Development specification" and "Development requirement" and "Development steps" for code to write.  
-
-Code directory structure:
-```
-""" + serviceStruct + """
-```
-
+As a senior full stack developer, you are very diligent and good at writing complete code. 
+You will get "Development specification" and "Development requirement" and "Pseudocode" for write the final complete code that works correctly.
+Please note that the code should be fully functional. No placeholders no todo ensure that all code can run in production environment correctly.
+"""+appBasePrompt+""" """})
+    context.append({
+        "role": "user",
+        "content": """
 Development specification:
-""" + specification + """  
+```
+""" + specification + """
+```
 
 Development requirement:
 ```
 """ + feature + """
 ````
 
-Development steps
+Pseudocode:
 ```
-""" + message + """
+""" + pseudocode + """
 ```
+"""})
+    context.append({
+        "role": "user",
+        "content": """
+Now complete all codes according to the above information including ALL code, it is going to be a long response.
+Please note that the code should be fully functional. No placeholders no todo ensure that all code can run in production environment correctly.
 
+Each code file must strictly follow a markdown code block format, where the following tokens must be replaced such that
+FILEPATH is the lowercase file name including the file extension
+LANG is the markup code block language for the code's language
+CODE_EXPLANATION explain the code you provide in detail, this explain should be independent. For example: specific variable names and types to be added and modified, method names to be added or modified, parameter names, and so on
+CODE is the code:
 
-According to the above information, you will write a very long answer. Make sure that requirements are properly and fully implemented in code.
-Think step by step to make sure our code is complete and run correctly.
-Don't be lazy, don't miss any code, all code should respond to the output.
-
-Please note that the code should be fully functional. No placeholders no todo. Constantly rethinking whether the code is complete. Ensure correlation and integrity between different code files to ensure that all code works correctly.
-
-Then you will output the content of each file including ALL code.
-Each file must strictly follow a JSON code block format as below.
-Please respond in """+getCurrentLanguageName()+"""".
-
-Format example:
-```
-[
-    {
-      "file-path": "src/aaa.java",
-      "reference-file": "",
-      "code-interpreter": "",
-      "code": ""
-    },
-    {
-      "file-path": "main.go",
-      "reference-file": "",
-      "code-interpreter": "",
-      "code": ""
-    }
-]
-Do not explain, return JSON directly, Ensure the response can be parsed by Python json.loads.
-
-JSON Field description:
-```
-1. "code-interpreter": As a senior developer, you first need to design the code and add detailed instructions. For example: lay out the names of the core classes, functions, methods that will be necessary, specific variable names and types to be added and modified, method names to be added or modified, parameter names, and so on. this field respond in """+getCurrentLanguageName()+"""".
-2. "reference-file": Inference only based on the "Directory structure" "reference-file" filed above, if you don't know leave it blank.
-```
-        """
+filepath:FILEPATH
+code explanation: CODE_EXPLANATION
+```LANG
+CODE```
+"""
     })
 
+    # data = TEST_RESULT
+    # success = True
     data, success = chatCompletion(context)
     
-    data = fix_llm_json_str(data)
+    jsonData = parse_chat(data)
+    print(jsonData)
 
-    if data.startswith('{') and data.endswith('}'):
-        data = "[" + data + "]"
+    return jsonData, success
 
-    return json.loads(data), success
+def setpPseudocode(context, subtask, serviceStruct, appBasePrompt):
+    context.append({"role": "assistant", "content": subtask})
 
-def setp1Task(feature, appBasePrompt, serviceStruct, specification):
+    content =  """
+Think step by step and reason yourself to the right decisions to make sure we get it right.
+
+You will output the pseudocode of each file based on the "Existing Code directory structure" provided below. 
+Do not write markdown code.
+"""+appBasePrompt+"""
+
+Existing code directory structure:
+```
+""" + serviceStruct + """
+```
+
+Each pseudocode file must strictly follow a markdown code block format, where the following tokens must be replaced such that
+FILEPATH is the lowercase file name including the file extension
+LANG is the markup code block language for the code's language
+COMMENT as well as a quick comment on their purpose
+CODE is the code:
+
+FILEPATH
+```LANG
+# COMMENT
+CODE``` 
+
+Do not explain and talk, directly respond pseudocode of each file.
+"""
+    context.append({"role": "user", "content": content})
+    message, success = chatCompletion(context)
+
+    return message, success
+
+def setpSubTask(feature, appBasePrompt, serviceStruct, specification):
     context = []
-    content = appBasePrompt + """. Your job is to think step by step according to the basic "Code directory structure" and "Development specification" provided below, and break down the "Development requirement" provided below into multiple steps from the perspective of completing code development. Each step needs to be detailed.
-Be careful to analyze only the steps, do not write code, and decomposition should be appropriate and reasonable, neither over-splitting nor missing key steps.
+    content = """Your job is to think step by step according to the basic "Code directory structure" and "Development specification" provided below, and break down the "Development requirement" provided below into multiple substeps of writing code. each step needs to be detailed.
 
-Note that, these steps should not include anything that is not related to developing code, such as preparing the environment, performing tests, performing packaging, deploying, and so on.
+Only break down subtasks of writing code and do not write code, and decomposition should be appropriate and reasonable, neither over-splitting nor missing key steps.
+
+"""+appBasePrompt+"""
+
+Note that, Break down multiple subtasks only from the perspective of writing code. these steps should not include: "choose development language, set up environment, create directory, enexecute test, preparing the environment, execute packaging, execute deploying, write document, submit code and so on."
 
 Code directory structure:
 ```
@@ -180,51 +207,264 @@ You should only directly respond in JSON format as described below, Ensure the r
 
     return json.loads(data), success
 
+def parse_chat(chat):
+    regex = r"(.+?)```[^\n]*\n(.+?)```"
+    matches = re.finditer(regex, chat, re.DOTALL)
+
+    files = []
+    for match in matches:
+        print(match.group(1))
+        print("=======")
+        pattern = r'filepath:\s*(.*?)\s*code explanation:\s*(.*)'
+        match2 = re.search(pattern, match.group(1), re.DOTALL)
+        if match2:
+            path = match2.group(1)
+            interpreter = match2.group(2)
+        else:
+            path = ""
+            interpreter = ""
+
+        # Get the code
+        code = match.group(2)
+
+        # Add the file to the list
+        files.append({"file-path": path,"code": code, "code-interpreter": interpreter, "reference-file": ""})
+
+    # Return the files
+    return files
+
 # just for test
-TEST_RESULT = [{
-    "service-name": "java_demo_backend",
-    "files": [
-        {
-            "file-path": "src/main/resources/db/migration/V202307081234__create_member_table.sql",
-            "reference-file": "src/main/resources/db/migration/V202301__create_target_table.sql",
-            "code": "CREATE TABLE t_member (\n  id INTEGER PRIMARY KEY AUTOINCREMENT,\n  member_name TEXT,\n  member_email TEXT,\n  member_nickname TEXT,\n  member_phone TEXT,\n  gender TEXT,\n  birthday TEXT\n);",
-            "code-interpreter": "Create the database table t_member, including the fields: member name, member email, member nickname, member mobile number, gender, birthday."
-        },
-        {
-            "file-path": "src/main/java/com/aiassistant/model/Member.java",
-            "reference-file": "src/main/java/com/aiassistant/model/Target.java",
-            "code": "package com.aiassistant.model;\n\nimport lombok.Data;\n\n@Data\npublic class Member {\n  private Integer id;\n  private String memberName;\n  private String memberEmail;\n  private String memberNickname;\n  private String memberPhone;\n  private String gender;\n  private String birthday;\n}",
-            "code-interpreter": "Adds a mapping of the membership management-related fields in the target entity class Member."
-        },
-        {
-            "file-path": "src/main/java/com/aiassistant/mapper/MemberMapper.java",
-            "reference-file": "src/main/java/com/aiassistant/mapper/TargetMapper.java",
-            "code": "package com.aiassistant.mapper;\n\nimport com.aiassistant.model.Member;\nimport org.apache.ibatis.annotations.Insert;\nimport org.apache.ibatis.annotations.Mapper;\n\n@Mapper\npublic interface MemberMapper {\n  @Insert(\"INSERT INTO t_member (member_name, member_email, member_nickname, member_phone, gender, birthday) VALUES (#{memberName}, #{memberEmail}, #{memberNickname}, #{memberPhone}, #{gender}, #{birthday})\")\n  void addMember(Member member);\n}",
-            "code-interpreter": "Adds a method to add a member to the target Mapper interface MemberMapper."
-        },
-        {
-            "file-path": "src/main/resources/mapper/MemberMapper.xml",
-            "reference-file": "src/main/resources/mapper/TargetMapper.xml",
-            "code": "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n<!DOCTYPE mapper PUBLIC \"-//mybatis.org//DTD Mapper 3.0//EN\" \"http://mybatis.org/dtd/mybatis-3-mapper.dtd\">\n<mapper namespace=\"com.aiassistant.mapper.MemberMapper\">\n  <insert id=\"addMember\" parameterType=\"com.aiassistant.model.Member\">\n    INSERT INTO t_member (member_name, member_email, member_nickname, member_phone, gender, birthday)\n    VALUES (#{memberName}, #{memberEmail}, #{memberNickname}, #{memberPhone}, #{gender}, #{birthday})\n  </insert>\n</mapper>",
-            "code-interpreter": "Add the SQL statement for adding a member to MemberMapper.xml in the SQL mapping file of the target Mapper interface."
-        },
-        {
-            "file-path": "src/main/java/com/aiassistant/service/MemberService.java",
-            "reference-file": "src/main/java/com/aiassistant/service/TargetService.java",
-            "code": "package com.aiassistant.service;\n\nimport com.aiassistant.model.Member;\n\npublic interface MemberService {\n  void addMember(Member member);\n}",
-            "code-interpreter": "Adds a method declaration for adding a member to the target Service interface MemberService."
-        },
-        {
-            "file-path": "src/main/java/com/aiassistant/service/impl/MemberServiceImpl.java",
-            "reference-file": "src/main/java/com/aiassistant/service/impl/TargetServiceImpl.java",
-            "code": "package com.aiassistant.service.impl;\n\nimport com.aiassistant.mapper.MemberMapper;\nimport com.aiassistant.model.Member;\nimport com.aiassistant.service.MemberService;\nimport lombok.RequiredArgsConstructor;\nimport org.springframework.stereotype.Service;\n\n@Service\n@RequiredArgsConstructor\npublic class MemberServiceImpl implements MemberService {\n  private final MemberMapper memberMapper;\n\n  @Override\n  public void addMember(Member member) {\n    memberMapper.addMember(member);\n  }\n}",
-            "code-interpreter": "The method to add a member is implemented in the target Service interface implementation class MemberServiceImpl."
-        },
-        {
-            "file-path": "src/main/java/com/aiassistant/controller/MemberController.java",
-            "reference-file": "src/main/java/com/aiassistant/controller/TargetController.java",
-            "code": "package com.aiassistant.controller;\n\nimport com.aiassistant.model.Member;\nimport com.aiassistant.service.MemberService;\nimport io.swagger.annotations.Api;\nimport io.swagger.annotations.ApiOperation;\nimport lombok.RequiredArgsConstructor;\nimport org.springframework.web.bind.annotation.PostMapping;\nimport org.springframework.web.bind.annotation.RequestBody;\nimport org.springframework.web.bind.annotation.RequestMapping;\nimport org.springframework.web.bind.annotation.RestController;\n\n@RestController\n@RequestMapping(\"/members\")\n@Api(tags = \"Member Management\")\n@RequiredArgsConstructor\npublic class MemberController {\n  private final MemberService memberService;\n\n  @PostMapping\n  @ApiOperation(\"Add Member\")\n  public void addMember(@RequestBody Member member) {\n    memberService.addMember(member);\n  }\n}",
-            "code-interpreter": "Adds an interface method for adding members to the target Controller."
+TEST_RESULT = """filepath:index.html
+code explanation: This file is the main HTML file for the game interface. It contains the structure of the game interface and includes the necessary CSS and JavaScript files.
+
+```html
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Snake Game</title>
+  <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+  <div id="game-area"></div>
+  <div id="score-display"></div>
+  <div id="game-over-message"></div>
+  <script src="script.js"></script>
+</body>
+</html>
+```
+
+filepath:style.css
+code explanation: This file is used to style the game interface. It contains CSS styles for the game area, score display, and game over message.
+
+```css
+#game-area {
+  /* CSS styles for the game area */
+}
+
+#score-display {
+  /* CSS styles for the score display */
+}
+
+#game-over-message {
+  /* CSS styles for the game over message */
+}
+```
+
+filepath:script.js
+code explanation: This file contains the game logic. It defines variables for game elements and state, and implements functions to initialize the game, handle keyboard inputs, update the game state, render the game interface, start and end the game, restart the game, pause or resume the game, handle game over conditions, generate random food position, check for collisions, update the score display, update the snake's position and length, handle snake movement, handle snake eating food, and handle the game timer.
+
+```javascript
+// Define variables for game elements and state
+let gameArea;
+let scoreDisplay;
+let gameOverMessage;
+let snake;
+let food;
+let score;
+let gameIsOver;
+let gameTimer;
+
+// Function to initialize the game
+function initializeGame() {
+  gameArea = document.getElementById('game-area');
+  scoreDisplay = document.getElementById('score-display');
+  gameOverMessage = document.getElementById('game-over-message');
+  snake = [{ x: 0, y: 0 }];
+  food = { x: 0, y: 0 };
+  score = 0;
+  gameIsOver = false;
+  gameTimer = null;
+
+  renderGameInterface();
+  startGame();
+}
+
+// Function to handle keyboard inputs
+function handleKeyboardInput(event) {
+  if (event.key === 'ArrowUp' && snake[0].y !== -1) {
+    snake[0].y = -1;
+    snake[0].x = 0;
+  } else if (event.key === 'ArrowDown' && snake[0].y !== 1) {
+    snake[0].y = 1;
+    snake[0].x = 0;
+  } else if (event.key === 'ArrowLeft' && snake[0].x !== -1) {
+    snake[0].x = -1;
+    snake[0].y = 0;
+  } else if (event.key === 'ArrowRight' && snake[0].x !== 1) {
+    snake[0].x = 1;
+    snake[0].y = 0;
+  }
+}
+
+// Function to update the game state
+function updateGameState() {
+  updateSnake();
+  handleSnakeEatingFood();
+  checkCollisions();
+  updateScoreDisplay();
+}
+
+// Function to render the game interface
+function renderGameInterface() {
+  gameArea.innerHTML = '';
+  for (let y = 0; y < 20; y++) {
+    for (let x = 0; x < 20; x++) {
+      const cell = document.createElement('div');
+      cell.classList.add('cell');
+      if (x === food.x && y === food.y) {
+        cell.classList.add('food');
+      }
+      for (const segment of snake) {
+        if (segment.x === x && segment.y === y) {
+          cell.classList.add('snake');
         }
-    ]
-}]
+      }
+      gameArea.appendChild(cell);
+    }
+  }
+  scoreDisplay.textContent = `Score: ${score}`;
+  gameOverMessage.textContent = '';
+}
+
+// Function to start the game
+function startGame() {
+  document.addEventListener('keydown', handleKeyboardInput);
+  gameTimer = setInterval(() => {
+    if (!gameIsOver) {
+      updateGameState();
+      renderGameInterface();
+    }
+  }, 200);
+}
+
+// Function to end the game
+function endGame() {
+  gameIsOver = true;
+  clearInterval(gameTimer);
+  gameOverMessage.textContent = `Game Over! Final Score: ${score}`;
+}
+
+// Function to restart the game
+function restartGame() {
+  snake = [{ x: 0, y: 0 }];
+  food = { x: 0, y: 0 };
+  score = 0;
+  gameIsOver = false;
+  renderGameInterface();
+  startGame();
+}
+
+// Function to pause or resume the game
+function togglePauseGame() {
+  if (gameIsOver) {
+    return;
+  }
+  if (gameTimer) {
+    clearInterval(gameTimer);
+    gameTimer = null;
+  } else {
+    gameTimer = setInterval(() => {
+      if (!gameIsOver) {
+        updateGameState();
+        renderGameInterface();
+      }
+    }, 200);
+  }
+}
+
+// Function to handle game over conditions
+function handleGameOver() {
+  const head = snake[0];
+  if (head.x < 0 || head.x >= 20 || head.y < 0 || head.y >= 20) {
+    endGame();
+  }
+  for (let i = 1; i < snake.length; i++) {
+    if (head.x === snake[i].x && head.y === snake[i].y) {
+      endGame();
+      break;
+    }
+  }
+}
+
+// Function to generate random food position
+function generateFoodPosition() {
+  food.x = Math.floor(Math.random() * 20);
+  food.y = Math.floor(Math.random() * 20);
+}
+
+// Function to check for collisions with walls or snake body
+function checkCollisions() {
+  handleGameOver();
+}
+
+// Function to update the score display
+function updateScoreDisplay() {
+  scoreDisplay.textContent = `Score: ${score}`;
+}
+
+// Function to update the snake's position and length
+function updateSnake() {
+  const head = { x: snake[0].x, y: snake[0].y };
+  snake.unshift(head);
+  if (head.x === food.x && head.y === food.y) {
+    score++;
+    generateFoodPosition();
+  } else {
+    snake.pop();
+  }
+}
+
+// Function to handle snake movement
+function handleSnakeMovement() {
+  const head = snake[0];
+  head.x += head.x;
+  head.y += head.y;
+}
+
+// Function to handle snake eating food
+function handleSnakeEatingFood() {
+  const head = snake[0];
+  if (head.x === food.x && head.y === food.y) {
+    score++;
+    generateFoodPosition();
+  }
+}
+
+// Function to handle game timer
+function handleGameTimer() {
+  if (!gameIsOver) {
+    updateGameState();
+    renderGameInterface();
+  }
+}
+
+// Function to handle game initialization
+function handleGameInitialization() {
+  initializeGame();
+}
+
+// Call the function to initialize the game
+handleGameInitialization();
+```
+
+Please note that the above code is a complete implementation of the Snake Game based on the provided development specification and requirements. However, it may require additional styling and fine-tuning to meet specific design preferences and performance optimizations."""

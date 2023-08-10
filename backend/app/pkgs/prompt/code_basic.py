@@ -82,31 +82,60 @@ class CodeBasic(CodeInterface):
 
 
     def aiCheckCode(self, fileTask, code):
+        goodCodeRe, success = self.aiIfGoodCode(fileTask, code)
+
+        jsonData = {"reasoning": goodCodeRe["reasoning"], "code": code}
+
+        if goodCodeRe["good_code"]=="no":
+            prompt = f"""
+As a senior full stack developer, you are task is to modify the code according to the modification suggestions. 
+
+original code:
+```
+"""+code+"""
+```
+
+Modification suggestion:
+```
+"""+goodCodeRe["reasoning"]+"""
+```
+
+Please return the final code according to the modification suggestion, the final code should be fully functional. No placeholders no todo, ensure that all code can run in production environment correctly.
+Do not explain and talk, directly respond the final complete executable code.
+        """
+
+            context = [{"role": "user", "content": prompt}]
+            data, success = chatCompletion(context)
+            jsonData["code"] = data
+
+        return jsonData, success
+    
+    def aiIfGoodCode(self, fileTask, code):
         prompt = f"""
-    As a senior full stack developer. Your task is to check whether the following "initial code" has obvious syntax errors. If there is a problem in the "initial code", please fix the code if not just return the "initial code" as is. The consolidated code responds according to the response format example.
+As a senior full stack developer, Your task is to determine whether the "original code" contains errors or incomplete placeholders or comments to implement "development tasks".
 
-    initial code:
-    ```
-    """+code+"""
-    ```
+Please carefully inspect the code for any incomplete sections where comments are provided without specific implementations.
 
-    development task:
-    ```
-    """+fileTask+"""
-    ```
+original code:
+```
+"""+code+"""
+```
 
-    You should only directly respond in JSON format as described below, Ensure the response must can be parsed by Python json.loads, Response Format example:
-    {"reasoning": "{Explain the thought process of the problem step by step}","code": "{Optimized final complete code or initial code}"}
+development task:
+```
+"""+fileTask+"""
+```
 
-    Please respond in """+getCurrentLanguageName()+"""".
+You should only directly respond in JSON format as described below, Ensure the response must can be parsed by Python json.loads, Response Format example:
+{"reasoning": "{Explain the thought process of the problem step by step}","good_code": "{yes or no}"}
+
+Please respond in """+getCurrentLanguageName()+"""".
     """
 
         context = [{"role": "user", "content": prompt}]
         data, success = chatCompletion(context)
 
         jsonData = json.loads(fix_llm_json_str(data))
-        if '"initial code"}' in data:
-            jsonData["code"] = code
 
         return jsonData, success
 
@@ -143,7 +172,7 @@ class CodeBasic(CodeInterface):
 
     def aiGenCode(self, fileTask, newTask, newCode):
         prompt = f"""
-    As a senior full stack developer. you need to modify the "basic code" based on the "change suggestions" and return all the complete code that works well. The code style is consistent with the "base code", do not destroy the original function. 
+    As a senior full stack developer. you need to modify the "basic code" based on the "change suggestions" and return all the complete code that works well. The code style is consistent with the "base code", try not to break the original function.
 
     change suggestions:
     ```

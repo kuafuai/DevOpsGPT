@@ -650,7 +650,8 @@ function checkCode(code, fileTask, uuid, file_path, service_name) {
         $("#task_status_check_"+uuid).addClass("red")
         $("#task_status_check_"+uuid).removeClass("olive")
         $("#task_status_check_"+uuid).attr("show-code-key", file_path)
-        $("#task_status_check_"+uuid).attr("show-code-value", error)
+        $("#task_status_check_"+uuid).attr("show-code-value", code)
+        $("#task_status_check_"+uuid).attr("show-code-reason", error)
     }
 
     sendAjaxRequest('/step_code/check_file', "POST", requestData, successCallback, errorCallback, true, false)

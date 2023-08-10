@@ -43,6 +43,9 @@ class LLMBase(LLMInterface):
         print("chatGPT - message:", flush=True)
         print(context, flush=True)
         provider_data, key = get_next_api_key()
+        if len(key) < 10:
+            print(f"\n\033[91mError: The GPT_KEYS({key}) in env.yaml is incorrectly, please modify the configuration according to the configuration notes. \033[0m\n")
+            exit(1)
         
         openai.api_key = key
         openai.api_type = provider_data["api_type"]
