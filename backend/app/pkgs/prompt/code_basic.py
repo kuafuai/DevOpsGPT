@@ -88,28 +88,20 @@ class CodeBasic(CodeInterface):
 
         if goodCodeRe["good_code"]=="no":
             prompt = f"""
-    As a senior full stack developer, you are very diligent and good at writing complete code. 
-    You will get "original code" and "development task" and "Modification suggestion" for write the final complete code that works correctly.
-    Please note that the code should be fully functional. No placeholders no todo ensure that all code can run in production environment correctly.
+As a senior full stack developer, you are task is to modify the code according to the modification suggestions. 
 
-    Do not call methods that assume they exist unless you are absolutely sure, implement all functions in the current code yourself.
+original code:
+```
+"""+code+"""
+```
 
-    original code:
-    ```
-    """+code+"""
-    ```
+Modification suggestion:
+```
+"""+goodCodeRe["reasoning"]+"""
+```
 
-    development task:
-    ```
-    """+fileTask+"""
-    ```
-
-    Modification suggestion:
-    ```
-    """+goodCodeRe["reasoning"]+"""
-    ```
-
-    Do not explain and talk, directly respond the final complete executable code.
+Please return the final code according to the modification suggestion, the final code should be fully functional. No placeholders no todo, ensure that all code can run in production environment correctly.
+Do not explain and talk, directly respond the final complete executable code.
         """
 
             context = [{"role": "user", "content": prompt}]
@@ -121,6 +113,8 @@ class CodeBasic(CodeInterface):
     def aiIfGoodCode(self, fileTask, code):
         prompt = f"""
 As a senior full stack developer, Your task is to determine whether the "original code" contains errors or incomplete placeholders or comments to implement "development tasks".
+
+Please carefully inspect the code for any incomplete sections where comments are provided without specific implementations.
 
 original code:
 ```
