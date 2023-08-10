@@ -72,7 +72,7 @@ APPS: |
                 "intro": "service name: free_demo\nrole of service: used to develop any requirements\ndevelopment language: no limit\ndevelopment framework: no limit",
                 "api_doc_url": "",
                 "api_doc": "",
-                "struct": "no limit",
+                "struct": "This is a new service, no limits",
                 "lib": "no limit",
                 "specification": {
                     "Default": "- You can choose any appropriate development language"
@@ -119,7 +119,7 @@ APPS: |
                 "name": "java_demo_backend",
                 "git_path": "kuafuai/template_javaWebApp_backend",
                 "git_workflow": "default.yaml",
-                "base_prompt": "作为一个资深JAVA系统架构师，基于MVC设计框架并使用Spring Boot和MyBatis3作为开发框架的Java项目中进行开发",
+                "base_prompt": "这是一个前后端分离的项目，你只负责后端接口的开发。作为一个资深JAVA系统架构师，基于MVC设计框架并使用Spring Boot和MyBatis3作为开发框架的Java项目中进行开发",
                 "intro": "service name: java_demo_backend\nrole of service: used to develop back-end requirements\ndevelopment language: Java\ndevelopment framework: SpringBoot+Mybatis3\ndatabase: SQLite",
                 "api_doc_url": "1",
                 "api_doc": "{\"swagger\":\"2.0\",\"info\":{\"description\":\"API documentation for AI Assistant\",\"version\":\"1.0\",\"title\":\"AI Assistant API Documentation\",\"contact\":{\"name\":\"AI Assistant\",\"url\":\"www.xxx.com\",\"email\":\"xxx@xxx.com\"}},\"host\":\"localhost:8086\",\"basePath\":\"/\",\"tags\":[{\"name\":\"TargetController\",\"description\":\"Target Controller\"}],\"paths\":{\"/addTarget\":{\"post\":{\"tags\":[\"TargetController\"],\"summary\":\"Add a new target\",\"operationId\":\"addTargetUsingPOST\",\"consumes\":[\"application/json\"],\"produces\":[\"*/*\"],\"parameters\":[{\"in\":\"body\",\"name\":\"target\",\"description\":\"target\",\"required\":true,\"schema\":{\"$ref\":\"#/definitions/Target\"}}],\"responses\":{\"200\":{\"description\":\"OK\",\"schema\":{\"$ref\":\"#/definitions/ResultModel\"}},\"201\":{\"description\":\"Created\"},\"401\":{\"description\":\"Unauthorized\"},\"403\":{\"description\":\"Forbidden\"},\"404\":{\"description\":\"Not Found\"}},\"deprecated\":false}},\"/getTargetList\":{\"get\":{\"tags\":[\"TargetController\"],\"summary\":\"Get target list\",\"operationId\":\"getTargetListUsingGET\",\"produces\":[\"*/*\"],\"responses\":{\"200\":{\"description\":\"OK\",\"schema\":{\"$ref\":\"#/definitions/ResultPageModel«Target»\"}},\"401\":{\"description\":\"Unauthorized\"},\"403\":{\"description\":\"Forbidden\"},\"404\":{\"description\":\"Not Found\"}},\"deprecated\":false}}},\"definitions\":{\"Exception\":{\"type\":\"object\",\"properties\":{\"cause\":{\"$ref\":\"#/definitions/Throwable\"},\"localizedMessage\":{\"type\":\"string\"},\"message\":{\"type\":\"string\"},\"stackTrace\":{\"type\":\"array\",\"items\":{\"$ref\":\"#/definitions/StackTraceElement\"}},\"suppressed\":{\"type\":\"array\",\"items\":{\"$ref\":\"#/definitions/Throwable\"}}},\"title\":\"Exception\"},\"ResultModel\":{\"type\":\"object\",\"properties\":{\"code\":{\"type\":\"integer\",\"format\":\"int32\"},\"data\":{\"type\":\"object\"},\"exception\":{\"$ref\":\"#/definitions/Exception\"},\"msg\":{\"type\":\"string\"}},\"title\":\"ResultModel\"},\"ResultPageModel«Target»\":{\"type\":\"object\",\"properties\":{\"firstIndex\":{\"type\":\"integer\",\"format\":\"int32\"},\"list\":{\"type\":\"array\",\"items\":{\"$ref\":\"#/definitions/Target\"}},\"pageNo\":{\"type\":\"integer\",\"format\":\"int32\"},\"pageSize\":{\"type\":\"integer\",\"format\":\"int32\"},\"totalPage\":{\"type\":\"integer\",\"format\":\"int32\"},\"totalRecords\":{\"type\":\"integer\",\"format\":\"int32\"}},\"title\":\"ResultPageModel«Target»\"},\"StackTraceElement\":{\"type\":\"object\",\"properties\":{\"className\":{\"type\":\"string\"},\"fileName\":{\"type\":\"string\"},\"lineNumber\":{\"type\":\"integer\",\"format\":\"int32\"},\"methodName\":{\"type\":\"string\"},\"nativeMethod\":{\"type\":\"boolean\"}},\"title\":\"StackTraceElement\"},\"Target\":{\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"integer\",\"format\":\"int32\"},\"targetName\":{\"type\":\"string\"},\"targetType\":{\"type\":\"string\"}},\"title\":\"Target\"},\"Throwable\":{\"type\":\"object\",\"properties\":{\"cause\":{\"$ref\":\"#/definitions/Throwable\"},\"localizedMessage\":{\"type\":\"string\"},\"message\":{\"type\":\"string\"},\"stackTrace\":{\"type\":\"array\",\"items\":{\"$ref\":\"#/definitions/StackTraceElement\"}},\"suppressed\":{\"type\":\"array\",\"items\":{\"$ref\":\"#/definitions/Throwable\"}}},\"title\":\"Throwable\"}}}",
@@ -139,7 +139,7 @@ APPS: |
                 "name": "java_demo_frontend",
                 "git_path": "kuafuai/template_javaWebApp_frontend",
                 "git_workflow": "default.yaml",
-                "base_prompt": "The back-end interface has been provided, and only some front-end functions need to be developed",
+                "base_prompt": "这是一个前后端分离的项目，你只负责前端功能的开发，接口和数据库处理已经由后端实现，你可以直接调用",
                 "intro": "service name: java_demo_frontend\nrole of service: used to develop frontend-end requirements\ndevelopment_language: html+js\ndevelopment_framework: jquery+semantic-ui",
                 "api_doc_url": "",
                 "api_doc": "",
