@@ -17,7 +17,7 @@ function get_config_value() {
     local value=$(grep "$key:" "$yaml_file" | awk -F': ' '{print $2}')
 
     if [[ -z "$value" ]]; then
-        echo "Error: Key '$key' not found in config file '$yaml_file'."
+        echo "Error: Key '$key' not found in config file '$yaml_file'. Please copy a new env.yaml from env.yaml.tpl and reconfigure it according to the documentation."
         exit 1
     fi
 

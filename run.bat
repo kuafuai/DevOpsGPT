@@ -41,7 +41,7 @@ GOTO:EOF
     )
 
     if not defined value (
-        echo Error: Key '%key%' not found in config file '%yaml_file%'.
+        echo Error: Key '%key%' not found in config file '%yaml_file%'. Please copy a new env.yaml from env.yaml.tpl and reconfigure it according to the documentation.
         exit /b 1
     )
     set "%key%=!value!"
@@ -51,6 +51,10 @@ GOTO:EOF
     set "PYTHON_CMD=%~1"
     call :get_config_value FRONTEND_PORT
     call :get_config_value BACKEND_PORT
+    if %errorlevel%==1 (
+        pause
+        exit /b 1
+    )
 
     REM Wait for the backend service to start
     for /l %%i in (1, 1, 20) do (
