@@ -10,6 +10,7 @@ from app.pkgs.tools.i18b import getCurrentLanguageName
 
 class SubtaskBasic(SubtaskInterface):
     def splitTask(self, feature, serviceName, appBasePrompt, projectInfo, projectLib, serviceStruct, appID):
+        #return setpGenCode(TEST_PSEUDOCODE, feature, appBasePrompt, "- You can choose any appropriate development language", serviceStruct)
         if MODE == "FAKE":
             time.sleep(10)
             jsonData = parse_chat(TEST_RESULT)
@@ -46,7 +47,8 @@ def setpGenCode(pseudocode, feature, appBasePrompt, specification, serviceStruct
     context.append({
         "role": "system",
         "content": """
-As a senior full stack developer, you are very diligent and good at writing complete code. 
+NOTICE
+Role: As a senior full stack developer, you are very diligent and good at writing complete code. 
 You will get "Development specification" and "Development requirement" and "Pseudocode" for write the final complete code that works correctly.
 Please note that the code should be fully functional. No placeholders no todo ensure that all code can run in production environment correctly.
 """+appBasePrompt+""" """})
@@ -74,6 +76,7 @@ Pseudocode:
 Now complete all codes according to the above information including ALL code, it is going to be a long response.
 Please note that the code should be fully functional. No placeholders no todo ensure that all code can run in production environment correctly.
 
+You will output the content of each file including ALL code.
 Each code file must strictly follow a markdown code block format, where the following tokens must be replaced such that
 FILEPATH is the lowercase file name including the file extension
 LANG is the markup code block language for the code's language
@@ -84,6 +87,11 @@ filepath:FILEPATH
 code explanation: CODE_EXPLANATION
 ```LANG
 CODE```
+
+Please note that the code should be fully functional. No placeholders.
+
+Make sure that files contain all imports, types etc. The code should be fully functional. Make sure that code in different files are compatible with each other.
+Before you finish, double check that all parts of the architecture is present in the files.
 """
     })
 
@@ -468,3 +476,88 @@ handleGameInitialization();
 ```
 
 Please note that the above code is a complete implementation of the Snake Game based on the provided development specification and requirements. However, it may require additional styling and fine-tuning to meet specific design preferences and performance optimizations."""
+
+
+TEST_PSEUDOCODE =  """index.html
+```html
+<!-- The main HTML file for the game interface -->
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Snake Game</title>
+  <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+  <div id="game-area"></div>
+  <div id="score-display"></div>
+  <div id="game-over-message"></div>
+  <script src="script.js"></script>
+</body>
+</html>
+```
+
+style.css
+```css
+/* CSS file to style the game interface */
+#game-area {
+  /* styling for the game area */
+}
+
+#score-display {
+  /* styling for the score display */
+}
+
+#game-over-message {
+  /* styling for the game over message */
+}
+```
+
+script.js
+```javascript
+// JavaScript file to handle the game logic
+
+// Function to initialize the game
+function initializeGame() {
+  // Code to initialize the game
+}
+
+// Function to handle keyboard input and control the snake's movement
+function handleKeyboardInput(event) {
+  // Code to handle keyboard input
+}
+
+// Function to generate food for the snake to eat
+function generateFood() {
+  // Code to generate food
+}
+
+// Function to update the snake's position based on its movement
+function updateSnakePosition() {
+  // Code to update the snake's position
+}
+
+// Function to check for collisions with the wall or the snake's own body
+function checkCollisions() {
+  // Code to check for collisions
+}
+
+// Function to handle the snake eating food and increasing its length
+function handleFoodEating() {
+  // Code to handle food eating
+}
+
+// Function to update the score display when the snake eats food
+function updateScoreDisplay() {
+  // Code to update the score display
+}
+
+// Function to end the game and display the game over message
+function endGame() {
+  // Code to end the game
+}
+
+// Event listener to start the game when the page loads
+window.addEventListener('load', initializeGame);
+
+// Event listener to handle keyboard input
+window.addEventListener('keydown', handleKeyboardInput);"""

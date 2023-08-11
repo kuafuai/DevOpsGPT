@@ -70,6 +70,6 @@ def gitpush():
         success, msg = pushCode(wsPath, gitPath, fatureBranch, commitMsg)
 
     if success:
-        return _("Push code successfully.")
+        return _("Push code successfully.") + f" from {wsPath} to {gitPath} {fatureBranch}"
     else:
         raise Exception(_("Failed to push code.")+f"In the {wsPath}/{gitPath} directory, {msg}")

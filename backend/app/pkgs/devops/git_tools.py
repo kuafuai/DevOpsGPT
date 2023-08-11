@@ -34,15 +34,13 @@ def pushCode(wsPath, gitPath, fatureBranch, commitMsg):
 
     result = subprocess.run(
         ['git', 'add', '.'], capture_output=True, text=True, cwd=gitCwd)
-    if result.returncode != 0:
-        print(result.stderr)
-        print(result.stdout)
+    print(result.stderr)
+    print(result.stdout)
     
     result = subprocess.run(
         ['git', 'commit', '-m', commitMsg], capture_output=True, text=True, cwd=gitCwd)
-    if result.returncode != 0:
-        print(result.stdout)
-        print(result.stderr)
+    print(result.stdout)
+    print(result.stderr)
 
     gitUrl = genCloneUrl(gitPath)
     print(f"pushCode start {gitUrl} {fatureBranch} {gitPath} {wsPath}")

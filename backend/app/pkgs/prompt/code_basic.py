@@ -1,7 +1,7 @@
 import json
 from app.pkgs.tools.llm import chatCompletion
 from app.pkgs.tools.i18b import getCurrentLanguageName
-from app.pkgs.tools.utils_tool import fix_llm_json_str
+from app.pkgs.tools.utils_tool import fix_llm_json_str, get_code_from_str
 from app.pkgs.prompt.code_interface import CodeInterface
 from config import GRADE
 
@@ -82,13 +82,15 @@ class CodeBasic(CodeInterface):
 
 
     def aiCheckCode(self, fileTask, code):
-        goodCodeRe, success = self.aiIfGoodCode(fileTask, code)
+        goodCodeRe, success = self.aiReviewCode(fileTask, code)
 
-        jsonData = {"reasoning": goodCodeRe["reasoning"], "code": code}
+        jsonData = {"reasoning": goodCodeRe, "code": code}
 
-        if goodCodeRe["good_code"]=="no":
-            prompt = f"""
-As a senior full stack developer, you are task is to modify the code according to the modification suggestions. 
+        prompt = f"""
+NOTICE
+Role: As a senior full stack developer, you are task is to modify the code according to the modification suggestions. 
+
+Think step by step and reason yourself to the right decisions to make sure we get it right.
 
 original code:
 ```
@@ -97,26 +99,30 @@ original code:
 
 Modification suggestion:
 ```
-"""+goodCodeRe["reasoning"]+"""
+"""+goodCodeRe+"""
 ```
 
-Please return the final code according to the modification suggestion, the final code should be fully functional. No placeholders no todo, ensure that all code can run in production environment correctly.
+Please return the final code according to the modification suggestion, the final code should be fully functional, finish all implementation details without omitted. No placeholders no todo, ensure that all code can run in production environment correctly.
 Do not explain and talk, directly respond the final complete executable code.
+The response must be code.
         """
 
-            context = [{"role": "user", "content": prompt}]
-            data, success = chatCompletion(context)
-            jsonData["code"] = data
+        context = [{"role": "user", "content": prompt}]
+        data, success = chatCompletion(context)
+        newCode = get_code_from_str(data)
+        if len(newCode) < len(code)/3*2:
+            jsonData["code"] = code
+        else:
+            jsonData["code"] = newCode
 
         return jsonData, success
     
-    def aiIfGoodCode(self, fileTask, code):
+    def aiReviewCode(self, fileTask, code):
         prompt = f"""
-As a senior full stack developer, Your task is to determine whether the "original code" contains errors or incomplete placeholders or comments to implement "development tasks".
+NOTICE
+Role: You are a professional software engineer, Your task is to review the code. 
 
-Please carefully inspect the code for any incomplete sections where comments are provided without specific implementations.
-
-original code:
+code:
 ```
 """+code+"""
 ```
@@ -126,18 +132,19 @@ development task:
 """+fileTask+"""
 ```
 
-You should only directly respond in JSON format as described below, Ensure the response must can be parsed by Python json.loads, Response Format example:
-{"reasoning": "{Explain the thought process of the problem step by step}","good_code": "{yes or no}"}
-
-Please respond in """+getCurrentLanguageName()+"""".
+Check the code item by item for the checklist below
+This code is very important and you will review it carefully
+```
+1. Is the code implemented as per the development task?
+2. Is the code contains errors or contains issues with the code logic?
+3. Is there a function in the code that is omitted or not fully implemented that needs to be implemented?(For example, only placeholders\comment\pass are written in the code but no specific code is written)?
+```
     """
 
         context = [{"role": "user", "content": prompt}]
         data, success = chatCompletion(context)
 
-        jsonData = json.loads(fix_llm_json_str(data))
-
-        return jsonData, success
+        return data, success
 
 
     def aiMergeCode(self, task, baseCode, newCode):

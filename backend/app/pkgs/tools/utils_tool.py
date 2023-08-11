@@ -74,3 +74,26 @@ def fix_llm_json_str(string):
                     return match[-1]
 
                 return message
+
+def get_code_from_str(input_string):
+    # 定义正则表达式模式
+    pattern = r"```.*?\n(.*?)```"
+    # 使用re模块进行匹配
+    matches = re.findall(pattern, input_string, re.DOTALL)
+    output_string = input_string
+    # 输出匹配结果
+    for match in matches:
+        if len(match) > 0:
+            output_string = match
+
+
+    # 定义正则表达式模式
+    pattern = r"```(.*?)```"
+    # 使用re模块进行匹配
+    matches = re.findall(pattern, output_string, re.DOTALL)
+    # 输出匹配结果
+    for match in matches:
+        if len(match) > 0:
+            output_string = match
+
+    return output_string

@@ -17,9 +17,9 @@ class DevopsGitHub(DevopsInterface):
             data = {
                 "ref": branch_name
             }
+            print(pipeline_url, flush=True)
             response = requests.post(pipeline_url, json=data, headers=headers)
-            print(response)
-            print(pipeline_url)
+            print(response, flush=True)
 
             if response.status_code == 204:
                 print("Pipeline triggered successfully.")
@@ -36,9 +36,9 @@ class DevopsGitHub(DevopsInterface):
 
                 return "Get pipline status...", run_id, f"{GIT_URL}/{repopath}/actions/runs/{run_id}", True
             else:
-                return f"Failed to trigger pipeline giturl:{GIT_API} repopath:{repopath} branch:{branch_name}, Error: {str(e)}", 0, "", False
+                return f"Failed to trigger pipeline giturl:{GIT_API} repopath:{repopath} branch:{branch_name} gitWorkflow:{gitWorkflow}, Error: {str(e)}", 0, "", False
         except Exception as e:
-            return f"Failed to trigger pipeline giturl:{GIT_API} repopath:{repopath} branch:{branch_name}, Error: {str(e)}", 0, "", False
+            return f"Failed to trigger pipeline giturl:{GIT_API} repopath:{repopath} branch:{branch_name} gitWorkflow:{gitWorkflow}, Error: {str(e)}", 0, "", False
 
     def getPipelineStatus(self, run_id, repopath):
         try:
