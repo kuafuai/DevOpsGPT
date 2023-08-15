@@ -59,3 +59,21 @@ APPS contains information about the applications you need to develop. The first 
 - service.lib: Libraries/packages available for the service.
   - setpReqChooseLib (analysis of libraries/packages used together).
 - service.specification: Specification for using library packages.
+
+## Docker Build & Run
+
+1. **Build the Docker Image**: 
+   ```
+   docker build . -t devopsgpt
+   ```
+2. **Setup Workspace**:
+   ```
+   mkdir -p workspace
+   ```
+3. **Run the Docker Container**:
+   ```
+   docker run -it \
+    -v$PWD/workspace:/app/workspace \
+    -v$PWD/env.yaml:/app/env.yaml \
+    -p8080:8080 -p8081:8081 devopsgpt
+   ```
