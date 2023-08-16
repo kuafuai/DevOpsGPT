@@ -42,6 +42,15 @@ WORKSPACE_PATH: './workspace/'
 SQLALCHEMY_DATABASE_URI: 'sqlite:///app.db'
 MODE: "REAL" # FAKE、REAL
 GRADE: "base"
+
+CD_TOOLS: "local"  # local、aliyun Open source version only supports Alibaba Cloud 当前开源版只支持阿里云
+CD_ACCESS_KEY: ""
+CD_SECRET_KEY: ""
+CD_REGION: "cn-hongkong" # region 部署地域
+CD_EIP: "eip-xxx" # Public IP address 公网IP，用于访问公网
+CD_SECURITY: "sg-xxx" # Security group 安全组，用于开放容器端口
+CD_SWITCH: "vsw-xxx" # switch 交换机
+
 DEVOPS_TOOLS: "local" # local、gitlab、github  Please refer to the official documentation of the tool to learn how to use it. 请查阅相关工具的官方文档了解如何使用
 GIT_ENABLED: true  # Whether to enable Git. If yes, pull code from Git(Note APPS.service.git_path configuration item). 是否开启Git，如果开启将从Git中拉代码（注意 APPS.service.git_path 配置项）
 GIT_URL: "https://github.com"  # https://github.com、https://gitlab.com
@@ -49,6 +58,7 @@ GIT_API: "https://api.github.com" # https://api.github.com
 GIT_TOKEN: "xxxx"   # Get from here https://github.com/settings/tokens、https://gitlab.com/-/profile/personal_access_tokens
 GIT_USERNAME: "xxxx"
 GIT_EMAIL: "xxxx@x.x"
+
 AUTO_LOGIN: true
 USERS: |
   {
@@ -68,6 +78,9 @@ APPS: |
                 "name": "free_demo",
                 "git_path": "kuafuai/template_freestyleApp",
                 "git_workflow": "default.yaml",
+                "docker_image": "docker.io/kuafuai/template-freestyleapp:latest",
+                "docker_group": "devopsgtp-test",
+                "docker_name": "free-demo",
                 "base_prompt": "You can choose any appropriate development language",
                 "intro": "service name: free_demo\nrole of service: used to develop any requirements\ndevelopment language: no limit\ndevelopment framework: no limit",
                 "api_doc_url": "",
@@ -91,6 +104,9 @@ APPS: |
                 "name": "python_demo",
                 "git_path": "kuafuai/template_pythonWebApp",
                 "git_workflow": "default.yaml",
+                "docker_image": "docker.io/kuafuai/template-pythonwebapp:latest",
+                "docker_group": "devopsgtp-test",
+                "docker_name": "python-demo",
                 "base_prompt": "You need to develop both front-end and back-end code",
                 "intro": "service name: python_demo\nrole of service: used to develop front-end and back-end requirements\ndevelopment language: python and html\ndevelopment framework: flask and jquery+semantic-ui",
                 "api_doc_url": "2",
@@ -119,6 +135,9 @@ APPS: |
                 "name": "java_demo_backend",
                 "git_path": "kuafuai/template_javaWebApp_backend",
                 "git_workflow": "default.yaml",
+                "docker_image": "docker.io/kuafuai/template-javawebapp-backend:latest",
+                "docker_group": "devopsgtp-test",
+                "docker_name": "java-demo-backend",
                 "base_prompt": "这是一个前后端分离的项目，你只负责后端接口的开发。作为一个资深JAVA系统架构师，基于MVC设计框架并使用Spring Boot和MyBatis3作为开发框架的Java项目中进行开发",
                 "intro": "service name: java_demo_backend\nrole of service: used to develop back-end requirements\ndevelopment language: Java\ndevelopment framework: SpringBoot+Mybatis3\ndatabase: SQLite",
                 "api_doc_url": "1",
@@ -139,6 +158,9 @@ APPS: |
                 "name": "java_demo_frontend",
                 "git_path": "kuafuai/template_javaWebApp_frontend",
                 "git_workflow": "default.yaml",
+                "docker_image": "docker.io/kuafuai/template-javawebapp-frontend:latest",
+                "docker_group": "devopsgtp-test",
+                "docker_name": "java-demo-frontend",
                 "base_prompt": "这是一个前后端分离的项目，你只负责前端功能的开发，接口和数据库处理已经由后端实现，你可以直接调用",
                 "intro": "service name: java_demo_frontend\nrole of service: used to develop frontend-end requirements\ndevelopment_language: html+js\ndevelopment_framework: jquery+semantic-ui",
                 "api_doc_url": "",

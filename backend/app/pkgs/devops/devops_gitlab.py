@@ -40,9 +40,9 @@ class DevopsGitlab(DevopsInterface):
                     'log': self.getPipelineJobLogs(repopath, pipline_id, job.id)
                 })
 
-            return list(reversed(job_info))
+            return list(reversed(job_info)), True
         except Exception as e:
-            return "Failed to get pipline status:" + str(e)
+            return "Failed to get pipline status:" + str(e), False
 
     def getPipelineJobLogs(self, repopath, pipeline_id, job_id):
         try:

@@ -1,5 +1,6 @@
 import html
 import json
+import time
 import requests
 import re
 from app.pkgs.devops.devops_interface import DevopsInterface
@@ -23,6 +24,7 @@ class DevopsGitHub(DevopsInterface):
 
             if response.status_code == 204:
                 print("Pipeline triggered successfully.")
+                time.sleep(3)
 
                 # Get the most recent record
                 workflow_url = f"{GIT_API}/repos/{repopath}/actions/workflows/{gitWorkflow}/runs"
@@ -64,10 +66,15 @@ class DevopsGitHub(DevopsInterface):
                     job_info = []
                     for job in jobs:
                         print("job:", job)
+                        if job["conclusion"] is None:
+                                job["conclusion"] = "none"
+                                job["completed_at"] = "none"
+                                
                         steps = ""
                         for step in job["steps"]:
-                            if step["status"] != "in_progress":
-                                steps += step["name"]+"<br>"+step["conclusion"]+"<br><br>"
+                            if step["conclusion"] is None:
+                                step["conclusion"] = "none"
+                            steps += step["name"]+"<br>"+step["conclusion"]+"<br><br>"
                         job_info.append({
                             'job_id': job["id"],
                             'job_name': job["name"],
@@ -76,10 +83,10 @@ class DevopsGitHub(DevopsInterface):
                             'log': steps
                         })
 
-                    return list(reversed(job_info))
-            return f"Failed to get pipeline status for repo {repopath} and pipeline ID {run_id}, Error: {str(e)}"
+                    return list(reversed(job_info)), True
+            return f"Failed to get pipeline status for repo {repopath} and pipeline ID {run_id}, Error: {str(e)}", False
         except Exception as e:
-            return f"Failed to get pipeline status for repo {repopath} and pipeline ID {run_id}, Error: {str(e)}"
+            return f"Failed to get pipeline status for repo {repopath} and pipeline ID {run_id}, Error: {str(e)}", False
 
     def getPipelineJobLogs(self, repopath, pipeline_id, job_id):
         try:

@@ -38,3 +38,15 @@ class AppInfoPro(AppInfoInterface):
     def getServiceGitWorkflow(self, appID, serviceName):
         # The current version does not support this feature
         return "", False
+    
+    def getServiceDockerImage(self, appID, serviceName):
+        # The current version does not support this feature
+        return "", False
+    
+    def getServiceDockerGroup(self, appID, serviceName):
+        # The current version does not support this feature
+        return "", False
+    
+    def getServiceDockerName(self, appID, serviceName):
+        # The current version does not support this feature
+        return "", False

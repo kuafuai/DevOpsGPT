@@ -2,8 +2,7 @@ import threading
 import time
 import openai
 from app.pkgs.tools.llm_interface import LLMInterface
-from config import LLM_MODEL
-from config import GPT_KEYS
+from config import MODE, LLM_MODEL, GPT_KEYS
 
 api_keys = GPT_KEYS
 
@@ -39,7 +38,12 @@ def get_next_api_key():
     return get_next_api_key()
 
 class LLMBase(LLMInterface):
-    def chatCompletion(self, context):
+    def chatCompletion(self, context, fackData):
+        # Test frontend
+        if MODE == "FAKE" and len(fackData) > 0:
+            time.sleep(5)
+            return fackData, True
+        
         print("chatGPT - message:", flush=True)
         print(context, flush=True)
         provider_data, key = get_next_api_key()

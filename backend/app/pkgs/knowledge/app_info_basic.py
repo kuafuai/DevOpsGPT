@@ -131,3 +131,45 @@ class AppInfoBasic(AppInfoInterface):
                         gitWorkflow = service["git_workflow"]
 
         return gitWorkflow, True
+    
+    def getServiceDockerImage(self, appID, serviceName):
+        appID = int(appID)
+
+        apps = App.getAll("")
+        gitWorkflow = ""
+        for app in apps:
+            if app["id"] == appID:
+                services = app["service"]
+                for service in services:
+                    if service["name"] == serviceName:
+                        gitWorkflow = service["docker_image"]
+
+        return gitWorkflow, True
+    
+    def getServiceDockerGroup(self, appID, serviceName):
+        appID = int(appID)
+
+        apps = App.getAll("")
+        gitWorkflow = ""
+        for app in apps:
+            if app["id"] == appID:
+                services = app["service"]
+                for service in services:
+                    if service["name"] == serviceName:
+                        gitWorkflow = service["docker_group"]
+
+        return gitWorkflow, True
+    
+    def getServiceDockerName(self, appID, serviceName):
+        appID = int(appID)
+
+        apps = App.getAll("")
+        gitWorkflow = ""
+        for app in apps:
+            if app["id"] == appID:
+                services = app["service"]
+                for service in services:
+                    if service["name"] == serviceName:
+                        gitWorkflow = service["docker_name"]
+
+        return gitWorkflow, True

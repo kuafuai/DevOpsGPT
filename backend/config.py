@@ -40,6 +40,13 @@ try:
     GIT_TOKEN = read_config("GIT_TOKEN")
     GIT_USERNAME = read_config("GIT_USERNAME")
     GIT_EMAIL = read_config("GIT_EMAIL")
+    CD_TOOLS = read_config("CD_TOOLS")
+    CD_ACCESS_KEY = read_config("CD_ACCESS_KEY")
+    CD_SECRET_KEY = read_config("CD_SECRET_KEY")
+    CD_REGION = read_config("CD_REGION")
+    CD_EIP = read_config("CD_EIP")
+    CD_SECURITY = read_config("CD_SECURITY")
+    CD_SWITCH = read_config("CD_SWITCH")
 except Exception as e:
     print(f"\033[91mError: Failed to read the configuration, please 【copy a new env.yaml from env.yaml.tpl】 and reconfigure it according to the documentation. Error in env.yaml: {str(e)}. \033[0m")
     exit()

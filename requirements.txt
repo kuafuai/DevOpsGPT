@@ -3,3 +3,5 @@ flask-cors==3.0.10
 pyyaml
 python-gitlab
 openai==0.27.8
+aliyun-python-sdk-core
+aliyun-python-sdk-eci

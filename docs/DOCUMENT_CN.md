@@ -32,7 +32,9 @@ DevOpsGPT 支持对接 Git，开启后，每次的开发任务可从 Git 拉取�
 
 ### CI 持续集成工具配置
 
-DevOpsGPT 支持对接 GitlabCI、GithubActions 等 CI 工具，可以在代码提交后，触发您的流水线
+DevOpsGPT 支持对接 GitlabCI、GithubActions 等 CI 工具，可以在代码提交后，触发您的流水线。
+
+视频介绍：https://www.bilibili.com/video/BV1C8411R7HD
 
 <img src="files/ci.png" width="80%">
 
@@ -40,6 +42,21 @@ DevOpsGPT 支持对接 GitlabCI、GithubActions 等 CI 工具，可以在代码�
 2. GIT_API: 配置 Git API 的地址，比如：https://api.github.com
 3. 如果是 Gitlab，你需要配置好流水线，比如：[.gitlab-ci.yml](https://github.com/kuafuai/template_javaWebApp_backend/blob/master/.gitlab-ci.yml)。同时你需要在 Gitlab 中配置好 Gitlab runner，细节请查看 [Gitlab 文档](https://docs.gitlab.com/runner/)
 4. 如果你是 Github，你需要配置好流水线，比如：[default.yaml](https://github.com/kuafuai/template_javaWebApp_backend/blob/master/.github/workflows/default.yaml)，细节请查看 [Github 文档](https://docs.github.com/en/actions/learn-github-actions)
+
+### 自动化部署配置
+
+自动化部署实现将开发好的应用程序一键部署到云服务中，供所有人访问和使用，真正实现从自然语言需求到可工作的软件！
+
+视频介绍：https://www.bilibili.com/video/BV1cV4y1e7zg
+
+以下以阿里云为例进行配置介绍，其它云平台类似，注意：使用云平台的资源可能会产生少量费用。
+
+1. 在云平台上创建 AccessKey：鼠标移动到头像 - 选择 AccessKey 管理 - 创建 AccessKey
+2. 根据以上创建好的 Kay，配置 CD_ACCESS_KEY 和 CD_SECRET_KEY
+3. CD_REGION：设置部署的地域，比如部署到香港地区，可配置为：cn-hongkong，具体请咨询云平台客服
+4. CD_EIP：在云平台上创建一个公网IP，用于访问公网（注意地域要和CD_REGION匹配）
+5. CD_SECURITY：在云平台上创建一个安全组，用于在启动服务的时候开通外网方端口
+6. CD_SWITCH：在云平台上创建一个交换机
 
 ### APPS 配置
 
