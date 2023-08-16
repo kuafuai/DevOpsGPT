@@ -30,16 +30,16 @@
 
 
 ## 功能演示（点击播放）
-- Java SpringBoot，开发一个新接口，实现新增用户信息
+1. 全流程演示：开发一个网页游戏并部署到阿里云
+<a href="https://www.bilibili.com/video/BV1cV4y1e7zg" target="_blank">点击查看视频</a>
 
+2. Java SpringBoot，开发一个新接口，实现新增用户信息
 <a href="https://www.bilibili.com/video/BV1vu411V7jT" target="_blank"><img src="files/demo-adduser.jpeg" width="50%"></a>
 
-- Python，用GPT对接企业微信，实现自动总结会议纪要，并发送到企微群中
-
+3. Python，用GPT对接企业微信，实现自动总结会议纪要，并发送到企微群中
 <a href="https://www.bilibili.com/video/BV1Vz4y1t7F8" target="_blank"><img src="files/demo-gptmeeting.jpeg" width="50%"></a>
 
-- Java SpringBoot，飞书天气预报机器人，实现获取天气信息，并发送到飞书群中
-
+4. Java SpringBoot，飞书天气预报机器人，实现获取天气信息，并发送到飞书群中
 <a href="https://www.bilibili.com/video/BV1DV4y147no" target="_blank"><img src="files/demo-jiqiren.jpeg" width="50%"></a>
 
 

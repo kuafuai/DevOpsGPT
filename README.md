@@ -29,7 +29,9 @@ Welcome to the AI Driven Software Development Automation Solution, abbreviated a
 
 ## Demo（Click to play video）
 
-<a href="https://www.youtube.com/watch?v=IWUPbGrJQOU" target="_blank"><img src="docs/files/demo-adduser-en.jpeg" width="50%"></a>
+1. <a href="https://www.youtube.com/watch?v=KGeWgM6HzR4" target="_blank">DevOpsGPT Vision video</a>
+2. <a href="https://www.youtube.com/watch?v=3peUJeB_afo" target="_blank">Demo - Software development and deployment to Cloud</a>
+3. <a href="https://www.youtube.com/watch?v=IWUPbGrJQOU" target="_blank">Demo - Develop an API for adding users in Java SpringBoot</a>
 
 
 ## Workflow
