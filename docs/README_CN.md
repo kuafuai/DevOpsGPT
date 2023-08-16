@@ -30,16 +30,16 @@
 
 
 ## 功能演示（点击播放）
-- Java SpringBoot，开发一个新接口，实现新增用户信息
+1. 全流程演示：开发一个网页游戏并部署到阿里云
+<a href="https://www.bilibili.com/video/BV1cV4y1e7zg" target="_blank">点击查看视频</a>
 
+2. Java SpringBoot，开发一个新接口，实现新增用户信息
 <a href="https://www.bilibili.com/video/BV1vu411V7jT" target="_blank"><img src="files/demo-adduser.jpeg" width="50%"></a>
 
-- Python，用GPT对接企业微信，实现自动总结会议纪要，并发送到企微群中
-
+3. Python，用GPT对接企业微信，实现自动总结会议纪要，并发送到企微群中
 <a href="https://www.bilibili.com/video/BV1Vz4y1t7F8" target="_blank"><img src="files/demo-gptmeeting.jpeg" width="50%"></a>
 
-- Java SpringBoot，飞书天气预报机器人，实现获取天气信息，并发送到飞书群中
-
+4. Java SpringBoot，飞书天气预报机器人，实现获取天气信息，并发送到飞书群中
 <a href="https://www.bilibili.com/video/BV1DV4y147no" target="_blank"><img src="files/demo-jiqiren.jpeg" width="50%"></a>
 
 
@@ -57,12 +57,27 @@
 
 ## 快速开始
 
-1. 克隆最新代码或选择已发布的版本，准备好 Python3.7 或以上版本。
-2. 生成配置文件：复制 `env.yaml.tpl` 并重命名为 `env.yaml`。
-3. 修改配置文件：编辑 `env.yaml`，添加GPT Token等必要信息。
-4. 运行服务：在 Linux 或 Mac 上执行 `sh run.sh`，在 Windows 上双击运行 `run.bat`。
-5. 访问服务：通过浏览器访问服务（启动日志中提供的访问地址，默认为 http://127.0.0.1:8080）。
-6. 完成需求开发：按照页面引导完成需求开发，在 `./workspace` 目录下查看生成的代码。
+1. 源码运行
+    ```
+    1. 克隆最新代码或选择已发布的版本，准备好 Python3.7 或以上版本。
+    2. 生成配置文件：复制 `env.yaml.tpl` 并重命名为 `env.yaml`。
+    3. 修改配置文件：编辑 `env.yaml`，添加GPT Token等必要信息。
+    4. 运行服务：在 Linux 或 Mac 上执行 `sh run.sh`，在 Windows 上双击运行 `run.bat`。
+    5. 访问服务：通过浏览器访问服务（启动日志中提供的访问地址，默认为 http://127.0.0.1:8080）。
+    6. 完成需求开发：按照页面引导完成需求开发，在 `./workspace` 目录下查看生成的代码。
+    ```
+2. Docker运行
+    ```shell
+    1. 创建一个目录：mkdir -p workspace
+    2. 从仓库中复制 `env.yaml.tpl` 到当前目录，并重命名为 `env.yaml`
+    3. 修改配置文件：编辑 `env.yaml`，添加GPT Token等必要信息。
+    4. docker run -it \
+        -v$PWD/workspace:/app/workspace \
+        -v$PWD/env.yaml:/app/env.yaml \
+        -p8080:8080 -p8081:8081 kuafuai/devopsgpt:latest
+    5. 访问服务：通过浏览器访问服务（启动日志中提供的访问地址，默认为 http://127.0.0.1:8080）
+    6. 完成需求开发：按照页面引导完成需求开发，在 `./workspace` 目录下查看生成的代码
+    ```
 
 **详细文档和配置参数请参考 [文档链接](./DOCUMENT_CN.md)。**
 
