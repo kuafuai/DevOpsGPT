@@ -959,6 +959,7 @@ function pluginTaskList(info) {
             <button class="ui green button tiny" onclick="checkCompile('`+ service_name +`', 0);"><i class="tasks icon"></i>`+globalFrontendText["auto_check"]+`</button>
             <button class="ui blue button tiny" onclick="startPush('`+ service_name +`');"><i class="tasks icon"></i>`+globalFrontendText["submit_code"]+`</button>
             <button class="ui teal button tiny" onClick="startCi('`+ service_name + `','` + globalMemory["task_info"]["feature_branch"] + `')"><i class="tasks icon"></i>`+globalFrontendText["start_ci"]+`</button>
+            <button class="ui purple button tiny" onClick="startCd('`+ service_name + `')"><i class="docker icon"></i>`+globalFrontendText["start_cd"]+`</button>
         </div>
     `;
 
@@ -1038,7 +1039,7 @@ function startPush(serviceName) {
 }
 
 function startCi(repo_path, repo_branch) {  
-    customPrompt = "基于代码库 "+repo_path+" 的 "+repo_branch+" 分支触发持续集成。" 
+    customPrompt = "git repo: "+repo_path+", branch: "+repo_branch+", "+globalFrontendText["start_ci"]
 
     thinkUI(customPrompt, globalFrontendText["ai_think"])
     
@@ -1049,6 +1050,21 @@ function startCi(repo_path, repo_branch) {
     }
 
     sendAjaxRequest('/step_devops/trigger_ci', "POST", requestData, successCallback, aiErrorCallback, true, true)
+}
+
+function startCd(repo_path) {  
+    customPrompt = globalFrontendText["start_cd"]+": "+repo_path
+
+    thinkUI(customPrompt, globalFrontendText["ai_think"])
+    
+    var requestData = JSON.stringify({ 'repo_path': repo_path})
+
+    successCallback = function(data) {
+        var str = globalFrontendText["start_cd"]+": "+data.data["internet_ip"]
+        $(".ai-code").eq($('ai-code').length - 1).html(str);
+    }
+
+    sendAjaxRequest('/step_devops/trigger_cd', "POST", requestData, successCallback, aiErrorCallback, true, true)
 }
 
 function taskOk(newPrompt, element, operType) {
@@ -1094,44 +1110,48 @@ function refreshPluginciStatus(piplineID, repopath, piplineUrl, element, times) 
         contentType: 'application/json',
         dataType: 'json'
     }).done(data => {
-        data=data.data
-        console.log(data)
-        var loadingClass = ""
-        if( times < 20 ) {
-            loadingClass = "loading"
-        }
-        var str = `<h4>自动化集成测试 <div class="ui olive `+loadingClass+` button" onclick="refreshPluginciStatus('` + piplineID + `','` + repopath + `', '`+piplineUrl+`', this, 20)"><i class="sync icon"></i>更新状态</div><div class="ui blue button" onclick="window.open('`+piplineUrl+`', '_blank');"><i class="tasks icon"></i>访问流水线</div></h4><div class="ui middle aligned divided list">`
-        var allDone = true
-        data["piplineJobs"].forEach(element => {
-            var jobDone = false
-            let icon = '<i class="pause circle brown icon big pluginci-status" data-title='+element['status']+'></i>'
-            if (element['status'] == 'success') {
-                jobDone = true
-                icon = '<i class="check circle green icon big pluginci-status" data-title='+element['status']+'></i>'
-            } else if (element['status'] == 'failed' || element['status'] == 'canceled') {
-                icon = '<i class="times circle red  icon big pluginci-status" data-title='+element['status']+'></i>'
-                jobDone = true
-            }
-            str += '<div class="item"><div class="right floated content"><div data-title="执行日志" onClick="myAlert(\'任务日志\',\''+element['log']+'\')" class="ui button pluginci-status">查看日志</div></div>'+icon+'<div class="content">' + element['job_name'] + '</content></div></div>'
-            if (jobDone==false) {
-                allDone = false    
-            }
-        });
-        if (allDone) {
-            str = str.replace("ui olive loading button", "ui olive button")
-            times = 20
-        }
-	str += '</div>'
-
-        $(".ai-code").eq($('ai-code').length - 1).html(str);
-        // $(".ai-code").eq($('ai-code').length - 1).hide().fadeIn('fast');
-        $('.pluginci-refresh').popup();
-        $('.pluginci-status').popup();
-        setTimeout(function () {
+        if( data.success ) {
+            data=data.data
+            console.log(data)
+            var loadingClass = ""
             if( times < 20 ) {
-                refreshPluginciStatus(piplineID, repopath, piplineUrl, element, times)
+                loadingClass = "loading"
             }
-        }, 5000);
+            var str = `<h4>`+globalFrontendText["start_ci"]+` <div class="ui olive `+loadingClass+` button" onclick="refreshPluginciStatus('` + piplineID + `','` + repopath + `', '`+piplineUrl+`', this, 20)"><i class="sync icon"></i>Update</div><div class="ui blue button" onclick="window.open('`+piplineUrl+`', '_blank');"><i class="tasks icon"></i>View</div></h4><div class="ui middle aligned divided list">`
+            var allDone = true
+            data["piplineJobs"].forEach(element => {
+                var jobDone = false
+                let icon = '<i class="pause circle brown icon big pluginci-status" data-title='+element['status']+'></i>'
+                if (element['status'] == 'success') {
+                    jobDone = true
+                    icon = '<i class="check circle green icon big pluginci-status" data-title='+element['status']+'></i>'
+                } else if (element['status'] == 'failed' || element['status'] == 'canceled') {
+                    icon = '<i class="times circle red  icon big pluginci-status" data-title='+element['status']+'></i>'
+                    jobDone = true
+                }
+                str += '<div class="item"><div class="right floated content"><div data-title="执行日志" onClick="myAlert(\'任务日志\',\''+element['log']+'\')" class="ui button pluginci-status">查看日志</div></div>'+icon+'<div class="content">' + element['job_name'] + '</content></div></div>'
+                if (jobDone==false) {
+                    allDone = false    
+                }
+            });
+            if (allDone) {
+                str = str.replace("ui olive loading button", "ui olive button")
+                times = 20
+            }
+        str += '</div>'
+
+            $(".ai-code").eq($('ai-code').length - 1).html(str);
+            // $(".ai-code").eq($('ai-code').length - 1).hide().fadeIn('fast');
+            $('.pluginci-refresh').popup();
+            $('.pluginci-status').popup();
+            setTimeout(function () {
+                if( times < 20 ) {
+                    refreshPluginciStatus(piplineID, repopath, piplineUrl, element, times)
+                }
+            }, 5000);
+        } else {
+            myAlert(globalFrontendText["error"], data.error)
+        }
     }).fail(function () {
 
     });

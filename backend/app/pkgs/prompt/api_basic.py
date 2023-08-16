@@ -24,7 +24,7 @@ note that it contains only the parts that need to be modified for new requiremen
         
 Without any dialogue or explanation, just output the final API only."""})
 
-    return chatCompletion(context)
+    return chatCompletion(context, FAKE_API)
 
 def step1ApiDocTasks(user_prompt, apiDoc):
     context = []
@@ -49,6 +49,84 @@ Existing API：
 """
 
     context.append({"role": "system", "content": content})
-    message, success = chatCompletion(context)
+    message, success = chatCompletion(context, FAKE_API)
 
     return message, context, success
+
+FAKE_API = """
+    Swagger API:
+
+    ```
+    paths:
+    /game/start:
+        post:
+        summary: Start the game
+        responses:
+            200:
+            description: Game started successfully
+            400:
+            description: Game already started
+
+    /game/move:
+        post:
+        summary: Move the snake
+        requestBody:
+            content:
+            application/json:
+                schema:
+                type: object
+                properties:
+                    direction:
+                    type: string
+                    enum: [up, down, left, right]
+                required:
+                    - direction
+        responses:
+            200:
+            description: Snake moved successfully
+            400:
+            description: Invalid direction provided
+            404:
+            description: Game not found or not started
+
+    /game/state:
+        get:
+        summary: Get the current game state
+        responses:
+            200:
+            description: Returns the current game state
+            404:
+            description: Game not found or not started
+
+    /game/speed:
+        post:
+        summary: Adjust the snake's movement speed
+        requestBody:
+            content:
+            application/json:
+                schema:
+                type: object
+                properties:
+                    speed:
+                    type: integer
+                    enum: [1, 2, 3]
+                required:
+                    - speed
+        responses:
+            200:
+            description: Snake speed adjusted successfully
+            400:
+            description: Invalid speed provided
+            404:
+            description: Game not found or not started
+
+    /game/end:
+        post:
+        summary: End the game
+        responses:
+            200:
+            description: Game ended successfully
+            404:
+            description: Game not found or not started
+    ```
+"""

@@ -30,3 +30,7 @@ class AppInfoInterface(ABC):
     @abstractmethod
     def getServiceGitPath(appID, serviceName):
         pass
+
+    @abstractmethod
+    def getServiceDockerImage(appID, serviceName):
+        pass

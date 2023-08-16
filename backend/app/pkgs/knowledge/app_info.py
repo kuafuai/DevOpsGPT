@@ -74,3 +74,27 @@ def getServiceGitWorkflow(appID, serviceName):
         obj = AppInfoPro()
         
     return obj.getServiceGitWorkflow(appID, serviceName)
+
+def getServiceDockerImage(appID, serviceName):
+    if GRADE == "base":
+        obj = AppInfoBasic()
+    else:
+        obj = AppInfoPro()
+        
+    return obj.getServiceDockerImage(appID, serviceName)
+
+def getServiceDockerGroup(appID, serviceName):
+    if GRADE == "base":
+        obj = AppInfoBasic()
+    else:
+        obj = AppInfoPro()
+        
+    return obj.getServiceDockerGroup(appID, serviceName)
+
+def getServiceDockerName(appID, serviceName):
+    if GRADE == "base":
+        obj = AppInfoBasic()
+    else:
+        obj = AppInfoPro()
+        
+    return obj.getServiceDockerName(appID, serviceName)

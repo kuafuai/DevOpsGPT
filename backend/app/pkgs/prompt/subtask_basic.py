@@ -12,8 +12,8 @@ class SubtaskBasic(SubtaskInterface):
     def splitTask(self, feature, serviceName, appBasePrompt, projectInfo, projectLib, serviceStruct, appID):
         #return setpGenCode(TEST_PSEUDOCODE, feature, appBasePrompt, "- You can choose any appropriate development language", serviceStruct)
         if MODE == "FAKE":
-            time.sleep(10)
-            jsonData = parse_chat(TEST_RESULT)
+            time.sleep(5)
+            jsonData = parse_chat(FAKE_SUBTASK)
             return jsonData, True
         
         # get libs 
@@ -241,241 +241,205 @@ def parse_chat(chat):
     # Return the files
     return files
 
-# just for test
-TEST_RESULT = """filepath:index.html
-code explanation: This file is the main HTML file for the game interface. It contains the structure of the game interface and includes the necessary CSS and JavaScript files.
+FAKE_SUBTASK = """
+filepath:index.html
+code explanation: This is the HTML file for the game interface. It includes a canvas element for rendering the game and a link to the CSS file for styling.
 
 ```html
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Snake Game</title>
-  <link rel="stylesheet" type="text/css" href="style.css">
+    <title>Snake Game</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
-  <div id="game-area"></div>
-  <div id="score-display"></div>
-  <div id="game-over-message"></div>
-  <script src="script.js"></script>
+    <canvas id="gameCanvas"></canvas>
+    <script src="script.js"></script>
 </body>
 </html>
 ```
 
 filepath:style.css
-code explanation: This file is used to style the game interface. It contains CSS styles for the game area, score display, and game over message.
+code explanation: This is the CSS file to style the game interface. It sets a border for the game canvas.
 
 ```css
-#game-area {
-  /* CSS styles for the game area */
-}
-
-#score-display {
-  /* CSS styles for the score display */
-}
-
-#game-over-message {
-  /* CSS styles for the game over message */
+#gameCanvas {
+    border: 1px solid black;
 }
 ```
 
 filepath:script.js
-code explanation: This file contains the game logic. It defines variables for game elements and state, and implements functions to initialize the game, handle keyboard inputs, update the game state, render the game interface, start and end the game, restart the game, pause or resume the game, handle game over conditions, generate random food position, check for collisions, update the score display, update the snake's position and length, handle snake movement, handle snake eating food, and handle the game timer.
+code explanation: This is the JavaScript file to handle the game logic. It defines the Snake, Food, and Game classes, as well as event listeners for keyboard input.
 
 ```javascript
-// Define variables for game elements and state
-let gameArea;
-let scoreDisplay;
-let gameOverMessage;
-let snake;
-let food;
-let score;
-let gameIsOver;
-let gameTimer;
+// Snake class to represent the snake in the game
+class Snake {
+    constructor() {
+        // Initialize snake properties
+        this.direction = "right";
+        this.body = [
+            { x: 10, y: 10 },
+            { x: 9, y: 10 },
+            { x: 8, y: 10 }
+        ];
+    }
 
-// Function to initialize the game
-function initializeGame() {
-  gameArea = document.getElementById('game-area');
-  scoreDisplay = document.getElementById('score-display');
-  gameOverMessage = document.getElementById('game-over-message');
-  snake = [{ x: 0, y: 0 }];
-  food = { x: 0, y: 0 };
-  score = 0;
-  gameIsOver = false;
-  gameTimer = null;
-
-  renderGameInterface();
-  startGame();
-}
-
-// Function to handle keyboard inputs
-function handleKeyboardInput(event) {
-  if (event.key === 'ArrowUp' && snake[0].y !== -1) {
-    snake[0].y = -1;
-    snake[0].x = 0;
-  } else if (event.key === 'ArrowDown' && snake[0].y !== 1) {
-    snake[0].y = 1;
-    snake[0].x = 0;
-  } else if (event.key === 'ArrowLeft' && snake[0].x !== -1) {
-    snake[0].x = -1;
-    snake[0].y = 0;
-  } else if (event.key === 'ArrowRight' && snake[0].x !== 1) {
-    snake[0].x = 1;
-    snake[0].y = 0;
-  }
-}
-
-// Function to update the game state
-function updateGameState() {
-  updateSnake();
-  handleSnakeEatingFood();
-  checkCollisions();
-  updateScoreDisplay();
-}
-
-// Function to render the game interface
-function renderGameInterface() {
-  gameArea.innerHTML = '';
-  for (let y = 0; y < 20; y++) {
-    for (let x = 0; x < 20; x++) {
-      const cell = document.createElement('div');
-      cell.classList.add('cell');
-      if (x === food.x && y === food.y) {
-        cell.classList.add('food');
-      }
-      for (const segment of snake) {
-        if (segment.x === x && segment.y === y) {
-          cell.classList.add('snake');
+    move() {
+        // Move the snake in the current direction
+        const head = { ...this.body[0] };
+        switch (this.direction) {
+            case "up":
+                head.y--;
+                break;
+            case "down":
+                head.y++;
+                break;
+            case "left":
+                head.x--;
+                break;
+            case "right":
+                head.x++;
+                break;
         }
-      }
-      gameArea.appendChild(cell);
+        this.body.unshift(head);
+        this.body.pop();
     }
-  }
-  scoreDisplay.textContent = `Score: ${score}`;
-  gameOverMessage.textContent = '';
-}
 
-// Function to start the game
-function startGame() {
-  document.addEventListener('keydown', handleKeyboardInput);
-  gameTimer = setInterval(() => {
-    if (!gameIsOver) {
-      updateGameState();
-      renderGameInterface();
+    changeDirection(direction) {
+        // Change the direction of the snake
+        this.direction = direction;
     }
-  }, 200);
 }
 
-// Function to end the game
-function endGame() {
-  gameIsOver = true;
-  clearInterval(gameTimer);
-  gameOverMessage.textContent = `Game Over! Final Score: ${score}`;
-}
-
-// Function to restart the game
-function restartGame() {
-  snake = [{ x: 0, y: 0 }];
-  food = { x: 0, y: 0 };
-  score = 0;
-  gameIsOver = false;
-  renderGameInterface();
-  startGame();
-}
-
-// Function to pause or resume the game
-function togglePauseGame() {
-  if (gameIsOver) {
-    return;
-  }
-  if (gameTimer) {
-    clearInterval(gameTimer);
-    gameTimer = null;
-  } else {
-    gameTimer = setInterval(() => {
-      if (!gameIsOver) {
-        updateGameState();
-        renderGameInterface();
-      }
-    }, 200);
-  }
-}
-
-// Function to handle game over conditions
-function handleGameOver() {
-  const head = snake[0];
-  if (head.x < 0 || head.x >= 20 || head.y < 0 || head.y >= 20) {
-    endGame();
-  }
-  for (let i = 1; i < snake.length; i++) {
-    if (head.x === snake[i].x && head.y === snake[i].y) {
-      endGame();
-      break;
+// Food class to represent the food in the game
+class Food {
+    constructor() {
+        // Initialize food properties
+        this.position = { x: 5, y: 5 };
     }
-  }
+
+    generatePosition() {
+        // Generate a new random position for the food
+        this.position = {
+            x: Math.floor(Math.random() * 20),
+            y: Math.floor(Math.random() * 20)
+        };
+    }
 }
 
-// Function to generate random food position
-function generateFoodPosition() {
-  food.x = Math.floor(Math.random() * 20);
-  food.y = Math.floor(Math.random() * 20);
+// Game class to manage the game state
+class Game {
+    constructor() {
+        // Initialize game properties
+        this.canvas = document.getElementById("gameCanvas");
+        this.context = this.canvas.getContext("2d");
+        this.snake = new Snake();
+        this.food = new Food();
+        this.score = 0;
+        this.gameOver = false;
+        this.interval = null;
+    }
+
+    start() {
+        // Start the game
+        this.interval = setInterval(() => {
+            this.update();
+            this.render();
+        }, 200);
+    }
+
+    end() {
+        // End the game
+        clearInterval(this.interval);
+        this.gameOver = true;
+        alert("Game Over");
+    }
+
+    update() {
+        // Update the game state
+        this.snake.move();
+
+        // Check if the snake has collided with the wall
+        const head = this.snake.body[0];
+        if (
+            head.x < 0 ||
+            head.x >= this.canvas.width / 10 ||
+            head.y < 0 ||
+            head.y >= this.canvas.height / 10
+        ) {
+            this.end();
+            return;
+        }
+
+        // Check if the snake has collided with itself
+        for (let i = 1; i < this.snake.body.length; i++) {
+            if (head.x === this.snake.body[i].x && head.y === this.snake.body[i].y) {
+                this.end();
+                return;
+            }
+        }
+
+        // Check if the snake has eaten the food
+        if (head.x === this.food.position.x && head.y === this.food.position.y) {
+            this.snake.body.push({});
+            this.food.generatePosition();
+            this.score++;
+        }
+    }
+
+    render() {
+        // Render the game on the canvas
+        this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+
+        // Render the snake
+        this.context.fillStyle = "green";
+        for (let i = 0; i < this.snake.body.length; i++) {
+            const { x, y } = this.snake.body[i];
+            this.context.fillRect(x * 10, y * 10, 10, 10);
+        }
+
+        // Render the food
+        this.context.fillStyle = "red";
+        const { x, y } = this.food.position;
+        this.context.fillRect(x * 10, y * 10, 10, 10);
+
+        // Render the score
+        this.context.fillStyle = "black";
+        this.context.font = "20px Arial";
+        this.context.fillText(`Score: ${this.score}`, 10, 20);
+    }
 }
 
-// Function to check for collisions with walls or snake body
-function checkCollisions() {
-  handleGameOver();
+// Event listeners to handle keyboard input
+document.addEventListener("keydown", function(event) {
+    const direction = getDirection(event.keyCode);
+    if (direction) {
+        game.snake.changeDirection(direction);
+    }
+});
+
+function getDirection(keyCode) {
+    switch (keyCode) {
+        case 37:
+            return "left";
+        case 38:
+            return "up";
+        case 39:
+            return "right";
+        case 40:
+            return "down";
+        default:
+            return null;
+    }
 }
 
-// Function to update the score display
-function updateScoreDisplay() {
-  scoreDisplay.textContent = `Score: ${score}`;
-}
+// Create an instance of the Game class
+const game = new Game();
 
-// Function to update the snake's position and length
-function updateSnake() {
-  const head = { x: snake[0].x, y: snake[0].y };
-  snake.unshift(head);
-  if (head.x === food.x && head.y === food.y) {
-    score++;
-    generateFoodPosition();
-  } else {
-    snake.pop();
-  }
-}
-
-// Function to handle snake movement
-function handleSnakeMovement() {
-  const head = snake[0];
-  head.x += head.x;
-  head.y += head.y;
-}
-
-// Function to handle snake eating food
-function handleSnakeEatingFood() {
-  const head = snake[0];
-  if (head.x === food.x && head.y === food.y) {
-    score++;
-    generateFoodPosition();
-  }
-}
-
-// Function to handle game timer
-function handleGameTimer() {
-  if (!gameIsOver) {
-    updateGameState();
-    renderGameInterface();
-  }
-}
-
-// Function to handle game initialization
-function handleGameInitialization() {
-  initializeGame();
-}
-
-// Call the function to initialize the game
-handleGameInitialization();
+// Start the game
+game.start();
 ```
-
-Please note that the above code is a complete implementation of the Snake Game based on the provided development specification and requirements. However, it may require additional styling and fine-tuning to meet specific design preferences and performance optimizations."""
+"""
 
 
 TEST_PSEUDOCODE =  """index.html

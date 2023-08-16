@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-08-02 17:03+0800\n"
+"POT-Creation-Date: 2023-08-15 18:55+0800\n"
 "PO-Revision-Date: 2023-07-17 18:36+0800\n"
 "Last-Translator: booboo <mac@booboo.local>\n"
 "Language-Team: Language i18n/zh\n"
@@ -16,241 +16,253 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: backend/app/pkgs/tools/i18b.py:31
+#: backend/app/pkgs/tools/i18b.py:34
 msgid "DevOpsGPT"
 msgstr ""
 
-#: backend/app/pkgs/tools/i18b.py:32
+#: backend/app/pkgs/tools/i18b.py:35
 msgid "切换为中文"
 msgstr "Switch to English"
 
-#: backend/app/pkgs/tools/i18b.py:33
+#: backend/app/pkgs/tools/i18b.py:36
 msgid "Start"
 msgstr "开始"
 
-#: backend/app/pkgs/tools/i18b.py:34
+#: backend/app/pkgs/tools/i18b.py:37
 msgid "More"
 msgstr "更多"
 
-#: backend/app/pkgs/tools/i18b.py:35
+#: backend/app/pkgs/tools/i18b.py:38
 msgid "Hello"
 msgstr "你好"
 
-#: backend/app/pkgs/tools/i18b.py:36
+#: backend/app/pkgs/tools/i18b.py:39
 msgid "Login"
 msgstr "登录"
 
-#: backend/app/pkgs/tools/i18b.py:37
+#: backend/app/pkgs/tools/i18b.py:40
 msgid "Logout"
 msgstr "退出登录"
 
-#: backend/app/pkgs/tools/i18b.py:38
+#: backend/app/pkgs/tools/i18b.py:41
 msgid "ERROR"
 msgstr "错误"
 
-#: backend/app/pkgs/tools/i18b.py:39
+#: backend/app/pkgs/tools/i18b.py:42
 msgid ""
 "The services involved are not analyzed. Check whether the application "
 "architecture information is accurate"
 msgstr "未分析出涉及的服务，请确认应用架构信息是否准确"
 
-#: backend/app/pkgs/tools/i18b.py:40
+#: backend/app/pkgs/tools/i18b.py:43
 msgid "Thinking..."
 msgstr "思考中..."
 
-#: backend/app/pkgs/tools/i18b.py:41
+#: backend/app/pkgs/tools/i18b.py:44
 msgid ""
 "Hello, I am the AI-assisted code development assistant, please select the"
 msgstr "你好，我是 AI 辅助需求开发助手，请先选择"
 
-#: backend/app/pkgs/tools/i18b.py:42
+#: backend/app/pkgs/tools/i18b.py:45
 msgid "to start the development task!"
 msgstr "开始开发任务吧！"
 
-#: backend/app/pkgs/tools/i18b.py:43
+#: backend/app/pkgs/tools/i18b.py:46
 msgid "I need to develop requirements in the"
 msgstr "我需要在"
 
-#: backend/app/pkgs/tools/i18b.py:44
+#: backend/app/pkgs/tools/i18b.py:47
 msgid "Task APP"
 msgstr "开发应用"
 
-#: backend/app/pkgs/tools/i18b.py:45
+#: backend/app/pkgs/tools/i18b.py:48
 msgid "Task ID"
 msgstr "任务编号"
 
-#: backend/app/pkgs/tools/i18b.py:46
+#: backend/app/pkgs/tools/i18b.py:49
 msgid "Task repo"
 msgstr "涉及仓库"
 
-#: backend/app/pkgs/tools/i18b.py:47
+#: backend/app/pkgs/tools/i18b.py:50
 msgid "Task branch: Based on"
 msgstr "分支规范: 基于"
 
-#: backend/app/pkgs/tools/i18b.py:48
+#: backend/app/pkgs/tools/i18b.py:51
 msgid "to development"
 msgstr "开发"
 
-#: backend/app/pkgs/tools/i18b.py:49
+#: backend/app/pkgs/tools/i18b.py:52
 msgid ""
 "Now, please tell me the requirements that need to be completed, describing "
 "them in as much detail as possible."
 msgstr "现在，请告诉我需要完成的需求，尽量描述详细。"
 
-#: backend/app/pkgs/tools/i18b.py:50
+#: backend/app/pkgs/tools/i18b.py:53
 msgid "Development requirements overview: "
 msgstr "需求概述："
 
-#: backend/app/pkgs/tools/i18b.py:51
+#: backend/app/pkgs/tools/i18b.py:54
 msgid "Development requirements details: "
 msgstr "详细描述："
 
-#: backend/app/pkgs/tools/i18b.py:52
+#: backend/app/pkgs/tools/i18b.py:55
 msgid ""
 "The requirements document has been generated, and the interface document "
 "will be generated after confirmation: "
 msgstr "需求文档已生成，确认后将生成接口文档："
 
-#: backend/app/pkgs/tools/i18b.py:53
+#: backend/app/pkgs/tools/i18b.py:56
 msgid ""
 "In order to better understand the requirements, I also need to confirm the "
 "following questions: "
 msgstr "为了更好的理解需求，我还需要确认以下问题："
 
-#: backend/app/pkgs/tools/i18b.py:54
+#: backend/app/pkgs/tools/i18b.py:57
 msgid ""
 "The interface documentation has been generated, and once confirmed, the "
 "analysis of how to modify the program code will begin: "
 msgstr "接口文档已生成，确认后将开始分析如何修改程序代码："
 
-#: backend/app/pkgs/tools/i18b.py:55
+#: backend/app/pkgs/tools/i18b.py:58
 msgid "Confirm interface document."
 msgstr "确认接口文档。"
 
-#: backend/app/pkgs/tools/i18b.py:56
+#: backend/app/pkgs/tools/i18b.py:59
 msgid "Analyzing how to modify the"
 msgstr "正在根据需求描述分析如何修改"
 
-#: backend/app/pkgs/tools/i18b.py:57
+#: backend/app/pkgs/tools/i18b.py:60
 msgid ""
 "code according to the requirement description, it is expected to take 1-6 "
 "minutes, please wait..."
 msgstr "代码，预计需要 1-6 分钟，请稍等..."
 
-#: backend/app/pkgs/tools/i18b.py:58
+#: backend/app/pkgs/tools/i18b.py:61
 msgid ""
 "According to the above development tasks and the product database, I analyze "
 "that the following contents need to be modified:"
 msgstr "根据以上开发任务以及产品的资料库，我分析需要修改以下内容："
 
-#: backend/app/pkgs/tools/i18b.py:59
+#: backend/app/pkgs/tools/i18b.py:62
 msgid "Start CI"
 msgstr "持续集成"
 
-#: backend/app/pkgs/tools/i18b.py:60
+#: backend/app/pkgs/tools/i18b.py:63
 msgid "Submit code"
 msgstr "提交代码"
 
-#: backend/app/pkgs/tools/i18b.py:61
+#: backend/app/pkgs/tools/i18b.py:64
 msgid "Auto check"
 msgstr "自我检查"
 
-#: backend/app/pkgs/tools/i18b.py:62
+#: backend/app/pkgs/tools/i18b.py:65
 msgid "Modify file"
 msgstr "文件信息"
 
-#: backend/app/pkgs/tools/i18b.py:63
+#: backend/app/pkgs/tools/i18b.py:66
 msgid "Reason for modification"
 msgstr "修改原因"
 
-#: backend/app/pkgs/tools/i18b.py:64
+#: backend/app/pkgs/tools/i18b.py:67
 msgid "Adjust code"
 msgstr "调整代码"
 
-#: backend/app/pkgs/tools/i18b.py:65
+#: backend/app/pkgs/tools/i18b.py:68
 msgid "Review code"
 msgstr "查看代码"
 
-#: backend/app/pkgs/tools/i18b.py:66
+#: backend/app/pkgs/tools/i18b.py:69
 msgid "Status"
 msgstr "状态"
 
-#: backend/app/pkgs/tools/i18b.py:67
+#: backend/app/pkgs/tools/i18b.py:70
 msgid "APP"
 msgstr "应用"
 
-#: backend/app/pkgs/tools/i18b.py:68
+#: backend/app/pkgs/tools/i18b.py:71
 msgid "Select APP"
 msgstr "选择应用"
 
-#: backend/app/pkgs/tools/i18b.py:69
+#: backend/app/pkgs/tools/i18b.py:72
 msgid "Requirement description"
 msgstr "开发需求"
 
-#: backend/app/pkgs/tools/i18b.py:70
+#: backend/app/pkgs/tools/i18b.py:73
 msgid "Operation"
 msgstr "操作"
 
-#: backend/app/pkgs/tools/i18b.py:71
+#: backend/app/pkgs/tools/i18b.py:74
 msgid "Submit"
 msgstr "提交"
 
-#: backend/app/pkgs/tools/i18b.py:72
+#: backend/app/pkgs/tools/i18b.py:75
 msgid "Ok"
 msgstr "好的"
 
-#: backend/app/pkgs/tools/i18b.py:73
+#: backend/app/pkgs/tools/i18b.py:76
 msgid "Edit"
 msgstr "编辑"
 
-#: backend/app/pkgs/tools/i18b.py:74
+#: backend/app/pkgs/tools/i18b.py:77
 msgid "Close"
 msgstr "关闭"
 
-#: backend/app/pkgs/tools/i18b.py:75
+#: backend/app/pkgs/tools/i18b.py:78
 msgid "Cancel"
 msgstr "取消"
 
-#: backend/app/pkgs/tools/i18b.py:76
+#: backend/app/pkgs/tools/i18b.py:79
 msgid "Retry"
 msgstr "重试"
 
-#: backend/app/pkgs/tools/i18b.py:77
+#: backend/app/pkgs/tools/i18b.py:80
 msgid "Restart"
 msgstr "重启"
 
-#: backend/app/pkgs/tools/i18b.py:78
+#: backend/app/pkgs/tools/i18b.py:81
 msgid "Question"
 msgstr "问题"
 
-#: backend/app/pkgs/tools/i18b.py:79
+#: backend/app/pkgs/tools/i18b.py:82
 msgid "Answer"
 msgstr "回答"
 
-#: backend/app/pkgs/tools/i18b.py:80
+#: backend/app/pkgs/tools/i18b.py:83
 msgid "Initial code"
 msgstr "初始代码"
 
-#: backend/app/pkgs/tools/i18b.py:81
+#: backend/app/pkgs/tools/i18b.py:84
 msgid "Self check"
 msgstr "自我检查"
 
-#: backend/app/pkgs/tools/i18b.py:82
+#: backend/app/pkgs/tools/i18b.py:85
 msgid "Compile check"
 msgstr "编译检查"
 
-#: backend/app/pkgs/tools/i18b.py:83
+#: backend/app/pkgs/tools/i18b.py:86
 msgid "Fix Compile check"
 msgstr "修复编译问题"
 
-#: backend/app/pkgs/tools/i18b.py:84
+#: backend/app/pkgs/tools/i18b.py:87
 msgid "Static scan"
 msgstr "静态扫描"
 
-#: backend/app/pkgs/tools/i18b.py:85
+#: backend/app/pkgs/tools/i18b.py:88
 msgid "Fix Static scan"
 msgstr "修复扫描问题"
 
-#: backend/app/pkgs/tools/i18b.py:86
+#: backend/app/pkgs/tools/i18b.py:89
 msgid "No problem found in the current file, refer to other solutions:"
+msgstr "当前文件未发现问题，参考其他解决方案："
+
+#: backend/app/pkgs/tools/i18b.py:90
+msgid ""
+"The back-end service returns an exception. Contact the administrator to "
+"check the terminal service logs and browser consol."
 msgstr ""
+"后端服务返回异常，请联系管理员检查终端服务日志以及浏览器控制台报错信息。"
+
+
+#: backend/app/pkgs/tools/i18b.py:91
+msgid "Start deployment"
+msgstr "开始部署"

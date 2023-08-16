@@ -4,8 +4,9 @@ from app.pkgs.prompt.prompt import aiAnalyzeError
 from app.pkgs.devops.local_tools import compileCheck, lintCheck
 from app.pkgs.tools.i18b import getI18n
 from app.pkgs.devops.devops import triggerPipeline, getPipelineStatus
-from app.pkgs.knowledge.app_info import getServiceGitPath, getServiceGitWorkflow
+from app.pkgs.knowledge.app_info import getServiceGitPath, getServiceGitWorkflow, getServiceDockerImage, getServiceDockerGroup, getServiceDockerName
 from app.pkgs.tools.file_tool import get_ws_path
+from app.pkgs.devops.cd import triggerCD
 from config import WORKSPACE_PATH
 from flask import Blueprint
 
@@ -36,10 +37,14 @@ def plugin_ci():
     pipeline_id = request.args.get('piplineID')
     repopath = request.args.get('repopath')
 
-    piplineJobs = getPipelineStatus(pipeline_id, repopath)
+    piplineJobs, success = getPipelineStatus(pipeline_id, repopath)
     print("piplineJobs:", piplineJobs)
 
-    return {'piplineJobs': piplineJobs}
+    if success:
+        return {'piplineJobs': piplineJobs}
+    else:
+        raise Exception(piplineJobs)
+    
 
 
 @bp.route('/check_compile', methods=['POST'])
@@ -86,3 +91,19 @@ def check_lint():
             return {'pass': False, 'message': message, 'reasoning': reasoning}
         else:
             raise Exception(_("Static code scan failed for unknown reasons."))
+
+@bp.route('/trigger_cd', methods=['POST'])
+@json_response
+def trigger_cd():
+    username = session['username']
+    appID = session[username]['memory']['task_info']['app_id']
+    serviceName = request.json.get('repo_path')
+    image, success = getServiceDockerImage(appID, serviceName)
+    dockerGroup, success = getServiceDockerGroup(appID, serviceName)
+    dockerName, success = getServiceDockerName(appID, serviceName)
+
+    result, success = triggerCD(image, dockerGroup, dockerName)
+    if success:
+        return {"internet_ip": result}
+    else:
+        raise Exception(result)

@@ -29,9 +29,11 @@ DevOpsGPT supports integration with Git. When enabled, development tasks can pul
 5. GIT_EMAIL: Git email.
 6. APPS.service.git_path: Git path corresponding to the application, including the group, e.g., kuafuai/template_freestyleApp.
 
-### CI/CD Tool Configuration
+### CI Tool Configuration
 
 DevOpsGPT supports integration with CI tools like GitlabCI, GithubActions, etc., triggering your pipeline upon code submission.
+
+video: https://www.youtube.com/watch?v=7ZnrHo_brv4
 
 <img src="files/ci.png" width="80%">
 
@@ -39,6 +41,21 @@ DevOpsGPT supports integration with CI tools like GitlabCI, GithubActions, etc.,
 2. GIT_API: Configure the Git API address, e.g., https://api.github.com.
 3. If using Gitlab, set up the pipeline, e.g., [.gitlab-ci.yml](https://github.com/kuafuai/template_javaWebApp_backend/blob/master/.gitlab-ci.yml). Also, configure Gitlab runner in Gitlab, details in the [Gitlab documentation](https://docs.gitlab.com/runner/).
 4. If using Github, set up the pipeline, e.g., [default.yaml](https://github.com/kuafuai/template_javaWebApp_backend/blob/master/.github/workflows/default.yaml). Refer to the [Github documentation](https://docs.github.com/en/actions/learn-github-actions) for details.
+
+### CD Tool Configuration
+
+Automated deployment implementations Deploy developed applications to a cloud service in one click for all to access and use, truly moving from natural language requirements to working software!
+
+video: https://www.youtube.com/watch?v=3peUJeB_afo
+
+The following uses Alibaba Cloud as an example to describe the configuration, similar to other cloud platforms, note: the use of cloud platform resources may incur a small fee.
+
+1. Create an AccessKey on the cloud platform: Move the mouse to the avatar - Select AccessKey Management - Create an AccessKey
+2. From the Kay created above, configure CD_ACCESS_KEY and CD_SECRET_KEY
+3. CD_REGION: Set the deployment area, such as deployment to Hong Kong, can be configured as: cn-hongkong, please consult the cloud platform customer service
+4. CD_EIP: Create a public IP address on the cloud platform for accessing the public network (the region must match CD_REGION).
+5. CD_SECURITY: Create a security group on the cloud platform to enable external ports when services are started
+6. CD_SWITCH：Create a switch on the cloud platform
 
 ### APPS Configuration
 
