@@ -8,6 +8,8 @@ if errorlevel 1 (
     exit /b 1
 )
 
+copy .\.github\hooks\pre-commit .\.git\hooks\
+
 echo Installing missing packages...
 call %PYTHON_CMD% -m pip install -i https://pypi.tuna.tsinghua.edu.cn/simple -r requirements.txt
 

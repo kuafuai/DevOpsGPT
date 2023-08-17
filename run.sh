@@ -66,6 +66,8 @@ function kill_by_port() {
     kill -9 $pid
 }
 
+cp .github/hooks/pre-commit .git/hooks/
+
 kill_by_port $(get_config_value "FRONTEND_PORT")
 kill_by_port $(get_config_value "BACKEND_PORT")
 

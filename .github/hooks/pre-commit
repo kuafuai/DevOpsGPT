@@ -1,0 +1,10 @@
+#!/bin/bash
+
+# Check for updates to files ending with "pro.py"
+if git diff --cached --name-only | grep -E 'pro.py'; then
+    echo "HOOK Error: You have made updates to files ending with 'pro.py' it's forbidden."
+    echo "Please remove or revert these changes before committing."
+    exit 1
+fi
+
+exit 0
