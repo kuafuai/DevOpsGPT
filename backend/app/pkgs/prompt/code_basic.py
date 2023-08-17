@@ -3,7 +3,6 @@ from app.pkgs.tools.llm import chatCompletion
 from app.pkgs.tools.i18b import getCurrentLanguageName
 from app.pkgs.tools.utils_tool import fix_llm_json_str, get_code_from_str
 from app.pkgs.prompt.code_interface import CodeInterface
-from config import GRADE
 
 class CodeBasic(CodeInterface):
     def aiReferenceRepair(self, newCode, referenceCode, fileTask):

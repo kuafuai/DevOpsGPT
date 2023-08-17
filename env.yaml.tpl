@@ -126,7 +126,7 @@ APPS: |
     },
     {
         "id": 1,
-        "name": "Demo application with python+html front-end and back-end separation（前后端分离应用java+html）",
+        "name": "Demo application with java+html front-end and back-end separation（前后端分离应用java+html）",
         "intro": "This is a java+html front-end and back-end separation project, back-end 'java_demo_backend' use spring mvc framework, front-end 'java_demo_frontend' use html+jquery+semantic-ui. Front-end and back-end define interaction interfaces through Swagger documentation.",
         "default_source_branch": "master",
         "default_target_branch": "feat/xxx",

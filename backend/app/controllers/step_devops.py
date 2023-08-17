@@ -77,10 +77,13 @@ def check_lint():
     _ = getI18n("controllers")
     task_id = session[session['username']]['memory']['task_info']['task_id']
     file_path = request.json.get('file_path')
-    repo_path = request.json.get('service_name')
-    ws_path = WORKSPACE_PATH+task_id+'/'+repo_path
+    serviceName = request.json.get('service_name')
+    username = session['username']
+    appID = session[username]['memory']['task_info']['app_id']
+    gitPath, success = getServiceGitPath(appID, serviceName)
+    ws_path = get_ws_path(task_id)
 
-    success, message = lintCheck(ws_path, repo_path, file_path)
+    success, message = lintCheck(ws_path, gitPath, file_path)
 
     if success:
         reasoning = _("Static code scan passed.")

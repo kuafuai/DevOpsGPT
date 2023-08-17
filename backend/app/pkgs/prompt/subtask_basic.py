@@ -4,9 +4,8 @@ import time
 from app.pkgs.tools.llm import chatCompletion
 from app.pkgs.tools.utils_tool import fix_llm_json_str
 from app.pkgs.prompt.subtask_interface import SubtaskInterface
-from app.pkgs.knowledge.app_info import getServiceSpecification, getServiceStruct
+from app.pkgs.knowledge.app_info import getServiceSpecification
 from config import MODE
-from app.pkgs.tools.i18b import getCurrentLanguageName
 
 class SubtaskBasic(SubtaskInterface):
     def splitTask(self, feature, serviceName, appBasePrompt, projectInfo, projectLib, serviceStruct, appID):
@@ -212,6 +211,7 @@ You should only directly respond in JSON format as described below, Ensure the r
     })
 
     data, success = chatCompletion(context)
+    data = fix_llm_json_str(data)
 
     return json.loads(data), success
 

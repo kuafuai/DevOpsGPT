@@ -76,7 +76,7 @@ Note: Keep conversations in """+getCurrentLanguageName()+""".
         else:
             return organize(firstPrompt, requirementsDetail, appArchitecture)
 
-        
+        message = fix_llm_json_str(message)
         return json.loads(message), success
     
 def organize(firstPrompt, requirementsDetail, appArchitecture):

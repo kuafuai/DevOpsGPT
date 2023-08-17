@@ -42,7 +42,6 @@ function sendAjaxRequest(url, method, requestData, successCallback, errorCallbac
             console.log(data.error)
             try {
                 errorCallback(data.error + "<br />" + globalFrontendText["backend_return_error"]);
-                console.error(error);
             } catch (error) {
                 myAlert("ERROR", error);
                 console.error(error);
@@ -463,7 +462,12 @@ function createWS(serviceName, sourceBranch, featureBranch) {
 
     successCallback = function(data){}
 
-    sendAjaxRequest('/workspace/create', "POST", requestData, successCallback, alertErrorCallback, true, false)
+    errorCallback = function(error) {
+        var retruBtn = '<br /><br /><button class="ui green button" onClick="createWS(\''+serviceName+'\', \''+sourceBranch+'\', \''+featureBranch+'\')">'+globalFrontendText["retry"]+'</button>'
+        myAlertPure("ERROR", error + retruBtn)
+    }
+
+    sendAjaxRequest('/workspace/create', "POST", requestData, successCallback, errorCallback, false, false)
 }
 
 function fixLint(solution, uuid, file_path, service_name, times) {
@@ -945,11 +949,14 @@ function getIdxByUUID(service_name, uuid) {
 }
 
 function pluginTaskList(info) {
+    var service_name = info["service_name"]
+    
+    createWS(service_name, globalMemory["task_info"]["source_branch"], globalMemory["task_info"]["feature_branch"])
+
     var str = `<p>`+globalFrontendText["ai_api_subtask"]+`</p>`
 
-    var service_name = info["service_name"]
     globalTasks[service_name.replace("/","-")] = info["files"]
-    createWS(service_name, globalMemory["task_info"]["source_branch"], globalMemory["task_info"]["feature_branch"])
+    
     var service_str = `
         <h4 class="ui horizontal divider header">
             <i class="coffee icon brown"></i>

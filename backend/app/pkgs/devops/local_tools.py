@@ -39,10 +39,9 @@ def compileCheck(ws_path,repo_path):
     return True, result.stdout
 
 def lintCheck(ws_path, repo_path, file_path):
-    print("check_lint:"+ws_path)
     if detect_programming_language(file_path) == "Python":
         result = subprocess.run(
-            ['pylint', '--disable=all', '--enable=syntax-error', file_path], capture_output=True, text=True, cwd=ws_path)
+            ['pylint', '--disable=all', '--enable=syntax-error', f"{repo_path}/{file_path}"], capture_output=True, text=True, cwd=ws_path)
     else:
         return True, "Code Scan PAAS."
         

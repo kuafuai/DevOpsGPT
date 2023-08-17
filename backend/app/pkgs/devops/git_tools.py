@@ -1,25 +1,31 @@
+import platform
 import subprocess
 from config import GIT_TOKEN, GIT_URL, GIT_USERNAME, GIT_EMAIL
 
-def pullCode(ws_path, repo_path, base_branch, feature_branch):    
-    result = subprocess.run(
-        ['mkdir', '-p', ws_path], capture_output=True, text=True)
+def pullCode(ws_path, repo_path, base_branch, feature_branch):
+    system = platform.system()
+    if system == 'Windows':
+        cmd = ['mkdir', ws_path]
+    else:
+        cmd = ['mkdir', '-p', ws_path]
+
+    result = subprocess.run(cmd, capture_output=True, text=True)
     if result.returncode != 0:
         print(result.stderr)
-        return False, result.stderr
+        return False, "mkdir failed: "+result.stderr
 
     gitUrl = genCloneUrl(repo_path)
     print(f"pullCode start {gitUrl} {base_branch} {repo_path} {ws_path}")
     result = subprocess.run(['git', 'clone', '-b', base_branch, gitUrl, repo_path], capture_output=True, text=True, cwd=ws_path)
     if result.returncode != 0:
         print(result.stderr)
-        return False, result.stderr
+        return False, "git clone failed: "+result.stderr
 
     result = subprocess.run(
         ['git', 'checkout', '-b', feature_branch], capture_output=True, text=True, cwd=ws_path+'/'+repo_path)
     if result.returncode != 0:
         print(result.stderr)
-        return False, result.stderr
+        return False, "git checkout branch failed: "+result.stderr
 
     print(f"Code clone success. in {ws_path}")
     return True, f"Code clone success. in {ws_path}"
