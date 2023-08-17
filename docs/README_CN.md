@@ -17,6 +17,8 @@
 ## 简介
 欢迎了解AI驱动的智能软件开发平台（以下简称 DevOpsGPT）。我们将 LLM（Large Language Model）和 DevOps 工具相结合，通过利用Chat-GPT等大型语言模型的能力，将自然语言需求转化为可工作的软件。这一创新功能可以极大地提高开发效率，缩短开发周期，并降低沟通成本，从而带来更高质量的软件交付。
 
+<img src="files/intro-flow-simple.png"></a>
+
 ## 功能与优势
 通过使用 DevOpsGPT，您将获得以下优势:
 
