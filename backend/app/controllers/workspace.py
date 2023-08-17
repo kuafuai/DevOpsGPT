@@ -1,11 +1,9 @@
-import re
 from flask import request, session
 from app.controllers.common import json_response
 from app.pkgs.tools.i18b import getI18n
 from app.pkgs.devops.git_tools import pullCode, pushCode
 from app.pkgs.knowledge.app_info import getServiceGitPath
 from config import GIT_ENABLED
-from config import WORKSPACE_PATH
 from app.pkgs.tools.file_tool import get_ws_path, write_file_content
 from flask import Blueprint
 
@@ -22,7 +20,7 @@ def save_code():
     username = session['username']
     appID = session[username]['memory']['task_info']['app_id']
     gitPath, success = getServiceGitPath(appID, serviceName)
-    path = WORKSPACE_PATH+task_id+'/'+gitPath+"/"+file_path
+    path = get_ws_path(task_id)+'/'+gitPath+"/"+file_path
     write_file_content(path, code)
     return _("Saved code successfully.")
 
@@ -49,7 +47,7 @@ def create():
     if success:
         return _("Create workspace successfully.")
     else:
-        raise Exception(_("Failed to create workspace.")+f"In the {ws_path} directory, {msg}")
+        raise Exception(_("Failed to create workspace.")+f"In the {ws_path}/{gitPath} directory, {msg}")
 
 @bp.route('/gitpush', methods=['POST'])
 @json_response
