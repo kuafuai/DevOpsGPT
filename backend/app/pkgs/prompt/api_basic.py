@@ -1,6 +1,5 @@
 from app.pkgs.tools.llm import chatCompletion
 from app.pkgs.prompt.api_interface import ApiInterface
-from app.pkgs.knowledge.app_info import getServiceSwagger
 
 class ApiBasic(ApiInterface):
     def clarifyAPI(self, userPrompt, apiDoc):
