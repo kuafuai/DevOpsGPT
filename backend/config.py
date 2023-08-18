@@ -9,10 +9,12 @@ def read_config(key):
             config = yaml.safe_load(file)
             value = config.get(key)
     except Exception as e:
-        print(f"\033[91mError: Failed to read the {key} configuration, please 【copy a new env.yaml from env.yaml.tpl】 and reconfigure it according to the documentation. \033[0m")
+        print(f"\033[91mError: Failed to read the {key} configuration, please copy a new env.yaml from env.yaml.tpl and reconfigure it according to the documentation. 读取配置错误，请重新从 env.yaml.tpl 复制一个 env.yaml 进行配置后重启程序。\033[0m")
+        input("Press Enter to exit...")
         exit()
     if value is None:
-        print(f"\033[91mError: Failed to read the {key} configuration, please 【copy a new env.yaml from env.yaml.tpl】 and reconfigure it according to the documentation. \033[0m")
+        print(f"\033[91mError: Failed to read the {key} configuration, please copy a new env.yaml from env.yaml.tpl and reconfigure it according to the documentation. 读取配置错误，请重新从 env.yaml.tpl 复制一个 env.yaml 进行配置后重启程序。\033[0m")
+        input("Press Enter to exit...")
         exit()
 
     return value
@@ -48,5 +50,6 @@ try:
     CD_SECURITY = read_config("CD_SECURITY")
     CD_SWITCH = read_config("CD_SWITCH")
 except Exception as e:
-    print(f"\033[91mError: Failed to read the configuration, please 【copy a new env.yaml from env.yaml.tpl】 and reconfigure it according to the documentation. Error in env.yaml: {str(e)}. \033[0m")
+    print(f"\033[91mError: Failed to read the configuration, please copy a new env.yaml from env.yaml.tpl and reconfigure it according to the documentation. Error in env.yaml: {str(e)}. 读取配置错误，请重新从 env.yaml.tpl 复制一个 env.yaml 进行配置后重启程序。 \033[0m")
+    input("Press Enter to exit...")
     exit()
