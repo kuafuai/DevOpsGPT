@@ -1,18 +1,12 @@
-import platform
+import os
 import subprocess
 from config import GIT_TOKEN, GIT_URL, GIT_USERNAME, GIT_EMAIL
 
 def pullCode(ws_path, repo_path, base_branch, feature_branch):
-    system = platform.system()
-    if system == 'Windows':
-        cmd = ['mkdir', ws_path]
-    else:
-        cmd = ['mkdir', '-p', ws_path]
-
-    result = subprocess.run(cmd, capture_output=True, text=True)
-    if result.returncode != 0:
-        print(result.stderr)
-        return False, "mkdir failed: "+result.stderr
+    try:
+        os.makedirs(ws_path, exist_ok=True)
+    except Exception as e:
+        return False, "mkdir failed: "+str(e)
 
     gitUrl = genCloneUrl(repo_path)
     print(f"pullCode start {gitUrl} {base_branch} {repo_path} {ws_path}")
