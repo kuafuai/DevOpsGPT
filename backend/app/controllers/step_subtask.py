@@ -20,7 +20,7 @@ def analysis():
     username = session['username']
     requirementDoc = session[username]['memory']['originalPrompt']
     sourceBranch = session[username]['memory']['task_info']['source_branch']
-    wsPath = get_ws_path(session[username]['memory']['task_info']['task_id'])
+    _ = get_ws_path(session[username]['memory']['task_info']['task_id'])
 
     # todo Use llm to determine which interface documents to adjust
     appID = session[username]['memory']['task_info']['app_id']
