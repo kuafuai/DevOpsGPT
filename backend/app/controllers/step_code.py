@@ -14,7 +14,6 @@ def edit_file_task():
     newTask = request.json.get('new_task')
     newCode = request.json.get('new_code')
     fileTask = request.json.get('file_task')
-    userName = session["username"]
 
     re, success = aiGenCode(fileTask, newTask, newCode)
     if not success:
