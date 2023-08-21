@@ -85,7 +85,7 @@ Although we strive to enhance enterprise-level software development efficiency a
 
 - Accurate requirement decomposition and development task breakdown based on existing projects.
 - New product experiences for rapid import of development requirements and parallel automation of software development and deployment.
-- Introduce more software engineering tools and professional tools to quickly complete various software development tasks under AI planning and exectuion.
+- Introduce more software engineering tools and professional tools to quickly complete various software development tasks under AI planning and execution.
 
 We invite you to participate in the DevOpsGPT project and [contribute](./docs/CONTRIBUTING.md) to the automation and innovation of software development, creating smarter and more efficient software systems!
 
