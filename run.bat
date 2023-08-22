@@ -64,7 +64,7 @@ GOTO:EOF
         for /f "delims=" %%a in ('set HTTP_PROXY= ^& set HTTPS_PROXY= ^& set ALL_PROXY= ^& set http_proxy= ^& set https_proxy= ^& set all_proxy= ^& curl -s -o nul -w "%%{http_code}" http://127.0.0.1:%BACKEND_PORT%') do set "response=%%a"
 
         echo !response!
-        if "!response!"=="404" (
+        if "!response!"=="200" (
             echo.
             echo Service started successfully, please use a browser to visit: http://127.0.0.1:!FRONTEND_PORT!
             GOTO :starFrontend
