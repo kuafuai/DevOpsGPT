@@ -13,7 +13,8 @@ RUN apt install python3.10-dev python3.10-venv python3-pip -y
 
 # Utils
 RUN apt install -y curl \
-    lsof 
+    lsof \
+    git
 
 COPY ./ /app
 
