@@ -1,5 +1,6 @@
 from app.models.app import App
 from app.pkgs.knowledge.app_info_interface import AppInfoInterface
+from app.pkgs.tools.i18b import getI18n
 
 class AppInfoBasic(AppInfoInterface):
     def getAppArchitecture(self, appID):
@@ -173,3 +174,29 @@ class AppInfoBasic(AppInfoInterface):
                         gitWorkflow = service["docker_name"]
 
         return gitWorkflow, True
+    
+    def analyzeService(self, gitPath):
+        _ = getI18n("controllers")
+        reJson = {
+            "name" : gitPath,
+            "git_config_id": 0,
+            "ci_config_id": 0,
+            "cd_config_id": 0,
+            "cd_container_name": "",
+            "cd_container_group": "",
+            "cd_region": "",
+            "cd_public_ip": "",
+            "cd_security_group": "",
+            "cd_subnet": "",
+            "git_path": "gitPath",
+            "git_workflow": "default.yaml",
+            "role": _("The open source version does not support this feature"),
+            "struct_cache": "unkonwn",
+            "language": "unkonwn",
+            "framework": "unkonwn",
+            "database": "unkonwn",
+            "api_type": "swagger",
+            "api_location": "",
+            "service_libs_name": "no"
+        }
+        return reJson, True

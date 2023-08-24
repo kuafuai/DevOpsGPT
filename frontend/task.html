@@ -16,6 +16,7 @@
   <script src="./static/js/marked.min.js"></script>
   <script src="./static/js/diff.min.js"></script>
   <script src="./static/js/coder.js?v=73"></script>
+  <script src="./static/js/app.js?v=73"></script>
 </head>
 
 <body>
@@ -25,8 +26,8 @@
         <img class="logo" src="./static/image/logo.png" style="margin-right: 5px;">
         <span class="f_title"></span>
       </div>
-      <a class="active item" href="index.html"><span class="f_start_task">开始开发</span></a>
-      <a class="item" href="task.html"><span class="f_requirement_list">需求列表</span></a>
+      <a class="item" href="index.html"><span class="f_start_task">开始开发</span></a>
+      <a class="active item" href="task.html"><span class="f_requirement_list">需求列表</span></a>
       <a class="item" href="app.html"><span class="f_app_list">应用列表</span></a>
       <a class="item" href="setting.html"><span class="f_app_list">配置管理</span></a>
       <a href="#" class="ui right floated dropdown item">
@@ -40,80 +41,26 @@
     </div>
   </div>
 
-  <div class="ai-code-container">
-    <div class="ui container grid">
-      <div class="one wide column">
-        <i class="orange reddit square icon big" style="font-size: 3em;"></i>
-      </div>
-      <div class="fifteen wide column ai-content">
-        <div class="ai-code">
-          <span class="f_ai_start_1"></span>
-          <div class="ui olive button model-selector">
-            <i class="app store ios icon"></i> <span class="f_app"></span>
-          </div>
-          <span class="f_ai_start_2"></span>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="ai-prompt-container">
-    <div class="ui container">
-      <div class="ui form">
-        <div class="field">
-          <label><span class="f_requirement_description"></span>:</label>
-          <textarea rows="6" id="prompt-textarea"></textarea>
-          <input type="hidden" id="prompt-hidePrompt">
-        </div>
-      </div>
-    </div>
-  </div>
-
   <div class="ui container">
-
-    <div class="ui form">
-      <div class="ui padded grid">
-        <div class="row">
-          <div class="eight wide column" id="generate-code-div">
-            <button class="ui primary button fluid" id="generate-code-button"><span class="f_submit"></span></button>
-          </div>
-          <div class="eight wide column" id="cancel-task-div">
-            <button class="ui red button fluid" id="cancel-task"><span class="f_restart"></span></button>
-          </div>
-        </div>
-      </div>
-    </div>
+    <table class="ui celled structured table">
+      <thead>
+        <tr>
+          <th>应用名称</th>
+          <th>应用介绍</th>
+          <th>默认源分支</th>
+          <th>默认新功能分支</th>
+          <th>服务名称</th>
+          <th>服务用途</th>
+          <th>开发语言</th>
+          <th>开发框架</th>
+        </tr>
+      </thead>
+      <tbody id="app_list">
+        
+      </tbody>
+    </table>
   </div>
 
-  <div class="ui modal" id="task-model">
-    <div class="content" id="task-content">
-    </div>
-  </div>
-  <div class="ui modal" id="model-diff">
-    <div class="content">
-      <div id="diff-output"></div>
-    </div>
-    <div class="actions">
-      <input type="hidden" id="code-actions-uuid" value="">
-      <div class="ui orange button" id="code-actions-edit"><span class="f_edit"></span></div>
-      <div class="ui button" id="code-actions-cancel"><span class="f_close"></span></div>
-    </div>
-  </div>
-  <div class="ui modal" id="model-edit-code">
-    <div class="content" style="width:auto">
-      <div class="ui form">
-        <div class="field">
-          <label><span class="f_edit"></span></label>
-          <textarea id="code-edit-code" rows="35"></textarea>
-        </div>
-      </div>
-    </div>
-    <div class="actions">
-      <div class="ui green button" id="code-edit-code-save"><span class="f_submit"></span></div>
-      <!-- div class="ui blue button" id="code-edit-use-old"><span class="f_use_old_code"></span></div -->
-      <div class="ui button" id="code-edit-code-cancel"><span class="f_cancel"></span></div>
-    </div>
-  </div>
   <div class="ui modal" id="model-edit">
     <div class="content">
       <div class="ui form">
@@ -129,25 +76,13 @@
       <div class="ui button" id="mode-edit-content-cancel"><span class="f_cancel"></span></div>
     </div>
   </div>
-  <div class="ui modal" id="model-modal">
-    <div class="header"><span class="f_select_app"></span></div>
-    <div class="content">
-      <div class="ui fluid icon input">
-        <input type="text" placeholder="">
-        <i class="search icon"></i>
-      </div>
-      <div class="ui celled list model_list">
-      </div>
-    </div>
-    <div class="actions">
-      <div class="ui button" id="model-cancel"><span class="f_cancel"></span></div>
-    </div>
-  </div>
+
   <div class="ui modal" id="my-alert">
     <div class="header" id="my-alert-title"></div>
     <div class="content" id="my-alert-content">
     </div>
   </div>
+
   <div class="ui modal" id="my-login">
     <div class="header"><span class="f_login"></span></div>
     <div class="content">
@@ -172,5 +107,4 @@
     <span id="watermark-username"></span> @ <span class="f_title"></span></div>
   </div>
 </body>
-
 </html>

@@ -5,3 +5,4 @@ python-gitlab
 openai==0.27.8
 aliyun-python-sdk-core
 aliyun-python-sdk-eci
+alembic

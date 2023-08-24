@@ -347,7 +347,7 @@ function logincheck() {
     successCallback = function(data) {
         var username = data.data.username
         const url = window.location;
-        const newUrl = url.origin;
+        const newUrl = url.origin+url.pathname;
         history.pushState('', '', newUrl); 
         $("#current-username").html(username)
         $("#watermark-username").html(username)

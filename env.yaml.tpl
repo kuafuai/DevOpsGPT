@@ -39,7 +39,7 @@ BACKEND_HOST: '0.0.0.0'
 BACKEND_DEBUG: true
 APP_SECRET_KEY: 'Es*lsnGptDevOps'
 WORKSPACE_PATH: './workspace/'
-SQLALCHEMY_DATABASE_URI: 'sqlite:///app.db'
+SQLALCHEMY_DATABASE_URI: 'sqlite:///../db/database.db'
 MODE: "REAL" # FAKE、REAL
 GRADE: "base"
 

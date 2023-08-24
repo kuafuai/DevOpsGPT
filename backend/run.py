@@ -45,6 +45,7 @@ def after_request(response):
 
 register_controllers(app)
 
+print(app.config.get("SQLALCHEMY_DATABASE_URI"))
 db.init_app(app)
 
 if __name__ == '__main__':

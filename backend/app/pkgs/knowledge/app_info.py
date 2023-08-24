@@ -98,3 +98,11 @@ def getServiceDockerName(appID, serviceName):
         obj = AppInfoPro()
         
     return obj.getServiceDockerName(appID, serviceName)
+
+def analyzeService(gitPath):
+    if GRADE == "base":
+        obj = AppInfoBasic()
+    else:
+        obj = AppInfoPro()
+        
+    return obj.analyzeService(gitPath)

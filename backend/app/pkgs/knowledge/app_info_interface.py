@@ -34,3 +34,7 @@ class AppInfoInterface(ABC):
     @abstractmethod
     def getServiceDockerImage(appID, serviceName):
         pass
+
+    @abstractmethod
+    def analyzeService(gitPath):
+        pass
