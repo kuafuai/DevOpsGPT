@@ -1,17 +1,20 @@
 import html
-import json
 import time
 import requests
 import re
 from app.pkgs.devops.devops_interface import DevopsInterface
-from config import GIT_TOKEN, GIT_API, GIT_URL
 
 class DevopsGitHub(DevopsInterface):
-    def triggerPipeline(self, branch_name, repopath, gitWorkflow):
+    def triggerPipeline(self, branch_name, serviceInfo, ciConfig):
+        gitURL = ciConfig["git_url"]
+        ciURL = ciConfig["ci_api_url"]
+        ciToken = ciConfig["ci_token"]
+        repopath = serviceInfo["git_path"]
+        gitWorkflow = serviceInfo["git_workflow"]
         try:
-            pipeline_url = f"{GIT_API}/repos/{repopath}/actions/workflows/{gitWorkflow}/dispatches"
+            pipeline_url = f"{ciURL}/repos/{repopath}/actions/workflows/{gitWorkflow}/dispatches"
             headers = {
-                "Authorization": f"Bearer {GIT_TOKEN}",
+                "Authorization": f"Bearer {ciToken}",
                 "Accept": "application/vnd.github+json",
                 "X-GitHub-Api-Version": "2022-11-28"
             }
@@ -27,7 +30,7 @@ class DevopsGitHub(DevopsInterface):
                 time.sleep(3)
 
                 # Get the most recent record
-                workflow_url = f"{GIT_API}/repos/{repopath}/actions/workflows/{gitWorkflow}/runs"
+                workflow_url = f"{ciURL}/repos/{repopath}/actions/workflows/{gitWorkflow}/runs"
                 response = requests.get(workflow_url, headers=headers)
                 print(response.json())
                 if response.status_code == 200:
@@ -36,21 +39,23 @@ class DevopsGitHub(DevopsInterface):
                         run_id = run["id"]
                         break
 
-                return "Get pipline status...", run_id, f"{GIT_URL}/{repopath}/actions/runs/{run_id}", True
+                return "Get pipline status...", run_id, f"{gitURL}/{repopath}/actions/runs/{run_id}", True
             else:
-                return f"Failed to trigger pipeline giturl:{GIT_API} repopath:{repopath} branch:{branch_name} gitWorkflow:{gitWorkflow}, Error: {str(e)}", 0, "", False
+                return f"Failed to trigger pipeline giturl:{ciURL} repopath:{repopath} branch:{branch_name} gitWorkflow:{gitWorkflow}, Error: {str(e)}", 0, "", False
         except Exception as e:
-            return f"Failed to trigger pipeline giturl:{GIT_API} repopath:{repopath} branch:{branch_name} gitWorkflow:{gitWorkflow}, Error: {str(e)}", 0, "", False
+            return f"Failed to trigger pipeline giturl:{ciURL} repopath:{repopath} branch:{branch_name} gitWorkflow:{gitWorkflow}, Error: {str(e)}", 0, "", False
 
-    def getPipelineStatus(self, run_id, repopath):
+    def getPipelineStatus(self, run_id, repopath, ciConfig):
+        ciToken = ciConfig["ci_token"]
+        ciURL = ciConfig["ci_api_url"]
         try:
             headers = {
-                "Authorization": f"Bearer {GIT_TOKEN}",
+                "Authorization": f"Bearer {ciToken}",
                 "Accept": "application/vnd.github+json",
                 "X-GitHub-Api-Version": "2022-11-28"
             }
             
-            run_details_url = f"{GIT_API}/repos/{repopath}/actions/runs/{run_id}"
+            run_details_url = f"{ciURL}/repos/{repopath}/actions/runs/{run_id}"
             run_response = requests.get(run_details_url, headers=headers)
             print(run_response)
             
@@ -88,10 +93,11 @@ class DevopsGitHub(DevopsInterface):
         except Exception as e:
             return f"Failed to get pipeline status for repo {repopath} and pipeline ID {run_id}, Error: {str(e)}", False
 
-    def getPipelineJobLogs(self, repopath, pipeline_id, job_id):
+    def getPipelineJobLogs(self, repopath, pipeline_id, job_id, ciConfig):
+        ciToken = ciConfig["ci_token"]
         try:
             headers = {
-                "Authorization": f"Bearer {GIT_TOKEN}",
+                "Authorization": f"Bearer {ciToken}",
                 "Accept": "application/vnd.github+json",
                 "X-GitHub-Api-Version": "2022-11-28"
             }

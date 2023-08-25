@@ -16,7 +16,9 @@ def clarify():
     userName = session["username"]
 
     appID = session[userName]['memory']['task_info']['app_id']
-    if len(appID) == 0:
+    print(appID)
+    print("---------")
+    if len(appID) == 0 or not appID:
         raise Exception(_("Please select the application you want to develop."))
     
     appArchitecture, _ = getAppArchitecture(appID)

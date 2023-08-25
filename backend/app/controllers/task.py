@@ -15,6 +15,8 @@ def clear_up():
         print("clear_up failed:"+str(e))
     
     session[session["username"]] = getEmptyTaskInfo()
+    # todo 1
+    session['tenant_id'] = 0
     session.update()
 
     return {"username": session["username"], "info": session[session["username"]]} 

@@ -5,7 +5,6 @@ from app.pkgs.tools.i18b import getCurrentLanguageName
 from app.pkgs.tools.utils_tool import fix_llm_json_str
 from app.pkgs.prompt.requirement_interface import RequirementInterface
 from app.pkgs.tools.llm import chatCompletion
-from app.pkgs.knowledge.app_info import getAppArchitecture
 
 class RequirementBasic(RequirementInterface):
     def clarifyRequirement(self, userPrompt, globalContext, appArchitecture):

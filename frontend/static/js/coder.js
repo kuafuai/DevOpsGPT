@@ -111,17 +111,6 @@ function modelInfoUpdate(appName, content) {
     sendAjaxRequest('/app/update', 'POST', requestData, successCallback, alertErrorCallback, true, false)
 }
 
-function modelInfoRead(appName, appCode) {
-    requestData = JSON.stringify({ "app_name": appName })
-
-    successCallback = function(data) {
-        $("#mode-edit-content").val(data.content)
-        $("#mode-edit-app-name").val(appName)
-    }
-
-    sendAjaxRequest('/app/get', 'POST', requestData, successCallback, alertErrorCallback, true, false)
-}
-
 function modelSelected(appName, appID, repos) {
     source_branch = $("#model_source_branch_" + appID).val()
     feature_branch = $("#model_feature_branch_" + appID).val()
@@ -188,13 +177,12 @@ $(document).ready(function () {
                             `+globalFrontendText["app"]+`: `+app.name+`
                             <br />
                             `+globalFrontendText["ai_selected_app_4"]+`
-                            <input type="text" placeholder="" value="`+app.default_source_branch+`" class="fenzhiguifan" id="model_source_branch_`+app.id+`">
+                            <input type="text" placeholder="" value="`+app.default_source_branch+`" class="fenzhiguifan" id="model_source_branch_`+app.app_id+`">
                             `+globalFrontendText["ai_selected_app_5"]+`
-                            <input type="text" placeholder="" value="`+app.default_target_branch+`" class="fenzhiguifan" id="model_feature_branch_`+app.id+`">
+                            <input type="text" placeholder="" value="`+app.default_target_branch+`" class="fenzhiguifan" id="model_feature_branch_`+app.app_id+`">
                         </div>
-                        <div class="description" style="line-height: 25px;">`+app.intro+`</div>
-                        <!-- div class="ui button green model-selected" onClick="modelInfoRead('`+app.name+`','`+app.id+`', '`+escapeHtml(app.intro)+`', '`+app.api_doc_url+`', '`+app.repos+`')" style="float: right;"></div -->
-                        <div class="ui button blue model-selected" onClick="modelSelected('`+app.name+`','`+app.id+`', '`+repos+`')" style="float: right;">`+globalFrontendText["start"]+`</div> 
+                        <div class="description" style="line-height: 25px;">`+app.description+`</div>
+                        <div class="ui button blue model-selected" onClick="modelSelected('`+app.name+`','`+app.app_id+`', '`+repos+`')" style="float: right;">`+globalFrontendText["start"]+`</div> 
                         </div>
                     </div>
                 `
@@ -347,7 +335,7 @@ function logincheck() {
     successCallback = function(data) {
         var username = data.data.username
         const url = window.location;
-        const newUrl = url.origin;
+        const newUrl = url.origin+url.pathname;
         history.pushState('', '', newUrl); 
         $("#current-username").html(username)
         $("#watermark-username").html(username)
@@ -458,7 +446,8 @@ function pluginTaskRunner(info) {
 }
 
 function createWS(serviceName, sourceBranch, featureBranch) {
-    var requestData = JSON.stringify({ 'repo_path': serviceName, 'base_branch': sourceBranch, 'feature_branch': featureBranch })
+    $("#my-alert").modal('hide')
+    var requestData = JSON.stringify({ 'repo_path': serviceName, 'base_branch': sourceBranch, 'feature_branch': featureBranch, 'task_id': getTaskID() })
 
     successCallback = function(data){}
 
@@ -564,7 +553,7 @@ function fixCompile(solution, uuid, file_path, service_name, times) {
 
 function saveCode(service_name, filePath, uuid) {
     var code = gloablCode["newCode_" + uuid]
-    var requestData = JSON.stringify({ 'service_name': service_name, 'file_path': filePath, "code": code})
+    var requestData = JSON.stringify({ 'service_name': service_name, 'file_path': filePath, "code": code, 'task_id': getTaskID() })
 
     successCallback = function(){}
 
@@ -582,7 +571,7 @@ function checkLint(service_name, filePath, uuid, times) {
     $("#task_status_td_" + uuid).html(str)
     $('.task_status_check_lint_button').popup();
 
-    var requestData = JSON.stringify({ 'service_name': service_name, 'file_path': filePath })
+    var requestData = JSON.stringify({ 'service_name': service_name, 'file_path': filePath, 'task_id': getTaskID() })
 
     successCallback = function(data) {
         if (data.data["pass"] == false) {
@@ -628,7 +617,7 @@ function checkCode(code, fileTask, uuid, file_path, service_name) {
     $("#task_status_td_" + uuid).html(str)
     $('.task_status_button').popup();
 
-    var requestData = JSON.stringify({ 'code': code, 'fileTask': fileTask })
+    var requestData = JSON.stringify({ 'code': code, 'fileTask': fileTask, 'task_id': getTaskID() })
 
     successCallback = function(data){
         $("#task_status_check_"+uuid).children().removeClass("spinner")
@@ -684,7 +673,7 @@ function checkCompile(repo_path, times) {
         $('.task_status_button').popup();
     });
 
-    var requestData = JSON.stringify({ 'repo_path': repo_path })
+    var requestData = JSON.stringify({ 'repo_path': repo_path, 'task_id': getTaskID() })
 
     successCallback = function(data) {
         if (data.data["pass"] == false) {
@@ -1036,7 +1025,7 @@ function pluginTaskList(info) {
 }
 
 function startPush(serviceName) {
-    var requestData = JSON.stringify({ 'service_name': serviceName})
+    var requestData = JSON.stringify({ 'service_name': serviceName, 'task_id': getTaskID() })
 
     successCallback = function(data){
         myAlert(globalFrontendText["ok"], data.data)
@@ -1349,3 +1338,22 @@ function compareCode(uuid) {
     $('#diff-output').html('<pre >' + result + '</pre>');
     $('#model-diff').modal('hide').modal('show');
 };
+
+
+function hideMiddleCharacters(inputString) {
+    const middleIndex = Math.floor(inputString.length / 4);
+    const firstHalf = inputString.slice(0, middleIndex);
+
+    const hiddenMiddle = '*'.repeat(middleIndex);
+    return firstHalf + hiddenMiddle ;
+}
+
+function getTaskID() {
+    var queryString = window.location.search;
+
+    var params = new URLSearchParams(queryString);
+
+    var taskId = params.get('task_id');
+
+    return taskId
+}

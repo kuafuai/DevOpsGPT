@@ -1,26 +1,23 @@
 from flask import json
 from app.pkgs.devops.cd_interface import CDInterface
-from config import CD_ACCESS_KEY, CD_SECRET_KEY, CD_REGION, CD_EIP, CD_SECURITY, CD_SWITCH
 from aliyunsdkcore.client import AcsClient
 from aliyunsdkeci.request.v20180808.DescribeContainerGroupsRequest import DescribeContainerGroupsRequest
 from aliyunsdkeci.request.v20180808 import CreateContainerGroupRequest
 import time
 
 class CDAliyun(CDInterface):
-    def __init__(self):
-        self.client = AcsClient(CD_ACCESS_KEY, CD_SECRET_KEY, CD_REGION)
-
-    def triggerCD(self, image, container_grpup, container_name):
+    def triggerCD(self, image, serviceInfo, cdConfig):
+        self.client = AcsClient(cdConfig["ACCESS_KEY"], cdConfig["SECRET_KEY"], serviceInfo["cd_region"])
         # 创建ECI容器组
         request = CreateContainerGroupRequest.CreateContainerGroupRequest()
-        request.set_ContainerGroupName(container_grpup)
+        request.set_ContainerGroupName(serviceInfo["cd_container_group"])
         request.set_RestartPolicy('Never')
-        request.set_EipInstanceId(CD_EIP)
-        request.set_SecurityGroupId(CD_SECURITY)
-        request.set_VSwitchId(CD_SWITCH)
+        request.set_EipInstanceId(serviceInfo["cd_public_ip"])
+        request.set_SecurityGroupId(serviceInfo["cd_security_group"])
+        request.set_VSwitchId(serviceInfo["cd_subnet"])
         
         container_definition = {
-            "Name": container_name,
+            "Name": serviceInfo["cd_container_name"],
             "Image": image,
             "Cpu": 0.5,
             "Memory": 1,

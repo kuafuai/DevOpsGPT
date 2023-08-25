@@ -6,3 +6,7 @@ env.yaml
 .DS_Store
 workspace
 init.sh
+db/versions/*
+db/env.py
+db/README.md
+alembic.ini

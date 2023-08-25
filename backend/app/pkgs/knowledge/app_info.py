@@ -1,39 +1,86 @@
 from app.pkgs.knowledge.app_info_basic import AppInfoBasic
 from app.pkgs.knowledge.app_info_pro import AppInfoPro
+from app.models.application import Application
+from app.models.application_service import ApplicationService
 from config import GRADE
 
-
 def getAppArchitecture(appID):
-    if GRADE == "base":
-        obj = AppInfoBasic()
-    else:
-        obj = AppInfoPro()
-        
-    return obj.getAppArchitecture(appID)
+    appID = int(appID)
+
+    apps = Application.get_all_application("", appID)
+    appArchitecture = ""
+    if len(apps) > 0:
+        services = apps[0]["service"]
+        for service in services:
+            appArchitecture += "service name: "+service["name"]+"\nrole of service: "+service["role"]+"\ndevelopment_language: "+service["language"]+"\ndevelopment_framework: "+service["framework"]+"\n\n"
+
+    return appArchitecture.strip(), True
 
 def getServiceSwagger(appID, serviceName):
-    if GRADE == "base":
-        obj = AppInfoBasic()
-    else:
-        obj = AppInfoPro()
-        
-    return obj.getServiceSwagger(appID, serviceName)
+    appID = int(appID)
+
+    swaggerDoc = ""
+    apps = Application.get_all_application("", appID)
+    if len(apps) > 0:
+        services = apps[0]["service"]
+        for service in services:
+            if service["name"] == serviceName:
+                # todo get interface document content dynamically
+                # todo Use llm to determine which interface documents to adjust
+                swaggerDoc = service["api_location"]
+
+    return swaggerDoc, True
 
 def getServiceBasePrompt(appID, serviceName):
-    if GRADE == "base":
-        obj = AppInfoBasic()
-    else:
-        obj = AppInfoPro()
-        
-    return obj.getServiceBasePrompt(appID, serviceName)
+    appID = int(appID)
+
+    appBasePrompt = ""
+    apps = Application.get_all_application("", appID)
+    if len(apps) > 0:
+        services = apps[0]["service"]
+        serviceNameStr = ""
+        currentServiceStr = ""
+        for service in services:
+            serviceNameStr += service["name"]+","
+            if service["name"] == serviceName:
+                currentServiceStr = "and you are responsible for the development of "+service["name"]+" services. The service uses the "+service["language"]+" language and is developed under the "+service["framework"]+" framework"
+
+        serviceNameStr = serviceNameStr.strip()
+        appBasePrompt = "The application consists of "+serviceNameStr+" services, "+currentServiceStr
+
+    return appBasePrompt, True
 
 def getServiceIntro(appID, serviceName):
-    if GRADE == "base":
-        obj = AppInfoBasic()
-    else:
-        obj = AppInfoPro()
-        
-    return obj.getServiceIntro(appID, serviceName)
+    appID = int(appID)
+
+    appInfo = ""
+    apps = Application.get_all_application("", appID)
+    if len(apps) > 0:
+        services = apps[0]["service"]
+        for service in services:
+            if service["name"] == serviceName:
+                appInfo = "service name: "+service["name"]+"\nrole of service: "+service["role"]+"\ndevelopment_language: "+service["language"]+"\ndevelopment_framework: "+service["framework"]
+
+    return appInfo, True
+
+def getServiceGitPath(appID, serviceName):
+    serviceInfo = ApplicationService.get_service_by_name(appID, serviceName)
+    gitPath = serviceInfo["git_path"]
+
+    return gitPath, True
+
+def getServiceDockerImage(appID, serviceName):
+    appID = int(appID)
+
+    apps = Application.get_all_application("", appID)
+    if len(apps) > 0:
+        services = apps[0]["service"]
+        for service in services:
+            if service["name"] == serviceName:
+                # todo 0
+                gitWorkflow = "todo"
+
+    return gitWorkflow, True
 
 def getServiceLib(appID, serviceName):
     if GRADE == "base":
@@ -59,42 +106,10 @@ def getServiceSpecification(appID, serviceName, LibName):
         
     return obj.getServiceSpecification(appID, serviceName, LibName)
 
-def getServiceGitPath(appID, serviceName):
+def analyzeService(gitPath):
     if GRADE == "base":
         obj = AppInfoBasic()
     else:
         obj = AppInfoPro()
         
-    return obj.getServiceGitPath(appID, serviceName)
-
-def getServiceGitWorkflow(appID, serviceName):
-    if GRADE == "base":
-        obj = AppInfoBasic()
-    else:
-        obj = AppInfoPro()
-        
-    return obj.getServiceGitWorkflow(appID, serviceName)
-
-def getServiceDockerImage(appID, serviceName):
-    if GRADE == "base":
-        obj = AppInfoBasic()
-    else:
-        obj = AppInfoPro()
-        
-    return obj.getServiceDockerImage(appID, serviceName)
-
-def getServiceDockerGroup(appID, serviceName):
-    if GRADE == "base":
-        obj = AppInfoBasic()
-    else:
-        obj = AppInfoPro()
-        
-    return obj.getServiceDockerGroup(appID, serviceName)
-
-def getServiceDockerName(appID, serviceName):
-    if GRADE == "base":
-        obj = AppInfoBasic()
-    else:
-        obj = AppInfoPro()
-        
-    return obj.getServiceDockerName(appID, serviceName)
+    return obj.analyzeService(gitPath)

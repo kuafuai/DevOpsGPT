@@ -4,11 +4,12 @@ from app.pkgs.prompt.prompt import aiAnalyzeError
 from app.pkgs.devops.local_tools import compileCheck, lintCheck
 from app.pkgs.tools.i18b import getI18n
 from app.pkgs.devops.devops import triggerPipeline, getPipelineStatus
-from app.pkgs.knowledge.app_info import getServiceGitPath, getServiceGitWorkflow, getServiceDockerImage, getServiceDockerGroup, getServiceDockerName
+from app.pkgs.knowledge.app_info import getServiceGitPath, getServiceDockerImage
 from app.pkgs.tools.file_tool import get_ws_path
 from app.pkgs.devops.cd import triggerCD
-from config import WORKSPACE_PATH
+from app.models.application_service import ApplicationService
 from flask import Blueprint
+from app.models.setting import getCIConfigList, getCDConfigList
 
 bp = Blueprint('step_devops', __name__, url_prefix='/step_devops')
 
@@ -18,15 +19,15 @@ def trigger_ci():
     serviceName = request.json.get('repo_path')
     username = session['username']
     appID = session[username]['memory']['task_info']['app_id']
-    gitPath, success = getServiceGitPath(appID, serviceName)
-    gitWorkflow, success = getServiceGitWorkflow(appID, serviceName)
-
-    username = session['username']
+    serviceInfo = ApplicationService.get_service_by_name(appID, serviceName)
+    tenantID = session['tenant_id']
+    appID = session[username]['memory']['task_info']['app_id']
+    ciConfigList, success = getCIConfigList(tenantID, appID)
     branch = session[username]['memory']['task_info']['feature_branch']
 
-    result, piplineID, piplineUrl, success = triggerPipeline(branch, gitPath, gitWorkflow)
+    result, piplineID, piplineUrl, success = triggerPipeline(branch, serviceInfo, ciConfigList[0])
     if success:
-        return {"name": 'ci', "info": {"piplineID": piplineID, "repopath": gitPath, "piplineUrl": piplineUrl}}
+        return {"name": 'ci', "info": {"piplineID": piplineID, "repopath": serviceInfo["git_path"], "piplineUrl": piplineUrl}}
     else:
         raise Exception(result)
 
@@ -36,8 +37,12 @@ def trigger_ci():
 def plugin_ci():
     pipeline_id = request.args.get('piplineID')
     repopath = request.args.get('repopath')
+    tenantID = session['tenant_id']
+    username = session['username']
+    appID = session[username]['memory']['task_info']['app_id']
+    ciConfigList, success = getCIConfigList(tenantID, appID)
 
-    piplineJobs, success = getPipelineStatus(pipeline_id, repopath)
+    piplineJobs, success = getPipelineStatus(pipeline_id, repopath, ciConfigList[0])
     print("piplineJobs:", piplineJobs)
 
     if success:
@@ -51,7 +56,7 @@ def plugin_ci():
 @json_response
 def check_compile():
     _ = getI18n("controllers")
-    task_id = session[session['username']]['memory']['task_info']['task_id']
+    task_id = request.json.get('task_id')
     serviceName = request.json.get('repo_path')
     wsPath = get_ws_path(task_id)
     username = session['username']
@@ -75,7 +80,7 @@ def check_compile():
 @json_response
 def check_lint():
     _ = getI18n("controllers")
-    task_id = session[session['username']]['memory']['task_info']['task_id']
+    task_id = request.json.get('task_id')
     file_path = request.json.get('file_path')
     serviceName = request.json.get('service_name')
     username = session['username']
@@ -101,11 +106,14 @@ def trigger_cd():
     username = session['username']
     appID = session[username]['memory']['task_info']['app_id']
     serviceName = request.json.get('repo_path')
+    serviceInfo = ApplicationService.get_service_by_name(appID, serviceName)
     image, success = getServiceDockerImage(appID, serviceName)
-    dockerGroup, success = getServiceDockerGroup(appID, serviceName)
-    dockerName, success = getServiceDockerName(appID, serviceName)
+    tenantID = session['tenant_id']
+    username = session['username']
+    appID = session[username]['memory']['task_info']['app_id']
+    cdConfigList, success = getCDConfigList(tenantID, appID)
 
-    result, success = triggerCD(image, dockerGroup, dockerName)
+    result, success = triggerCD(image, serviceInfo, cdConfigList[0])
     if success:
         return {"internet_ip": result}
     else:

@@ -25,6 +25,8 @@ def login():
     if ok:
         session['logged_in'] = True
         session['username'] = username
+        # todo 1
+        session['tenant_id'] = 0
         return {'message': _('Login successful.')}
     else: 
         raise Exception("Invalid username or password")

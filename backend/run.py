@@ -17,6 +17,8 @@ def require_login():
         if "username" not in session:
             session['logged_in'] = True
             session['username'] = "demo_user"
+            # todo 1
+            session['tenant_id'] = 0
             session[session["username"]] = getEmptyTaskInfo()
 
     if request.path == '/user/language' or request.path == '/user/login':
@@ -45,6 +47,7 @@ def after_request(response):
 
 register_controllers(app)
 
+print(app.config.get("SQLALCHEMY_DATABASE_URI"))
 db.init_app(app)
 
 if __name__ == '__main__':

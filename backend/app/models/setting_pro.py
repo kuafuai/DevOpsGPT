@@ -1,18 +1,18 @@
-from app.pkgs.knowledge.app_info_interface import AppInfoInterface
+from app.models.setting_interface import SettingInterface
 
-class AppInfoPro(AppInfoInterface):
-    def getServiceLib(self, appID, serviceName):
+class SettingPro(SettingInterface):
+    def getGitConfigList(self, tenantID, appID):
         # The current version does not support this feature
         return "", False
-
-    def getServiceStruct(self, appID, serviceName):
+    
+    def getCIConfigList(self, tenantID, appID):
         # The current version does not support this feature
         return "", False
-
-    def getServiceSpecification(self, appID, serviceName, LibName):
+    
+    def getCDConfigList(self, tenantID, appID):
         # The current version does not support this feature
         return "", False
-
-    def analyzeService(self, gitPath):
+    
+    def getLLMConfigList(self, tenantID, appID):
         # The current version does not support this feature
         return "", False
