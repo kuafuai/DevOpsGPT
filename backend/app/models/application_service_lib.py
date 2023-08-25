@@ -55,8 +55,6 @@ class ApplicationServiceLib(db.Model):
         return False
 
     def get_libs_by_service_id(service_id):
-        print("11111111111")
-        print(service_id)
         libs = ApplicationServiceLib.query.filter_by(service_id=service_id).all()
         libs_list = []
         

@@ -55,6 +55,40 @@ class ApplicationService(db.Model):
     @classmethod
     def get_service_by_id(cls, service_id):
         return cls.query.get(service_id)
+    
+    @staticmethod
+    def get_service_by_name(appID, service_name):
+        services = ApplicationService.query.filter_by(name=service_name, app_id=appID).all()
+        print("########")
+        print(appID)
+        print(service_name)
+        print(services)
+
+        service_dict = {}
+        for service in services:
+            service_dict = {
+                'service_id': service.service_id,
+                'app_id': service.app_id,
+                'name': service.name,
+                'git_path': service.git_path,
+                'git_workflow': service.git_workflow,
+                'role': service.role,
+                'language': service.language,
+                'framework': service.framework,
+                'database': service.database,
+                'api_type': service.api_type,
+                'api_location': service.api_location,
+                'cd_container_name': service.cd_container_name,
+                'cd_container_group': service.cd_container_group,
+                'cd_region': service.cd_region,
+                'cd_public_ip': service.cd_public_ip,
+                'cd_security_group': service.cd_security_group,
+                'cd_subnet': service.cd_subnet,
+                'struct_cache': service.struct_cache,
+                'libs': ApplicationServiceLib.get_libs_by_service_id(service.service_id)
+            }
+
+        return service_dict
 
     def update_service(self, name, git_path, git_workflow, role, language, framework, database, api_type, api_location):
         self.name = name

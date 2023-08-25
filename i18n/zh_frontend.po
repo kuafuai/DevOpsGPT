@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-08-15 19:20+0800\n"
+"POT-Creation-Date: 2023-08-25 17:24+0800\n"
 "PO-Revision-Date: 2023-07-17 18:36+0800\n"
 "Last-Translator: booboo <mac@booboo.local>\n"
 "Language-Team: Language i18n/zh\n"
@@ -265,3 +265,87 @@ msgstr ""
 #: backend/app/pkgs/tools/i18b.py:91
 msgid "Start deployment"
 msgstr "开始部署"
+
+#: backend/app/pkgs/tools/i18b.py:92
+msgid "Start task"
+msgstr "开始任务"
+
+#: backend/app/pkgs/tools/i18b.py:93
+msgid "Requirement List"
+msgstr "需求列表"
+
+#: backend/app/pkgs/tools/i18b.py:94
+msgid "APP List"
+msgstr "应用列表"
+
+#: backend/app/pkgs/tools/i18b.py:95
+msgid "Setting"
+msgstr "配置"
+
+#: backend/app/pkgs/tools/i18b.py:96
+msgid "Create new"
+msgstr "新建"
+
+#: backend/app/pkgs/tools/i18b.py:97
+msgid "APP name"
+msgstr "应用名称"
+
+#: backend/app/pkgs/tools/i18b.py:98
+msgid "APP introduction"
+msgstr "应用介绍"
+
+#: backend/app/pkgs/tools/i18b.py:99
+msgid "Base branch"
+msgstr "默认源分支"
+
+#: backend/app/pkgs/tools/i18b.py:100
+msgid "Feature branch"
+msgstr "新需求默认分支"
+
+#: backend/app/pkgs/tools/i18b.py:101
+msgid "Service name"
+msgstr "服务名称"
+
+#: backend/app/pkgs/tools/i18b.py:102
+msgid "Service role"
+msgstr "服务用途"
+
+#: backend/app/pkgs/tools/i18b.py:103
+msgid "Language"
+msgstr "语言"
+
+#: backend/app/pkgs/tools/i18b.py:104
+msgid "Framework"
+msgstr "框架"
+
+#: backend/app/pkgs/tools/i18b.py:105
+msgid "Dependency library"
+msgstr "依赖库"
+
+#: backend/app/pkgs/tools/i18b.py:106
+msgid "APP sub service"
+msgstr "应用包含服务"
+
+#: backend/app/pkgs/tools/i18b.py:107
+msgid "Git path"
+msgstr "代码路径"
+
+#: backend/app/pkgs/tools/i18b.py:108
+msgid "AI code analysis"
+msgstr "AI 代码分析"
+
+#: backend/app/pkgs/tools/i18b.py:109
+msgid "API type"
+msgstr "API 类型"
+
+#: backend/app/pkgs/tools/i18b.py:110
+msgid "API path"
+msgstr "API 路径"
+
+#: backend/app/pkgs/tools/i18b.py:111
+msgid "Service database"
+msgstr "数据库"
+
+#: backend/app/pkgs/tools/i18b.py:112
+msgid "Service code struct"
+msgstr "代码结构"

@@ -1,6 +1,11 @@
 $(document).ready(function () {
     getAppList()
 
+    // show dropdown on hover
+    $('.main.menu  .ui.dropdown').dropdown({
+        on: 'hover'
+    });
+
     $("#add-application").click(function () {
         $('#app-edit').modal('show');
     });
@@ -54,48 +59,48 @@ $(document).ready(function () {
         subserviceLen = subservice.length
         serviceID = subserviceLen+1
         str = `<div class="ui segment subservice" style="display: none;" id="subservice_`+serviceID+`">
-                <h2 class="ui floated header">应用下子服务 `+serviceID+`</h2>
+                <h2 class="ui floated header">`+globalFrontendText["app_sub_service"]+` `+serviceID+`</h2>
                 <div class="field">
-                <label>代码库路径</label>
+                <label>`+globalFrontendText["git_path"]+`</label>
                 <div class="ui action input">
                     <input type="text" id="service_git_path_`+serviceID+`">
-                    <button class="ui button" onClick="analyzeService(`+serviceID+`)" value="1"><span id="ai_analyze_service_icon"><i class="orange reddit square icon"></i></span>AI 代码分析</button>
+                    <button class="ui button" onClick="analyzeService(`+serviceID+`)" value="1"><span id="ai_analyze_service_icon"><i class="orange reddit square icon"></i></span>`+globalFrontendText["ai_code_analysis"]+`</button>
                 </div>
                 </div>
                 <div class="field">
-                <label>服务名称</label>
+                <label>`+globalFrontendText["service_name"]+`</label>
                 <input type="text" id="service_name_`+serviceID+`">
                 </div>
                 <div class="field">
-                <label>服务用途</label>
+                <label>`+globalFrontendText["service_role"]+`</label>
                 <input type="text" id="service_role_`+serviceID+`">
                 </div>
                 <div class="field">
-                <label>开发语言</label>
+                <label>`+globalFrontendText["service_language"]+`</label>
                 <input type="text" id="service_language_`+serviceID+`">
                 </div>
                 <div class="field">
-                <label>开发框架</label>
+                <label>`+globalFrontendText["service_framework"]+`</label>
                 <input type="text" id="service_framework_`+serviceID+`">
                 </div>
                 <div class="field">
-                <label>依赖 lib 包，用 , 分格</label>
+                <label>`+globalFrontendText["service_libs"]+`</label>
                 <input type="text" id="service_libs_name_`+serviceID+`">
                 </div>
                 <div class="field">
-                <label>API 类型</label>
+                <label>`+globalFrontendText["service_api_type"]+`</label>
                 <input type="text" id="service_api_type_`+serviceID+`">
                 </div>
                 <div class="field">
-                <label>API 路径</label>
+                <label>`+globalFrontendText["service_api_path"]+`</label>
                 <input type="text" id="service_api_location_`+serviceID+`">
                 </div>
                 <div class="field">
-                <label>数据库</label>
+                <label>`+globalFrontendText["service_database"]+`</label>
                 <input type="text" id="service_database_`+serviceID+`">
                 </div>
                 <div class="field">
-                <label>应用代码结构</label>
+                <label>`+globalFrontendText["service_code_struct"]+`</label>
                 <textarea id="service_struct_cache_`+serviceID+`" rows="4"></textarea>
                 </div>
                 <div class="field">
@@ -103,27 +108,27 @@ $(document).ready(function () {
                 <input type="text" id="service_workflow_`+serviceID+`">
                 </div>
                 <div class="field">
-                <label>CD - 容器组名称</label>
+                <label>CD - GROUP</label>
                 <input type="text" id="service_container_group_`+serviceID+`">
                 </div>
                 <div class="field">
-                <label>CD - 容器名称</label>
+                <label>CD - NAME</label>
                 <input type="text" id="service_container_name_`+serviceID+`">
                 </div>
                 <div class="field">
-                <label>CD - 部署地域</label>
+                <label>CD - REGION</label>
                 <input type="text" id="service_region_`+serviceID+`">
                 </div>
                 <div class="field">
-                <label>CD - 公网 IP</label>
+                <label>CD - PUBLIC IP</label>
                 <input type="text" id="service_public_ip_`+serviceID+`">
                 </div>
                 <div class="field">
-                <label>CD - 安全组</label>
+                <label>CD - SECURITY GROUP</label>
                 <input type="text" id="service_security_group_`+serviceID+`">
                 </div>
                 <div class="field">
-                <label>CD - 子网/交换机</label>
+                <label>CD - SUBNET/SWITCH</label>
                 <input type="text" id="service_cd_subnet_`+serviceID+`">
                 </div>
             </div>
@@ -161,48 +166,48 @@ function showApp(appID) {
             });
             libsStr = libsStr.replace(/,$/, '');
             str = `<div class="ui segment subservice" style="display: none;" id="subservice_`+serviceID+`">
-                    <h2 class="ui floated header">应用下子服务 `+serviceID+`</h2>
+                    <h2 class="ui floated header">`+globalFrontendText["app_sub_service"]+` `+serviceID+`</h2>
                     <div class="field">
-                    <label>代码库路径</label>
+                    <label>`+globalFrontendText["git_path"]+`</label>
                     <div class="ui action input">
                         <input type="text" id="service_git_path_`+serviceID+`" value="`+service.git_path+`">
-                        <button class="ui button" onClick="analyzeService(`+serviceID+`)" value="1"><span id="ai_analyze_service_icon"><i class="orange reddit square icon"></i></span>AI 代码分析</button>
+                        <button class="ui button" onClick="analyzeService(`+serviceID+`)" value="1"><span id="ai_analyze_service_icon"><i class="orange reddit square icon"></i></span>`+globalFrontendText["ai_code_analysis"]+`</button>
                     </div>
                     </div>
                     <div class="field">
-                    <label>服务名称</label>
+                    <label>`+globalFrontendText["service_name"]+`</label>
                     <input type="text" id="service_name_`+serviceID+`" value="`+service.name+`">
                     </div>
                     <div class="field">
-                    <label>服务用途</label>
+                    <label>`+globalFrontendText["service_role"]+`</label>
                     <input type="text" id="service_role_`+serviceID+`" value="`+service.role+`">
                     </div>
                     <div class="field">
-                    <label>开发语言</label>
+                    <label>`+globalFrontendText["service_language"]+`</label>
                     <input type="text" id="service_language_`+serviceID+`" value="`+service.language+`">
                     </div>
                     <div class="field">
-                    <label>开发框架</label>
+                    <label>`+globalFrontendText["service_framework"]+`</label>
                     <input type="text" id="service_framework_`+serviceID+`" value="`+service.framework+`">
                     </div>
                     <div class="field">
-                    <label>依赖 lib 包，用 , 分格</label>
+                    <label>`+globalFrontendText["service_libs"]+`</label>
                     <input type="text" id="service_libs_name_`+serviceID+`" value="`+libsStr+`">
                     </div>
                     <div class="field">
-                    <label>API 类型</label>
+                    <label>`+globalFrontendText["service_api_type"]+`</label>
                     <input type="text" id="service_api_type_`+serviceID+`" value="`+service.api_type+`">
                     </div>
                     <div class="field">
-                    <label>API 路径</label>
+                    <label>`+globalFrontendText["service_api_path"]+`</label>
                     <input type="text" id="service_api_location_`+serviceID+`" value="`+service.api_location+`">
                     </div>
                     <div class="field">
-                    <label>数据库</label>
+                    <label>`+globalFrontendText["service_database"]+`</label>
                     <input type="text" id="service_database_`+serviceID+`" value="`+service.database+`">
                     </div>
                     <div class="field">
-                    <label>应用代码结构</label>
+                    <label>`+globalFrontendText["service_code_struct"]+`</label>
                     <textarea id="service_struct_cache_`+serviceID+`" rows="4">`+service.struct_cache+`</textarea>
                     </div>
                     <div class="field">
@@ -210,27 +215,27 @@ function showApp(appID) {
                     <input type="text" id="service_workflow_`+serviceID+`" value="`+service.git_workflow+`">
                     </div>
                     <div class="field">
-                    <label>CD - 容器组名称</label>
+                    <label>CD - GROUP</label>
                     <input type="text" id="service_container_group_`+serviceID+`" value="`+service.cd_container_group+`">
                     </div>
                     <div class="field">
-                    <label>CD - 容器名称</label>
+                    <label>CD - NAME</label>
                     <input type="text" id="service_container_name_`+serviceID+`" value="`+service.cd_container_name+`">
                     </div>
                     <div class="field">
-                    <label>CD - 部署地域</label>
+                    <label>CD - REGION</label>
                     <input type="text" id="service_region_`+serviceID+`" value="`+service.cd_region+`">
                     </div>
                     <div class="field">
-                    <label>CD - 公网 IP</label>
+                    <label>CD - PUBLIC IP</label>
                     <input type="text" id="service_public_ip_`+serviceID+`" value="`+service.cd_public_ip+`">
                     </div>
                     <div class="field">
-                    <label>CD - 安全组</label>
+                    <label>CD - SECURITY GROUP</label>
                     <input type="text" id="service_security_group_`+serviceID+`" value="`+service.cd_security_group+`">
                     </div>
                     <div class="field">
-                    <label>CD - 子网/交换机</label>
+                    <label>CD - SUBNET/SWITCH</label>
                     <input type="text" id="service_cd_subnet_`+serviceID+`" value="`+service.cd_subnet+`">
                     </div>
                 </div>

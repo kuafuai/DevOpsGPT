@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-08-15 19:20+0800\n"
+"POT-Creation-Date: 2023-08-25 17:39+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -264,4 +264,88 @@ msgstr ""
 
 #: backend/app/pkgs/tools/i18b.py:91
 msgid "Start deployment"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:92
+msgid "Start task"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:93
+msgid "Requirement List"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:94
+msgid "APP List"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:95
+msgid "Setting"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:96
+msgid "Create new"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:97
+msgid "APP name"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:98
+msgid "APP introduction"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:99
+msgid "Base branch"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:100
+msgid "Feature branch"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:101
+msgid "Service name"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:102
+msgid "Service role"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:103
+msgid "Language"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:104
+msgid "Framework"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:105
+msgid "Dependency library"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:106
+msgid "APP sub service"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:107
+msgid "Git path"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:108
+msgid "AI code analysis"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:109
+msgid "API type"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:110
+msgid "API path"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:111
+msgid "Service database"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:112
+msgid "Service code struct"
 msgstr ""

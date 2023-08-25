@@ -1,4 +1,4 @@
-from config import APPS, USERS
+from config import USERS
 
 class User():
     def checkPassword(username, password):

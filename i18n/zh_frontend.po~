@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-08-15 18:55+0800\n"
+"POT-Creation-Date: 2023-08-15 19:20+0800\n"
 "PO-Revision-Date: 2023-07-17 18:36+0800\n"
 "Last-Translator: booboo <mac@booboo.local>\n"
 "Language-Team: Language i18n/zh\n"
@@ -261,7 +261,6 @@ msgid ""
 "check the terminal service logs and browser consol."
 msgstr ""
 "后端服务返回异常，请联系管理员检查终端服务日志以及浏览器控制台报错信息。"
-
 
 #: backend/app/pkgs/tools/i18b.py:91
 msgid "Start deployment"

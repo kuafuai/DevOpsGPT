@@ -17,6 +17,8 @@ def require_login():
         if "username" not in session:
             session['logged_in'] = True
             session['username'] = "demo_user"
+            # todo 1
+            session['tenant_id'] = 0
             session[session["username"]] = getEmptyTaskInfo()
 
     if request.path == '/user/language' or request.path == '/user/login':

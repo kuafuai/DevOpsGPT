@@ -18,8 +18,6 @@ class SubtaskBasic(SubtaskInterface):
         # get libs 
         data, success = setpReqChooseLib(feature, appBasePrompt, projectInfo, projectLib)
         code_require = []
-        default_msg, _ = getServiceSpecification(appID, serviceName, "Default")
-        code_require.append(default_msg)
         for t in data:
             name = t['name']
             require_msg, _ = getServiceSpecification(appID, serviceName, name)

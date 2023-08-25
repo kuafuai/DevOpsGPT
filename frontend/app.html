@@ -26,10 +26,10 @@
         <img class="logo" src="./static/image/logo.png" style="margin-right: 5px;">
         <span class="f_title"></span>
       </div>
-      <a class="item" href="index.html"><span class="f_start_task">开始开发</span></a>
-      <a class="item" href="task.html"><span class="f_requirement_list">需求列表</span></a>
-      <a class="active item" href="app.html"><span class="f_app_list">应用列表</span></a>
-      <a class="item" href="setting.html"><span class="f_app_list">配置管理</span></a>
+      <a class="item" href="index.html"><span class="f_start_task"></span></a>
+      <a class="item" href="task.html"><span class="f_requirement_list"></span></a>
+      <a class="active item" href="app.html"><span class="f_app_list"></span></a>
+      <a class="item" href="setting.html"><span class="f_setting"></span></a>
       <a href="#" class="ui right floated dropdown item">
         <span class="f_more_operations"></span> <i class="dropdown icon"></i>
         <div class="menu">
@@ -44,21 +44,21 @@
   <div class="ui container">
     <button class="ui linkedin button" id="add-application">
       <i class="plus square outline icon"></i>
-      新建应用
+      <span class="f_create_new"></span>
     </button>
   </div>
   <div class="ui container">
     <table class="ui celled structured table">
       <thead>
         <tr>
-          <th>应用名称</th>
-          <th>应用介绍</th>
-          <th>默认源分支</th>
-          <th>默认新功能分支</th>
-          <th>服务名称</th>
-          <th>服务用途</th>
-          <th>开发语言</th>
-          <th>开发框架</th>
+          <th><span class="f_app_name"></span></th>
+          <th><span class="f_app_intro"></span></th>
+          <th><span class="f_app_base_branch"></span></th>
+          <th><span class="f_app_feat_branch"></span></th>
+          <th><span class="f_service_name"></span></th>
+          <th><span class="f_service_role"></span></th>
+          <th><span class="f_service_language"></span></th>
+          <th><span class="f_service_framework"></span></th>
         </tr>
       </thead>
       <tbody id="app_list">
@@ -71,31 +71,31 @@
     <div class="content">
       <div class="ui form">
         <div class="field">
-          <label>应用名称</label>
+          <label><span class="f_app_name"></span></label>
           <input type="hidden" id="app_id">
           <input type="text" id="app_name">
         </div>
         <div class="field">
-          <label>应用描述</label>
+          <label><span class="f_app_intro"></span></label>
           <textarea id="app_description" rows="4"></textarea>
         </div>
         <div class="field">
-          <label>默认源分支</label>
+          <label><span class="f_app_base_branch"></span></label>
           <input type="text" id="app_default_source_branch">
         </div>
         <div class="field">
-          <label>默认需求分支</label>
+          <label><span class="f_app_feat_branch"></span></label>
           <input type="text" id="app_default_target_branch">
         </div>
         <div class="field" style="margin-bottom:20px">
           <button class="ui linkedin button" id="add-service">
             <i class="plus square outline icon"></i>
-            添加应用下包含的服务
+            <span class="f_app_sub_service"></span>
           </button>
         </div>
     </div>
     <div class="actions">
-      <div class="ui green button" id="app-edit-save"><span class="f_submit"></span>（新增应用，暂不支持更新）</div>
+      <div class="ui green button" id="app-edit-save"><span class="f_submit"></span></div>
       <div class="ui button" id="app-edit-cancel"><span class="f_cancel"></span></div>
     </div>
   </div>

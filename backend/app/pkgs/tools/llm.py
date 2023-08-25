@@ -20,6 +20,5 @@ def chatCompletion(context, fackData=""):
         except Exception as e:
             print("chatCompletion failed second time:" + str(e))
             traceback.print_exc()
-            message = ""
-            success = False
+            raise Exception(e)
     return message, success
