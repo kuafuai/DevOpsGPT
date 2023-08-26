@@ -73,7 +73,7 @@ $(document).ready(function () {
                 </div>
                 <div class="field">
                 <label>`+globalFrontendText["service_role"]+`</label>
-                <input type="text" id="service_role_`+serviceID+`">
+                <textarea id="service_role_`+serviceID+`" rows="4"></textarea>
                 </div>
                 <div class="field">
                 <label>`+globalFrontendText["service_language"]+`</label>
@@ -180,7 +180,7 @@ function showApp(appID) {
                     </div>
                     <div class="field">
                     <label>`+globalFrontendText["service_role"]+`</label>
-                    <input type="text" id="service_role_`+serviceID+`" value="`+service.role+`">
+                    <textarea id="service_role_`+serviceID+`" rows="4">`+service.role+`</textarea>
                     </div>
                     <div class="field">
                     <label>`+globalFrontendText["service_language"]+`</label>

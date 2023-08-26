@@ -1,3 +1,4 @@
+import time
 from app.pkgs.knowledge.app_info_interface import AppInfoInterface
 from app.pkgs.tools.i18b import getI18n
 from app.models.application import Application
@@ -42,6 +43,7 @@ class AppInfoBasic(AppInfoInterface):
         return specification, True
     
     def analyzeService(self, gitPath):
+        time.sleep(2)
         _ = getI18n("controllers")
         reJson = {
             "name" : gitPath,
