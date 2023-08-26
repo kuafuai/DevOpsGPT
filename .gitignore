@@ -9,4 +9,5 @@ init.sh
 db/versions/*
 db/env.py
 db/README.md
+db/database_pro.db
 alembic.ini
