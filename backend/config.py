@@ -1,7 +1,6 @@
 import json
 import yaml
 
-
 def read_config(key):
     try:
         file_path = "env.yaml"
@@ -18,6 +17,12 @@ def read_config(key):
         exit()
 
     return value
+
+REQUIREMENT_STATUS_NotStarted = "NotStarted"
+REQUIREMENT_STATUS_InProgress = "InProgress"
+REQUIREMENT_STATUS_Completed = "Completed"
+REQUIREMENT_STATUS_Evaluated = "Evaluated"
+REQUIREMENT_STATUS_Canceled = "Canceled"
 
 try:
     BACKEND_HOST = read_config("BACKEND_HOST")

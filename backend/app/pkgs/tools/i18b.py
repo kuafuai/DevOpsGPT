@@ -110,4 +110,12 @@ def getFrontendText():
         "service_api_path": _("API path"),
         "service_database": _("Service database"),
         "service_code_struct": _("Service code struct"),
+        "requirement_id": _("Requirement ID"),
+        "requirement_origin": _("Requirement name"),
+        "requirement_status": _("Requirement status"),
+        "requirement_user": _("Requirement owner"),
+        "requirement_completion": _("Requirement completion rating"),
+        "requirement_satisfaction": _("Requirement satisfaction_rating"),
+        "opensource_version_1": _("Historical requirement recovery is not supported at this time, please visit workspace to obtain the code results"),
+        "notice": _("Notice"),
     }

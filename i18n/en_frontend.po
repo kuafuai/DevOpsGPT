@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-08-25 17:24+0800\n"
+"POT-Creation-Date: 2023-08-26 22:27+0800\n"
 "PO-Revision-Date: 2023-07-17 18:37+0800\n"
 "Last-Translator: booboo <mac@booboo.local>\n"
 "Language-Team: Language i18n/en\n"
@@ -271,7 +271,7 @@ msgstr ""
 
 #: backend/app/pkgs/tools/i18b.py:93
 msgid "Requirement List"
-msgstr ""
+msgstr "Requirement History"
 
 #: backend/app/pkgs/tools/i18b.py:94
 msgid "APP List"
@@ -347,4 +347,38 @@ msgstr ""
 
 #: backend/app/pkgs/tools/i18b.py:112
 msgid "Service code struct"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:113
+msgid "Requirement ID"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:114
+msgid "Requirement name"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:115
+msgid "Requirement status"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:116
+msgid "Requirement owner"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:117
+msgid "Requirement completion rating"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:118
+msgid "Requirement satisfaction_rating"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:119
+msgid ""
+"Historical requirement recovery is not supported at this time, please visit "
+"workspace to obtain the code results"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:120
+msgid "Notice"
 msgstr ""

@@ -147,7 +147,7 @@ function modelSelected(appName, appID, repos) {
         }, 1000);
     }
 
-    sendAjaxRequest('/task/setup_app', 'POST', requestData, successCallback, errorCallback, true, true)
+    sendAjaxRequest('/requirement/setup_app', 'POST', requestData, successCallback, errorCallback, true, true)
 }
 
 $(document).ready(function () {
@@ -345,7 +345,7 @@ function logincheck() {
         $("#my-login").modal('show')
     }
 
-    sendAjaxRequest('/task/clear_up', 'GET', "", successCallback, errorCallback, true, false)
+    sendAjaxRequest('/requirement/clear_up', 'GET', "", successCallback, errorCallback, true, false)
 }
 
 function logout() {
@@ -1188,8 +1188,7 @@ function clarify(customPrompt, thisElement) {
 
     thinkUI(customPrompt, globalFrontendText["ai_think"])
 
-    var userName = getParameterByName('userName');
-    var requestData = JSON.stringify({ 'user_prompt': customPrompt, 'global_context': JSON.stringify(globalContext) })
+    var requestData = JSON.stringify({ 'user_prompt': customPrompt, 'global_context': JSON.stringify(globalContext), 'task_id': getTaskID() })
     var retruBtn = '<br /><br /><button class="ui green button" onClick="clarify(\''+escapeHtml(customPrompt)+'\', this)">重试</button>'
 
     successCallback = function(data){

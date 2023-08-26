@@ -11,16 +11,3 @@ def getEmptyTaskInfo():
         "final_requirement": ""
     }
     return {"memory": {"task_info": taskInfo, "originalPrompt": "", "repoPath": "", "clarifyRequirement": ""}}
-
-
-def getTaskInfo(username, appID, sourceBranch, featureBranch):
-    taskID = username+'-'+datetime.datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
-
-    taskInfo = {
-        "app_id": appID,
-        "task_id": taskID,
-        "source_branch": sourceBranch,
-        "feature_branch": featureBranch
-    }
-
-    return taskInfo, True

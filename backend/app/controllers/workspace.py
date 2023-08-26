@@ -4,6 +4,8 @@ from app.pkgs.tools.i18b import getI18n
 from app.pkgs.devops.git_tools import pullCode, pushCode
 from app.pkgs.knowledge.app_info import getServiceGitPath
 from app.models.setting import getGitConfigList
+from app.models.requirement import Requirement
+from config import REQUIREMENT_STATUS_Completed
 from config import GIT_ENABLED
 from app.pkgs.tools.file_tool import get_ws_path, write_file_content
 from flask import Blueprint
@@ -72,6 +74,8 @@ def gitpush():
     username = session['username']
     appID = session[username]['memory']['task_info']['app_id']
     gitConfigList, success = getGitConfigList(tenantID, appID)
+
+    Requirement.update_requirement(requirement_id=task_id, status=REQUIREMENT_STATUS_Completed)
 
     if not GIT_ENABLED:
         raise Exception(_("Failed to push code.")+f" You did not set Git parameters in the configuration file.")

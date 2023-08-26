@@ -28,7 +28,7 @@ class Application(db.Model):
 
     @staticmethod
     def get_all_application(owner, appID):
-        applications = Application.query.all()
+        applications = Application.query.order_by(Application.app_id.desc()).all()
         if appID:
             applications = Application.query.filter_by(app_id=appID).all()
 
