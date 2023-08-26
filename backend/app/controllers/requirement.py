@@ -1,10 +1,11 @@
 from flask import Blueprint, request, session
 from app.controllers.common import json_response
-from app.models.task import getTaskInfo, getEmptyTaskInfo
+from app.models.task import getEmptyTaskInfo
 from app.pkgs.tools.i18b import getI18n
-from config import GRADE
+from app.models.requirement import Requirement
+from config import REQUIREMENT_STATUS_NotStarted
 
-bp = Blueprint('task', __name__, url_prefix='/task')
+bp = Blueprint('requirement', __name__, url_prefix='/requirement')
 
 @bp.route('/clear_up', methods=['GET'])
 @json_response
@@ -32,10 +33,31 @@ def setup_app():
     featureBranch = data['feature_branch']
     username = session['username']
 
-    session[username]['memory']['task_info'], success = getTaskInfo(username, appID, sourceBranch, featureBranch)
+    requirement = Requirement.create_requirement("", "New", appID, 1, REQUIREMENT_STATUS_NotStarted, 0, 0)
+
+    session[username]['memory']['task_info'] = {
+        "app_id": appID,
+        "task_id": requirement.requirement_id,
+        "source_branch": sourceBranch,
+        "feature_branch": featureBranch
+    }
     session.update()
 
-    if success:
+    if requirement.requirement_id:
         return {"task_id": session[username]['memory']['task_info']['task_id']}
     else:
         raise Exception(_("Failed to set up app."))
+
+@bp.route('/get', methods=['GET'])
+@json_response
+def getAll():
+    _ = getI18n("controllers")
+    owner = session['username']
+    appID = request.args.get('app_id')
+
+    try:
+        requirements = Requirement.get_all_requirements(appID)
+
+        return {'requirements': requirements}
+    except Exception as e:
+        raise Exception(_("Failed to get applications.")) 

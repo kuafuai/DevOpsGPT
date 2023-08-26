@@ -16,7 +16,7 @@
   <script src="./static/js/marked.min.js"></script>
   <script src="./static/js/diff.min.js"></script>
   <script src="./static/js/coder.js?v=73"></script>
-  <script src="./static/js/app.js?v=73"></script>
+  <script src="./static/js/requirement.js?v=73"></script>
 </head>
 
 <body>
@@ -27,7 +27,7 @@
         <span class="f_title"></span>
       </div>
       <a class="item" href="index.html"><span class="f_start_task"></span></a>
-      <a class="active item" href="task.html"><span class="f_requirement_list"></span></a>
+      <a class="active item" href="requirement.html"><span class="f_requirement_list"></span></a>
       <a class="item" href="app.html"><span class="f_app_list"></span></a>
       <a class="item" href="setting.html"><span class="f_setting"></span></a>
       <a href="#" class="ui right floated dropdown item">
@@ -42,23 +42,27 @@
   </div>
 
   <div class="ui container">
-    This feature is under development and is not currently supported
+    <a href="index.html" class="ui linkedin button" id="add-application">
+      <i class="plus square outline icon"></i>
+      <span class="f_create_new"></span>
+    </a>
   </div>
-
-  <div class="ui modal" id="model-edit">
-    <div class="content">
-      <div class="ui form">
-        <div class="field">
-          <label><span class="f_edit"></span></label>
-          <textarea id="mode-edit-content" rows="35"></textarea>
-          <input type="hidden" id="mode-edit-app-name">
-        </div>
-      </div>
-    </div>
-    <div class="actions">
-      <div class="ui green button" id="mode-edit-content-save"><span class="f_submit"></span></div>
-      <div class="ui button" id="mode-edit-content-cancel"><span class="f_cancel"></span></div>
-    </div>
+  <div class="ui container">
+    <table class="ui celled structured table">
+      <thead>
+        <tr>
+          <th><span class="f_requirement_id"></span></th>
+          <th><span class="f_requirement_origin"></span></th>
+          <th><span class="f_requirement_status"></span></th>
+          <th><span class="f_requirement_user"></span></th>
+          <th><span class="f_requirement_completion"></span></th>
+          <th><span class="f_requirement_satisfaction"></span></th>
+        </tr>
+      </thead>
+      <tbody id="app_list">
+        
+      </tbody>
+    </table>
   </div>
 
   <div class="ui modal" id="my-alert">

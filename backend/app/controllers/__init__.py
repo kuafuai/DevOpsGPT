@@ -1,5 +1,5 @@
 from .user import bp as user_bp
-from .task import bp as task_bp
+from .requirement import bp as requirement_bp
 from .workspace import bp as workspace_bp
 from .app import bp as app_bp
 from .step_devops import bp as step_devops_bp
@@ -11,7 +11,7 @@ from .setting import bp as setting_bp
 
 def register_controllers(app):
     app.register_blueprint(user_bp)
-    app.register_blueprint(task_bp)
+    app.register_blueprint(requirement_bp)
     app.register_blueprint(workspace_bp)
     app.register_blueprint(app_bp)
     app.register_blueprint(step_requirement_bp)
