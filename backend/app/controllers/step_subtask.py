@@ -20,6 +20,7 @@ def analysis():
     username = session['username']
     requirementDoc = session[username]['memory']['originalPrompt']
     sourceBranch = session[username]['memory']['task_info']['source_branch']
+    requirementID = request.json.get('task_id')
 
     # todo Use llm to determine which interface documents to adjust
     appID = session[username]['memory']['task_info']['app_id']
@@ -41,7 +42,7 @@ You need to think on the basis of the following interface documentation：
     projectLib, _ = getServiceLib(appID, serviceName)
     serviceStruct,_ = getServiceStruct(appID, serviceName)
 
-    filesToEdit, success = splitTask(newfeature, serviceName, appBasePrompt, projectInfo, projectLib, serviceStruct, appID)
+    filesToEdit, success = splitTask(requirementID, newfeature, serviceName, appBasePrompt, projectInfo, projectLib, serviceStruct, appID)
 
     if success:
         for index, file in enumerate(filesToEdit):

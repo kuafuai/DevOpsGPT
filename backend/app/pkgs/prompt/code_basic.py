@@ -5,7 +5,7 @@ from app.pkgs.tools.utils_tool import fix_llm_json_str, get_code_from_str
 from app.pkgs.prompt.code_interface import CodeInterface
 
 class CodeBasic(CodeInterface):
-    def aiReferenceRepair(self, newCode, referenceCode, fileTask):
+    def aiReferenceRepair(self, requirementID, newCode, referenceCode, fileTask):
         prompt = f"""
     As a senior full stack developer. Your task is to analyze the following "reference code" style and specification (including but not limited to: naming conventions, coding styles, import package specifications, comment specifications, etc.) line by line, and use this to correct the "development task corresponding code" with the "reference code" style and specification is inconsistent. Ensure that the newly generated code can conform to the overall code style and specification of the program as well as the reference code without compromising the "development task". The consolidated code responds according to the response format example.
 
@@ -35,7 +35,7 @@ class CodeBasic(CodeInterface):
         return json.loads(fix_llm_json_str(data)), success
 
 
-    def aiAnalyzeError(self, message):
+    def aiAnalyzeError(self, requirementID, message):
         prompt = f"""
     As a senior full stack developer. Your task is to analyze code execution error messages, return files that may need to be modified, and analyze the solution. Follow the response format example.
 
@@ -55,7 +55,7 @@ class CodeBasic(CodeInterface):
         return json.loads(fix_llm_json_str(data)), success
 
 
-    def aiFixError(self, solution, code):
+    def aiFixError(self, requirementID, solution, code):
         prompt = f"""
     As a senior full stack developer. Your task is to fix errors in the "initial code". Please fix the problems in the "initial code" according to the solution, taking care not to affect other code functions. The consolidated code responds according to the response format example.
 
@@ -80,7 +80,7 @@ class CodeBasic(CodeInterface):
         return json.loads(fix_llm_json_str(data)), success
 
 
-    def aiCheckCode(self, fileTask, code):
+    def aiCheckCode(self, requirementID, fileTask, code):
         goodCodeRe, success = self.aiReviewCode(fileTask, code)
 
         jsonData = {"reasoning": goodCodeRe, "code": code}
@@ -116,7 +116,7 @@ The response must be code.
 
         return jsonData, success
     
-    def aiReviewCode(self, fileTask, code):
+    def aiReviewCode(self, requirementID, fileTask, code):
         prompt = f"""
 NOTICE
 Role: You are a professional software engineer, Your task is to review the code. 
@@ -146,7 +146,7 @@ This code is very important and you will review it carefully
         return data, success
 
 
-    def aiMergeCode(self, task, baseCode, newCode):
+    def aiMergeCode(self, requirementID, task, baseCode, newCode):
         prompt = f"""
     As a senior full stack developer. Your task is to integrate with existing code according to the "Development Task" and "Development Task corresponding code" provided below. In the process of integrating code, you must use the existing code as a baseline, and always be careful to ensure that the functionality of the existing code body is not affected. The consolidated code responds according to the response format example.
 
@@ -176,7 +176,7 @@ This code is very important and you will review it carefully
         return json.loads(fix_llm_json_str(data)), success
 
 
-    def aiGenCode(self, fileTask, newTask, newCode):
+    def aiGenCode(self, requirementID, fileTask, newTask, newCode):
         prompt = f"""
     As a senior full stack developer. you need to modify the "basic code" based on the "change suggestions" and return all the complete code that works well. The code style is consistent with the "base code", try not to break the original function.
 

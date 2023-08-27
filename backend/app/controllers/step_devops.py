@@ -63,13 +63,13 @@ def check_compile():
     appID = session[username]['memory']['task_info']['app_id']
     gitPath, success = getServiceGitPath(appID, serviceName)
 
-    success, message = compileCheck(wsPath, gitPath)
+    success, message = compileCheck(task_id, wsPath, gitPath)
 
     if success:
         reasoning = _("Compile check pass.")
         return {'pass': True, 'message': message, 'reasoning': reasoning}
     else:
-        reasoning, success = aiAnalyzeError(message)
+        reasoning, success = aiAnalyzeError(task_id, message)
         if success:
             return {'pass': False, 'message': message, 'reasoning': reasoning}
         else:
@@ -94,7 +94,7 @@ def check_lint():
         reasoning = _("Static code scan passed.")
         return {'pass': True, 'message': message, 'reasoning': reasoning}
     else:
-        reasoning, success = aiAnalyzeError(message)
+        reasoning, success = aiAnalyzeError(task_id, message)
         if success:
             return {'pass': False, 'message': message, 'reasoning': reasoning}
         else:

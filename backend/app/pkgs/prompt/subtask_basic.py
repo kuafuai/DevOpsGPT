@@ -8,7 +8,7 @@ from app.pkgs.knowledge.app_info import getServiceSpecification
 from config import MODE
 
 class SubtaskBasic(SubtaskInterface):
-    def splitTask(self, feature, serviceName, appBasePrompt, projectInfo, projectLib, serviceStruct, appID):
+    def splitTask(self, requirementID, feature, serviceName, appBasePrompt, projectInfo, projectLib, serviceStruct, appID):
         #return setpGenCode(TEST_PSEUDOCODE, feature, appBasePrompt, "- You can choose any appropriate development language", serviceStruct)
         if MODE == "FAKE":
             time.sleep(5)

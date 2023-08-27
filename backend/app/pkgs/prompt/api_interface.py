@@ -4,5 +4,5 @@ from config import GRADE
 
 class ApiInterface(ABC):
     @abstractmethod
-    def clarifyAPI(self, userPrompt, apiDoc):
+    def clarifyAPI(self, requirementID, userPrompt, apiDoc):
         pass

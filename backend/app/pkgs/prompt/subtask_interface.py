@@ -4,5 +4,5 @@ from config import GRADE
 
 class SubtaskInterface(ABC):
     @abstractmethod
-    def splitTask(self, feature, serviceName, appBasePrompt, projectInfo, projectLib, serviceStruct, appID):
+    def splitTask(self, requirementID, feature, serviceName, appBasePrompt, projectInfo, projectLib, serviceStruct, appID):
         pass

@@ -472,7 +472,7 @@ function fixLint(solution, uuid, file_path, service_name, times) {
     $("#task_status_td_" + uuid).html(str)
     $('.task_status_fix_lint_button').popup();
 
-    var requestData = JSON.stringify({ 'code': code, 'solution': solution })
+    var requestData = JSON.stringify({ 'code': code, 'solution': solution, 'task_id': getTaskID() })
 
     successCallback = function(data) {
         let buttonid = "task_status_fix_lint_"+globalCompileTimes[service_name.replace("/","-")]+"_"+times+"_"+uuid
@@ -518,7 +518,7 @@ function fixCompile(solution, uuid, file_path, service_name, times) {
     $("#task_status_td_" + uuid).html(str)
     $('.task_status_fix_compile_button').popup();
 
-    var requestData = JSON.stringify({ 'code': code, 'solution': solution })
+    var requestData = JSON.stringify({ 'code': code, 'solution': solution, 'task_id': getTaskID() })
     
     successCallback = function(data) {
         let buttonid = "task_status_fix_compile_"+globalCompileTimes[service_name.replace("/","-")]+"_"+times+"_"+uuid
@@ -752,7 +752,7 @@ function editFileTask(service_name, file_idx) {
     $("#task_status_td_" + uuid).html(str)
     $('.task_status_button').popup();
 
-    var requestData = JSON.stringify({ 'file_task': fileTask, 'new_task': newTask, 'new_code': newCode })
+    var requestData = JSON.stringify({ 'file_task': fileTask, 'new_task': newTask, 'new_code': newCode, 'task_id': getTaskID() })
 
     successCallback = function(data){
         $("#task_status_redo_"+uuid).children().removeClass("spinner")
@@ -791,7 +791,7 @@ function mergeCode(uuid, newCode, oldCode, fileTask, service_name, file_path) {
     $("#task_status_td_" + uuid).html(str)
     $('.task_status_button').popup();
 
-    var requestData = JSON.stringify({ 'file_task': fileTask, 'new_code': newCode, 'old_code': oldCode })
+    var requestData = JSON.stringify({ 'file_task': fileTask, 'new_code': newCode, 'old_code': oldCode, 'task_id': getTaskID() })
 
     successCallback = function(data) {
         $("#task_status_check_"+uuid).children().removeClass("spinner")
@@ -832,7 +832,7 @@ function referenceRepair(newCode, fileTask, uuid, referenceFile, repo, file_path
     $("#task_status_td_" + uuid).html(str)
     $('.task_status_button').popup();
 
-    var requestData = JSON.stringify({ 'new_code': newCode, 'file_task': fileTask, 'reference_file': referenceFile, 'repo': repo })
+    var requestData = JSON.stringify({ 'new_code': newCode, 'file_task': fileTask, 'reference_file': referenceFile, 'repo': repo, 'task_id': getTaskID() })
 
     successCallback = function(data) {
         $("#task_status_check_"+uuid).children().removeClass("spinner")
@@ -1240,7 +1240,7 @@ function genInterfaceDoc(customPrompt, thisElement) {
 
     thinkUI(customPrompt, globalFrontendText["ai_think"])
 
-    var requestData = JSON.stringify({ 'user_prompt': customPrompt })
+    var requestData = JSON.stringify({ 'user_prompt': customPrompt, 'task_id': getTaskID() })
     var retruBtn = '<br /><br /><button class="ui green button" onClick="genInterfaceDoc(\''+escapeHtml(customPrompt)+'\', this)">'+globalFrontendText["retry"]+'</button>'
 
     successCallback = function(data) {
@@ -1286,7 +1286,7 @@ function taskAnalysis(customPrompt, service_name, hideUserPrompt, thisElement) {
         $('html, body').animate({ scrollTop: $(document).height() }, 'slow');
     }, 900);
 
-    var requestData = JSON.stringify({ 'service_name': service_name, 'api_doc': customPrompt })
+    var requestData = JSON.stringify({ 'service_name': service_name, 'api_doc': customPrompt, 'task_id': getTaskID() })
 
     var retruBtn = '<br /><br /><button class="ui green button" onClick="taskAnalysis(\''+escapeHtml(customPrompt)+'\',\''+service_name+'\', true, this)">'+globalFrontendText["retry"]+'</button>'
 

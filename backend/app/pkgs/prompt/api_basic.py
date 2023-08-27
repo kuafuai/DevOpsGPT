@@ -2,7 +2,7 @@ from app.pkgs.tools.llm import chatCompletion
 from app.pkgs.prompt.api_interface import ApiInterface
 
 class ApiBasic(ApiInterface):
-    def clarifyAPI(self, userPrompt, apiDoc):
+    def clarifyAPI(self, requirementID, userPrompt, apiDoc):
         message, ctx, success = step1ApiDocTasks(userPrompt, apiDoc)
         if success:
             return step2GenApiDoc(message, ctx)

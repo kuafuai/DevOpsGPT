@@ -13,12 +13,13 @@ def gen_interface_doc():
     _ = getI18n("controllers")
     userPrompt = request.json.get('user_prompt')
     username = session["username"]
+    requirementID = request.json.get('task_id')
 
     # todo Use llm to determine which interface documents to adjust
     appID = session[username]['memory']['task_info']['app_id']
     apiDoc, success = getServiceSwagger(appID, 0)
 
-    msg, success = clarifyAPI(userPrompt, apiDoc)
+    msg, success = clarifyAPI(requirementID, userPrompt, apiDoc)
 
     session[username]['memory']['originalPrompt'] = userPrompt
     session.update()
