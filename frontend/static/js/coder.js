@@ -93,6 +93,15 @@ function thinkUI(customPrompt, thinkText) {
     }, 900);
 }
 
+function thinkUIShow(customPrompt, thinkText) {
+    $('#prompt-textarea').val("");
+    $("#prompt-hidePrompt").val("")
+    var newField = $('<div class="user-code-container"><div class="ui container grid"><div class="one wide column"><i class="blue  odnoklassniki square icon big" style="font-size: 3em;"></i></div><div class="fifteen wide column ai-content"><div class="ai-code">' + customPrompt.replaceAll("\n", "<br />") + '</div></div></div></div> <div class="ai-code-container"><div class="ui container grid"><div class="one wide column"><i class="orange reddit square icon big" style="font-size: 3em;"></i></div><div class="fifteen wide column ai-content"><div class="ai-code"><i class="spinner loading icon"></i>'+thinkText+'</div></div></div></div>');
+    $(".ai-prompt-container").eq($('ai-prompt-container').length - 1).before(newField);
+
+    $('html, body').animate({ scrollTop: $(document).height() }, 'slow');
+}
+
 function answerUI(str) {
     $(".ai-code").eq($('ai-code').length - 1).html(str);
     $(".ai-code").eq($('ai-code').length - 1).hide().fadeIn('fast');
@@ -111,6 +120,23 @@ function modelInfoUpdate(appName, content) {
     sendAjaxRequest('/app/update', 'POST', requestData, successCallback, alertErrorCallback, true, false)
 }
 
+modelSelectedSuccessCallback = function(data){
+    data = data.data
+    var repos = ""
+    data.app.service.forEach(function (s, element_index, element_array) {
+        repos += s.name+", "
+    });
+    str = globalFrontendText["ai_selected_app_1"] + ": " + data.app.name
+        +"<br />"+ globalFrontendText["ai_selected_app_2"] + ": "+ data["requirement_id"]
+        +"<br />"+ globalFrontendText["ai_selected_app_3"] + ": "+ repos
+        +"<br />"+ globalFrontendText["ai_selected_app_4"] + data.default_source_branch +" "+ globalFrontendText["ai_selected_app_5"] +" "+ data.default_target_branch
+        +"<br /><br />" + globalFrontendText["ai_selected_app_6"];
+    const url = window.location;
+    const newUrl = url.origin + '?task_id=' + data["requirement_id"];
+    history.pushState('', '', newUrl); 
+    answerUI(str)
+}
+
 function modelSelected(appName, appID, repos) {
     source_branch = $("#model_source_branch_" + appID).val()
     feature_branch = $("#model_feature_branch_" + appID).val()
@@ -123,20 +149,6 @@ function modelSelected(appName, appID, repos) {
 
     requestData = JSON.stringify({ "app_id": appID, "source_branch": source_branch, "feature_branch": feature_branch })
 
-    successCallback = function(data){
-        data = data.data
-        globalChangeServiceList = data.repo_list
-        str = globalFrontendText["ai_selected_app_1"] + ": " + appName
-            +"<br />"+ globalFrontendText["ai_selected_app_2"] + ": "+ data["task_id"]
-            +"<br />"+ globalFrontendText["ai_selected_app_3"] + ": "+ repos
-            +"<br />"+ globalFrontendText["ai_selected_app_4"] + source_branch +" "+ globalFrontendText["ai_selected_app_5"] +" "+ feature_branch
-            +"<br /><br />" + globalFrontendText["ai_selected_app_6"];
-        const url = window.location;
-        const newUrl = url.origin + '?task_id=' + data.task_id;
-        history.pushState('', '', newUrl); 
-        answerUI(str)
-    }
-
     errorCallback = function (error){
         $('.model-selector').removeClass("disabled")
         str = error
@@ -147,12 +159,13 @@ function modelSelected(appName, appID, repos) {
         }, 1000);
     }
 
-    sendAjaxRequest('/requirement/setup_app', 'POST', requestData, successCallback, errorCallback, true, true)
+    sendAjaxRequest('/requirement/setup_app', 'POST', requestData, modelSelectedSuccessCallback, errorCallback, true, true)
 }
 
 $(document).ready(function () {
     language()
     logincheck()
+    getRequirement()
 
     codeMirror = CodeMirror.fromTextArea(document.getElementById('code-edit-code'), {
       theme: 'darcula',
@@ -232,7 +245,7 @@ $(document).ready(function () {
     });
 
     $('#cancel-task').click(function () {
-        location.reload();
+        window.location.href = "/index.html"
     });
 
     // show dropdown on hover
@@ -296,6 +309,114 @@ function escapeString(str) {
     });
   }
 
+function getRequirement() {
+    var requirement_id = getTaskID()
+    info = { 'requirement_id': requirement_id }
+
+    successCallback = function(data) {
+        modelSelectedSuccessCallback(data)
+        for (let element_index = 0; element_index < data.data.memory.length; element_index++) {
+            globalMemory = data.data.old_memory
+            const memory = data.data.memory[element_index];
+            
+            console.log(memory);
+            
+            if (memory.artifact_type == "RequirementDocument") {
+                thinkUIShow(memory.input_prompt, globalFrontendText["ai_think"]);
+                const d = {
+                    "data": {
+                        "message": JSON.parse(memory.artifact_content),
+                        "input_prompt": memory.input_prompt
+                    }
+                };
+                clarifySuccessCallback(d);
+            }
+            if (memory.step == "API_organize") {
+                const d = {
+                    "data": {
+                        "message": memory.artifact_content
+                    }
+                };
+                genInterfaceDocSuccessCallback(d);
+            }
+            if (memory.step == "Subtask_code") {
+                thinkUIShow(memory.artifact_path, globalFrontendText["ai_think"]);
+                const info = {
+                        "files": JSON.parse(memory.artifact_content),
+                        "service_name": memory.artifact_path
+                    };
+                pluginTaskList(info, true)
+            }
+            if (memory.step == "Code_checkCode") {
+                codedata = {
+                    "data": {
+                        code: memory.artifact_content,
+                        reasoning: memory.input_prompt,
+                        success: true
+                    }
+                }
+                uuid = 0
+                service_name = ""
+                for (const key in globalTasks) {
+                    globalTasks[key].forEach(function (file, element_index, element_array) {
+                        let file_path = file["file-path"]
+                        if (file_path == memory.artifact_path) {
+                            uuid = file.uuid
+                            service_name = key
+                        }
+                    })
+                }
+                checkCodeStar(uuid, service_name)
+                checkCodeSuccessCallback(codedata, uuid, memory.artifact_path)
+            }
+            if (memory.step == "Code_fixError_compile") {
+                codedata = {
+                    "data": JSON.parse(memory.artifact_content)
+                }
+                uuid = 0
+                service_name = ""
+                for (const key in globalTasks) {
+                    globalTasks[key].forEach(function (file, element_index, element_array) {
+                        let file_path = file["file-path"]
+                        if (file_path == memory.artifact_path) {
+                            uuid = file.uuid
+                            service_name = key
+                        }
+                    })
+                }
+                fixCompileStar(service_name, element_index, uuid)
+                fixCompileSuccessCallback(codedata, service_name, element_index, uuid, memory.artifact_path)
+            }
+            if (memory.step == "Code_fixError_lint") {
+                codedata = {
+                    "data": JSON.parse(memory.artifact_content)
+                }
+                uuid = 0
+                service_name = ""
+                for (const key in globalTasks) {
+                    globalTasks[key].forEach(function (file, element_index, element_array) {
+                        let file_path = file["file-path"]
+                        if (file_path == memory.artifact_path) {
+                            uuid = file.uuid
+                            service_name = key
+                        }
+                    })
+                }
+                fixLintStar(service_name, element_index, uuid)
+                fixLintSuccessCallback(codedata, service_name, element_index, uuid, memory.artifact_path)
+            }
+        }        
+    }
+
+    errorCallback = function(){
+        myAlertPure(globalFrontendText["notice"], globalFrontendText["opensource_version_1"] + ": ./workspace/"+requirement_id)
+    }
+
+    if (requirement_id>0) {
+        sendAjaxRequest('/requirement/get_one', 'GET', info, successCallback, errorCallback, true, false)
+    }
+}
+
 function genCodeCallbackPushcode(isSuccess, data) {
     var uuid = data.plugin.uuid;
     if (isSuccess) {
@@ -332,11 +453,13 @@ function language() {
 }
 
 function logincheck() {
+    info = { 'requirement_id': getTaskID() }
+
     successCallback = function(data) {
         var username = data.data.username
-        const url = window.location;
-        const newUrl = url.origin+url.pathname;
-        history.pushState('', '', newUrl); 
+        //const url = window.location;
+        //const newUrl = url.origin+url.pathname;
+        //history.pushState('', '', newUrl); 
         $("#current-username").html(username)
         $("#watermark-username").html(username)
     }
@@ -345,7 +468,7 @@ function logincheck() {
         $("#my-login").modal('show')
     }
 
-    sendAjaxRequest('/requirement/clear_up', 'GET', "", successCallback, errorCallback, true, false)
+    sendAjaxRequest('/requirement/clear_up', 'GET', info, successCallback, errorCallback, true, false)
 }
 
 function logout() {
@@ -413,7 +536,7 @@ function triggerPlugin(plugin) {
         pluginci(plugin["info"])
     }
     if (plugin["name"] == "task_list") {
-        pluginTaskList(plugin["info"])
+        pluginTaskList(plugin["info"], false)
     }
     if (plugin["name"] == "task_runner") {
         pluginTaskRunner(plugin["info"])
@@ -459,33 +582,41 @@ function createWS(serviceName, sourceBranch, featureBranch) {
     sendAjaxRequest('/workspace/create', "POST", requestData, successCallback, errorCallback, false, false)
 }
 
-function fixLint(solution, uuid, file_path, service_name, times) {
-    if (times >= 2) {
-        return
-    }
-    var code = gloablCode["newCode_" + uuid]
-
+function fixLintStar(service_name, times, uuid){
     let buttonid = "task_status_fix_lint_"+globalCompileTimes[service_name.replace("/","-")]+"_"+times+"_"+uuid
     str = $("#task_status_td_" + uuid).html()+`
         <button class="ui circular olive icon button task_status_fix_lint_button tiny `+service_name.replace("/","-")+`" id="` + buttonid + `" data-content="" onClick="showCode(this)"><i class="spinner loading icon"></i> `+globalFrontendText["fix_static_scan"]+`</button>
         `
     $("#task_status_td_" + uuid).html(str)
     $('.task_status_fix_lint_button').popup();
+}
 
-    var requestData = JSON.stringify({ 'code': code, 'solution': solution, 'task_id': getTaskID() })
+function fixLintSuccessCallback(data, service_name, times, uuid, file_path) {
+    let buttonid = "task_status_fix_lint_"+globalCompileTimes[service_name.replace("/","-")]+"_"+times+"_"+uuid
+    $("#"+buttonid).children().removeClass("spinner")
+    $("#"+buttonid).children().removeClass("loading")
+    $("#"+buttonid).children().addClass("check")
+    $("#"+buttonid).addClass("green")
+    $("#"+buttonid).removeClass("olive")
+    $("#"+buttonid).attr("show-code-key", file_path)
+    $("#"+buttonid).attr("show-code-value", escapeHtml(data.data["code"]))
+    $("#"+buttonid).attr("show-code-reason", escapeHtml(data.data["reasoning"]))
+
+    gloablCode["newCode_" + uuid] = data.data["code"]
+}
+
+function fixLint(solution, uuid, file_path, service_name, times) {
+    if (times >= 2) {
+        return
+    }
+    var code = gloablCode["newCode_" + uuid]
+
+    fixLintStar(service_name, times, uuid)
+
+    var requestData = JSON.stringify({ 'code': code, 'solution': solution, 'task_id': getTaskID(), 'file_path': file_path })
 
     successCallback = function(data) {
-        let buttonid = "task_status_fix_lint_"+globalCompileTimes[service_name.replace("/","-")]+"_"+times+"_"+uuid
-        $("#"+buttonid).children().removeClass("spinner")
-        $("#"+buttonid).children().removeClass("loading")
-        $("#"+buttonid).children().addClass("check")
-        $("#"+buttonid).addClass("green")
-        $("#"+buttonid).removeClass("olive")
-        $("#"+buttonid).attr("show-code-key", file_path)
-        $("#"+buttonid).attr("show-code-value", escapeHtml(data.data["code"]))
-        $("#"+buttonid).attr("show-code-reason", escapeHtml(data.data["reasoning"]))
-
-        gloablCode["newCode_" + uuid] = data.data["code"]
+        fixLintSuccessCallback(data, service_name, times, uuid, file_path)
 
         times++
         checkLint(service_name, file_path, uuid, times)
@@ -505,33 +636,41 @@ function fixLint(solution, uuid, file_path, service_name, times) {
     sendAjaxRequest('/step_code/fix_lint', "POST", requestData, successCallback, errorCallback, true, false)
 }
 
-function fixCompile(solution, uuid, file_path, service_name, times) {
-    if (times >= 2) {
-        return
-    }
-    var code = gloablCode["newCode_" + uuid]
+function fixCompileSuccessCallback(data, service_name, times, uuid, file_path) {
+    let buttonid = "task_status_fix_compile_"+globalCompileTimes[service_name.replace("/","-")]+"_"+times+"_"+uuid
+    $("#"+buttonid).children().removeClass("spinner")
+    $("#"+buttonid).children().removeClass("loading")
+    $("#"+buttonid).children().addClass("check")
+    $("#"+buttonid).addClass("green")
+    $("#"+buttonid).removeClass("olive")
+    $("#"+buttonid).attr("show-code-key", file_path)
+    $("#"+buttonid).attr("show-code-value", escapeHtml(data.data["code"]))
+    $("#"+buttonid).attr("show-code-reason", escapeHtml(data.data["reasoning"]))
 
+    gloablCode["newCode_" + uuid] = data.data["code"]
+}
+
+function fixCompileStar(service_name, times, uuid) {
     let buttonid = "task_status_fix_compile_"+globalCompileTimes[service_name.replace("/","-")]+"_"+times+"_"+uuid
     str = $("#task_status_td_" + uuid).html()+`
         <button class="ui circular olive icon button task_status_fix_compile_button tiny `+service_name.replace("/","-")+`" id="` + buttonid + `" data-content="" onClick="showCode(this)"><i class="spinner loading icon"></i> `+globalFrontendText["fix_compile_check"]+`</button>
         `
     $("#task_status_td_" + uuid).html(str)
     $('.task_status_fix_compile_button').popup();
+}
 
-    var requestData = JSON.stringify({ 'code': code, 'solution': solution, 'task_id': getTaskID() })
+function fixCompile(solution, uuid, file_path, service_name, times) {
+    if (times >= 2) {
+        return
+    }
+    var code = gloablCode["newCode_" + uuid]
+
+    fixCompileStar(service_name, times, uuid)
+
+    var requestData = JSON.stringify({ 'code': code, 'solution': solution, 'task_id': getTaskID(), 'file_path': file_path })
     
     successCallback = function(data) {
-        let buttonid = "task_status_fix_compile_"+globalCompileTimes[service_name.replace("/","-")]+"_"+times+"_"+uuid
-        $("#"+buttonid).children().removeClass("spinner")
-        $("#"+buttonid).children().removeClass("loading")
-        $("#"+buttonid).children().addClass("check")
-        $("#"+buttonid).addClass("green")
-        $("#"+buttonid).removeClass("olive")
-        $("#"+buttonid).attr("show-code-key", file_path)
-        $("#"+buttonid).attr("show-code-value", escapeHtml(data.data["code"]))
-        $("#"+buttonid).attr("show-code-reason", escapeHtml(data.data["reasoning"]))
-
-        gloablCode["newCode_" + uuid] = data.data["code"]
+        fixCompileSuccessCallback(data, service_name, times, uuid, file_path)
 
         times++
         checkCompile(service_name, times)
@@ -610,26 +749,35 @@ function checkLint(service_name, filePath, uuid, times) {
     sendAjaxRequest('/step_devops/check_lint', "POST", requestData, successCallback, errorCallback, true, false)
 }
 
-function checkCode(code, fileTask, uuid, file_path, service_name) {
+function checkCodeStar(uuid, service_name) {
     str = $("#task_status_td_" + uuid).html()+`
-        <button class="ui circular olive icon button task_status_check_button tiny `+service_name.replace("/","-")+`" id="task_status_check_` + uuid + `" data-content="" onClick="showCode(this)"><i class="spinner loading icon"></i> `+globalFrontendText["self_check"]+`</button>
-        `
+    <button class="ui circular olive icon button task_status_check_button tiny `+service_name.replace("/","-")+`" id="task_status_check_` + uuid + `" data-content="" onClick="showCode(this)"><i class="spinner loading icon"></i> `+globalFrontendText["self_check"]+`</button>
+    `
     $("#task_status_td_" + uuid).html(str)
     $('.task_status_button').popup();
+}
 
-    var requestData = JSON.stringify({ 'code': code, 'fileTask': fileTask, 'task_id': getTaskID() })
+function checkCodeSuccessCallback(data, uuid, file_path) {
+    console.log("checkCodeSuccessCallback:", data, uuid, file_path)
+    $("#task_status_check_"+uuid).children().removeClass("spinner")
+    $("#task_status_check_"+uuid).children().removeClass("loading")
+    $("#task_status_check_"+uuid).children().addClass("check")
+    $("#task_status_check_"+uuid).addClass("green")
+    $("#task_status_check_"+uuid).removeClass("olive")
+    $("#task_status_check_"+uuid).attr("show-code-key", file_path)
+    $("#task_status_check_"+uuid).attr("show-code-value", escapeHtml(data.data["code"]))
+    $("#task_status_check_"+uuid).attr("show-code-reason", escapeHtml(data.data["reasoning"]))
+
+    gloablCode["newCode_" + uuid] = data.data["code"]
+}
+
+function checkCode(code, fileTask, uuid, file_path, service_name) {
+    checkCodeStar(uuid, service_name)
+
+    var requestData = JSON.stringify({ 'code': code, 'fileTask': fileTask, 'task_id': getTaskID(), 'file_path': file_path })
 
     successCallback = function(data){
-        $("#task_status_check_"+uuid).children().removeClass("spinner")
-        $("#task_status_check_"+uuid).children().removeClass("loading")
-        $("#task_status_check_"+uuid).children().addClass("check")
-        $("#task_status_check_"+uuid).addClass("green")
-        $("#task_status_check_"+uuid).removeClass("olive")
-        $("#task_status_check_"+uuid).attr("show-code-key", file_path)
-        $("#task_status_check_"+uuid).attr("show-code-value", escapeHtml(data.data["code"]))
-        $("#task_status_check_"+uuid).attr("show-code-reason", escapeHtml(data.data["reasoning"]))
-
-        gloablCode["newCode_" + uuid] = data.data["code"]
+        checkCodeSuccessCallback(data, uuid, file_path)
 
         if(globalTasks[service_name.replace("/","-")].length == $('.'+service_name.replace("/","-")+'.green.task_status_check_button').length){
             checkCompile(service_name, 0)
@@ -648,6 +796,52 @@ function checkCode(code, fileTask, uuid, file_path, service_name) {
     }
 
     sendAjaxRequest('/step_code/check_code', "POST", requestData, successCallback, errorCallback, true, false)
+}
+
+function checkCompileSuccessCallback(data, times, repo_path){
+    if (data.data["pass"] == false) {
+        globalTasks[repo_path.replace("/","-")].forEach(function (file, element_index, element_array) {
+            let uuid = file.uuid
+            let buttonid = "task_status_checkcompile_"+globalCompileTimes[repo_path.replace("/","-")]+"_"+times+"_"+uuid
+            let file_path = file["file-path"]
+            $("#"+buttonid).children().removeClass("spinner")
+            $("#"+buttonid).children().removeClass("loading")
+            $("#"+buttonid).children().addClass("close")
+            $("#"+buttonid).removeClass("olive")
+            $("#"+buttonid).attr("show-code-key", globalFrontendText["compile_check"])
+            $("#"+buttonid).attr("show-code-value", escapeHtml(data.data["message"]))
+
+            var solution = globalFrontendText["no_problem_this_file"]+"<br />"
+            for (let element_index = 0; element_index < data.data["reasoning"].length; element_index++) {
+                let element = data.data["reasoning"][element_index];
+                if (element["file-path"].includes(file_path)) {
+                    $("#"+buttonid).addClass("red")
+                    solution = element["solution-analysis"];
+                    fixCompile(solution, uuid, file_path, repo_path, times)
+                    break
+                } else {
+                    $("#"+buttonid).addClass("teal")
+                    solution += "- "+element["solution-analysis"]+"<br />";
+                }
+            }
+            $("#"+buttonid).attr("show-code-reason", solution)
+        });
+
+    } else {
+        globalTasks[repo_path.replace("/","-")].forEach(function (file, element_index, element_array) {
+            let uuid = file.uuid
+            let buttonid = "task_status_checkcompile_"+globalCompileTimes[repo_path.replace("/","-")]+"_"+times+"_"+uuid
+            $("#"+buttonid).children().removeClass("spinner")
+            $("#"+buttonid).children().removeClass("loading")
+            $("#"+buttonid).children().addClass("check")
+            $("#"+buttonid).addClass("green")
+            $("#"+buttonid).removeClass("olive")
+            $("#"+buttonid).attr("show-code-reason", "PAAS")
+            $("#"+buttonid).attr("show-code-key", globalFrontendText["compile_check"])
+            $("#"+buttonid).attr("show-code-value", escapeHtml(data.data["message"]))
+            checkLint(repo_path, file["file-path"], uuid, 0)
+        });
+    }
 }
 
 function checkCompile(repo_path, times) {
@@ -676,49 +870,7 @@ function checkCompile(repo_path, times) {
     var requestData = JSON.stringify({ 'repo_path': repo_path, 'task_id': getTaskID() })
 
     successCallback = function(data) {
-        if (data.data["pass"] == false) {
-            globalTasks[repo_path.replace("/","-")].forEach(function (file, element_index, element_array) {
-                let uuid = file.uuid
-                let buttonid = "task_status_checkcompile_"+globalCompileTimes[repo_path.replace("/","-")]+"_"+times+"_"+uuid
-                let file_path = file["file-path"]
-                $("#"+buttonid).children().removeClass("spinner")
-                $("#"+buttonid).children().removeClass("loading")
-                $("#"+buttonid).children().addClass("close")
-                $("#"+buttonid).removeClass("olive")
-                $("#"+buttonid).attr("show-code-key", globalFrontendText["compile_check"])
-                $("#"+buttonid).attr("show-code-value", escapeHtml(data.data["message"]))
-    
-                var solution = globalFrontendText["no_problem_this_file"]+"<br />"
-                for (let element_index = 0; element_index < data.data["reasoning"].length; element_index++) {
-                    let element = data.data["reasoning"][element_index];
-                    if (element["file-path"].includes(file_path)) {
-                        $("#"+buttonid).addClass("red")
-                        solution = element["solution-analysis"];
-                        fixCompile(solution, uuid, file_path, repo_path, times)
-                        break
-                    } else {
-                        $("#"+buttonid).addClass("teal")
-                        solution += "- "+element["solution-analysis"]+"<br />";
-                    }
-                }
-                $("#"+buttonid).attr("show-code-reason", solution)
-            });
-
-        } else {
-            globalTasks[repo_path.replace("/","-")].forEach(function (file, element_index, element_array) {
-                let uuid = file.uuid
-                let buttonid = "task_status_checkcompile_"+globalCompileTimes[repo_path.replace("/","-")]+"_"+times+"_"+uuid
-                $("#"+buttonid).children().removeClass("spinner")
-                $("#"+buttonid).children().removeClass("loading")
-                $("#"+buttonid).children().addClass("check")
-                $("#"+buttonid).addClass("green")
-                $("#"+buttonid).removeClass("olive")
-                $("#"+buttonid).attr("show-code-reason", "PAAS")
-                $("#"+buttonid).attr("show-code-key", globalFrontendText["compile_check"])
-                $("#"+buttonid).attr("show-code-value", escapeHtml(data.data["message"]))
-                checkLint(repo_path, file["file-path"], uuid, 0)
-            });
-        }
+        checkCompileSuccessCallback(data, times, repo_path)
     }
 
     errorCallback = function(error){
@@ -752,7 +904,7 @@ function editFileTask(service_name, file_idx) {
     $("#task_status_td_" + uuid).html(str)
     $('.task_status_button').popup();
 
-    var requestData = JSON.stringify({ 'file_task': fileTask, 'new_task': newTask, 'new_code': newCode, 'task_id': getTaskID() })
+    var requestData = JSON.stringify({ 'file_task': fileTask, 'new_task': newTask, 'new_code': newCode, 'task_id': getTaskID(), 'file_path': file_path })
 
     successCallback = function(data){
         $("#task_status_redo_"+uuid).children().removeClass("spinner")
@@ -791,7 +943,7 @@ function mergeCode(uuid, newCode, oldCode, fileTask, service_name, file_path) {
     $("#task_status_td_" + uuid).html(str)
     $('.task_status_button').popup();
 
-    var requestData = JSON.stringify({ 'file_task': fileTask, 'new_code': newCode, 'old_code': oldCode, 'task_id': getTaskID() })
+    var requestData = JSON.stringify({ 'file_task': fileTask, 'new_code': newCode, 'old_code': oldCode, 'task_id': getTaskID(), 'file_path': file_path })
 
     successCallback = function(data) {
         $("#task_status_check_"+uuid).children().removeClass("spinner")
@@ -832,7 +984,7 @@ function referenceRepair(newCode, fileTask, uuid, referenceFile, repo, file_path
     $("#task_status_td_" + uuid).html(str)
     $('.task_status_button').popup();
 
-    var requestData = JSON.stringify({ 'new_code': newCode, 'file_task': fileTask, 'reference_file': referenceFile, 'repo': repo, 'task_id': getTaskID() })
+    var requestData = JSON.stringify({ 'new_code': newCode, 'file_task': fileTask, 'reference_file': referenceFile, 'repo': repo, 'task_id': getTaskID(), 'file_path': file_path })
 
     successCallback = function(data) {
         $("#task_status_check_"+uuid).children().removeClass("spinner")
@@ -937,10 +1089,14 @@ function getIdxByUUID(service_name, uuid) {
     return file_idx
 }
 
-function pluginTaskList(info) {
+function pluginTaskList(info, ifRecover) {
+    console.log("----")
+    console.log(info)
     var service_name = info["service_name"]
     
-    createWS(service_name, globalMemory["task_info"]["source_branch"], globalMemory["task_info"]["feature_branch"])
+    if (!ifRecover) {
+        createWS(service_name, globalMemory["task_info"]["source_branch"], globalMemory["task_info"]["feature_branch"])
+    }
 
     var str = `<p>`+globalFrontendText["ai_api_subtask"]+`</p>`
 
@@ -1011,17 +1167,19 @@ function pluginTaskList(info) {
     $('.plugin-task-list-play').popup();
     $('.task_status_button').popup();
 
-    setTimeout(function () {
-        info["files"].forEach(function (file, file_index, file_array) {
-            if (file["old-code"].length > 0) {
-                mergeCode(file["uuid"], file["code"], file["old-code"], file["code-interpreter"], info["service_name"], file["file-path"])
-            } else if (file["code"].length > 0 && typeof file["reference-code"] !== "undefined" && file["reference-code"].length > 0) {
-                referenceRepair(file["code"], file["code-interpreter"], file["uuid"], file["reference-file"], info["service_name"], file["file-path"])
-            } else {
-                checkCode(file["code"], file["code-interpreter"], file["uuid"], file["file-path"], info["service_name"])
-            }
-        })
-    }, 1000);
+    if (!ifRecover) {
+        setTimeout(function () {
+            info["files"].forEach(function (file, file_index, file_array) {
+                if (file["old-code"].length > 0) {
+                    mergeCode(file["uuid"], file["code"], file["old-code"], file["code-interpreter"], info["service_name"], file["file-path"])
+                } else if (file["code"].length > 0 && typeof file["reference-code"] !== "undefined" && file["reference-code"].length > 0) {
+                    referenceRepair(file["code"], file["code-interpreter"], file["uuid"], file["reference-file"], info["service_name"], file["file-path"])
+                } else {
+                    checkCode(file["code"], file["code-interpreter"], file["uuid"], file["file-path"], info["service_name"])
+                }
+            })
+        }, 1000);
+    }
 }
 
 function startPush(serviceName) {
@@ -1182,6 +1340,41 @@ function clarifyOk(element) {
     clarify(content)
 }
 
+clarifySuccessCallback = function(data){
+    data = data.data
+    globalMemory = data.memory
+    var msgJson = data.message
+    var msg = JSON.stringify(msgJson)
+    var str = ""
+    globalContext.push({ role: 'user', content: data.input_prompt })
+    globalContext.push({ role: 'assistant', content: msg })            
+    if (msg.includes("development_requirements_overview")) {
+        if (msgJson["services_involved"].length > 0) {
+            globalChangeServiceList = []
+            msgJson["services_involved"].forEach(function (element, element_index, element_array) {
+                globalChangeServiceList.push(element["service-name"])
+            })
+        } else {
+            myAlert(globalFrontendText["error"], globalFrontendText["service_modification_item_empty"])
+        }
+        msg = globalFrontendText["ai_requirement_clarify_1"]+"\n"+msgJson.development_requirements_overview+"\n\n"+globalFrontendText["ai_requirement_clarify_2"]+"\n"+msgJson.development_requirements_detail
+        str = '<br /><br /><button class="ui green button" onClick="taskOk(\''+escapeHtml(msg)+'\', this, \'requirement_doc\')">'+globalFrontendText["submit"]+'</button><button class="ui blue button" onclick="taskChange(\''+escapeHtml(msg)+'\', \'requirement_doc\')">'+globalFrontendText["edit"]+'</button>'
+        msg = msg
+        msg = '<h5>'+globalFrontendText["ai_requirement_clarify_3"]+'</h5>'+msg
+    } else {
+        var table = '<h5>'+globalFrontendText["ai_requirement_clarify_4"]+'</h5><table class="ui celled table"><thead><tr><th class="eight wide">'+globalFrontendText["question"]+'</th><th class="eight wide">'+globalFrontendText["answer"]+'</th></tr></thead><tbody>'
+        console.log(msgJson)
+        msgJson.forEach(function (element, element_index, element_array) {
+            table += '<tr><td><span>'+element["question"]+"</span>"+element["reasoning"]+'</td><td><div class="ui fluid icon input"><input type="text" name="clarify_answer" value="'+element["answer_sample"]+'" placeholder="'+globalFrontendText["answer"]+'" autocomplete="off"></div></td></tr>'
+        })
+        table += '</tbody></table><button class="ui green button" onclick="clarifyOk(this)">'+globalFrontendText["submit"]+'</button>'
+        msg = table
+    }
+
+    $(".ai-code").eq($('ai-code').length - 1).html(msg.replaceAll('\n', '<br />')+str);
+    $(".ai-code").eq($('ai-code').length - 1).hide().fadeIn('fast');
+}
+
 function clarify(customPrompt, thisElement) {
     customPrompt = decodeURI(customPrompt)
     $(thisElement).addClass("disabled");
@@ -1191,47 +1384,23 @@ function clarify(customPrompt, thisElement) {
     var requestData = JSON.stringify({ 'user_prompt': customPrompt, 'global_context': JSON.stringify(globalContext), 'task_id': getTaskID() })
     var retruBtn = '<br /><br /><button class="ui green button" onClick="clarify(\''+escapeHtml(customPrompt)+'\', this)">重试</button>'
 
-    successCallback = function(data){
-        data = data.data
-        globalMemory = data.memory
-        var msgJson = data.message
-        var msg = JSON.stringify(msgJson)
-        var str = ""
-        globalContext.push({ role: 'user', content: customPrompt })
-        globalContext.push({ role: 'assistant', content: msg })            
-        if (msg.includes("development_requirements_overview")) {
-            if (msgJson["services_involved"].length > 0) {
-                globalChangeServiceList = []
-                msgJson["services_involved"].forEach(function (element, element_index, element_array) {
-                    globalChangeServiceList.push(element["service-name"])
-                })
-            } else {
-                myAlert(globalFrontendText["error"], globalFrontendText["service_modification_item_empty"])
-            }
-            msg = globalFrontendText["ai_requirement_clarify_1"]+"\n"+msgJson.development_requirements_overview+"\n\n"+globalFrontendText["ai_requirement_clarify_2"]+"\n"+msgJson.development_requirements_detail
-            str = '<br /><br /><button class="ui green button" onClick="taskOk(\''+escapeHtml(msg)+'\', this, \'requirement_doc\')">'+globalFrontendText["submit"]+'</button><button class="ui blue button" onclick="taskChange(\''+escapeHtml(msg)+'\', \'requirement_doc\')">'+globalFrontendText["edit"]+'</button>'
-            msg = msg
-            msg = '<h5>'+globalFrontendText["ai_requirement_clarify_3"]+'</h5>'+msg
-        } else {
-            var table = '<h5>'+globalFrontendText["ai_requirement_clarify_4"]+'</h5><table class="ui celled table"><thead><tr><th class="eight wide">'+globalFrontendText["question"]+'</th><th class="eight wide">'+globalFrontendText["answer"]+'</th></tr></thead><tbody>'
-            console.log(msgJson)
-            msgJson.forEach(function (element, element_index, element_array) {
-                table += '<tr><td><span>'+element["question"]+"</span>"+element["reasoning"]+'</td><td><div class="ui fluid icon input"><input type="text" name="clarify_answer" value="'+element["answer_sample"]+'" placeholder="'+globalFrontendText["answer"]+'" autocomplete="off"></div></td></tr>'
-            })
-            table += '</tbody></table><button class="ui green button" onclick="clarifyOk(this)">'+globalFrontendText["submit"]+'</button>'
-            msg = table
-        }
-
-        $(".ai-code").eq($('ai-code').length - 1).html(msg.replaceAll('\n', '<br />')+str);
-        $(".ai-code").eq($('ai-code').length - 1).hide().fadeIn('fast');
-    }
-
     errorCallback = function(errorMsg) {
         $(".ai-code").eq($('ai-code').length - 1).html(errorMsg+retruBtn);
         $(".ai-code").eq($('ai-code').length - 1).hide().fadeIn('fast');
     }
 
-    sendAjaxRequest('/step_requirement/clarify', "POST", requestData, successCallback, errorCallback, true, true)
+    sendAjaxRequest('/step_requirement/clarify', "POST", requestData, clarifySuccessCallback, errorCallback, true, true)
+}
+
+genInterfaceDocSuccessCallback = function(data) {
+    data = data.data
+    var msg = data.message
+    str = "<pre>"+msg+"</pre>"
+    str += '<br /><button class="ui green button" onClick="taskOk(\''+escapeHtml(msg)+'\', this, \'api_doc\')">'+globalFrontendText["submit"]+'</button><button class="ui blue button" onclick="taskChange(\''+escapeHtml(msg)+'\', \'api_doc\')">'+globalFrontendText["edit"]+'</button>'
+
+    str = '<h5>'+globalFrontendText["ai_api_clarify_1"]+'</h5><br />'+str
+    $(".ai-code").eq($('ai-code').length - 1).html(str);
+    $(".ai-code").eq($('ai-code').length - 1).hide().fadeIn('fast');
 }
 
 function genInterfaceDoc(customPrompt, thisElement) {
@@ -1243,23 +1412,12 @@ function genInterfaceDoc(customPrompt, thisElement) {
     var requestData = JSON.stringify({ 'user_prompt': customPrompt, 'task_id': getTaskID() })
     var retruBtn = '<br /><br /><button class="ui green button" onClick="genInterfaceDoc(\''+escapeHtml(customPrompt)+'\', this)">'+globalFrontendText["retry"]+'</button>'
 
-    successCallback = function(data) {
-        data = data.data
-        var msg = data.message
-        str = "<pre>"+msg+"</pre>"
-        str += '<br /><button class="ui green button" onClick="taskOk(\''+escapeHtml(msg)+'\', this, \'api_doc\')">'+globalFrontendText["submit"]+'</button><button class="ui blue button" onclick="taskChange(\''+escapeHtml(msg)+'\', \'api_doc\')">'+globalFrontendText["edit"]+'</button>'
-
-        str = '<h5>'+globalFrontendText["ai_api_clarify_1"]+'</h5><br />'+str
-        $(".ai-code").eq($('ai-code').length - 1).html(str);
-        $(".ai-code").eq($('ai-code').length - 1).hide().fadeIn('fast');
-    }
-
     errorCallback = function(errorMsg) {
         $(".ai-code").eq($('ai-code').length - 1).html(errorMsg+retruBtn);
         $(".ai-code").eq($('ai-code').length - 1).hide().fadeIn('fast');
     }
 
-    sendAjaxRequest('/step_api/clarify', "POST", requestData, successCallback, errorCallback, true, true)
+    sendAjaxRequest('/step_api/clarify', "POST", requestData, genInterfaceDocSuccessCallback, errorCallback, true, true)
 }
 
 function taskAnalysis(customPrompt, service_name, hideUserPrompt, thisElement) {

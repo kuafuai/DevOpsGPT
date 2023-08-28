@@ -48,3 +48,17 @@ class Application(db.Model):
             application_list.append(app_dict)
         
         return application_list
+
+    def get_application_by_id(appID):
+        app = Application.query.get(appID)
+        app_dict = {
+                'app_id': app.app_id,
+                'tenant_id': app.tenant_id,
+                'creater': app.creater,
+                'name': app.name,
+                'description': app.description,
+                'default_source_branch': app.default_source_branch,
+                'default_target_branch': app.default_target_branch,
+                'service': ApplicationService.get_services_by_app_id(app.app_id)
+            }
+        return app_dict

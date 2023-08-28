@@ -30,6 +30,6 @@ def clarify():
     msg, success = clarifyRequirement(requirementID, userPrompt, globalContext, appArchitecture)
 
     if success:
-        return {'message': msg, 'memory': session[userName]['memory']}
+        return {'message': msg, 'memory': session[userName]['memory'], "input_prompt": userPrompt}
     else:
         raise Exception(_("Failed to clarify requirement."))

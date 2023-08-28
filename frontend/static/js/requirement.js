@@ -33,5 +33,5 @@ function getRequirementList() {
 }
 
 function showRequirement(requirement_id) {
-    myAlertPure(globalFrontendText["notice"], globalFrontendText["opensource_version_1"]+": ./workspace/"+requirement_id)
+    window.location.href = "/index.html?task_id="+requirement_id
 }

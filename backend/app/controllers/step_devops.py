@@ -69,7 +69,7 @@ def check_compile():
         reasoning = _("Compile check pass.")
         return {'pass': True, 'message': message, 'reasoning': reasoning}
     else:
-        reasoning, success = aiAnalyzeError(requirementID, message)
+        reasoning, success = aiAnalyzeError(requirementID, message, "")
         if success:
             return {'pass': False, 'message': message, 'reasoning': reasoning}
         else:
@@ -93,7 +93,7 @@ def check_lint():
         reasoning = _("Static code scan passed.")
         return {'pass': True, 'message': message, 'reasoning': reasoning}
     else:
-        reasoning, success = aiAnalyzeError(requirementID, message)
+        reasoning, success = aiAnalyzeError(requirementID, message, file_path)
         if success:
             return {'pass': False, 'message': message, 'reasoning': reasoning}
         else:

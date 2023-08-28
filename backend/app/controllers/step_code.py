@@ -14,9 +14,10 @@ def edit_file_task():
     newTask = request.json.get('new_task')
     newCode = request.json.get('new_code')
     fileTask = request.json.get('file_task')
+    filePath = request.json.get('file_path')
     requirementID = request.json.get('task_id')
 
-    re, success = aiGenCode(requirementID, fileTask, newTask, newCode)
+    re, success = aiGenCode(requirementID, fileTask, newTask, newCode, filePath)
     if not success:
         raise Exception(_("Failed to edit file with new task."))
 
@@ -29,8 +30,9 @@ def check_file():
     code = request.json.get('code')
     fileTask = request.json.get('fileTask')
     requirementID = request.json.get('task_id')
+    filePath = request.json.get('file_path')
 
-    re, success = aiCheckCode(requirementID, fileTask, code)
+    re, success = aiCheckCode(requirementID, fileTask, code, filePath)
     if not success:
         raise Exception(_("Failed to check file."))
 
@@ -46,8 +48,9 @@ def merge_file():
     userName = session["username"]
     appName = session[userName]['memory']['task_info']['app_name']
     requirementID = request.json.get('task_id')
+    filePath = request.json.get('file_path')
 
-    re, success = aiMergeCode(requirementID, fileTask, appName, baseCode, newCode)
+    re, success = aiMergeCode(requirementID, fileTask, appName, baseCode, newCode, filePath)
     if not success:
         raise Exception(_("Failed to merge old and new code."))
 
@@ -65,12 +68,13 @@ def reference_repair():
     appName = session[userName]['memory']['task_info']['app_name']
     branch = session[userName]['memory']['task_info']['source_branch']
     requirementID = request.json.get('task_id')
+    filePath = request.json.get('file_path')
 
     hasGitCode, referenceCode =  getFileContent(referenceFile, branch, repo)
     if not hasGitCode:
         raise Exception(_("Failed to reference repair no reference file found."))
 
-    re, success = aiReferenceRepair(requirementID, newCode, appName, referenceCode, fileTask)
+    re, success = aiReferenceRepair(requirementID, newCode, appName, referenceCode, fileTask, filePath)
     if not success:
         raise Exception(_("Reference repair failed for unknown reasons."))
 
@@ -83,8 +87,9 @@ def fix_compile():
     code = request.json.get('code')
     solution = request.json.get('solution')
     requirementID = request.json.get('task_id')
+    filePath = request.json.get('file_path')
 
-    re, success = aiFixError(requirementID, solution, code)
+    re, success = aiFixError(requirementID, solution, code, filePath, "compile")
     reCode = re["code"]
     reason = re["reasoning"]
 
@@ -97,8 +102,9 @@ def fix_lint():
     code = request.json.get('code')
     solution = request.json.get('solution')
     requirementID = request.json.get('task_id')
+    filePath = request.json.get('file_path')
 
-    re, success = aiFixError(requirementID, solution, code)
+    re, success = aiFixError(requirementID, solution, code, filePath, "lint")
     reCode = re["code"]
     reason = re["reasoning"]
 

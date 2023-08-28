@@ -1,7 +1,9 @@
 from app.extensions import db
+from app.models.application import Application
 
 class Requirement(db.Model):
     requirement_id = db.Column(db.Integer, primary_key=True)
+    tenant_id = db.Column(db.Integer, nullable=False)
     requirement_name = db.Column(db.String(255), nullable=False)
     original_requirement = db.Column(db.String(1000))
     app_id = db.Column(db.Integer, nullable=False)
@@ -15,8 +17,9 @@ class Requirement(db.Model):
     updated_at = db.Column(db.TIMESTAMP, default=db.func.current_timestamp(), onupdate=db.func.current_timestamp())
 
     @staticmethod
-    def create_requirement(requirement_name, original_requirement, app_id, user_id, default_source_branch, default_target_branch, status, satisfaction_rating=None, completion_rating=None):
+    def create_requirement(tenant_id, requirement_name, original_requirement, app_id, user_id, default_source_branch, default_target_branch, status, satisfaction_rating=None, completion_rating=None):
         requirement = Requirement(
+            tenant_id=tenant_id,
             requirement_name=requirement_name,
             original_requirement=original_requirement,
             app_id=app_id,
@@ -32,8 +35,8 @@ class Requirement(db.Model):
         return requirement
 
     @staticmethod
-    def get_all_requirements(app_id=None):
-        requirements = Requirement.query.order_by(Requirement.requirement_id.desc()).all()
+    def get_all_requirements(tenantID=None):
+        requirements = Requirement.query.filter_by(tenant_id=tenantID).order_by(Requirement.requirement_id.desc()).all()
         requirement_list = []
 
         for req in requirements:
@@ -70,7 +73,8 @@ class Requirement(db.Model):
                 'satisfaction_rating': req.satisfaction_rating,
                 'completion_rating': req.completion_rating,
                 'created_at': req.created_at,
-                'updated_at': req.updated_at
+                'updated_at': req.updated_at,
+                'app': Application.get_application_by_id(req.app_id)
             }
         return req_dict
 

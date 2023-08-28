@@ -39,50 +39,50 @@ def splitTask(requirementID, newfeature, serviceName, appBasePrompt, projectInfo
 
     return obj.splitTask(requirementID, newfeature, serviceName, appBasePrompt, projectInfo, projectLib, serviceStruct, appID)
 
-def aiReferenceRepair(requirementID, newCode, referenceCode, fileTask):
+def aiReferenceRepair(requirementID, newCode, referenceCode, fileTask, filePath):
     if GRADE == "base":
         obj = CodeBasic()
     else:
         obj = CodePro()
         
-    return obj.aiReferenceRepair(requirementID, newCode, referenceCode, fileTask)
+    return obj.aiReferenceRepair(requirementID, newCode, referenceCode, fileTask, filePath)
 
-def aiAnalyzeError(requirementID, message):
+def aiAnalyzeError(requirementID, message, filePath):
     if GRADE == "base":
         obj = CodeBasic()
     else:
         obj = CodePro()
         
-    return obj.aiAnalyzeError(requirementID, message)
+    return obj.aiAnalyzeError(requirementID, message, filePath)
 
-def aiFixError(requirementID, solution, code):
+def aiFixError(requirementID, solution, code, filePath, type):
     if GRADE == "base":
         obj = CodeBasic()
     else:
         obj = CodePro()
         
-    return obj.aiFixError(requirementID, solution, code)
+    return obj.aiFixError(requirementID, solution, code, filePath, type)
 
-def aiCheckCode(requirementID, fileTask, code):
+def aiCheckCode(requirementID, fileTask, code, filePath):
     if GRADE == "base":
         obj = CodeBasic()
     else:
         obj = CodePro()
         
-    return obj.aiCheckCode(requirementID, fileTask, code)
+    return obj.aiCheckCode(requirementID, fileTask, code, filePath)
 
-def aiMergeCode(requirementID, fileTask, appName, baseCode, newCode):
+def aiMergeCode(requirementID, fileTask, appName, baseCode, newCode, filePath):
     if GRADE == "base":
         obj = CodeBasic()
     else:
         obj = CodePro()
         
-    return obj.aiMergeCode(requirementID, fileTask, appName, baseCode, newCode)
+    return obj.aiMergeCode(requirementID, fileTask, appName, baseCode, newCode, filePath)
 
-def aiGenCode(requirementID, fileTask, newTask, newCode):
+def aiGenCode(requirementID, fileTask, newTask, newCode, filePath):
     if GRADE == "base":
         obj = CodeBasic()
     else:
         obj = CodePro()
         
-    return obj.aiGenCode(requirementID, fileTask, newTask, newCode)
+    return obj.aiGenCode(requirementID, fileTask, newTask, newCode, filePath)

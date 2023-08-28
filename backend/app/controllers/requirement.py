@@ -3,7 +3,8 @@ from app.controllers.common import json_response
 from app.models.task import getEmptyTaskInfo
 from app.pkgs.tools.i18b import getI18n
 from app.models.requirement import Requirement
-from config import REQUIREMENT_STATUS_NotStarted
+from app.models.requirement_memory_pro import RequirementMemory
+from config import REQUIREMENT_STATUS_NotStarted, GRADE
 
 bp = Blueprint('requirement', __name__, url_prefix='/requirement')
 
@@ -32,8 +33,9 @@ def setup_app():
     sourceBranch = data['source_branch']
     featureBranch = data['feature_branch']
     username = session['username']
+    tenantID = session['tenant_id']
 
-    requirement = Requirement.create_requirement("", "New", appID, 1, sourceBranch, featureBranch,  REQUIREMENT_STATUS_NotStarted, 0, 0)
+    requirement = Requirement.create_requirement(tenantID, "", "New", appID, 1, sourceBranch, featureBranch,  REQUIREMENT_STATUS_NotStarted, 0, 0)
 
     session[username]['memory']['task_info'] = {
         "app_id": appID,
@@ -44,20 +46,42 @@ def setup_app():
     session.update()
 
     if requirement.requirement_id:
-        return {"task_id": session[username]['memory']['task_info']['task_id']}
+        return Requirement.get_requirement_by_id(requirement.requirement_id)
     else:
         raise Exception(_("Failed to set up app."))
 
 @bp.route('/get', methods=['GET'])
 @json_response
-def getAll():
+def get_all():
     _ = getI18n("controllers")
-    owner = session['username']
-    appID = request.args.get('app_id')
+    tenantID = session['tenant_id']
 
     try:
-        requirements = Requirement.get_all_requirements(appID)
+        requirements = Requirement.get_all_requirements(tenantID)
 
         return {'requirements': requirements}
     except Exception as e:
         raise Exception(_("Failed to get applications.")) 
+    
+@bp.route('/get_one', methods=['GET'])
+@json_response
+def get_one():
+    _ = getI18n("controllers")
+    requirementID = request.args.get('requirement_id')
+
+    requirement = Requirement.get_requirement_by_id(requirementID)
+
+    memory = {
+        "task_info" : {
+            "app_id": requirement["app_id"],
+            "task_id": requirement["requirement_id"],
+            "source_branch": requirement["default_source_branch"],
+            "feature_branch": requirement["default_target_branch"]
+        }
+    }
+    requirement["old_memory"] = memory
+
+    if GRADE != "base":
+        requirement["memory"] = RequirementMemory.get_all_requirement_memories(requirementID, 1)
+
+    return requirement
