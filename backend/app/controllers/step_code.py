@@ -22,7 +22,7 @@ def edit_file_task():
 
     return {'success': success, 'code': re["code"], 'reasoning': re["reasoning"]}
 
-@bp.route('/check_file', methods=['POST'])
+@bp.route('/check_code', methods=['POST'])
 @json_response
 def check_file():
     _ = getI18n("controllers")

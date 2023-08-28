@@ -16,14 +16,13 @@ bp = Blueprint('workspace', __name__, url_prefix='/workspace')
 @json_response
 def save_code():
     _ = getI18n("controllers")
-    task_id = request.json.get('task_id')
+    requirementID = request.json.get('task_id')
     file_path = request.json.get('file_path')
     serviceName = request.json.get('service_name')
     code = request.json.get('code')
-    username = session['username']
-    appID = session[username]['memory']['task_info']['app_id']
-    gitPath, success = getServiceGitPath(appID, serviceName)
-    path = get_ws_path(task_id)+'/'+gitPath+"/"+file_path
+    req = Requirement.get_requirement_by_id(requirementID) 
+    gitPath, success = getServiceGitPath(req["app_id"] , serviceName)
+    path = get_ws_path(requirementID)+'/'+gitPath+"/"+file_path
     write_file_content(path, code)
     return _("Saved code successfully.")
 
@@ -32,26 +31,20 @@ def save_code():
 @json_response
 def create():
     _ = getI18n("controllers")
-    task_id =  request.json.get('task_id')
+    requirementID =  request.json.get('task_id')
     serviceName = request.json.get('repo_path')
-    base_branch = request.json.get('base_branch')
-    fature_branch = request.json.get('feature_branch')
-    ws_path = get_ws_path(task_id)
-    username = session['username']
-    appID = session[username]['memory']['task_info']['app_id']
-    print(appID)
-    print("@@@@@@@@")
-    gitPath, success = getServiceGitPath(appID, serviceName)
+    ws_path = get_ws_path(requirementID)
+    req = Requirement.get_requirement_by_id(requirementID) 
+    
+    gitPath, success = getServiceGitPath(req["app_id"], serviceName)
 
     tenantID = session['tenant_id']
-    username = session['username']
-    appID = session[username]['memory']['task_info']['app_id']
-    gitConfigList, success = getGitConfigList(tenantID, appID)
+    gitConfigList, success = getGitConfigList(tenantID, req["app_id"])
 
     if not GIT_ENABLED:
         success = True
     else:
-        success, msg = pullCode(ws_path, gitPath, base_branch, fature_branch, gitConfigList)
+        success, msg = pullCode(ws_path, gitPath, req["default_source_branch"], req["default_target_branch"], gitConfigList)
 
     if success:
         return _("Create workspace successfully.")
@@ -64,18 +57,17 @@ def gitpush():
     _ = getI18n("controllers")
     username = session['username']
     commitMsg = session[username]['memory']['originalPrompt']
-    task_id =  request.json.get('task_id')
+    requirementID =  request.json.get('task_id')
     serviceName = request.json.get('service_name')
     fatureBranch = session[username]['memory']['task_info']['feature_branch']
-    wsPath = get_ws_path(task_id)
-    appID = session[username]['memory']['task_info']['app_id']
-    gitPath, success = getServiceGitPath(appID, serviceName)
+    wsPath = get_ws_path(requirementID)
+    req = Requirement.get_requirement_by_id(requirementID) 
+    gitPath, success = getServiceGitPath(req["app_id"], serviceName)
     tenantID = session['tenant_id']
     username = session['username']
-    appID = session[username]['memory']['task_info']['app_id']
-    gitConfigList, success = getGitConfigList(tenantID, appID)
+    gitConfigList, success = getGitConfigList(tenantID, req["app_id"])
 
-    Requirement.update_requirement(requirement_id=task_id, status=REQUIREMENT_STATUS_Completed)
+    Requirement.update_requirement(requirement_id=requirementID, status=REQUIREMENT_STATUS_Completed)
 
     if not GIT_ENABLED:
         raise Exception(_("Failed to push code.")+f" You did not set Git parameters in the configuration file.")

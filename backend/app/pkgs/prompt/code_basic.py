@@ -81,7 +81,7 @@ class CodeBasic(CodeInterface):
 
 
     def aiCheckCode(self, requirementID, fileTask, code):
-        goodCodeRe, success = self.aiReviewCode(fileTask, code)
+        goodCodeRe, success = self.aiReviewCode(requirementID, fileTask, code)
 
         jsonData = {"reasoning": goodCodeRe, "code": code}
 

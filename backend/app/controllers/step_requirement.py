@@ -18,14 +18,15 @@ def clarify():
     userName = session["username"]
     requirementID = request.json.get('task_id')
 
-    appID = session[userName]['memory']['task_info']['app_id']
+    req = Requirement.get_requirement_by_id(requirementID) 
 
-    if len(appID) == 0 or not appID:
+    if not req["app_id"] or req["app_id"] < 1 :
         raise Exception(_("Please select the application you want to develop."))
     
-    Requirement.update_requirement(requirement_id=requirementID, original_requirement=userPrompt, status=REQUIREMENT_STATUS_InProgress)
+    if len(globalContext) < 4 :
+        Requirement.update_requirement(requirement_id=requirementID, original_requirement=userPrompt, status=REQUIREMENT_STATUS_InProgress)
     
-    appArchitecture, _ = getAppArchitecture(appID)
+    appArchitecture, _ = getAppArchitecture(req["app_id"])
     msg, success = clarifyRequirement(requirementID, userPrompt, globalContext, appArchitecture)
 
     if success:

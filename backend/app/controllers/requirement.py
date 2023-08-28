@@ -33,7 +33,7 @@ def setup_app():
     featureBranch = data['feature_branch']
     username = session['username']
 
-    requirement = Requirement.create_requirement("", "New", appID, 1, REQUIREMENT_STATUS_NotStarted, 0, 0)
+    requirement = Requirement.create_requirement("", "New", appID, 1, sourceBranch, featureBranch,  REQUIREMENT_STATUS_NotStarted, 0, 0)
 
     session[username]['memory']['task_info'] = {
         "app_id": appID,

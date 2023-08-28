@@ -647,7 +647,7 @@ function checkCode(code, fileTask, uuid, file_path, service_name) {
         $("#task_status_check_"+uuid).attr("show-code-reason", error)
     }
 
-    sendAjaxRequest('/step_code/check_file', "POST", requestData, successCallback, errorCallback, true, false)
+    sendAjaxRequest('/step_code/check_code', "POST", requestData, successCallback, errorCallback, true, false)
 }
 
 function checkCompile(repo_path, times) {
@@ -1039,7 +1039,7 @@ function startCi(repo_path, repo_branch) {
 
     thinkUI(customPrompt, globalFrontendText["ai_think"])
     
-    var requestData = JSON.stringify({ 'repo_path': repo_path})
+    var requestData = JSON.stringify({ 'repo_path': repo_path, 'task_id': getTaskID()})
 
     successCallback = function(data) {
         pluginci(data.data.info)
@@ -1053,7 +1053,7 @@ function startCd(repo_path) {
 
     thinkUI(customPrompt, globalFrontendText["ai_think"])
     
-    var requestData = JSON.stringify({ 'repo_path': repo_path})
+    var requestData = JSON.stringify({ 'repo_path': repo_path, 'task_id': getTaskID()})
 
     successCallback = function(data) {
         var str = globalFrontendText["start_cd"]+": "+data.data["internet_ip"]
@@ -1095,13 +1095,13 @@ function refreshPluginciStatus(piplineID, repopath, piplineUrl, element, times) 
         var times=0
     }
     $(element).addClass('loading');
-    info = { "piplineID": piplineID, "repopath": repopath }
+    info = { "piplineID": piplineID, "repopath": repopath, 'task_id': getTaskID() }
     $.ajax({
         type: 'GET',
         xhrFields: {
             withCredentials: true
         },
-        url: apiUrl + '/step_devops/plugin_ci',
+        url: apiUrl + '/step_devops/query_ci',
         data: info,
         contentType: 'application/json',
         dataType: 'json'

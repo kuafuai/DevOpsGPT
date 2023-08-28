@@ -2,11 +2,11 @@ from flask import request, session
 from app.controllers.common import json_response
 from app.pkgs.devops.local_tools import getFileContent
 from app.pkgs.tools.i18b import getI18n
-from app.pkgs.tools.file_tool import get_ws_path
 from flask import Blueprint
 from app.pkgs.prompt.prompt import splitTask
 from app.pkgs.knowledge.app_info import getServiceSwagger
 from app.pkgs.knowledge.app_info import getServiceBasePrompt, getServiceIntro, getServiceLib, getServiceStruct
+from app.models.requirement import Requirement
 
 bp = Blueprint('step_subtask', __name__, url_prefix='/step_subtask')
 
@@ -23,8 +23,8 @@ def analysis():
     requirementID = request.json.get('task_id')
 
     # todo Use llm to determine which interface documents to adjust
-    appID = session[username]['memory']['task_info']['app_id']
-    defaultApiDoc, success = getServiceSwagger(appID, 0)
+    req = Requirement.get_requirement_by_id(requirementID) 
+    defaultApiDoc, success = getServiceSwagger(req["app_id"], 0)
 
     if len(defaultApiDoc) > 0:
         newfeature = requirementDoc+"""
@@ -37,12 +37,12 @@ You need to think on the basis of the following interface documentation：
     else:
         newfeature = requirementDoc
         
-    appBasePrompt, _ = getServiceBasePrompt(appID, serviceName)
-    projectInfo, _ = getServiceIntro(appID, serviceName)
-    projectLib, _ = getServiceLib(appID, serviceName)
-    serviceStruct,_ = getServiceStruct(appID, serviceName)
+    appBasePrompt, _ = getServiceBasePrompt(req["app_id"], serviceName)
+    projectInfo, _ = getServiceIntro(req["app_id"], serviceName)
+    projectLib, _ = getServiceLib(req["app_id"], serviceName)
+    serviceStruct,_ = getServiceStruct(req["app_id"], serviceName)
 
-    filesToEdit, success = splitTask(requirementID, newfeature, serviceName, appBasePrompt, projectInfo, projectLib, serviceStruct, appID)
+    filesToEdit, success = splitTask(requirementID, newfeature, serviceName, appBasePrompt, projectInfo, projectLib, serviceStruct, req["app_id"])
 
     if success:
         for index, file in enumerate(filesToEdit):

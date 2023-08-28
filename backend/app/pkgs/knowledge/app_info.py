@@ -24,10 +24,9 @@ def getServiceSwagger(appID, serviceName):
     if len(apps) > 0:
         services = apps[0]["service"]
         for service in services:
-            if service["name"] == serviceName:
-                # todo get interface document content dynamically
-                # todo Use llm to determine which interface documents to adjust
-                swaggerDoc = service["api_location"]
+            # todo get interface document content dynamically
+            # todo Use llm to determine which interface documents to adjust
+            swaggerDoc = service["api_location"]
 
     return swaggerDoc, True
 

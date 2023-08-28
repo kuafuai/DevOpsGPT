@@ -32,14 +32,14 @@ class SubtaskBasic(SubtaskInterface):
             # pseudocode
             pseudocode, success = setpPseudocode(ctx, subtask,  serviceStruct, appBasePrompt)
             if success:
-                return setpGenCode(pseudocode, feature, appBasePrompt, specification, serviceStruct)
+                return setpGenCode(pseudocode, feature, appBasePrompt, specification, serviceStruct, serviceName)
             else:
                 return pseudocode, False
         else:
             return subtask, False
 
 
-def setpGenCode(pseudocode, feature, appBasePrompt, specification, serviceStruct):
+def setpGenCode(pseudocode, feature, appBasePrompt, specification, serviceStruct, serviceName):
     context = []
     context.append({
         "role": "system",
@@ -75,7 +75,7 @@ Please note that the code should be fully functional. No placeholders no todo en
 
 You will output the content of each file including ALL code.
 Each code file must strictly follow a markdown code block format, where the following tokens must be replaced such that
-FILEPATH is the lowercase file name including the file extension
+FILEPATH is a file name that contains the file extension
 LANG is the markup code block language for the code's language
 CODE_EXPLANATION explain the code you provide in detail, this explain should be independent. For example: specific variable names and types to be added and modified, method names to be added or modified, parameter names, and so on
 CODE is the code:
@@ -96,7 +96,7 @@ Before you finish, double check that all parts of the architecture is present in
     # success = True
     data, success = chatCompletion(context)
     
-    jsonData = parse_chat(data)
+    jsonData = parse_chat(data, serviceName)
     print(jsonData)
 
     return jsonData, success
@@ -117,7 +117,7 @@ Existing code directory structure:
 ```
 
 Each pseudocode file must strictly follow a markdown code block format, where the following tokens must be replaced such that
-FILEPATH is the lowercase file name including the file extension
+FILEPATH is a file name that contains the file extension
 LANG is the markup code block language for the code's language
 COMMENT as well as a quick comment on their purpose
 CODE is the code:
@@ -213,7 +213,7 @@ You should only directly respond in JSON format as described below, Ensure the r
 
     return json.loads(data), success
 
-def parse_chat(chat):
+def parse_chat(chat, serviceName):
     regex = r"(.+?)```[^\n]*\n(.+?)```"
     matches = re.finditer(regex, chat, re.DOTALL)
 
@@ -234,6 +234,8 @@ def parse_chat(chat):
         code = match.group(2)
 
         # Add the file to the list
+        if path.startswith(serviceName+"/"):
+            path = path[len(serviceName+"/"):]
         files.append({"file-path": path,"code": code, "code-interpreter": interpreter, "reference-file": ""})
 
     # Return the files
