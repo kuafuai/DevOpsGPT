@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-08-26 22:13+0800\n"
+"POT-Creation-Date: 2023-08-26 22:27+0800\n"
 "PO-Revision-Date: 2023-07-17 18:36+0800\n"
 "Last-Translator: booboo <mac@booboo.local>\n"
 "Language-Team: Language i18n/zh\n"
@@ -373,3 +373,13 @@ msgstr "完成度评分"
 #: backend/app/pkgs/tools/i18b.py:118
 msgid "Requirement satisfaction_rating"
 msgstr "满意度评分"
+
+#: backend/app/pkgs/tools/i18b.py:119
+msgid ""
+"Historical requirement recovery is not supported at this time, please visit "
+"workspace to obtain the code results"
+msgstr "当前版本暂不支持历史需求恢复，您可以访问 workspace 获取之前的代码结果"
+
+#: backend/app/pkgs/tools/i18b.py:120
+msgid "Notice"
+msgstr "注意"

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-08-08 16:16+0800\n"
+"POT-Creation-Date: 2023-08-29 17:32+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,59 +17,72 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: backend/app/controllers/app.py:32
+#: backend/app/controllers/app.py:36
 msgid "Failed to add an application."
 msgstr ""
 
-#: backend/app/controllers/app.py:49
+#: backend/app/controllers/app.py:51
 msgid "Failed to get applications."
 msgstr ""
 
-#: backend/app/controllers/step_api.py:29
+#: backend/app/controllers/app.py:61
+msgid "Failed to analysis applications."
+msgstr ""
+
+#: backend/app/controllers/requirement.py:51
+msgid "Failed to set up app."
+msgstr ""
+
+#: backend/app/controllers/setting.py:17 backend/app/controllers/setting.py:29
+#: backend/app/controllers/setting.py:41 backend/app/controllers/setting.py:53
+msgid "Failed to get git config list."
+msgstr ""
+
+#: backend/app/controllers/step_api.py:31
 msgid "Failed to clarify API."
 msgstr ""
 
-#: backend/app/controllers/step_code.py:21
+#: backend/app/controllers/step_code.py:22
 msgid "Failed to edit file with new task."
 msgstr ""
 
-#: backend/app/controllers/step_code.py:34
+#: backend/app/controllers/step_code.py:37
 msgid "Failed to check file."
 msgstr ""
 
-#: backend/app/controllers/step_code.py:50
+#: backend/app/controllers/step_code.py:55
 msgid "Failed to merge old and new code."
 msgstr ""
 
-#: backend/app/controllers/step_code.py:68
+#: backend/app/controllers/step_code.py:75
 msgid "Failed to reference repair no reference file found."
 msgstr ""
 
-#: backend/app/controllers/step_code.py:72
+#: backend/app/controllers/step_code.py:79
 msgid "Reference repair failed for unknown reasons."
 msgstr ""
 
-#: backend/app/controllers/step_devops.py:50
+#: backend/app/controllers/step_devops.py:69
 msgid "Compile check pass."
 msgstr ""
 
-#: backend/app/controllers/step_devops.py:57
+#: backend/app/controllers/step_devops.py:76
 msgid "Compile check failed for unknown reasons."
 msgstr ""
 
-#: backend/app/controllers/step_devops.py:72
+#: backend/app/controllers/step_devops.py:93
 msgid "Static code scan passed."
 msgstr ""
 
-#: backend/app/controllers/step_devops.py:79
+#: backend/app/controllers/step_devops.py:100
 msgid "Static code scan failed for unknown reasons."
 msgstr ""
 
-#: backend/app/controllers/step_requirement.py:20
+#: backend/app/controllers/step_requirement.py:24
 msgid "Please select the application you want to develop."
 msgstr ""
 
-#: backend/app/controllers/step_requirement.py:28
+#: backend/app/controllers/step_requirement.py:35
 msgid "Failed to clarify requirement."
 msgstr ""
 
@@ -77,19 +90,19 @@ msgstr ""
 msgid "Failed to split task."
 msgstr ""
 
-#: backend/app/controllers/task.py:39
-msgid "Failed to set up app."
-msgstr ""
-
-#: backend/app/controllers/user.py:28
+#: backend/app/controllers/user.py:47
 msgid "Login successful."
 msgstr ""
 
-#: backend/app/controllers/user.py:38
+#: backend/app/controllers/user.py:49
+msgid "Invalid username or password"
+msgstr ""
+
+#: backend/app/controllers/user.py:57
 msgid "Logout successful."
 msgstr ""
 
-#: backend/app/controllers/user.py:54
+#: backend/app/controllers/user.py:73
 msgid "success."
 msgstr ""
 
@@ -105,10 +118,11 @@ msgstr ""
 msgid "Failed to create workspace."
 msgstr ""
 
-#: backend/app/controllers/workspace.py:72
-msgid "Push code successfully."
+#: backend/app/controllers/workspace.py:73
+#: backend/app/controllers/workspace.py:80
+msgid "Failed to push code."
 msgstr ""
 
-#: backend/app/controllers/workspace.py:74
-msgid "Failed to push code."
+#: backend/app/controllers/workspace.py:78
+msgid "Push code successfully."
 msgstr ""

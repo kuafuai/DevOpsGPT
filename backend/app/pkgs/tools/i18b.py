@@ -118,4 +118,9 @@ def getFrontendText():
         "requirement_satisfaction": _("Requirement satisfaction_rating"),
         "opensource_version_1": _("Historical requirement recovery is not supported at this time, please visit workspace to obtain the code results"),
         "notice": _("Notice"),
+        "username": _("Username"),
+        "password": _("Password"),
+        "register": _("Register"),
+        "email": _("Email"),
+        "phone": _("Phone"),
     }

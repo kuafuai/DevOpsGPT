@@ -41,7 +41,7 @@ function sendAjaxRequest(url, method, requestData, successCallback, errorCallbac
         } else {
             console.log(data.error)
             try {
-                errorCallback(data.error + "<br />" + globalFrontendText["backend_return_error"]);
+                errorCallback(data.error);
             } catch (error) {
                 myAlert("ERROR", error);
                 console.error(error);
@@ -457,15 +457,19 @@ function logincheck() {
 
     successCallback = function(data) {
         var username = data.data.username
-        //const url = window.location;
-        //const newUrl = url.origin+url.pathname;
-        //history.pushState('', '', newUrl); 
         $("#current-username").html(username)
         $("#watermark-username").html(username)
     }
 
     errorCallback = function(data) {
-        $("#my-login").modal('show')
+        username = "Guest"
+        $("#current-username").html(username)
+        $("#watermark-username").html(username)
+        const url = window.location;
+        const path = url.pathname;
+        if (path != "/user_login.html" && path != "/user_register.html") {
+            window.location.href = "user_login.html";
+        }
     }
 
     sendAjaxRequest('/requirement/clear_up', 'GET', info, successCallback, errorCallback, true, false)
@@ -473,7 +477,7 @@ function logincheck() {
 
 function logout() {
     successCallback = function() {
-        location.reload();
+        window.location.href = "user_login.html";
     }
 
     sendAjaxRequest('/user/logout', "POST", "", successCallback, alertErrorCallback, true, true)
@@ -487,20 +491,7 @@ function changeLanguage() {
     sendAjaxRequest('/user/change_language', "GET", "", successCallback, alertErrorCallback, true, false)
 }
 
-function login() {
-    var requestData = JSON.stringify({ 'username': $("#login-username").val(), 'password': $("#login-password").val() })
- 
-    successCallback = function(data) {
-        location.reload();
-    }
 
-    errorCallback = function(error) {
-        $("#login-message").html(error)
-        $("#login-message").fadeOut().fadeIn()
-    }
-
-    sendAjaxRequest('/user/login', "POST", requestData, successCallback, errorCallback, true, false)
-}
 
 function myAlert(alert_title, alert_content) {
     $("#my-alert-title").html(alert_title)

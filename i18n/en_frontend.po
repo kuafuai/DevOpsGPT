@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-08-26 22:27+0800\n"
+"POT-Creation-Date: 2023-08-29 17:28+0800\n"
 "PO-Revision-Date: 2023-07-17 18:37+0800\n"
 "Last-Translator: booboo <mac@booboo.local>\n"
 "Language-Team: Language i18n/en\n"
@@ -381,4 +381,24 @@ msgstr ""
 
 #: backend/app/pkgs/tools/i18b.py:120
 msgid "Notice"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:121
+msgid "Username"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:122
+msgid "Password"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:123
+msgid "Register"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:124
+msgid "Email"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:125
+msgid "Phone"
 msgstr ""
