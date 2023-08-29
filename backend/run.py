@@ -21,7 +21,7 @@ def require_login():
             session['tenant_id'] = 0
             session[session["username"]] = getEmptyTaskInfo()
 
-    if request.path == '/user/language' or request.path == '/user/login':
+    if request.path == '/user/language' or request.path == '/user/login' or request.path == '/user/logout' or request.path == '/user/change_language' or request.path == '/user/register':
         no = 1
     elif 'logged_in' not in session:
         return {'success': False, 'error': 'Access denied', 'code': 401}
