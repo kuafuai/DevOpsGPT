@@ -63,14 +63,13 @@
 ## 快速开始
 
 1. 源码运行
-    ```
-    1. 克隆最新代码或选择已发布的版本，准备好 Python3.7 或以上版本。
+    1. 选择[已发布的版本](https://github.com/kuafuai/DevOpsGPT/releases)或者克隆最新代码（不稳定），准备好 SQLite 和 Python3.7 或以上版本。
     2. 生成配置文件：复制 `env.yaml.tpl` 并重命名为 `env.yaml`。
     3. 修改配置文件：编辑 `env.yaml`，添加GPT Token等必要信息。
     4. 运行服务：在 Linux 或 Mac 上执行 `sh run.sh`，在 Windows 上双击运行 `run.bat`。
     5. 访问服务：通过浏览器访问服务（启动日志中提供的访问地址，默认为 http://127.0.0.1:8080）。
     6. 完成需求开发：按照页面引导完成需求开发，在 `./workspace` 目录下查看生成的代码。
-    ```
+
 2. Docker运行
     ```shell
     1. 创建一个目录：mkdir -p workspace

@@ -4,25 +4,25 @@ from config import GRADE
 
 class CodeInterface(ABC):
     @abstractmethod
-    def aiReferenceRepair(self, newCode, referenceCode, fileTask):
+    def aiReferenceRepair(self, requirementID, newCode, referenceCode, fileTask, filePath):
         pass
 
     @abstractmethod
-    def aiAnalyzeError(self, message):
+    def aiAnalyzeError(self, requirementID, message, filePath):
         pass
 
     @abstractmethod
-    def aiFixError(self, solution, code):
+    def aiFixError(self, requirementID, solution, code, filePath, type):
         pass
 
     @abstractmethod
-    def aiCheckCode(self, fileTask, code):
+    def aiCheckCode(self, requirementID, fileTask, code, filePath):
         pass
 
     @abstractmethod
-    def aiMergeCode(self, task, baseCode, newCode):
+    def aiMergeCode(self, requirementID, task, baseCode, newCode, filePath):
         pass
 
     @abstractmethod
-    def aiGenCode(self, fileTask, newTask, newCode):
+    def aiGenCode(self, requirementID, fileTask, newTask, newCode, filePath):
         pass

@@ -16,19 +16,20 @@ def clarify():
     userPrompt = request.json.get('user_prompt')
     globalContext = request.json.get('global_context')
     userName = session["username"]
-    taskID = request.json.get('task_id')
+    requirementID = request.json.get('task_id')
 
-    appID = session[userName]['memory']['task_info']['app_id']
+    req = Requirement.get_requirement_by_id(requirementID) 
 
-    if len(appID) == 0 or not appID:
+    if not req["app_id"] or req["app_id"] < 1 :
         raise Exception(_("Please select the application you want to develop."))
     
-    Requirement.update_requirement(requirement_id=taskID, original_requirement=userPrompt, status=REQUIREMENT_STATUS_InProgress)
+    if len(globalContext) < 4 :
+        Requirement.update_requirement(requirement_id=requirementID, original_requirement=userPrompt, status=REQUIREMENT_STATUS_InProgress)
     
-    appArchitecture, _ = getAppArchitecture(appID)
-    msg, success = clarifyRequirement(userPrompt, globalContext, appArchitecture)
+    appArchitecture, _ = getAppArchitecture(req["app_id"])
+    msg, success = clarifyRequirement(requirementID, userPrompt, globalContext, appArchitecture)
 
     if success:
-        return {'message': msg, 'memory': session[userName]['memory']}
+        return {'message': msg, 'memory': session[userName]['memory'], "input_prompt": userPrompt}
     else:
         raise Exception(_("Failed to clarify requirement."))

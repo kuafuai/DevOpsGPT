@@ -24,6 +24,33 @@ REQUIREMENT_STATUS_Completed = "Completed"
 REQUIREMENT_STATUS_Evaluated = "Evaluated"
 REQUIREMENT_STATUS_Canceled = "Canceled"
 
+REQUIREMENT_MEM_STEP_Requirement_clarify = "Requirement_clarify"
+REQUIREMENT_MEM_STEP_Requirement_organize = "Requirement_organize"
+REQUIREMENT_MEM_STEP_API_subtasks = "API_subtasks"
+REQUIREMENT_MEM_STEP_API_organize = "API_organize"
+REQUIREMENT_MEM_STEP_Subtask_chooseLib = "Subtask_chooseLib"
+REQUIREMENT_MEM_STEP_Subtask_subtasks = "Subtask_subtasks"
+REQUIREMENT_MEM_STEP_Subtask_pseudocode = "Subtask_pseudocode"
+REQUIREMENT_MEM_STEP_Subtask_code = "Subtask_code"
+REQUIREMENT_MEM_STEP_Code_checkCode = "Code_checkCode"
+REQUIREMENT_MEM_STEP_Code_referenceRepair = "Code_referenceRepair"
+REQUIREMENT_MEM_STEP_Code_analyzeError = "Code_analyzeError"
+REQUIREMENT_MEM_STEP_Code_fixError = "Code_fixError"
+REQUIREMENT_MEM_STEP_Code_reviewCode = "Code_reviewCode"
+REQUIREMENT_MEM_STEP_Code_mergeCode = "Code_mergeCode"
+REQUIREMENT_MEM_STEP_Code_genCode = "Code_genCode"
+REQUIREMENT_MEM_STEP_DevOps_compileCheck = "DevOps_compileCheck"
+REQUIREMENT_MEM_STEP_DevOps_lintCheck = "DevOps_lintCheck"
+REQUIREMENT_MEM_STEP_DevOps_unitTest = "DevOps_unitTest"
+REQUIREMENT_MEM_STEP_DevOps_apiTest = "DevOps_apiTest"
+REQUIREMENT_MEM_STEP_DevOps_CI = "DevOps_CI"
+
+REQUIREMENT_MEM_TYPE_RequirementDocument = "RequirementDocument"
+REQUIREMENT_MEM_TYPE_APIDocument = "APIDocument"
+REQUIREMENT_MEM_TYPE_Subtask = "Subtask"
+REQUIREMENT_MEM_TYPE_Code = "Code"
+REQUIREMENT_MEM_TYPE_DevOps = "DevOps"
+
 try:
     BACKEND_HOST = read_config("BACKEND_HOST")
     BACKEND_DEBUG = read_config("BACKEND_DEBUG")

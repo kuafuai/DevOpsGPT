@@ -10,11 +10,9 @@ bp = Blueprint('setting', __name__, url_prefix='/setting')
 @json_response
 def get_git_config_list():
     _ = getI18n("controllers")
-    username = session['username']
     tenantID = session['tenant_id']
-    appID = session[username]['memory']['task_info']['app_id']
 
-    gitList, success = getGitConfigList(tenantID, appID)
+    gitList, success = getGitConfigList(tenantID, 0)
     if not success:
         raise Exception(_("Failed to get git config list.")) 
 
@@ -24,11 +22,9 @@ def get_git_config_list():
 @json_response
 def get_ci_config_list():
     _ = getI18n("controllers")
-    username = session['username']
     tenantID = session['tenant_id']
-    appID = session[username]['memory']['task_info']['app_id']
 
-    gitList, success = getCIConfigList(tenantID, appID)
+    gitList, success = getCIConfigList(tenantID, 0)
     if not success:
         raise Exception(_("Failed to get git config list.")) 
 
@@ -38,11 +34,9 @@ def get_ci_config_list():
 @json_response
 def get_cd_config_list():
     _ = getI18n("controllers")
-    username = session['username']
     tenantID = session['tenant_id']
-    appID = session[username]['memory']['task_info']['app_id']
 
-    gitList, success = getCDConfigList(tenantID, appID)
+    gitList, success = getCDConfigList(tenantID, 0)
     if not success:
         raise Exception(_("Failed to get git config list.")) 
 
@@ -52,11 +46,9 @@ def get_cd_config_list():
 @json_response
 def get_llm_config_list():
     _ = getI18n("controllers")
-    username = session['username']
     tenantID = session['tenant_id']
-    appID = session[username]['memory']['task_info']['app_id']
 
-    gitList, success = getLLMConfigList(tenantID, appID)
+    gitList, success = getLLMConfigList(tenantID, 0)
     if not success:
         raise Exception(_("Failed to get git config list.")) 
 

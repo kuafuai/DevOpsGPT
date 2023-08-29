@@ -4,5 +4,5 @@ from config import GRADE
 
 class RequirementInterface(ABC):
     @abstractmethod
-    def clarifyRequirement(self, userPrompt, globalContext, appArchitecture):
+    def clarifyRequirement(self, requirementID, userPrompt, globalContext, appArchitecture):
         pass
