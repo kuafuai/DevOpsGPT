@@ -56,12 +56,9 @@ def get_all():
     _ = getI18n("controllers")
     tenantID = session['tenant_id']
 
-    try:
-        requirements = Requirement.get_all_requirements(tenantID)
+    requirements = Requirement.get_all_requirements(tenantID)
 
-        return {'requirements': requirements}
-    except Exception as e:
-        raise Exception(_("Failed to get applications.")) 
+    return {'requirements': requirements}
     
 @bp.route('/get_one', methods=['GET'])
 @json_response

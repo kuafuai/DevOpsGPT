@@ -51,14 +51,13 @@ Through the above introduction and Demo demonstration, you must be curious about
 ## Quick Start
 
 1. Run with source code
-    ```
-    1. Clone the latest code or select a released version, Python3.7 or later is ready.
+    1. Download the [released version](https://github.com/kuafuai/DevOpsGPT/releases), or clone the latest code(instability), Ensure SQLite and Python3.7 or later is ready.
     2. Generate the configuration file: Copy `env.yaml.tpl` and rename it to `env.yaml`.
     3. Modify the configuration file: Edit `env.yaml` and add the necessary information such as GPT Token (refer to [documentation link](docs/DOCUMENT.md) for detailed instructions).
     4. Run the service: Execute `sh run.sh` on Linux or Mac, or double-click `run.bat` on Windows.
     5. Access the service: Access the service through a browser (check the startup log for the access address, default is http://127.0.0.1:8080).
     6. Complete requirement development: Follow the instructions on the page to complete requirement development, and view the generated code in the `./workspace` directory.
-    ```
+
 2. Run with Docker
     ```shell
     1. Create a directory: mkdir -p workspace
