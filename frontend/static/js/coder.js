@@ -41,7 +41,7 @@ function sendAjaxRequest(url, method, requestData, successCallback, errorCallbac
         } else {
             console.log(data.error)
             try {
-                errorCallback(data.error);
+                errorCallback(data.error, data);
             } catch (error) {
                 myAlert("ERROR", error);
                 console.error(error);
@@ -452,23 +452,35 @@ function language() {
     sendAjaxRequest('/user/language', 'GET', "", successCallback, errorCallback, true, false)
 }
 
+function openUrl(newurl){
+    window.location.href = "tenant.html";
+}
+
 function logincheck() {
-    info = { 'requirement_id': getTaskID() }
+    const url = window.location;
+    const path = url.pathname;
+
+    info = { 'requirement_id': getTaskID(), "url_path": path }
 
     successCallback = function(data) {
         var username = data.data.username
+        var tenant = data.data.tenant_name
         $("#current-username").html(username)
+        $("#current-tenant").html(tenant)
         $("#watermark-username").html(username)
     }
 
-    errorCallback = function(data) {
-        username = "Guest"
-        $("#current-username").html(username)
-        $("#watermark-username").html(username)
-        const url = window.location;
-        const path = url.pathname;
-        if (path != "/user_login.html" && path != "/user_register.html") {
-            window.location.href = "user_login.html";
+    errorCallback = function(msg, data) {
+        console.log("111111", data)
+        if (data.code == 401) {
+            username = "Guest"
+            $("#current-username").html(username)
+            $("#watermark-username").html(username)
+            if (path != "/user_login.html" && path != "/user_register.html") {
+                window.location.href = "user_login.html";
+            }        
+        } else if (data.code == 404) {
+            myAlert(globalFrontendText["notice"], msg)
         }
     }
 
@@ -480,7 +492,7 @@ function logout() {
         window.location.href = "user_login.html";
     }
 
-    sendAjaxRequest('/user/logout', "POST", "", successCallback, alertErrorCallback, true, true)
+    sendAjaxRequest('/user/logout', "POST", "", successCallback, alertErrorCallback, false, true)
 }
 
 function changeLanguage() {
@@ -1488,8 +1500,11 @@ function compareCode(uuid) {
 };
 
 
-function hideMiddleCharacters(inputString) {
-    const middleIndex = Math.floor(inputString.length / 4);
+function hideMiddleCharacters(inputString, mid) {
+    if (inputString == null) {
+        return "****"
+    }
+    const middleIndex = Math.floor(inputString.length / mid);
     const firstHalf = inputString.slice(0, middleIndex);
 
     const hiddenMiddle = '*'.repeat(middleIndex);

@@ -4,6 +4,7 @@ from app.pkgs.tools.i18b import getI18n
 from app.pkgs.tools.i18b import getFrontendText
 from app.models.user import User
 from app.models.user_pro import UserPro
+from app.models.tenant_user_pro import TenantUser
 from config import GRADE
 from config import LANGUAGE
 
@@ -25,9 +26,15 @@ def register():
     if GRADE == "base":
         raise Exception("The current version does not support this feature")
     else:
-        # todo 0
         current_tenant = 0
+        tus = TenantUser.get_tenant_user_by_invite_email(email)
+        for tu in tus:
+            current_tenant = tu["tenant_id"]
+        
         user = UserPro.create_user(username, password, phone_number, email, zone_language, current_tenant)
+        
+        for tu in tus:
+            TenantUser.active_tenant_user(tu["tenant_user_id"], user.user_id)
         
         return user.username
 
@@ -50,7 +57,6 @@ def login():
             session['tenant_id'] = userinfo["current_tenant"]
         
     if ok:
-        session['logged_in'] = True
         session['username'] = username        
         return {'message': _('Login successful.')}
     else: 

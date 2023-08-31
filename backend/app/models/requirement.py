@@ -61,22 +61,24 @@ class Requirement(db.Model):
     @staticmethod
     def get_requirement_by_id(requirement_id):
         req = Requirement.query.get(requirement_id)
-        req_dict = {
-                'requirement_id': req.requirement_id,
-                'requirement_name': req.requirement_name,
-                'original_requirement': req.original_requirement,
-                'app_id': req.app_id,
-                'user_id': req.user_id,
-                'default_source_branch': req.default_source_branch,
-                'default_target_branch': req.default_target_branch,
-                'status': req.status,
-                'satisfaction_rating': req.satisfaction_rating,
-                'completion_rating': req.completion_rating,
-                'created_at': req.created_at,
-                'updated_at': req.updated_at,
-                'app': Application.get_application_by_id(req.app_id)
-            }
-        return req_dict
+        if req:
+            req_dict = {
+                    'requirement_id': req.requirement_id,
+                    'requirement_name': req.requirement_name,
+                    'original_requirement': req.original_requirement,
+                    'app_id': req.app_id,
+                    'user_id': req.user_id,
+                    'default_source_branch': req.default_source_branch,
+                    'default_target_branch': req.default_target_branch,
+                    'status': req.status,
+                    'satisfaction_rating': req.satisfaction_rating,
+                    'completion_rating': req.completion_rating,
+                    'created_at': req.created_at,
+                    'updated_at': req.updated_at,
+                    'app': Application.get_application_by_id(req.app_id)
+                }
+            return req_dict
+        return None
 
     @staticmethod
     def update_requirement(requirement_id, requirement_name=None, original_requirement=None, app_id=None, user_id=None, status=None, satisfaction_rating=None, completion_rating=None):

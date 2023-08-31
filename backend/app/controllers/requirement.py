@@ -4,6 +4,7 @@ from app.models.task import getEmptyTaskInfo
 from app.pkgs.tools.i18b import getI18n
 from app.models.requirement import Requirement
 from app.models.requirement_memory_pro import RequirementMemory
+from app.models.tenant_pro import Tenant
 from config import REQUIREMENT_STATUS_NotStarted, GRADE
 
 bp = Blueprint('requirement', __name__, url_prefix='/requirement')
@@ -17,11 +18,12 @@ def clear_up():
         print("clear_up failed:"+str(e))
     
     session[session["username"]] = getEmptyTaskInfo()
-    # todo 1
-    session['tenant_id'] = 0
-    session.update()
+    tenant_name = "DevOpsGPT"
+    if GRADE != "base":
+        tenant = Tenant.get_tenant_baseinfo_by_id(session["tenant_id"])
+        tenant_name = tenant["name"]
 
-    return {"username": session["username"], "info": session[session["username"]]} 
+    return {"username": session["username"], "tenant_name": tenant_name, "tenant_id": session["tenant_id"], "info": session[session["username"]]} 
 
 
 @bp.route('/setup_app', methods=['POST'])
@@ -35,7 +37,10 @@ def setup_app():
     username = session['username']
     tenantID = session['tenant_id']
 
-    requirement = Requirement.create_requirement(tenantID, "", "New", appID, 1, sourceBranch, featureBranch,  REQUIREMENT_STATUS_NotStarted, 0, 0)
+    if GRADE != "base" and not Tenant.check_quota(tenantID):
+        raise Exception(_("You have exceeded your quota limit, please check your business bill."))
+
+    requirement = Requirement.create_requirement(tenantID, "New requirement", "New", appID, 1, sourceBranch, featureBranch,  REQUIREMENT_STATUS_NotStarted, 0, 0)
 
     session[username]['memory']['task_info'] = {
         "app_id": appID,

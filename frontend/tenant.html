@@ -16,7 +16,7 @@
   <script src="./static/js/marked.min.js"></script>
   <script src="./static/js/diff.min.js"></script>
   <script src="./static/js/coder.js?v=75"></script>
-  <script src="./static/js/user.js?v=75"></script>
+  <script src="./static/js/tenant.js?v=75"></script>
 </head>
 
 <body>
@@ -34,6 +34,7 @@
         <span class="f_more_operations"></span> <i class="dropdown icon"></i>
         <div class="menu">
           <div class="item"><span class="f_hello"></span> <span id="current-username"></span></div>
+          <div class="item" onClick="openUrl('tenant.html')"><span id="current-tenant"></span> - <span class="f_change_tenant"></span></div>
           <div class="item" onClick="changeLanguage()"><span class="f_change_language"></span></div>
           <div class="item" onClick="logout()"><span class="f_logout"></span></div>
         </div>
@@ -42,32 +43,30 @@
   </div>
 
   <div class="ui container">
-    <div class="ui form">
-      <div class="field">
-        <label><span class="f_username"></span></label>
-        <input type="text" id="login-username" placeholder="">
-      </div>
-      <div class="field">
-        <label><span class="f_password"></span></label>
-        <input type="password" id="login-password" placeholder="">
-      </div>
-      <div class="field">
-        <label><span class="f_email"></span></label>
-        <input type="text" id="login-email" placeholder="">
-      </div>
-      <div class="field">
-        <label><span class="f_phone"></span></label>
-        <input type="text" id="login-phone" placeholder="">
-      </div>
-      <div class="field">
-          <label id="login-message" style="color: red;"></label>
-      </div>
-      <div class="field">
-        <span class="f_create_user_notice ui right floated"></span>
-        <a class="ui right floated button blue" href="user_login.html"><i class="user icon"></i><span class="f_login"></span></a>        
-        <button class="ui right floated button green" onClick="register()" type="submit"><i class="id card outline icon"></i><span class="f_submit"></span></div></button>
-      </div>
-    </div>
+    <a href="tenant_new.html" class="ui linkedin button" id="add-application">
+      <i class="plus square outline icon"></i>
+      <span class="f_create_new"></span>
+    </a>
+  </div>
+  <div class="ui container">
+    <table class="ui celled striped table">
+      <thead>
+        <tr>
+          <th><span class="f_tenant_name"></span></th>
+          <th><span class="f_tenant_status"></span></th>
+          <th><span class="f_tenant_member_count"></span></th>
+          <th><span class="f_tenant_description"></span></th>
+          <th><span class="f_tenant_billing_type"></span></th>
+          <th><span class="f_tenant_billing_quota"></span></th>
+          <th><span class="f_tenant_created_at"></span></th>
+          <th><span class="f_tenant_billing_end"></span></th>
+          <th><span class="f_operate"></span></th>
+        </tr>
+      </thead>
+      <tbody id="tenant_list">
+        
+      </tbody>
+    </table>
   </div>
 
   <div class="ui modal" id="my-alert">

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-08-26 22:27+0800\n"
+"POT-Creation-Date: 2023-08-31 20:11+0800\n"
 "PO-Revision-Date: 2023-07-17 18:36+0800\n"
 "Last-Translator: booboo <mac@booboo.local>\n"
 "Language-Team: Language i18n/zh\n"
@@ -287,99 +287,230 @@ msgid "Create new"
 msgstr "新建"
 
 #: backend/app/pkgs/tools/i18b.py:97
+msgid "Back to list page"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:98
 msgid "APP name"
 msgstr "应用名称"
 
-#: backend/app/pkgs/tools/i18b.py:98
+#: backend/app/pkgs/tools/i18b.py:99
 msgid "APP introduction"
 msgstr "应用介绍"
 
-#: backend/app/pkgs/tools/i18b.py:99
+#: backend/app/pkgs/tools/i18b.py:100
 msgid "Base branch"
 msgstr "默认源分支"
 
-#: backend/app/pkgs/tools/i18b.py:100
+#: backend/app/pkgs/tools/i18b.py:101
 msgid "Feature branch"
 msgstr "新需求默认分支"
 
-#: backend/app/pkgs/tools/i18b.py:101
+#: backend/app/pkgs/tools/i18b.py:102
 msgid "Service name"
 msgstr "服务名称"
 
-#: backend/app/pkgs/tools/i18b.py:102
+#: backend/app/pkgs/tools/i18b.py:103
 msgid "Service role"
 msgstr "服务用途"
 
-#: backend/app/pkgs/tools/i18b.py:103
+#: backend/app/pkgs/tools/i18b.py:104
 msgid "Language"
 msgstr "语言"
 
-#: backend/app/pkgs/tools/i18b.py:104
+#: backend/app/pkgs/tools/i18b.py:105
 msgid "Framework"
 msgstr "框架"
 
-#: backend/app/pkgs/tools/i18b.py:105
+#: backend/app/pkgs/tools/i18b.py:106
 msgid "Dependency library"
 msgstr "依赖库"
 
-#: backend/app/pkgs/tools/i18b.py:106
+#: backend/app/pkgs/tools/i18b.py:107
 msgid "APP sub service"
 msgstr "应用包含服务"
 
-#: backend/app/pkgs/tools/i18b.py:107
+#: backend/app/pkgs/tools/i18b.py:108
 msgid "Git path"
 msgstr "代码路径"
 
-#: backend/app/pkgs/tools/i18b.py:108
+#: backend/app/pkgs/tools/i18b.py:109
 msgid "AI code analysis"
 msgstr "AI 代码分析"
 
-#: backend/app/pkgs/tools/i18b.py:109
+#: backend/app/pkgs/tools/i18b.py:110
 msgid "API type"
 msgstr "API 类型"
 
-#: backend/app/pkgs/tools/i18b.py:110
+#: backend/app/pkgs/tools/i18b.py:111
 msgid "API path"
 msgstr "API 路径"
 
-#: backend/app/pkgs/tools/i18b.py:111
+#: backend/app/pkgs/tools/i18b.py:112
 msgid "Service database"
 msgstr "数据库"
 
-#: backend/app/pkgs/tools/i18b.py:112
+#: backend/app/pkgs/tools/i18b.py:113
 msgid "Service code struct"
 msgstr "代码结构"
 
-#: backend/app/pkgs/tools/i18b.py:113
+#: backend/app/pkgs/tools/i18b.py:114
 msgid "Requirement ID"
 msgstr "需求ID"
 
-#: backend/app/pkgs/tools/i18b.py:114
+#: backend/app/pkgs/tools/i18b.py:115
 msgid "Requirement name"
 msgstr "需求名称"
 
-#: backend/app/pkgs/tools/i18b.py:115
+#: backend/app/pkgs/tools/i18b.py:116
 msgid "Requirement status"
 msgstr "状态"
 
-#: backend/app/pkgs/tools/i18b.py:116
+#: backend/app/pkgs/tools/i18b.py:117
 msgid "Requirement owner"
 msgstr "创建者"
 
-#: backend/app/pkgs/tools/i18b.py:117
+#: backend/app/pkgs/tools/i18b.py:118
 msgid "Requirement completion rating"
 msgstr "完成度评分"
 
-#: backend/app/pkgs/tools/i18b.py:118
+#: backend/app/pkgs/tools/i18b.py:119
 msgid "Requirement satisfaction_rating"
 msgstr "满意度评分"
 
-#: backend/app/pkgs/tools/i18b.py:119
+#: backend/app/pkgs/tools/i18b.py:120
 msgid ""
 "Historical requirement recovery is not supported at this time, please visit "
 "workspace to obtain the code results"
 msgstr "当前版本暂不支持历史需求恢复，您可以访问 workspace 获取之前的代码结果"
 
-#: backend/app/pkgs/tools/i18b.py:120
+#: backend/app/pkgs/tools/i18b.py:121
 msgid "Notice"
 msgstr "注意"
+
+#: backend/app/pkgs/tools/i18b.py:122
+msgid "Username"
+msgstr "用户名"
+
+#: backend/app/pkgs/tools/i18b.py:123
+msgid "Password"
+msgstr "密码"
+
+#: backend/app/pkgs/tools/i18b.py:124
+msgid "Register"
+msgstr "注册"
+
+#: backend/app/pkgs/tools/i18b.py:125
+msgid "Email"
+msgstr "邮箱"
+
+#: backend/app/pkgs/tools/i18b.py:126
+msgid "Company Name"
+msgstr "企业名称"
+
+#: backend/app/pkgs/tools/i18b.py:127
+msgid "Company Status"
+msgstr "状态"
+
+#: backend/app/pkgs/tools/i18b.py:128
+msgid "Company Description"
+msgstr "企业简介"
+
+#: backend/app/pkgs/tools/i18b.py:129
+msgid "Billing type"
+msgstr "账单类型"
+
+#: backend/app/pkgs/tools/i18b.py:130
+msgid "Billing quota"
+msgstr "账单周期内限额"
+
+#: backend/app/pkgs/tools/i18b.py:131
+msgid "Created"
+msgstr "创建时间"
+
+#: backend/app/pkgs/tools/i18b.py:132
+msgid "Plus expiry"
+msgstr "Plus 过期时间"
+
+#: backend/app/pkgs/tools/i18b.py:133
+msgid "Employee count"
+msgstr "企业规模"
+
+#: backend/app/pkgs/tools/i18b.py:134
+msgid "Industry type"
+msgstr "所属行业"
+
+#: backend/app/pkgs/tools/i18b.py:135
+msgid "Switch Tenant"
+msgstr "切换企业"
+
+#: backend/app/pkgs/tools/i18b.py:136
+msgid "Member Count"
+msgstr "成员数量"
+
+#: backend/app/pkgs/tools/i18b.py:137
+msgid ""
+"Please ensure that the information is accurate and we will review it within "
+"24 hours to activate your account."
+msgstr "请务必确保信息正确，我们会在 24 小时内为您审核。"
+
+#: backend/app/pkgs/tools/i18b.py:138
+msgid ""
+"In order to protect your rights, please ensure that the information is "
+"accurate."
+msgstr "为了保障您的权益，请务必确保信息正确。"
+
+#: backend/app/pkgs/tools/i18b.py:139
+msgid "Operate"
+msgstr "操作"
+
+#: backend/app/pkgs/tools/i18b.py:140
+msgid "Details"
+msgstr "详情"
+
+#: backend/app/pkgs/tools/i18b.py:141
+msgid "Members"
+msgstr "成员"
+
+#: backend/app/pkgs/tools/i18b.py:142
+msgid "Country"
+msgstr "国家"
+
+#: backend/app/pkgs/tools/i18b.py:143
+msgid "Role"
+msgstr "角色"
+
+#: backend/app/pkgs/tools/i18b.py:144
+msgid "Phone Number"
+msgstr "手机号"
+
+#: backend/app/pkgs/tools/i18b.py:145
+msgid "Add member"
+msgstr "添加成员"
+
+#: backend/app/pkgs/tools/i18b.py:146
+msgid "Invite"
+msgstr "邀请"
+
+#: backend/app/pkgs/tools/i18b.py:147
+msgid "Billing"
+msgstr "账单"
+
+#: backend/app/pkgs/tools/i18b.py:148
+msgid "Bill type"
+msgstr "账单类型"
+
+#: backend/app/pkgs/tools/i18b.py:149
+msgid "Operating user"
+msgstr "操作用户"
+
+#: backend/app/pkgs/tools/i18b.py:150
+msgid "Billing date"
+msgstr "账单时间"
+
+#: backend/app/pkgs/tools/i18b.py:151
+msgid "Remarks"
+msgstr "备注"
+
+#~ msgid "Phone"
+#~ msgstr "手机号"

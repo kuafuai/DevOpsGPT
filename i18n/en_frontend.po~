@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-08-26 22:27+0800\n"
+"POT-Creation-Date: 2023-08-31 20:11+0800\n"
 "PO-Revision-Date: 2023-07-17 18:37+0800\n"
 "Last-Translator: booboo <mac@booboo.local>\n"
 "Language-Team: Language i18n/en\n"
@@ -286,99 +286,227 @@ msgid "Create new"
 msgstr ""
 
 #: backend/app/pkgs/tools/i18b.py:97
-msgid "APP name"
+msgid "Back to list page"
 msgstr ""
 
 #: backend/app/pkgs/tools/i18b.py:98
-msgid "APP introduction"
+msgid "APP name"
 msgstr ""
 
 #: backend/app/pkgs/tools/i18b.py:99
-msgid "Base branch"
+msgid "APP introduction"
 msgstr ""
 
 #: backend/app/pkgs/tools/i18b.py:100
-msgid "Feature branch"
+msgid "Base branch"
 msgstr ""
 
 #: backend/app/pkgs/tools/i18b.py:101
-msgid "Service name"
+msgid "Feature branch"
 msgstr ""
 
 #: backend/app/pkgs/tools/i18b.py:102
-msgid "Service role"
+msgid "Service name"
 msgstr ""
 
 #: backend/app/pkgs/tools/i18b.py:103
-msgid "Language"
+msgid "Service role"
 msgstr ""
 
 #: backend/app/pkgs/tools/i18b.py:104
-msgid "Framework"
+msgid "Language"
 msgstr ""
 
 #: backend/app/pkgs/tools/i18b.py:105
-msgid "Dependency library"
+msgid "Framework"
 msgstr ""
 
 #: backend/app/pkgs/tools/i18b.py:106
-msgid "APP sub service"
+msgid "Dependency library"
 msgstr ""
 
 #: backend/app/pkgs/tools/i18b.py:107
-msgid "Git path"
+msgid "APP sub service"
 msgstr ""
 
 #: backend/app/pkgs/tools/i18b.py:108
-msgid "AI code analysis"
+msgid "Git path"
 msgstr ""
 
 #: backend/app/pkgs/tools/i18b.py:109
-msgid "API type"
+msgid "AI code analysis"
 msgstr ""
 
 #: backend/app/pkgs/tools/i18b.py:110
-msgid "API path"
+msgid "API type"
 msgstr ""
 
 #: backend/app/pkgs/tools/i18b.py:111
-msgid "Service database"
+msgid "API path"
 msgstr ""
 
 #: backend/app/pkgs/tools/i18b.py:112
-msgid "Service code struct"
+msgid "Service database"
 msgstr ""
 
 #: backend/app/pkgs/tools/i18b.py:113
-msgid "Requirement ID"
+msgid "Service code struct"
 msgstr ""
 
 #: backend/app/pkgs/tools/i18b.py:114
-msgid "Requirement name"
+msgid "Requirement ID"
 msgstr ""
 
 #: backend/app/pkgs/tools/i18b.py:115
-msgid "Requirement status"
+msgid "Requirement name"
 msgstr ""
 
 #: backend/app/pkgs/tools/i18b.py:116
-msgid "Requirement owner"
+msgid "Requirement status"
 msgstr ""
 
 #: backend/app/pkgs/tools/i18b.py:117
-msgid "Requirement completion rating"
+msgid "Requirement owner"
 msgstr ""
 
 #: backend/app/pkgs/tools/i18b.py:118
-msgid "Requirement satisfaction_rating"
+msgid "Requirement completion rating"
 msgstr ""
 
 #: backend/app/pkgs/tools/i18b.py:119
+msgid "Requirement satisfaction_rating"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:120
 msgid ""
 "Historical requirement recovery is not supported at this time, please visit "
 "workspace to obtain the code results"
 msgstr ""
 
-#: backend/app/pkgs/tools/i18b.py:120
+#: backend/app/pkgs/tools/i18b.py:121
 msgid "Notice"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:122
+msgid "Username"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:123
+msgid "Password"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:124
+msgid "Register"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:125
+msgid "Email"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:126
+msgid "Company Name"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:127
+msgid "Company Status"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:128
+msgid "Company Description"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:129
+msgid "Billing type"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:130
+msgid "Billing quota"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:131
+msgid "Created"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:132
+msgid "Plus expiry"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:133
+msgid "Employee count"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:134
+msgid "Industry type"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:135
+msgid "Switch Tenant"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:136
+msgid "Member Count"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:137
+msgid ""
+"Please ensure that the information is accurate and we will review it within "
+"24 hours to activate your account."
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:138
+msgid ""
+"In order to protect your rights, please ensure that the information is "
+"accurate."
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:139
+msgid "Operate"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:140
+msgid "Details"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:141
+msgid "Members"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:142
+msgid "Country"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:143
+msgid "Role"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:144
+msgid "Phone Number"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:145
+msgid "Add member"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:146
+msgid "Invite"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:147
+msgid "Billing"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:148
+msgid "Bill type"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:149
+msgid "Operating user"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:150
+msgid "Billing date"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:151
+msgid "Remarks"
 msgstr ""
