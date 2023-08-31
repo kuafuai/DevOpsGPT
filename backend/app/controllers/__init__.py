@@ -8,6 +8,7 @@ from .step_code import bp as step_code_bp
 from .step_api import bp as step_api_bp
 from .step_requirement import bp as step_requirement_bp
 from .setting import bp as setting_bp
+from .tenant_pro import bp as tenant_bp
 
 def register_controllers(app):
     app.register_blueprint(user_bp)
@@ -20,3 +21,4 @@ def register_controllers(app):
     app.register_blueprint(step_code_bp)
     app.register_blueprint(step_devops_bp)
     app.register_blueprint(setting_bp)
+    app.register_blueprint(tenant_bp)

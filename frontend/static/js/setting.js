@@ -23,7 +23,7 @@ function getGitConfigList() {
             str += `<tr style="cursor: pointer;" onClick="showGitConfig(`+config["git_config_id"]+`)">
                         <td>`+config["git_provider"]+`</td>
                         <td>`+config["git_url"]+`</td>
-                        <td>`+hideMiddleCharacters(config["git_token"])+`</td>
+                        <td>`+hideMiddleCharacters(config["git_token"], 4)+`</td>
                         <td>`+config["git_username"]+`</td>
                         <td>`+config["git_email"]+`</td>
                     </tr>`
@@ -46,7 +46,7 @@ function getCIConfigList() {
             str += `<tr style="cursor: pointer;" onClick="showGitConfig(`+config["ci_config_id"]+`)">
                         <td>`+config["ci_provider"]+`</td>
                         <td>`+config["ci_api_url"]+`</td>
-                        <td>`+hideMiddleCharacters(config["ci_token"])+`</td>
+                        <td>`+hideMiddleCharacters(config["ci_token"], 4)+`</td>
                     </tr>`
         });
         $("#ci_config_list").html(str)
@@ -66,8 +66,8 @@ function getCDConfigList() {
         configs.forEach(function (config, element_index, element_array) {
             str += `<tr style="cursor: pointer;" onClick="showGitConfig(`+config["cd_config_id"]+`)">
                         <td>`+config["cd_provider"]+`</td>
-                        <td>`+hideMiddleCharacters(config["ACCESS_KEY"])+`</td>
-                        <td>`+hideMiddleCharacters(config["SECRET_KEY"])+`</td>
+                        <td>`+hideMiddleCharacters(config["ACCESS_KEY"], 4)+`</td>
+                        <td>`+hideMiddleCharacters(config["SECRET_KEY"], 4)+`</td>
                     </tr>`
         });
         $("#cd_config_list").html(str)
@@ -90,7 +90,7 @@ function getLLMConfigList() {
                         <td>`+config["llm_api_url"]+`</td>
                         <td>`+config["llm_api_version"]+`</td>
                         <td>`+config["llm_api_proxy"]+`</td>
-                        <td>`+hideMiddleCharacters(config["llm_key"])+`</td>
+                        <td>`+hideMiddleCharacters(config["llm_key"], 4)+`</td>
                     </tr>`
         });
         $("#llm_config_list").html(str)

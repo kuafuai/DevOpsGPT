@@ -76,6 +76,11 @@ try:
     CD_TOOLS = read_config("CD_TOOLS")
     CD_ACCESS_KEY = read_config("CD_ACCESS_KEY")
     CD_SECRET_KEY = read_config("CD_SECRET_KEY")
+    EMAIL_SERVER = read_config("EMAIL_SERVER")
+    EMAIL_PORT = read_config("EMAIL_PORT")
+    EMAIL_SSL = read_config("EMAIL_SSL")
+    EMAIL_SENDER = read_config("EMAIL_SENDER")
+    EMAIL_PASSWORD = read_config("EMAIL_PASSWORD")
 except Exception as e:
     print(f"\033[91mError: Failed to read the configuration, please copy a new env.yaml from env.yaml.tpl and reconfigure it according to the documentation. Error in env.yaml: {str(e)}. 读取配置错误，请重新从 env.yaml.tpl 复制一个 env.yaml 进行配置后重启程序。 \033[0m")
     input("Press Enter to exit...")

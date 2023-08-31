@@ -55,6 +55,12 @@ GIT_TOKEN: "xxxx"   # Get from here https://github.com/settings/tokens、https:/
 GIT_USERNAME: "xxxx"
 GIT_EMAIL: "xxxx@x.x"
 
+EMAIL_SERVER: ""
+EMAIL_PORT: ""
+EMAIL_SSL: true
+EMAIL_SENDER: ""
+EMAIL_PASSWORD: ""
+
 AUTO_LOGIN: true
 USERS: |
   {

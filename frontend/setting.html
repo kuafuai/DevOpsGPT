@@ -34,6 +34,7 @@
         <span class="f_more_operations"></span> <i class="dropdown icon"></i>
         <div class="menu">
           <div class="item"><span class="f_hello"></span> <span id="current-username"></span></div>
+          <div class="item" onClick="openUrl('tenant.html')"><span id="current-tenant"></span> - <span class="f_change_tenant"></span></div>
           <div class="item" onClick="changeLanguage()"><span class="f_change_language"></span></div>
           <div class="item" onClick="logout()"><span class="f_logout"></span></div>
         </div>
@@ -126,27 +127,6 @@
     <div class="content" id="my-alert-content">
     </div>
   </div>
-
-  <div class="ui modal" id="my-login">
-    <div class="header"><span class="f_login"></span></div>
-    <div class="content">
-      <div class="ui form">
-        <div class="field">
-          <label><span class="f_username"></span></label>
-          <input type="text" id="login-username" placeholder="">
-        </div>
-        <div class="field">
-          <label><span class="f_password"></span></label>
-          <input type="password" id="login-password" placeholder="">
-        </div>
-        <div class="field">
-            <label id="login-message" style="color: red;"></label>
-        </div>
-        <button class="ui button" onClick="login()" type="submit"><span class="f_submit"></span></div></button>
-      </div>
-    </div>
-  </div>
-
   <div class="ui watermark">
     <span id="watermark-username"></span> @ <span class="f_title"></span></div>
   </div>

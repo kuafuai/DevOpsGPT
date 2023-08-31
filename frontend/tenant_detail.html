@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="robots" content="noarchive">
+  <title class="f_title"></title>
+  <link rel="stylesheet" href="./static/css/style.css?v=6">
+  <link rel="stylesheet" href="./static/css/semantic.min.css">
+  <link rel="stylesheet" href="./static/css/codemirror.min.css" />
+  <link rel="stylesheet" href="./static/css/darcula.min.css" />
+  <script src="./static/js/codemirror.min.js"></script>
+  <script src="./static/js/haxe.min.js"></script>
+  <script src="./static/js/jquery.min.js"></script>
+  <script src="./static/js/semantic.min.js"></script>
+  <script src="./static/js/marked.min.js"></script>
+  <script src="./static/js/diff.min.js"></script>
+  <script src="./static/js/coder.js?v=75"></script>
+  <script src="./static/js/tenant.js?v=75"></script>
+</head>
+
+<body>
+  <div class="ui borderless main menu margin-top-0">
+    <div class="ui text container ai-textcontainer">
+      <div class="header item" style="padding-left: 0px;">
+        <img class="logo" src="./static/image/logo.png" style="margin-right: 5px;">
+        <span class="f_title"></span>
+      </div>
+      <a class="item" href="index.html"><span class="f_start_task"></span></a>
+      <a class="item" href="requirement.html"><span class="f_requirement_list"></span></a>
+      <a class="item" href="app.html"><span class="f_app_list"></span></a>
+      <a class="item" href="setting.html"><span class="f_setting"></span></a>
+      <a href="#" class="ui right floated dropdown item">
+        <span class="f_more_operations"></span> <i class="dropdown icon"></i>
+        <div class="menu">
+          <div class="item"><span class="f_hello"></span> <span id="current-username"></span></div>
+          <div class="item" onClick="openUrl('tenant.html')"><span id="current-tenant"></span> - <span class="f_change_tenant"></span></div>
+          <div class="item" onClick="changeLanguage()"><span class="f_change_language"></span></div>
+          <div class="item" onClick="logout()"><span class="f_logout"></span></div>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <div class="ui container">
+    <a href="tenant.html" class="ui linkedin button" id="add-application">
+      <i class="plus square outline icon"></i>
+      <span class="f_back_to_list"></span>
+    </a>
+  </div>
+  <div class="ui container">
+    <div class="ui form">
+      <div class="field">
+        <label><span class="f_tenant_name"></span></label>
+        <input type="text" id="tenant_name" placeholder="">
+      </div>
+      <div class="field">
+        <label><span class="f_tenant_description"></span></label>
+        <textarea id="tenant_description" rows="4"></textarea>
+      </div>
+      <div class="field">
+        <label><span class="f_status" ></span></label>
+        <input type="text" id="tenant_status" placeholder="">
+      </div>
+      <div class="field">
+        <label><span class="f_tenant_created_at" ></span></label>
+        <input type="text" id="tenant_created_at" placeholder="">
+      </div>
+      <div class="field">
+        <label><span class="f_tenant_billing_end" ></span></label>
+        <input type="text" id="tenant_billing_end" placeholder="">
+      </div>
+      <div class="field">
+        <label><span class="f_country" ></span></label>
+        <input type="text" id="tenant_country" placeholder="">
+      </div>
+      <div class="field">
+        <label><span class="f_employee_count"></span></label>
+        <input type="text" id="tenant_employee_count" placeholder="">
+      </div>
+      <div class="field">
+        <label><span class="f_industry_type" ></span></label>
+        <input type="text" id="tenant_industry_type" placeholder="">
+      </div>
+      
+      <div class="field">
+          <label id="login-message" style="color: red;"></label>
+      </div>
+      
+      <div class="field">
+        <label><span class="f_members" ></span> (<span id="members_count" ></span>)</label>
+
+        <table class="ui celled striped table">
+          <thead>
+            <tr>
+              <th><span class="f_username"></span></th>
+              <th><span class="f_role"></span></th>
+              <th><span class="f_status"></span></th>
+              <th><span class="f_email"></span></th>
+              <th><span class="f_phone"></span></th>
+            </tr>
+          </thead>
+          <tbody id="user_list">
+            
+          </tbody>
+        </table>
+        <div class="field">
+          <button class="ui right floated button green" onClick="addMember()" type="submit"><i class="id card outline icon"></i><span class="f_add_member"></span></button>
+        </div>
+      </div>
+
+      <div class="field">
+        <label><span class="f_billing" ></span> (<span id="billing_info" ></span>)</label>
+
+        <table class="ui celled striped table">
+          <thead>
+            <tr>
+              <th><span class="f_bill_type"></span></th>
+              <th><span class="f_bill_user"></span></th>
+              <th><span class="f_bill_date"></span></th>
+              <th><span class="f_remarks"></span></th>
+            </tr>
+          </thead>
+          <tbody id="bill_list">
+            
+          </tbody>
+        </table>
+        <div class="field">
+          <button class="ui right floated button green" onClick="addMember()" type="submit"><i class="id card outline icon"></i><span class="f_add_member"></span></button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ui modal" id="my-alert">
+    <div class="header" id="my-alert-title"></div>
+    <div class="content" id="my-alert-content">
+    </div>
+  </div>
+
+  <div class="ui modal" id="add_member">
+    <div class="header"><span class="f_invite"></span></div>
+    <div class="content">
+      <div class="ui form">
+        <div class="field">
+          <label><span class="f_email"></span></label>
+          <input type="text" id="invite_email" placeholder="">
+        </div>
+        <div class="field">
+          <label><span class="f_role"></span></label>
+          <select class="ui fluid dropdown" id="invite_role">
+            <option value="ADMIN">ADMIN 管理员</option>
+            <option value="MEMBER">MEMBER 普通成员</option>
+            <option value="VIEWER">VIEWER 只读账号</option>
+          </select>
+        </div>
+        <div class="field">
+            <label id="invite-message" style="color: red;"></label>
+        </div>
+        <button class="ui button green" id="invite_btn" onClick="invite()" type="submit"><span class="f_submit"></span></div></button>
+      </div>
+    </div>
+  </div>
+
+  <div class="ui watermark">
+    <span id="watermark-username"></span> @ <span class="f_title"></span></div>
+  </div>
+</body>
+</html>
