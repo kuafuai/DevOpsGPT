@@ -59,17 +59,17 @@ Through the above introduction and Demo demonstration, you must be curious about
     6. Complete requirement development: Follow the instructions on the page to complete requirement development, and view the generated code in the `./workspace` directory.
 
 2. Run with Docker
-    ```shell
-    1. Create a directory: mkdir -p workspace
-    2. Copy 'env.yaml.tpl' from the repository to the current directory and rename it to 'env.yaml'
-    3. Modify the configuration file: edit 'env.yaml' and add necessary information such as GPT Token.
-    4. docker run -it \
+    1. Create a directory: `mkdir -p workspace`
+    2. Copy [env.yaml.tpl](https://github.com/kuafuai/DevOpsGPT/blob/master/env.yaml.tpl) from the repository to the current directory and rename it to `env.yaml`
+    3. Modify the configuration file: edit `env.yaml` and add necessary information such as GPT Token.
+    4. ```
+        docker run -it \
         -v$PWD/workspace:/app/workspace \
         -v$PWD/env.yaml:/app/env.yaml \
         -p8080:8080 -p8081:8081 kuafuai/devopsgpt:latest
+        ```
     5. Access the service: Access the service through a browser (access address provided in the startup log, the default is http://127.0.0.1:8080).
-    6. Complete the requirement development: complete the requirement development according to the guidance of the page, and view the generated code in the './workspace 'directory
-    ```
+    6. Complete the requirement development: complete the requirement development according to the guidance of the page, and view the generated code in the `./workspace ` directory
 
 **For detailed documentation and configuration parameters, please refer to the [documentation link](docs/DOCUMENT.md).**
 
