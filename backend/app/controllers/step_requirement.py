@@ -7,6 +7,7 @@ from app.pkgs.knowledge.app_info import getAppArchitecture
 from app.models.requirement import Requirement
 from app.models.tenant_pro import Tenant
 from app.models.tenant_bill_pro import TenantBill
+from config import GRADE
 from config import REQUIREMENT_STATUS_InProgress
 
 bp = Blueprint('step_requirement', __name__, url_prefix='/step_requirement')
@@ -29,9 +30,10 @@ def clarify():
     if len(globalContext) < 4 :
         Requirement.update_requirement(requirement_id=requirementID, requirement_name=userPrompt, status=REQUIREMENT_STATUS_InProgress)
 
-        if not Tenant.check_quota(tenantID):
+        if GRADE != "base" and not Tenant.check_quota(tenantID):
             raise Exception(_("You have exceeded your quota limit, please check your business bill."))
-        TenantBill.record_requirement(tenantID, userName, requirementID, userPrompt)
+        if GRADE != "base":
+            TenantBill.record_requirement(tenantID, userName, requirementID, userPrompt)
     
     appArchitecture, _ = getAppArchitecture(req["app_id"])
     msg, success = clarifyRequirement(requirementID, userPrompt, globalContext, appArchitecture)

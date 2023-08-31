@@ -37,7 +37,7 @@ def setup_app():
     username = session['username']
     tenantID = session['tenant_id']
 
-    if not Tenant.check_quota(tenantID):
+    if GRADE != "base" and not Tenant.check_quota(tenantID):
         raise Exception(_("You have exceeded your quota limit, please check your business bill."))
 
     requirement = Requirement.create_requirement(tenantID, "New requirement", "New", appID, 1, sourceBranch, featureBranch,  REQUIREMENT_STATUS_NotStarted, 0, 0)
