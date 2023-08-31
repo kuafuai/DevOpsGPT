@@ -32,7 +32,7 @@ def splitTask(requirementID, newfeature, serviceName, appBasePrompt, projectInfo
     else:
         if "java" in serviceName:
             obj = SubtaskJavaPro()
-        if "vue" in serviceName:
+        elif "vue" in serviceName:
             obj = SubtaskVuePro()
         else:
             obj = SubtaskPro()

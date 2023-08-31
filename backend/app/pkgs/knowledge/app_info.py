@@ -37,14 +37,14 @@ def getServiceBasePrompt(appID, serviceName):
     apps = Application.get_all_application("", appID)
     if len(apps) > 0:
         services = apps[0]["service"]
-        serviceNameStr = ""
+        service_names = []
         currentServiceStr = ""
         for service in services:
-            serviceNameStr += service["name"]+","
+            service_names.append(service["name"])
             if service["name"] == serviceName:
                 currentServiceStr = "and you are responsible for the development of "+service["name"]+" services. The service uses the "+service["language"]+" language and is developed under the "+service["framework"]+" framework"
 
-        serviceNameStr = serviceNameStr.strip()
+        serviceNameStr = ','.join(service_names)
         appBasePrompt = "The application consists of "+serviceNameStr+" services, "+currentServiceStr
 
     return appBasePrompt, True
