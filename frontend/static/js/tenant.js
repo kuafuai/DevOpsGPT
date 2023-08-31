@@ -59,7 +59,7 @@ function getTenantList() {
                         <td>`+tenant["billing_quota"]+`</td>
                         <td>`+tenant["created_at"]+`</td>
                         <td>`+tenant["billing_end"]+`</td>
-                        <td><a href="#" onClick="useTenant(`+tenant["tenant_id"]+`)">`+globalFrontendText["use_tenant"]+`</a> | <a href="#" onClick="showTenant(`+tenant["tenant_id"]+`)">`+globalFrontendText["show_tenant"]+`</a></td>
+                        <td><a href="#" onClick="useTenant(`+tenant["tenant_id"]+`)">`+globalFrontendText["enter"]+`</a> | <a href="#" onClick="showTenant(`+tenant["tenant_id"]+`)">`+globalFrontendText["show_tenant"]+`</a></td>
                     </tr>`
             $("#tenant_list").html(str)
         });
