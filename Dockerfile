@@ -14,11 +14,14 @@ RUN apt install python3.10-dev python3.10-venv python3-pip -y
 # Utils
 RUN apt install -y curl \
     lsof \
-    git
+    git \
+    sqlite3
 
 COPY ./ /app
 
 RUN chmod +x /app/run.sh
+
+RUN python3 -m pip install -i https://pypi.tuna.tsinghua.edu.cn/simple -r /app/requirements.txt
 
 WORKDIR /app
 EXPOSE 8080 8081
