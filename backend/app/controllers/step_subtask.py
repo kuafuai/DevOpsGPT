@@ -40,7 +40,7 @@ You need to think on the basis of the following interface documentation：
     appBasePrompt, _ = getServiceBasePrompt(req["app_id"], serviceName)
     projectInfo, _ = getServiceIntro(req["app_id"], serviceName)
     projectLib, _ = getServiceLib(req["app_id"], serviceName)
-    serviceStruct,_ = getServiceStruct(req["app_id"], serviceName)
+    serviceStruct, _ = getServiceStruct(req["app_id"], serviceName)
 
     filesToEdit, success = splitTask(requirementID, newfeature, serviceName, appBasePrompt, projectInfo, projectLib, serviceStruct, req["app_id"])
 
