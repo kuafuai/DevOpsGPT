@@ -62,3 +62,12 @@ class Application(db.Model):
                 'service': ApplicationService.get_services_by_app_id(app.app_id)
             }
         return app_dict
+    
+    def update_application(app_id, **kwargs):
+        app = Application.query.get(app_id)
+        if app:
+            for key, value in kwargs.items():
+                setattr(app, key, value)
+            db.session.commit()
+            return app
+        return None
