@@ -29,7 +29,6 @@
       <a class="item" href="index.html"><span class="f_start_task"></span></a>
       <a class="item" href="requirement.html"><span class="f_requirement_list"></span></a>
       <a class="item" href="app.html"><span class="f_app_list"></span></a>
-      <a class="active item" href="setting.html"><span class="f_setting"></span></a>
       <a href="#" class="ui right floated dropdown item">
         <span class="f_more_operations"></span> <i class="dropdown icon"></i>
         <div class="menu">
@@ -42,7 +41,7 @@
     </div>
   </div>
 
-  <div class="ui container">
+  <!--div class="ui container">
     <h4 class="ui header">LLM</h4>
     <table class="ui celled structured table">
       <thead>
@@ -57,13 +56,21 @@
       <tbody id="llm_config_list">
       </tbody>
     </table>
+  </div-->
+
+  <div class="ui container">
+    <a href="tenant.html" class="ui linkedin button" id="add-application">
+      <i class="plus square outline icon"></i>
+      <span class="f_back_to_list"></span>
+    </a>
   </div>
 
   <div class="ui container">
-    <h4 class="ui header">Git</h4>
+    <h4 class="ui header">Git<i class="blue plus icon" onClick="addGitConfig()"></i></h4>
     <table class="ui celled structured table">
       <thead>
         <tr>
+          <th>Name</th>
           <th>Git</th>
           <th>Git URL</th>
           <th>Token</th>
@@ -77,10 +84,11 @@
   </div>
 
   <div class="ui container">
-    <h4 class="ui header">CI</h4>
+    <h4 class="ui header">CI<i class="blue plus icon" onClick="addCIConfig()"></i></h4>
     <table class="ui celled structured table">
       <thead>
         <tr>
+          <th>Name</th>
           <th>CI</th>
           <th>CI URL</th>
           <th>Token</th>
@@ -92,10 +100,11 @@
   </div>
 
   <div class="ui container">
-    <h4 class="ui header">CD</h4>
+    <h4 class="ui header">CD<i class="blue plus icon" onClick="addCDConfig()"></i></h4>
     <table class="ui celled structured table">
       <thead>
         <tr>
+          <th>Name</th>
           <th>CD</th>
           <th>CD ACCESS KEY</th>
           <th>CD SECRET KEY</th>
@@ -119,6 +128,116 @@
     <div class="actions">
       <div class="ui green button" id="mode-edit-content-save"><span class="f_submit"></span></div>
       <div class="ui button" id="mode-edit-content-cancel"><span class="f_cancel"></span></div>
+    </div>
+  </div>
+
+  <div class="ui modal" id="git-edit">
+    <div class="content">
+      <div class="ui form">
+        <div class="field">
+          <label><span class="f_config_name"></span></label>
+          <input type="text" id="git_name">
+        </div>
+        <div class="field">
+          <label><span class="f_git_provider"></span></label>
+          <select class="ui fluid dropdown" id="git_provider">
+            <option value="">Select git provider</option>
+            <option value="GitHub">GitHub</option>
+            <option value="GitLab">GitLab</option>
+            <option value="Gitee">Gitee</option>
+            <option value="Coding">Coding</option>
+            <option value="Others">Others</option>
+          </select>
+        </div>
+        <div class="field">
+          <label><span class="f_git_url"></span></label>
+          <input type="hidden" id="git_config_id">
+          <input type="text" id="git_url">
+        </div>
+        <div class="field">
+          <label><span class="f_git_token"></span></label>
+          <input type="text" id="git_token">
+        </div>
+        <div class="field">
+          <label><span class="f_git_username"></span></label>
+          <input type="text" id="git_username">
+        </div>
+        <div class="field">
+          <label><span class="f_git_email"></span></label>
+          <input type="text" id="git_email">
+        </div>
+        <div class="field"></div>
+    </div>
+    <div class="actions">
+      <div class="ui green button" onClick="editGit()"><span class="f_submit"></span></div>
+      <div class="ui button" onClick="hideModal('git-edit')"><span class="f_cancel"></span></div>
+    </div>
+  </div>
+
+  <div class="ui modal" id="ci-edit">
+    <div class="content">
+      <div class="ui form">
+        <div class="field">
+          <label><span class="f_config_name"></span></label>
+          <input type="text" id="ci_name">
+        </div>
+        <div class="field">
+          <label><span class="f_ci_provider"></span></label>
+          <select class="ui fluid dropdown" id="ci_provider">
+            <option value="">Select CI provider</option>
+            <option value="GitHub">GitHub</option>
+            <option value="GitLab">GitLab</option>
+            <option value="Gitee">Gitee</option>
+            <option value="Coding">Coding</option>
+            <option value="Others">Others</option>
+          </select>
+        </div>
+        <div class="field">
+          <label><span class="f_ci_api_url"></span></label>
+          <input type="hidden" id="ci_config_id">
+          <input type="text" id="ci_api_url">
+        </div>
+        <div class="field">
+          <label><span class="f_ci_token"></span></label>
+          <input type="text" id="ci_token">
+        </div>
+        <div class="field"></div>
+    </div>
+    <div class="actions">
+      <div class="ui green button" onClick="editCI()"><span class="f_submit"></span></div>
+      <div class="ui button" onClick="hideModal('ci-edit')"><span class="f_cancel"></span></div>
+    </div>
+  </div>
+
+  <div class="ui modal" id="cd-edit">
+    <div class="content">
+      <div class="ui form">
+        <div class="field">
+          <label><span class="f_config_name"></span></label>
+          <input type="text" id="cd_name">
+        </div>
+        <div class="field">
+          <label><span class="f_cd_provider"></span></label>
+          <select class="ui fluid dropdown" id="cd_provider">
+            <option value="">Select CD provider</option>
+            <option value="Aliyun">Aliyun</option>
+            <option value="Others">Others</option>
+          </select>
+        </div>
+        <div class="field">
+          <label><span class="f_ACCESS_KEY"></span></label>
+          <input type="hidden" id="cd_config_id">
+          <input type="text" id="ACCESS_KEY">
+        </div>
+        <div class="field">
+          <label><span class="f_SECRET_KEY"></span></label>
+          <input type="text" id="SECRET_KEY">
+        </div>
+        <div class="field"></div>
+    </div>
+    <div class="actions">
+      <div class="ui green button" onClick="editCD()"><span class="f_submit"></span></div>
+      <div class="ui button" onClick="hideModal('cd-edit')"><span class="f_cancel"></span></div>
     </div>
   </div>
 

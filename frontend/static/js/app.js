@@ -1,6 +1,10 @@
 $(document).ready(function () {
     getAppList()
 
+    getGitConfigList()
+    getCIConfigList()
+    getCDConfigList()
+
     // show dropdown on hover
     $('.main.menu  .ui.dropdown').dropdown({
         on: 'hover'
@@ -8,12 +12,16 @@ $(document).ready(function () {
 
     $("#add-application").click(function () {
         cleanUp()
+        rendSelect()
         $('#app-edit').modal('show');
     });
 
     $("#app-edit-save").click(function () {
         var requestData = { 
             'app_id': $("#app_id").val(),
+            'app_git_config': $("#app_git_config").val(),
+            'app_ci_config': $("#app_ci_config").val(),
+            'app_cd_config': $("#app_cd_config").val(),
             'app_name': $("#app_name").val(),
             'app_description': $("#app_description").val(),
             'app_default_source_branch': $("#app_default_source_branch").val(),
@@ -157,6 +165,7 @@ function cleanUp() {
 }
 
 function showApp(appID) {
+    rendSelect()
     $('#app-edit').modal('show');
     cleanUp()
     
@@ -170,6 +179,9 @@ function showApp(appID) {
         $("#app_default_target_branch").val(data.default_target_branch)
         $("#app_description").val(data.description)
         $("#app_name").val(data.name)
+        $("#app_git_config").val(data.git_config),
+        $("#app_ci_config").val(data.ci_config),
+        $("#app_cd_config").val(data.cd_config),
         subservice = $(".subservice")
         subserviceLen = subservice.length
         serviceID = subserviceLen+1
@@ -339,4 +351,19 @@ function getAppList() {
     }
 
     sendAjaxRequest('/app/get', 'GET', requestData, successCallback, alertErrorCallback, true, false)
+}
+
+function rendSelect() {
+    gitconfigs.forEach(function (gc, idx, arr) {
+        var newOption = $("<option></option>").attr("value", gc.git_config_id).text(gc.name);
+        $("#app_git_config").append(newOption);
+    })
+    ciconfigs.forEach(function (gc, idx, arr) {
+        var newOption = $("<option></option>").attr("value", gc.ci_config_id).text(gc.name);
+        $("#app_ci_config").append(newOption);
+    })
+    cdconfigs.forEach(function (gc, idx, arr) {
+        var newOption = $("<option></option>").attr("value", gc.cd_config_id).text(gc.name);
+        $("#app_cd_config").append(newOption);
+    })
 }

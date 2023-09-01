@@ -27,6 +27,8 @@ class ApplicationService(db.Model):
     STATUS_DELETE = "DELETED"
     STATUS_OK = "OK"
 
+    LANGUAGE_JAVA = "Java"
+
     def create_service(app_id, name, git_path, git_workflow, role, language, framework, database, api_type, api_location,
                        cd_container_name, cd_container_group, cd_region, cd_public_ip, cd_security_group, cd_subnet, struct_cache):
         service = ApplicationService(
