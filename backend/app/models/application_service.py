@@ -5,6 +5,7 @@ class ApplicationService(db.Model):
     service_id = db.Column(db.Integer, primary_key=True)
     app_id = db.Column(db.Integer, db.ForeignKey('application.app_id'), nullable=False)
     name = db.Column(db.String(255), nullable=False)
+    status = db.Column(db.String(50))
     git_path = db.Column(db.String(255))
     git_workflow = db.Column(db.String(255))
     role = db.Column(db.Text)
@@ -23,12 +24,16 @@ class ApplicationService(db.Model):
     created_at = db.Column(db.TIMESTAMP, server_default=db.text('CURRENT_TIMESTAMP'))
     updated_at = db.Column(db.TIMESTAMP, server_default=db.text('CURRENT_TIMESTAMP'))
 
+    STATUS_DELETE = "DELETED"
+    STATUS_OK = "OK"
+
     def create_service(app_id, name, git_path, git_workflow, role, language, framework, database, api_type, api_location,
                        cd_container_name, cd_container_group, cd_region, cd_public_ip, cd_security_group, cd_subnet, struct_cache):
         service = ApplicationService(
             app_id=app_id,
             name=name,
             git_path=git_path,
+            status=ApplicationService.STATUS_OK,
             git_workflow=git_workflow,
             role=role,
             language=language,
@@ -59,10 +64,6 @@ class ApplicationService(db.Model):
     @staticmethod
     def get_service_by_name(appID, service_name):
         services = ApplicationService.query.filter_by(name=service_name, app_id=appID).all()
-        print("########")
-        print(appID)
-        print(service_name)
-        print(services)
 
         service_dict = {}
         for service in services:
@@ -71,6 +72,7 @@ class ApplicationService(db.Model):
                 'app_id': service.app_id,
                 'name': service.name,
                 'git_path': service.git_path,
+                'status': service.status,
                 'git_workflow': service.git_workflow,
                 'role': service.role,
                 'language': service.language,
@@ -90,17 +92,14 @@ class ApplicationService(db.Model):
 
         return service_dict
 
-    def update_service(self, name, git_path, git_workflow, role, language, framework, database, api_type, api_location):
-        self.name = name
-        self.git_path = git_path
-        self.git_workflow = git_workflow
-        self.role = role
-        self.language = language
-        self.framework = framework
-        self.database = database
-        self.api_type = api_type
-        self.api_location = api_location
-        db.session.commit()
+    def update_service(self, service_id, **kwargs):
+        service = self.query.get(service_id)
+        if service:
+            for key, value in kwargs.items():
+                setattr(service, key, value)
+            db.session.commit()
+            return service
+        return None
 
     @classmethod
     def delete_service(cls, service_id):
@@ -110,10 +109,19 @@ class ApplicationService(db.Model):
             db.session.commit()
             return True
         return False
+    
+    @classmethod
+    def delete_service_by_app_id(cls, app_id):
+        services = cls.query.filter_by(app_id=app_id).all()
+        for service in services:
+            re = cls.update_service(cls, service.service_id, status=cls.STATUS_DELETE)
+            if not re:
+                return False
+        return True
 
     @classmethod
     def get_services_by_app_id(cls, app_id):
-        services = cls.query.filter_by(app_id=app_id).all()
+        services = cls.query.filter_by(app_id=app_id, status=cls.STATUS_OK).all()
         services_list = []
         
         for service in services:
@@ -122,6 +130,7 @@ class ApplicationService(db.Model):
                 'app_id': service.app_id,
                 'name': service.name,
                 'git_path': service.git_path,
+                'status': service.status,
                 'git_workflow': service.git_workflow,
                 'role': service.role,
                 'language': service.language,

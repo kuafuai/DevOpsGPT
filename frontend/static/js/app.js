@@ -12,6 +12,7 @@ $(document).ready(function () {
 
     $("#app-edit-save").click(function () {
         var requestData = { 
+            'app_id': $("#app_id").val(),
             'app_name': $("#app_name").val(),
             'app_description': $("#app_description").val(),
             'app_default_source_branch': $("#app_default_source_branch").val(),
@@ -51,7 +52,7 @@ $(document).ready(function () {
     });
 
     $("#app-edit-cancel").click(function () {
-        $('#app-edit').modal('hide');
+        location.reload();
     });
 
     $("#add-service").click(function(){
@@ -141,8 +142,13 @@ $(document).ready(function () {
     });
 });
 
+function removeSubservice(idx){
+    $("#subservice_"+idx).remove()
+}
+
 function showApp(appID) {
     $('#app-edit').modal('show');
+    $('.subservice').remove();
     
     var requestData = { 'app_id': appID }
 
@@ -158,90 +164,91 @@ function showApp(appID) {
         subserviceLen = subservice.length
         serviceID = subserviceLen+1
         
-        data.service.forEach(function (service, element_index, element_array) {
+        data.service.forEach(function (service, ele_idx, element_array) {
+            idx = ele_idx+1
             serviceID = service.service_id
             libsStr = ""
             service.libs.forEach(function (lib, element_index, element_array) {
                 libsStr += lib.sys_lib_name+","
             });
             libsStr = libsStr.replace(/,$/, '');
-            str = `<div class="ui segment subservice" style="display: none;" id="subservice_`+serviceID+`">
-                    <h2 class="ui floated header">`+globalFrontendText["app_sub_service"]+` `+serviceID+`</h2>
+            str = `<div class="ui segment subservice" style="display: none;" id="subservice_`+idx+`">
+                    <h2 class="ui floated header">`+globalFrontendText["app_sub_service"]+` `+idx+` <i class="red times circle outline icon" onClick="removeSubservice(`+idx+`)"></i></h2>
                     <div class="field">
                     <label>`+globalFrontendText["git_path"]+`</label>
                     <div class="ui action input">
-                        <input type="text" id="service_git_path_`+serviceID+`" value="`+service.git_path+`">
-                        <button class="ui button" onClick="analyzeService(`+serviceID+`)" value="1"><span id="ai_analyze_service_icon"><i class="orange reddit square icon"></i></span>`+globalFrontendText["ai_code_analysis"]+`</button>
+                        <input type="text" id="service_git_path_`+idx+`" value="`+service.git_path+`">
+                        <button class="ui button" onClick="analyzeService(`+idx+`)" value="1"><span id="ai_analyze_service_icon"><i class="orange reddit square icon"></i></span>`+globalFrontendText["ai_code_analysis"]+`</button>
                     </div>
                     </div>
                     <div class="field">
                     <label>`+globalFrontendText["service_name"]+`</label>
-                    <input type="text" id="service_name_`+serviceID+`" value="`+service.name+`">
+                    <input type="text" id="service_name_`+idx+`" value="`+service.name+`">
                     </div>
                     <div class="field">
                     <label>`+globalFrontendText["service_role"]+`</label>
-                    <textarea id="service_role_`+serviceID+`" rows="4">`+service.role+`</textarea>
+                    <textarea id="service_role_`+idx+`" rows="4">`+service.role+`</textarea>
                     </div>
                     <div class="field">
                     <label>`+globalFrontendText["service_language"]+`</label>
-                    <input type="text" id="service_language_`+serviceID+`" value="`+service.language+`">
+                    <input type="text" id="service_language_`+idx+`" value="`+service.language+`">
                     </div>
                     <div class="field">
                     <label>`+globalFrontendText["service_framework"]+`</label>
-                    <input type="text" id="service_framework_`+serviceID+`" value="`+service.framework+`">
+                    <input type="text" id="service_framework_`+idx+`" value="`+service.framework+`">
                     </div>
                     <div class="field">
                     <label>`+globalFrontendText["service_libs"]+`</label>
-                    <input type="text" id="service_libs_name_`+serviceID+`" value="`+libsStr+`">
+                    <input type="text" id="service_libs_name_`+idx+`" value="`+libsStr+`">
                     </div>
                     <div class="field">
                     <label>`+globalFrontendText["service_api_type"]+`</label>
-                    <input type="text" id="service_api_type_`+serviceID+`" value="`+service.api_type+`">
+                    <input type="text" id="service_api_type_`+idx+`" value="`+service.api_type+`">
                     </div>
                     <div class="field">
                     <label>`+globalFrontendText["service_api_path"]+`</label>
-                    <input type="text" id="service_api_location_`+serviceID+`" value="`+service.api_location+`">
+                    <input type="text" id="service_api_location_`+idx+`" value="`+service.api_location+`">
                     </div>
                     <div class="field">
                     <label>`+globalFrontendText["service_database"]+`</label>
-                    <input type="text" id="service_database_`+serviceID+`" value="`+service.database+`">
+                    <input type="text" id="service_database_`+idx+`" value="`+service.database+`">
                     </div>
                     <div class="field">
                     <label>`+globalFrontendText["service_code_struct"]+`</label>
-                    <textarea id="service_struct_cache_`+serviceID+`" rows="4">`+service.struct_cache+`</textarea>
+                    <textarea id="service_struct_cache_`+idx+`" rows="4">`+service.struct_cache+`</textarea>
                     </div>
                     <div class="field">
                     <label>CI - GitHub workflow</label>
-                    <input type="text" id="service_workflow_`+serviceID+`" value="`+service.git_workflow+`">
+                    <input type="text" id="service_workflow_`+idx+`" value="`+service.git_workflow+`">
                     </div>
                     <div class="field">
                     <label>CD - GROUP</label>
-                    <input type="text" id="service_container_group_`+serviceID+`" value="`+service.cd_container_group+`">
+                    <input type="text" id="service_container_group_`+idx+`" value="`+service.cd_container_group+`">
                     </div>
                     <div class="field">
                     <label>CD - NAME</label>
-                    <input type="text" id="service_container_name_`+serviceID+`" value="`+service.cd_container_name+`">
+                    <input type="text" id="service_container_name_`+idx+`" value="`+service.cd_container_name+`">
                     </div>
                     <div class="field">
                     <label>CD - REGION</label>
-                    <input type="text" id="service_region_`+serviceID+`" value="`+service.cd_region+`">
+                    <input type="text" id="service_region_`+idx+`" value="`+service.cd_region+`">
                     </div>
                     <div class="field">
                     <label>CD - PUBLIC IP</label>
-                    <input type="text" id="service_public_ip_`+serviceID+`" value="`+service.cd_public_ip+`">
+                    <input type="text" id="service_public_ip_`+idx+`" value="`+service.cd_public_ip+`">
                     </div>
                     <div class="field">
                     <label>CD - SECURITY GROUP</label>
-                    <input type="text" id="service_security_group_`+serviceID+`" value="`+service.cd_security_group+`">
+                    <input type="text" id="service_security_group_`+idx+`" value="`+service.cd_security_group+`">
                     </div>
                     <div class="field">
                     <label>CD - SUBNET/SWITCH</label>
-                    <input type="text" id="service_cd_subnet_`+serviceID+`" value="`+service.cd_subnet+`">
+                    <input type="text" id="service_cd_subnet_`+idx+`" value="`+service.cd_subnet+`">
                     </div>
                 </div>
             </div>`
             $("#add-service").after(str)
-            $("#subservice_"+serviceID).slideDown("500")
+            $("#subservice_"+idx).slideDown("500")
             setTimeout(function () {
                 $('#app-edit').modal('refresh');
             }, 550);
