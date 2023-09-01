@@ -7,6 +7,7 @@ $(document).ready(function () {
     });
 
     $("#add-application").click(function () {
+        cleanUp()
         $('#app-edit').modal('show');
     });
 
@@ -146,9 +147,18 @@ function removeSubservice(idx){
     $("#subservice_"+idx).remove()
 }
 
+function cleanUp() {
+    $('.subservice').remove();
+    $("#app_id").val('')
+    $("#app_default_source_branch").val('')
+    $("#app_default_target_branch").val('')
+    $("#app_description").val('')
+    $("#app_name").val('')
+}
+
 function showApp(appID) {
     $('#app-edit').modal('show');
-    $('.subservice').remove();
+    cleanUp()
     
     var requestData = { 'app_id': appID }
 
