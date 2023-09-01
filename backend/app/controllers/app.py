@@ -21,15 +21,18 @@ def add():
     default_target_branch = request.json.get('app_default_target_branch')
     description = request.json.get('app_description')
     services = request.json.get('service')
+    cd_config = request.json.get('app_cd_config')
+    ci_config = request.json.get('app_ci_config')
+    git_config = request.json.get('app_git_config')
     creater = session['username']
 
     try:
         if app_id:
-            app = Application.update_application(app_id, name=name, description=description, default_source_branch=default_source_branch, default_target_branch=default_target_branch)
+            app = Application.update_application(app_id, name=name, description=description, default_source_branch=default_source_branch, default_target_branch=default_target_branch, cd_config=cd_config, ci_config=ci_config, git_config=git_config)
             ApplicationService.delete_service_by_app_id(app_id)
             appID = app_id
         else:
-            app = Application.create(tenant_id, creater, name, description, default_source_branch, default_target_branch)
+            app = Application.create(tenant_id, creater, name, description, default_source_branch, default_target_branch, git_config, ci_config, cd_config)
             appID = app.app_id
 
         for service in services:

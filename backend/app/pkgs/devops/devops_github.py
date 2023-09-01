@@ -6,7 +6,8 @@ from app.pkgs.devops.devops_interface import DevopsInterface
 
 class DevopsGitHub(DevopsInterface):
     def triggerPipeline(self, branch_name, serviceInfo, ciConfig):
-        gitURL = ciConfig["git_url"]
+        print(ciConfig)
+
         ciURL = ciConfig["ci_api_url"]
         ciToken = ciConfig["ci_token"]
         repopath = serviceInfo["git_path"]
@@ -39,7 +40,7 @@ class DevopsGitHub(DevopsInterface):
                         run_id = run["id"]
                         break
 
-                return "Get pipline status...", run_id, f"{gitURL}/{repopath}/actions/runs/{run_id}", True
+                return "Get pipline status...", run_id, f"{repopath}/actions/runs/{run_id}", True
             else:
                 return f"Failed to trigger pipeline giturl:{ciURL} repopath:{repopath} branch:{branch_name} gitWorkflow:{gitWorkflow}, Error: {str(e)}", 0, "", False
         except Exception as e:

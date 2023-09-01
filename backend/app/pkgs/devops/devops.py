@@ -9,9 +9,9 @@ def triggerPipeline(requirementID, branchName, serviceInfo, ciConfig):
 
     if DEVOPS_TOOLS == 'local':
         obj = DevopsLocal()
-    elif DEVOPS_TOOLS == 'gitlab':
+    elif DEVOPS_TOOLS == 'gitlab' or DEVOPS_TOOLS ==  'GitLab':
         obj = DevopsGitlab()
-    elif DEVOPS_TOOLS == 'github':
+    elif DEVOPS_TOOLS == 'github' or DEVOPS_TOOLS ==  'GitHub':
         obj = DevopsGitHub()
 
     result, piplineID, piplineUrl, success = obj.triggerPipeline(branchName, serviceInfo, ciConfig)
@@ -26,9 +26,9 @@ def getPipelineStatus(piplineId, repoPath, ciConfig):
 
     if DEVOPS_TOOLS == 'local':
         obj = DevopsLocal()
-    elif DEVOPS_TOOLS == 'gitlab':
+    elif DEVOPS_TOOLS == 'gitlab' or DEVOPS_TOOLS ==  'GitLab':
         obj = DevopsGitlab()
-    elif DEVOPS_TOOLS == 'github':
+    elif DEVOPS_TOOLS == 'github' or DEVOPS_TOOLS ==  'GitHub':
         obj = DevopsGitHub()
     
     return obj.getPipelineStatus(piplineId, repoPath, ciConfig)
@@ -38,9 +38,9 @@ def getPipelineJobLogs(repopath, pipeline_id, job_id, ciConfig):
 
     if DEVOPS_TOOLS == 'local':
         obj = DevopsLocal()
-    elif DEVOPS_TOOLS == 'gitlab':
+    elif DEVOPS_TOOLS == 'gitlab' or DEVOPS_TOOLS ==  'GitLab':
         obj = DevopsGitlab()
-    elif DEVOPS_TOOLS == 'github':
+    elif DEVOPS_TOOLS == 'github' or DEVOPS_TOOLS ==  'GitHub':
         obj = DevopsGitHub()
     
     return obj.getPipelineJobLogs(obj, repopath, pipeline_id, job_id, ciConfig)

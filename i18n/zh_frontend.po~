@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-08-31 20:11+0800\n"
+"POT-Creation-Date: 2023-09-01 15:46+0800\n"
 "PO-Revision-Date: 2023-07-17 18:36+0800\n"
 "Last-Translator: booboo <mac@booboo.local>\n"
 "Language-Team: Language i18n/zh\n"
@@ -288,7 +288,7 @@ msgstr "新建"
 
 #: backend/app/pkgs/tools/i18b.py:97
 msgid "Back to list page"
-msgstr ""
+msgstr "返回列表"
 
 #: backend/app/pkgs/tools/i18b.py:98
 msgid "APP name"
@@ -461,8 +461,8 @@ msgid ""
 msgstr "为了保障您的权益，请务必确保信息正确。"
 
 #: backend/app/pkgs/tools/i18b.py:139
-msgid "Operate"
-msgstr "操作"
+msgid "Enter"
+msgstr "进入"
 
 #: backend/app/pkgs/tools/i18b.py:140
 msgid "Details"
@@ -511,6 +511,58 @@ msgstr "账单时间"
 #: backend/app/pkgs/tools/i18b.py:151
 msgid "Remarks"
 msgstr "备注"
+
+#: backend/app/pkgs/tools/i18b.py:152
+msgid "Operate"
+msgstr "操作"
+
+#: backend/app/pkgs/tools/i18b.py:153
+msgid "Git provider"
+msgstr "Git 服务商"
+
+#: backend/app/pkgs/tools/i18b.py:154
+msgid "Git URL"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:155
+msgid "Git token"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:156
+msgid "Git username"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:157
+msgid "Git email"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:158
+msgid "CI Token"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:159
+msgid "CI API URL"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:160
+msgid "CI provider"
+msgstr "CI 服务商"
+
+#: backend/app/pkgs/tools/i18b.py:161
+msgid "CD provider"
+msgstr "CD 服务商"
+
+#: backend/app/pkgs/tools/i18b.py:162
+msgid "ACCESS_KEY"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:163
+msgid "SECRET_KEY"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:164
+msgid "Configuration"
+msgstr "配置"
 
 #~ msgid "Phone"
 #~ msgstr "手机号"

@@ -17,6 +17,7 @@
   <script src="./static/js/diff.min.js"></script>
   <script src="./static/js/coder.js?v=75"></script>
   <script src="./static/js/app.js?v=75"></script>
+  <script src="./static/js/setting.js?v=75"></script>
 </head>
 
 <body>
@@ -29,7 +30,6 @@
       <a class="item" href="index.html"><span class="f_start_task"></span></a>
       <a class="item" href="requirement.html"><span class="f_requirement_list"></span></a>
       <a class="active item" href="app.html"><span class="f_app_list"></span></a>
-      <a class="item" href="setting.html"><span class="f_setting"></span></a>
       <a href="#" class="ui right floated dropdown item">
         <span class="f_more_operations"></span> <i class="dropdown icon"></i>
         <div class="menu">
@@ -87,6 +87,18 @@
         <div class="field">
           <label><span class="f_app_feat_branch"></span></label>
           <input type="text" id="app_default_target_branch">
+        </div>
+        <div class="field">
+          <label><span class="f_app_git_config"></span></label>
+          <select class="ui fluid dropdown" id="app_git_config"></select>
+        </div>
+        <div class="field">
+          <label><span class="f_app_ci_config"></span></label>
+          <select class="ui fluid dropdown" id="app_ci_config"></select>
+        </div>
+        <div class="field">
+          <label><span class="f_app_cd_config"></span></label>
+          <select class="ui fluid dropdown" id="app_cd_config"></select>
         </div>
         <div class="field" style="margin-bottom:20px">
           <button class="ui linkedin button" id="add-service">

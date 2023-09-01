@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-08-31 20:11+0800\n"
+"POT-Creation-Date: 2023-09-01 15:46+0800\n"
 "PO-Revision-Date: 2023-07-17 18:37+0800\n"
 "Last-Translator: booboo <mac@booboo.local>\n"
 "Language-Team: Language i18n/en\n"
@@ -460,7 +460,7 @@ msgid ""
 msgstr ""
 
 #: backend/app/pkgs/tools/i18b.py:139
-msgid "Operate"
+msgid "Enter"
 msgstr ""
 
 #: backend/app/pkgs/tools/i18b.py:140
@@ -509,4 +509,56 @@ msgstr ""
 
 #: backend/app/pkgs/tools/i18b.py:151
 msgid "Remarks"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:152
+msgid "Operate"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:153
+msgid "Git provider"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:154
+msgid "Git URL"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:155
+msgid "Git token"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:156
+msgid "Git username"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:157
+msgid "Git email"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:158
+msgid "CI Token"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:159
+msgid "CI API URL"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:160
+msgid "CI provider"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:161
+msgid "CD provider"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:162
+msgid "ACCESS_KEY"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:163
+msgid "SECRET_KEY"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:164
+msgid "Configuration"
 msgstr ""

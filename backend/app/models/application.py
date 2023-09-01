@@ -4,13 +4,16 @@ from app.models.application_service import ApplicationService
 class Application(db.Model):
     app_id = db.Column(db.Integer, primary_key=True)
     tenant_id = db.Column(db.Integer, nullable=False)
+    git_config = db.Column(db.Integer, nullable=False)
+    ci_config = db.Column(db.Integer, nullable=False)
+    cd_config = db.Column(db.Integer, nullable=False)
     creater = db.Column(db.String(255), nullable=False)
     name = db.Column(db.String(255), nullable=False)
     description = db.Column(db.Text)
     default_source_branch = db.Column(db.String(255))
     default_target_branch = db.Column(db.String(255))
 
-    def create(tenant_id, creater, name, description, default_source_branch, default_target_branch):
+    def create(tenant_id, creater, name, description, default_source_branch, default_target_branch, git_config, ci_config, cd_config):
         if not tenant_id:
             tenant_id = 0
 
@@ -18,6 +21,9 @@ class Application(db.Model):
             tenant_id=tenant_id,
             creater=creater,
             name=name,
+            git_config=git_config, 
+            ci_config=ci_config, 
+            cd_config=cd_config,
             description=description,
             default_source_branch=default_source_branch,
             default_target_branch=default_target_branch
@@ -40,6 +46,9 @@ class Application(db.Model):
                 'tenant_id': app.tenant_id,
                 'creater': app.creater,
                 'name': app.name,
+                'git_config': app.git_config,
+                'ci_config': app.ci_config,
+                'cd_config': app.cd_config,
                 'description': app.description,
                 'default_source_branch': app.default_source_branch,
                 'default_target_branch': app.default_target_branch,
@@ -56,6 +65,9 @@ class Application(db.Model):
                 'tenant_id': app.tenant_id,
                 'creater': app.creater,
                 'name': app.name,
+                'git_config': app.git_config,
+                'ci_config': app.ci_config,
+                'cd_config': app.cd_config,
                 'description': app.description,
                 'default_source_branch': app.default_source_branch,
                 'default_target_branch': app.default_target_branch,
