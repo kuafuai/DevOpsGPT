@@ -162,12 +162,15 @@ function cleanUp() {
     $("#app_default_target_branch").val('')
     $("#app_description").val('')
     $("#app_name").val('')
+    $("#app_git_config").empty();
+    $("#app_ci_config").empty();
+    $("#app_cd_config").empty();
 }
 
 function showApp(appID) {
+    cleanUp()
     rendSelect()
     $('#app-edit').modal('show');
-    cleanUp()
     
     var requestData = { 'app_id': appID }
 
@@ -354,6 +357,10 @@ function getAppList() {
 }
 
 function rendSelect() {
+    $("#app_git_config").empty();
+    $("#app_ci_config").empty();
+    $("#app_cd_config").empty();
+    
     gitconfigs.forEach(function (gc, idx, arr) {
         var newOption = $("<option></option>").attr("value", gc.git_config_id).text(gc.name);
         $("#app_git_config").append(newOption);

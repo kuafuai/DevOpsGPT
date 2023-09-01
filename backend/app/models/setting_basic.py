@@ -5,6 +5,7 @@ class SettingBasic(SettingInterface):
     def getGitConfigList(self, tenantID, appID):
         gitList = []
         gitList.append({
+            "name" : "Default(from env.yaml)",
             "git_provider" : DEVOPS_TOOLS,
             "git_url" : GIT_URL,
             "git_token" : GIT_TOKEN,
@@ -18,6 +19,7 @@ class SettingBasic(SettingInterface):
     def getCIConfigList(self, tenantID, appID):
         gitList = []
         gitList.append({
+            "name" : "Default(from env.yaml)",
             "ci_provider" : DEVOPS_TOOLS,
             "ci_config_id" : 0,
             "ci_api_url" : GIT_API,
@@ -30,6 +32,7 @@ class SettingBasic(SettingInterface):
     def getCDConfigList(self, tenantID, appID):
         gitList = []
         gitList.append({
+            "name" : "Default(from env.yaml)",
             "cd_provider" : CD_TOOLS,
             "ACCESS_KEY" : CD_ACCESS_KEY,
             "SECRET_KEY" : CD_SECRET_KEY,

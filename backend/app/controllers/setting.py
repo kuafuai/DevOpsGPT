@@ -4,7 +4,7 @@ from flask import Blueprint
 from app.pkgs.tools.i18b import getI18n
 from app.models.setting import getGitConfigList, getCIConfigList, getCDConfigList, getLLMConfigList
 from app.models.tenant_git_config_pro import TenantGitConfig
-from app.models.tenant_cd_config_pre import TenantCDConfig
+from app.models.tenant_cd_config_pro import TenantCDConfig
 from app.models.tenant_ci_config_pro import TenantCIConfig
 
 bp = Blueprint('setting', __name__, url_prefix='/setting')
