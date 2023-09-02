@@ -1,12 +1,11 @@
 from app.extensions import db
 import datetime
 from app.controllers import register_controllers
-from flask import Flask, request, session, abort
+from flask import Flask, request, session
 from flask_cors import CORS
 from app.models.task import getEmptyTaskInfo
 from app.models.tenant_pro import Tenant
 from app.models.tenant_user_pro import TenantUser
-from app.models.user_pro import UserPro
 from config import APP_SECRET_KEY, BACKEND_DEBUG, BACKEND_HOST, BACKEND_PORT, AICODER_ALLOWED_ORIGIN, AUTO_LOGIN, GRADE
 
 app = Flask(__name__)
@@ -16,13 +15,14 @@ app.config.from_pyfile('config.py')
 
 @app.before_request
 def require_login():
-    if AUTO_LOGIN:
+    if AUTO_LOGIN and GRADE == "base":
         if "username" not in session:
             session['username'] = "demo_user"
+            session['user_id'] = 1
             session['tenant_id'] = 0
             session[session["username"]] = getEmptyTaskInfo()
-    path = request.path
 
+    path = request.path
     if path == '/user/language' or path == '/user/login' or path == '/user/logout' or path == '/user/change_language' or path == '/user/register':
         pass
     elif 'username' not in session:
@@ -35,35 +35,24 @@ def require_login():
         print(f"req_user: {user}")
         print(f"req_path: {path}")
         print(f"req_args: {args}")
+        
         if GRADE != "base":
-            current_path = request.args.get('url_path')
-            if (current_path == "/tenant.html" or current_path == "/tenant_new.html") and path=="/requirement/clear_up":
-                pass
-            elif path =="/tenant/create" or path=="/tenant/get_all" or path=="/tenant/use_tenant":
-                pass
-            else:
-                success, msg, code = check_tenant_membership_and_permissions()
+            try:
+                tenant_id = session['tenant_id']
+                if not tenant_id:
+                    tenant_id = request.args.get('tenant_id')
+            except Exception as e:
+                tenant_id = 0
+
+            # If not on the company management page, determine the company status
+            if not path.startswith("/tenant/") and path != "/requirement/clear_up":
+                success, msg = Tenant.check_tenant(tenant_id)
                 if not success:
-                    return {'success': False, 'error': msg, 'code': code}
-
-def check_tenant_membership_and_permissions():
-    username = session["username"]
-    user = UserPro.get_user_by_name(username)
-    tenant_id = session['tenant_id']
-    success, msg = Tenant.check_tenant(tenant_id)
-    print("check_tenant_membership_and_permissions:")
-    print(tenant_id)
-    print(msg)
-    print(success)
-    if not success:
-        return success, msg, 404
-    
-    success, msg = TenantUser.check_role(user["user_id"], tenant_id, request.path)
-    if not success:
-        return success, msg, 403
-    
-    return success, msg, 200
-
+                    return {'success': False, 'error': msg, 'code': 404}
+            # authority check
+            success, msg = TenantUser.check_role(session['user_id'], tenant_id, path)
+            if not success:
+                return {'success': False, 'error': msg, 'code': 403}
 
 @app.after_request
 def after_request(response):

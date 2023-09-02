@@ -449,7 +449,7 @@ function language() {
         myAlertPure("Error 错误", "The back-end service interface cannot be accessed. Please check the terminal service log and browser console. (Usually the back-end service is not started, Or exists <a href='https://github.com/kuafuai/DevOpsGPT/blob/master/docs/DOCUMENT.md#configuration-details' target='_blank'> Cross-domain problem? </a>)<br /><br />无法访问后端服务接口，请检查终端服务日志以及浏览器控制台报错信息。（通常是后端服务没有启动，或存在 <a href='https://github.com/kuafuai/DevOpsGPT/blob/master/docs/DOCUMENT_CN.md#%E5%9F%BA%E7%A1%80%E9%85%8D%E7%BD%AE%E7%B1%BB' target='_blank'>跨域问题？</a>）")
     }
 
-    sendAjaxRequest('/user/language', 'GET', "", successCallback, errorCallback, true, false)
+    sendAjaxRequest('/user/language', 'GET', "", successCallback, errorCallback, false, false)
 }
 
 function openUrl(newurl){
@@ -1519,4 +1519,11 @@ function getTaskID() {
     var taskId = params.get('task_id');
 
     return taskId
+}
+
+function getTenantID() {
+    var queryString = window.location.search;
+    var params = new URLSearchParams(queryString);
+    var tenant_id = params.get('tenant_id');
+    return tenant_id
 }

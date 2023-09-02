@@ -15,7 +15,7 @@ bp = Blueprint('app', __name__, url_prefix='/app')
 def add():
     _ = getI18n("controllers")
     name = request.json.get('app_name')
-    tenant_id = request.json.get('app_tenant_id')
+    tenant_id = session['tenant_id']
     app_id = request.json.get('app_id')
     default_source_branch = request.json.get('app_default_source_branch')
     default_target_branch = request.json.get('app_default_target_branch')
@@ -50,11 +50,11 @@ def add():
 @json_response
 def getAll():
     _ = getI18n("controllers")
-    owner = session['username']
+    tenantID = session['tenant_id']
     appID = request.args.get('app_id')
 
     try:
-        apps = Application.get_all_application(owner, appID)
+        apps = Application.get_all_application(tenantID, appID)
 
         return {'apps': apps}
     except Exception as e:

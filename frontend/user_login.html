@@ -26,21 +26,16 @@
         <img class="logo" src="./static/image/logo.png" style="margin-right: 5px;">
         <span class="f_title"></span>
       </div>
-      <a class="item" href="index.html"><span class="f_start_task"></span></a>
-      <a class="item" href="requirement.html"><span class="f_requirement_list"></span></a>
-      <a class="item" href="app.html"><span class="f_app_list"></span></a>
       <a href="#" class="ui right floated dropdown item">
         <span class="f_more_operations"></span> <i class="dropdown icon"></i>
         <div class="menu">
-          <div class="item"><span class="f_hello"></span> <span id="current-username"></span></div>
-          <div class="item" onClick="changeLanguage()"><span class="f_change_language"></span></div>
-          <div class="item" onClick="logout()"><span class="f_logout"></span></div>
+          <div class="item" onClick="changeLanguage()"><i class="exchange icon tiny"></i><span class="f_change_language"></span></div>
         </div>
       </a>
     </div>
   </div>
 
-  <div class="ui container">
+  <div class="ui container" style="width: 600px;">
     <div class="ui form">
       <div class="field">
         <label><span class="f_username"></span></label>
@@ -54,7 +49,7 @@
           <label id="login-message" style="color: red;"></label>
       </div>
       <div class="field">
-        <a class="ui right floated button blue" href="user_register.html"><i class="id card outline icon"></i><span class="f_register"></span></a>
+        <a class="ui right floated button" href="user_register.html"><i class="id card outline icon"></i><span class="f_register"></span></a>
         <button class="ui right floated button green" onClick="login()" type="submit"><i class="user icon"></i><span class="f_submit"></span></div></button>
       </div>
     </div>

@@ -11,7 +11,7 @@ $(document).ready(function () {
     });
 
     $("#add-application").click(function () {
-        cleanUp()
+        cleanUpApp()
         rendSelect()
         $('#app-edit').modal('show');
     });
@@ -155,20 +155,8 @@ function removeSubservice(idx){
     $("#subservice_"+idx).remove()
 }
 
-function cleanUp() {
-    $('.subservice').remove();
-    $("#app_id").val('')
-    $("#app_default_source_branch").val('')
-    $("#app_default_target_branch").val('')
-    $("#app_description").val('')
-    $("#app_name").val('')
-    $("#app_git_config").empty();
-    $("#app_ci_config").empty();
-    $("#app_cd_config").empty();
-}
-
 function showApp(appID) {
-    cleanUp()
+    cleanUpApp()
     rendSelect()
     $('#app-edit').modal('show');
     
@@ -198,7 +186,10 @@ function showApp(appID) {
             });
             libsStr = libsStr.replace(/,$/, '');
             str = `<div class="ui segment subservice" style="display: none;" id="subservice_`+idx+`">
-                    <h2 class="ui floated header">`+globalFrontendText["app_sub_service"]+` `+idx+` <i class="red times circle outline icon" onClick="removeSubservice(`+idx+`)"></i></h2>
+                    <h2 class="ui floated header">
+                        <span class="left floated">`+globalFrontendText["app_sub_service"]+` `+idx+` </span>
+                        <span class="right floated"><i class="brown x icon link" onClick="removeSubservice(`+idx+`)"></i></span>
+                    </h2>
                     <div class="field">
                     <label>`+globalFrontendText["git_path"]+`</label>
                     <div class="ui action input">
@@ -326,29 +317,24 @@ function getAppList() {
         apps.forEach(function (app, element_index, element_array) {
             services = app["service"];
             servicesLen = services.length
-            str += ` <tr style="cursor: pointer;" onClick="showApp(`+app["app_id"]+`)">
-                        <td rowspan="`+servicesLen+`">`+app["name"]+`</td>
-                        <td rowspan="`+servicesLen+`">`+app["description"]+`</td>
-                        <td rowspan="`+servicesLen+`">`+app["default_source_branch"]+`</td>
-                        <td rowspan="`+servicesLen+`">`+app["default_target_branch"]+`</td>
-                        `
+            str+= `
+            <div class="item padding-15-0">
+                <div class="content font-size-15 line-height-24">
+                <a href="#" class="header font-size-19" onClick="showApp(`+app["app_id"]+`)">`+app["name"]+`</a>
+                <div class="description font-color-gray">`+app["description"]+`</div>
+                <div><i class="code branch purple icon"></i>`+globalFrontendText['app_base_branch']+`: `+app["default_source_branch"]+` <i class="angle right icon"></i> `+globalFrontendText['app_feat_branch']+`: `+app["default_target_branch"]+`</div>
+            `
             services.forEach(function (service, element_index, element_array) {
-                if (element_index==0) {
-                    str += `
-                            <td>`+service["name"]+`</td>
-                            <td>`+service["role"]+`</td>
-                            <td>`+service["language"]+`</td>
-                            <td>`+service["framework"]+`</td>
-                        </tr>`
-                } else {
-                    str += `<tr style="cursor: pointer;" onClick="showApp(`+app["app_id"]+`)">
-                                <td>`+service["name"]+`</td>
-                                <td>`+service["role"]+`</td>
-                                <td>`+service["language"]+`</td>
-                                <td>`+service["framework"]+`</td>
-                            </tr>`
-                }
+                str += `
+                <div>
+                    <i class="circle icon tiny teal padding-right-16"></i>`+service["name"]+`
+                    <i class="code icon  brown"></i>`+service["language"]+`
+                    <i class="gavel icon  brown"></i>`+service["framework"]+`
+                    <span class="description font-color-gray padding-left-20">`+service["role"]+`</span>
+                </div>
+                `
             });
+            str += ` </div> </div>`
             $("#app_list").html(str)
         });
     }
@@ -373,4 +359,16 @@ function rendSelect() {
         var newOption = $("<option></option>").attr("value", gc.cd_config_id).text(gc.name);
         $("#app_cd_config").append(newOption);
     })
+}
+
+function cleanUpApp() {
+    $('.subservice').remove();
+    $("#app_id").val('')
+    $("#app_default_source_branch").val('')
+    $("#app_default_target_branch").val('')
+    $("#app_description").val('')
+    $("#app_name").val('')
+    $("#app_git_config").empty();
+    $("#app_ci_config").empty();
+    $("#app_cd_config").empty();
 }

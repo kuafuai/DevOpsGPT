@@ -13,7 +13,7 @@ bp = Blueprint('setting', __name__, url_prefix='/setting')
 @json_response
 def get_git_config_list():
     _ = getI18n("controllers")
-    tenantID = session['tenant_id']
+    tenantID = request.args.get('tenant_id')
 
     gitList, success = getGitConfigList(tenantID, 0)
     if not success:
@@ -25,7 +25,7 @@ def get_git_config_list():
 @json_response
 def get_ci_config_list():
     _ = getI18n("controllers")
-    tenantID = session['tenant_id']
+    tenantID = request.args.get('tenant_id')
 
     gitList, success = getCIConfigList(tenantID, 0)
     if not success:
@@ -37,7 +37,7 @@ def get_ci_config_list():
 @json_response
 def get_cd_config_list():
     _ = getI18n("controllers")
-    tenantID = session['tenant_id']
+    tenantID = request.args.get('tenant_id')
 
     gitList, success = getCDConfigList(tenantID, 0)
     if not success:
@@ -50,7 +50,7 @@ def get_cd_config_list():
 def get_llm_config_list():
     _ = getI18n("controllers")
     raise Exception(_("Failed to get git config list.")) 
-    tenantID = session['tenant_id']
+    tenantID = request.args.get('tenant_id')
 
     gitList, success = getLLMConfigList(tenantID, 0)
     if not success:
@@ -70,7 +70,7 @@ def edit_git():
     git_config_id = request.json.get('git_config_id')
     name = request.json.get('git_name')
     creater = session['username']
-    tenant_id = session['tenant_id']
+    tenant_id = request.json.get('tenant_id')
 
     try:
         if git_config_id:
@@ -94,7 +94,7 @@ def edit_ci():
     ci_config_id = request.json.get('ci_config_id')
     name = request.json.get('ci_name')
     creater = session['username']
-    tenant_id = session['tenant_id']
+    tenant_id = request.json.get('tenant_id')
 
     try:
         if ci_config_id:
@@ -118,7 +118,7 @@ def edit_cd():
     cd_provider = request.json.get('cd_provider')
     name = request.json.get('cd_name')
     creater = session['username']
-    tenant_id = session['tenant_id']
+    tenant_id = request.json.get('tenant_id')
 
     try:
         if cd_config_id:

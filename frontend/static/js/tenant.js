@@ -52,14 +52,13 @@ function getTenantList() {
         tenants.forEach(function (tenant, element_index, element_array) { 
             str += `<tr>
                         <td>`+tenant["name"]+`<br /></td>
+                        <td>`+tenant["current_user_role"]+`</td>
                         <td>`+tenant["status"]+`</td>
-                        <td>`+tenant["member_count"]+` (`+tenant["current_user_role"]+`)</td>
-                        <td>`+tenant["description"]+`</td>
+                        <td>`+tenant["member_count"]+`</td>
                         <td>`+tenant["billing_type"]+`</td>
                         <td>`+tenant["billing_quota"]+`</td>
-                        <td>`+tenant["created_at"]+`</td>
                         <td>`+tenant["billing_end"]+`</td>
-                        <td><a href="#" onClick="useTenant(`+tenant["tenant_id"]+`)">`+globalFrontendText["enter"]+`</a> | <a href="#" onClick="showTenant(`+tenant["tenant_id"]+`)">`+globalFrontendText["show_tenant"]+`</a> | <a href="setting.html">`+globalFrontendText["configuration"]+`</a></td>
+                        <td><a href="#" onClick="useTenant(`+tenant["tenant_id"]+`)">`+globalFrontendText["enter"]+`</a> | <a href="#" onClick="showTenant(`+tenant["tenant_id"]+`)">`+globalFrontendText["show_tenant"]+`</a> | <a href="setting.html?tenant_id=`+tenant["tenant_id"]+`">`+globalFrontendText["configuration"]+`</a></td>
                     </tr>`
             $("#tenant_list").html(str)
         });
@@ -153,13 +152,6 @@ function invite() {
     }
 
     sendAjaxRequest('/tenant/invite', "POST", requestData, successCallback, errorCallback, true, false)
-}
-
-function getTenantID() {
-    var queryString = window.location.search;
-    var params = new URLSearchParams(queryString);
-    var tenant_id = params.get('tenant_id');
-    return tenant_id
 }
 
 function getBillings(tenant_id) {

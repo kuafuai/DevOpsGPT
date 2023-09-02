@@ -1,3 +1,4 @@
+from datetime import datetime
 from app.extensions import db
 from app.models.application import Application
 
@@ -7,7 +8,7 @@ class Requirement(db.Model):
     requirement_name = db.Column(db.String(255), nullable=False)
     original_requirement = db.Column(db.String(1000))
     app_id = db.Column(db.Integer, nullable=False)
-    user_id = db.Column(db.Integer, nullable=False)
+    username = db.Column(db.String(100))
     default_source_branch = db.Column(db.String(255))
     default_target_branch = db.Column(db.String(255))
     status = db.Column(db.String(20))
@@ -17,13 +18,13 @@ class Requirement(db.Model):
     updated_at = db.Column(db.TIMESTAMP, default=db.func.current_timestamp(), onupdate=db.func.current_timestamp())
 
     @staticmethod
-    def create_requirement(tenant_id, requirement_name, original_requirement, app_id, user_id, default_source_branch, default_target_branch, status, satisfaction_rating=None, completion_rating=None):
+    def create_requirement(tenant_id, requirement_name, original_requirement, app_id, username, default_source_branch, default_target_branch, status, satisfaction_rating=None, completion_rating=None):
         requirement = Requirement(
             tenant_id=tenant_id,
             requirement_name=requirement_name,
             original_requirement=original_requirement,
             app_id=app_id,
-            user_id=user_id,
+            username=username,
             status=status,
             default_source_branch=default_source_branch,
             default_target_branch=default_target_branch,
@@ -45,7 +46,7 @@ class Requirement(db.Model):
                 'requirement_name': req.requirement_name,
                 'original_requirement': req.original_requirement,
                 'app_id': req.app_id,
-                'user_id': req.user_id,
+                'username': req.username,
                 'default_source_branch': req.default_source_branch,
                 'default_target_branch': req.default_target_branch,
                 'status': req.status,
@@ -67,7 +68,7 @@ class Requirement(db.Model):
                     'requirement_name': req.requirement_name,
                     'original_requirement': req.original_requirement,
                     'app_id': req.app_id,
-                    'user_id': req.user_id,
+                    'username': req.username,
                     'default_source_branch': req.default_source_branch,
                     'default_target_branch': req.default_target_branch,
                     'status': req.status,
@@ -81,30 +82,15 @@ class Requirement(db.Model):
         return None
 
     @staticmethod
-    def update_requirement(requirement_id, requirement_name=None, original_requirement=None, app_id=None, user_id=None, status=None, satisfaction_rating=None, completion_rating=None):
+    def update_requirement(requirement_id, **kwargs):
         requirement = Requirement.query.get(requirement_id)
-        
         if requirement:
-            if requirement_name is not None:
-                requirement.requirement_name = requirement_name
-            if original_requirement is not None:
-                requirement.original_requirement = original_requirement
-            if app_id is not None:
-                requirement.app_id = app_id
-            if user_id is not None:
-                requirement.user_id = user_id
-            if status is not None:
-                requirement.status = status
-            if satisfaction_rating is not None:
-                requirement.satisfaction_rating = satisfaction_rating
-            if completion_rating is not None:
-                requirement.completion_rating = completion_rating
-            
+            for key, value in kwargs.items():
+                setattr(requirement, key, value)
+            requirement.updated_at = datetime.utcnow()
             db.session.commit()
             return requirement
-        
         return None
-
 
     @staticmethod
     def delete_requirement(requirement_id):

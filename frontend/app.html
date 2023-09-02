@@ -7,14 +7,9 @@
   <title class="f_title"></title>
   <link rel="stylesheet" href="./static/css/style.css?v=6">
   <link rel="stylesheet" href="./static/css/semantic.min.css">
-  <link rel="stylesheet" href="./static/css/codemirror.min.css" />
-  <link rel="stylesheet" href="./static/css/darcula.min.css" />
-  <script src="./static/js/codemirror.min.js"></script>
-  <script src="./static/js/haxe.min.js"></script>
   <script src="./static/js/jquery.min.js"></script>
   <script src="./static/js/semantic.min.js"></script>
   <script src="./static/js/marked.min.js"></script>
-  <script src="./static/js/diff.min.js"></script>
   <script src="./static/js/coder.js?v=75"></script>
   <script src="./static/js/app.js?v=75"></script>
   <script src="./static/js/setting.js?v=75"></script>
@@ -33,39 +28,36 @@
       <a href="#" class="ui right floated dropdown item">
         <span class="f_more_operations"></span> <i class="dropdown icon"></i>
         <div class="menu">
-          <div class="item"><span class="f_hello"></span> <span id="current-username"></span></div>
-          <div class="item" onClick="openUrl('tenant.html')"><span id="current-tenant"></span> - <span class="f_change_tenant"></span></div>
-          <div class="item" onClick="changeLanguage()"><span class="f_change_language"></span></div>
-          <div class="item" onClick="logout()"><span class="f_logout"></span></div>
+          <div class="item"><i class="user icon tiny"></i><span class="f_hello"></span> <span id="current-username"></span></div>
+          <div class="item" onClick="openUrl('tenant.html')"><i class="university icon tiny"></i><span id="current-tenant"></span></div>
+          <div class="item" onClick="changeLanguage()"><i class="exchange icon tiny"></i><span class="f_change_language"></span></div>
+          <div class="item" onClick="logout()"><i class="sign-out icon tiny"></i><span class="f_logout"></span></div>
         </div>
       </a>
     </div>
   </div>
 
-  <div class="ui container">
-    <button class="ui linkedin button" id="add-application">
-      <i class="plus square outline icon"></i>
-      <span class="f_create_new"></span>
-    </button>
+  <div class="ui container border-bottom-1">
+    <div class="ui fluid category search left floated">
+      <div class="ui icon input">
+        <input class="prompt" type="text" size="40" placeholder="Search...">
+        <i class="search icon"></i>
+      </div>
+      <button class="ui linkedin button right floated background-color-deep-green" id="add-application">
+        <i class="plus icon"></i>
+        <span class="f_create_new"></span>
+      </button>
+    </div>
   </div>
+
   <div class="ui container">
-    <table class="ui celled structured table">
-      <thead>
-        <tr>
-          <th><span class="f_app_name"></span></th>
-          <th><span class="f_app_intro"></span></th>
-          <th><span class="f_app_base_branch"></span></th>
-          <th><span class="f_app_feat_branch"></span></th>
-          <th><span class="f_service_name"></span></th>
-          <th><span class="f_service_role"></span></th>
-          <th><span class="f_service_language"></span></th>
-          <th><span class="f_service_framework"></span></th>
-        </tr>
-      </thead>
-      <tbody id="app_list">
-        
-      </tbody>
-    </table>
+    <div class="ui relaxed divided list" id="app_list">
+      
+    </div>
+  </div>
+
+  <div class="ui watermark">
+    <span id="watermark-username"></span> @ <span class="f_title"></span></div>
   </div>
 
   <div class="ui modal" id="app-edit">
@@ -102,14 +94,14 @@
         </div>
         <div class="field" style="margin-bottom:20px">
           <button class="ui linkedin button" id="add-service">
-            <i class="plus square outline icon"></i>
+            <i class="plus icon"></i>
             <span class="f_app_sub_service"></span>
           </button>
         </div>
     </div>
     <div class="actions">
-      <div class="ui green button" id="app-edit-save"><span class="f_submit"></span></div>
-      <div class="ui button" id="app-edit-cancel"><span class="f_cancel"></span></div>
+      <div class="ui green button right floated" id="app-edit-save"><span class="f_submit"></span></div>
+      <div class="ui button right floated" id="app-edit-cancel"><span class="f_cancel"></span></div>
     </div>
   </div>
 
@@ -119,28 +111,6 @@
     </div>
   </div>
 
-  <div class="ui modal" id="my-login">
-    <div class="header"><span class="f_login"></span></div>
-    <div class="content">
-      <div class="ui form">
-        <div class="field">
-          <label><span class="f_username"></span></label>
-          <input type="text" id="login-username" placeholder="">
-        </div>
-        <div class="field">
-          <label><span class="f_password"></span></label>
-          <input type="password" id="login-password" placeholder="">
-        </div>
-        <div class="field">
-            <label id="login-message" style="color: red;"></label>
-        </div>
-        <button class="ui button" onClick="login()" type="submit"><span class="f_submit"></span></div></button>
-      </div>
-    </div>
-  </div>
 
-  <div class="ui watermark">
-    <span id="watermark-username"></span> @ <span class="f_title"></span></div>
-  </div>
 </body>
 </html>

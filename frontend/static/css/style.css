@@ -88,6 +88,50 @@ pre {
   font-size: 13px !important;
 }
 
+.font-size-20 {
+  font-size: 20px !important;
+}
+
+.font-size-19 {
+  font-size: 19px !important;
+}
+
+.font-size-16 {
+  font-size: 16px !important;
+}
+
+.font-size-15 {
+  font-size: 15px !important;
+}
+
+.padding-right-16 {
+  padding-right: 16px;
+}
+
+.padding-left-20 {
+  padding-left: 20px;
+}
+
+.padding-bottom-0 {
+  padding-bottom: 0px !important;
+}
+
+.padding-15-0 {
+  padding: 15px 0px !important;
+}
+
+.line-height-24 {
+  line-height: 24px !important;
+}
+
+.border-bottom-1 {
+  border-bottom: solid 1px #dddddd !important;
+}
+
+.background-color-deep-green {
+  background-color: #1f883d !important;
+}
+
 .marigin-top-4 {
   margin-top: 4px;
 }
@@ -112,10 +156,24 @@ pre {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  opacity: 0.05;
+  opacity: 0.03;
   pointer-events: none;
   z-index: 9999;
   font-size: 36px;
   color: #000;
   background-repeat: repeat;
+}
+
+.font-color-gray {
+  color: #767676 !important;
+}
+
+.form-message {
+  color: #d83f3f;
+  text-align: right;
+  margin-bottom: 10px;
+}
+
+.float-right{
+  float: right !important;
 }

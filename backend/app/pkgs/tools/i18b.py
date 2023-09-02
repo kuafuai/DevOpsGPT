@@ -166,4 +166,7 @@ def getFrontendText():
         "app_cd_config": _("Associated CD Config"),
         "app_ci_config": _("Associated CI Config"),
         "app_git_config": _("Associated Git Config"),
+        "my_role": _("My Role"),
+        "others_1": _("The tenant does not exist or is abnormal"),
+        "others_2": _("Insufficient authority."),
     }
