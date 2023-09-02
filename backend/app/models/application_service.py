@@ -11,7 +11,7 @@ class ApplicationService(db.Model):
     role = db.Column(db.Text)
     language = db.Column(db.String(50))
     framework = db.Column(db.String(50))
-    database = db.Column(db.String(50))
+    database_type = db.Column(db.String(50))
     api_type = db.Column(db.String(50))
     api_location = db.Column(db.String(255))
     struct_cache = db.Column(db.Text)
@@ -29,7 +29,7 @@ class ApplicationService(db.Model):
 
     LANGUAGE_JAVA = "Java"
 
-    def create_service(app_id, name, git_path, git_workflow, role, language, framework, database, api_type, api_location,
+    def create_service(app_id, name, git_path, git_workflow, role, language, framework, database_type, api_type, api_location,
                        cd_container_name, cd_container_group, cd_region, cd_public_ip, cd_security_group, cd_subnet, struct_cache):
         service = ApplicationService(
             app_id=app_id,
@@ -40,7 +40,7 @@ class ApplicationService(db.Model):
             role=role,
             language=language,
             framework=framework,
-            database=database,
+            database_type=database_type,
             api_type=api_type,
             api_location=api_location,
             cd_container_name=cd_container_name,
@@ -79,7 +79,7 @@ class ApplicationService(db.Model):
                 'role': service.role,
                 'language': service.language,
                 'framework': service.framework,
-                'database': service.database,
+                'database_type': service.database_type,
                 'api_type': service.api_type,
                 'api_location': service.api_location,
                 'cd_container_name': service.cd_container_name,
@@ -137,7 +137,7 @@ class ApplicationService(db.Model):
                 'role': service.role,
                 'language': service.language,
                 'framework': service.framework,
-                'database': service.database,
+                'database_type': service.database_type,
                 'api_type': service.api_type,
                 'api_location': service.api_location,
                 'cd_container_name': service.cd_container_name,

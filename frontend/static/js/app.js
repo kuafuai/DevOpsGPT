@@ -227,7 +227,7 @@ function showApp(appID) {
                     </div>
                     <div class="field">
                     <label>`+globalFrontendText["service_database"]+`</label>
-                    <input type="text" id="service_database_`+idx+`" value="`+service.database+`">
+                    <input type="text" id="service_database_`+idx+`" value="`+service.database_type+`">
                     </div>
                     <div class="field">
                     <label>`+globalFrontendText["service_code_struct"]+`</label>
