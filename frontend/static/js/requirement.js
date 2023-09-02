@@ -20,7 +20,7 @@ function getRequirementList() {
                         <td style="cursor: pointer;" onClick="showRequirement(`+requirement["requirement_id"]+`)">`+requirement["requirement_name"]+`<a class="ui `+requirement["status_color"]+` tag label smail">`+requirement["status"]+`</a>
                         <br/ ><div class="description"><i class="green clock icon"></i>`+requirement["created_at"]+`</div>
                         </td>
-                        <td><a class="ui basic image label">
+                        <td class="single line"><a class="ui basic image label">
                         <i class="user blue icon"></i>
                         `+requirement["username"]+`
                       </a></td>
