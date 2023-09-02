@@ -1,4 +1,4 @@
-from flask import Blueprint, request, session
+from flask import Blueprint, request, session, json
 from app.controllers.common import json_response
 from app.models.task import getEmptyTaskInfo
 from app.pkgs.tools.i18b import getI18n
@@ -18,10 +18,11 @@ def clear_up():
         print("clear_up failed:"+str(e))
     
     session[session["username"]] = getEmptyTaskInfo()
-    tenant_name = "DevOpsGPT"
+    tenant_name = "-"
     if GRADE != "base":
         tenant = Tenant.get_tenant_baseinfo_by_id(session["tenant_id"])
-        tenant_name = tenant["name"]
+        if tenant:
+            tenant_name = tenant["name"]
 
     return {"username": session["username"], "tenant_name": tenant_name, "tenant_id": session["tenant_id"], "info": session[session["username"]]} 
 
@@ -40,7 +41,7 @@ def setup_app():
     if GRADE != "base" and not Tenant.check_quota(tenantID):
         raise Exception(_("You have exceeded your quota limit, please check your business bill."))
 
-    requirement = Requirement.create_requirement(tenantID, "New requirement", "New", appID, 1, sourceBranch, featureBranch,  REQUIREMENT_STATUS_NotStarted, 0, 0)
+    requirement = Requirement.create_requirement(tenantID, "New requirement", "New", appID, username, sourceBranch, featureBranch,  REQUIREMENT_STATUS_NotStarted, 0, 0)
 
     session[username]['memory']['task_info'] = {
         "app_id": appID,
@@ -87,3 +88,18 @@ def get_one():
         requirement["memory"] = RequirementMemory.get_all_requirement_memories(requirementID, 1)
 
     return requirement
+
+@bp.route('/update', methods=['POST'])
+@json_response
+def update():
+    _ = getI18n("controllers")
+    data = request.json
+    requirement_id = data['requirement_id']
+    update_data = data['data']
+
+    requirement = Requirement.update_requirement(requirement_id, **update_data)
+
+    if requirement.requirement_id:
+        return Requirement.get_requirement_by_id(requirement.requirement_id)
+    else:
+        raise Exception(_("Failed to set up app."))

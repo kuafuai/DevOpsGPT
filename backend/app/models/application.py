@@ -33,10 +33,12 @@ class Application(db.Model):
         return app
 
     @staticmethod
-    def get_all_application(owner, appID):
+    def get_all_application(tenant_id, appID):
         applications = Application.query.order_by(Application.app_id.desc()).all()
         if appID:
             applications = Application.query.filter_by(app_id=appID).all()
+        if tenant_id:
+            applications = Application.query.filter_by(tenant_id=tenant_id).all()
 
         application_list = []
         

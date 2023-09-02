@@ -49,15 +49,19 @@ def login():
     if GRADE == "base":
         ok = User.checkPassword(username, password)
         session['tenant_id'] = 0
+        session['user_id'] = 1
+        session['username'] = username 
     else:
         ok = UserPro.checkPassword(username, password)
         if ok:
             userinfo = UserPro.get_user_by_name(username)
             session['language'] = userinfo["zone_language"]
+
             session['tenant_id'] = userinfo["current_tenant"]
+            session['user_id'] = userinfo["user_id"]
+            session['username'] = username 
         
     if ok:
-        session['username'] = username        
         return {'message': _('Login successful.')}
     else: 
         raise Exception(_("Invalid username or password"))

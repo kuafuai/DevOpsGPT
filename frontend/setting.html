@@ -32,10 +32,10 @@
       <a href="#" class="ui right floated dropdown item">
         <span class="f_more_operations"></span> <i class="dropdown icon"></i>
         <div class="menu">
-          <div class="item"><span class="f_hello"></span> <span id="current-username"></span></div>
-          <div class="item" onClick="openUrl('tenant.html')"><span id="current-tenant"></span> - <span class="f_change_tenant"></span></div>
-          <div class="item" onClick="changeLanguage()"><span class="f_change_language"></span></div>
-          <div class="item" onClick="logout()"><span class="f_logout"></span></div>
+          <div class="item"><i class="user icon tiny"></i><span class="f_hello"></span> <span id="current-username"></span></div>
+          <div class="item" onClick="openUrl('tenant.html')"><i class="university icon tiny"></i><span id="current-tenant"></span></div>
+          <div class="item" onClick="changeLanguage()"><i class="exchange icon tiny"></i><span class="f_change_language"></span></div>
+          <div class="item" onClick="logout()"><i class="sign-out icon tiny"></i><span class="f_logout"></span></div>
         </div>
       </a>
     </div>
@@ -60,13 +60,18 @@
 
   <div class="ui container">
     <a href="tenant.html" class="ui linkedin button" id="add-application">
-      <i class="plus square outline icon"></i>
+      <i class="angle double left icon"></i>
       <span class="f_back_to_list"></span>
     </a>
   </div>
 
   <div class="ui container">
-    <h4 class="ui header">Git<i class="blue plus icon" onClick="addGitConfig()"></i></h4>
+    <div>
+      <h4 class="ui header floated left">
+        Git
+      </h4>
+      <i class="blue plus icon link floated right float-right large" onClick="addGitConfig()"></i>
+    </div>
     <table class="ui celled structured table">
       <thead>
         <tr>
@@ -84,7 +89,12 @@
   </div>
 
   <div class="ui container">
-    <h4 class="ui header">CI<i class="blue plus icon" onClick="addCIConfig()"></i></h4>
+    <div>
+      <h4 class="ui header floated left">
+        CI
+      </h4>
+      <i class="blue plus icon link floated right float-right large" onClick="addCIConfig()"></i>
+    </div>
     <table class="ui celled structured table">
       <thead>
         <tr>
@@ -100,7 +110,12 @@
   </div>
 
   <div class="ui container">
-    <h4 class="ui header">CD<i class="blue plus icon" onClick="addCDConfig()"></i></h4>
+    <div>
+      <h4 class="ui header floated left">
+        CD
+      </h4>
+      <i class="blue plus icon link floated right float-right large" onClick="addCDConfig()"></i>
+    </div>
     <table class="ui celled structured table">
       <thead>
         <tr>

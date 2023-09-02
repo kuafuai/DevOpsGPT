@@ -7,14 +7,8 @@
   <title class="f_title"></title>
   <link rel="stylesheet" href="./static/css/style.css?v=6">
   <link rel="stylesheet" href="./static/css/semantic.min.css">
-  <link rel="stylesheet" href="./static/css/codemirror.min.css" />
-  <link rel="stylesheet" href="./static/css/darcula.min.css" />
-  <script src="./static/js/codemirror.min.js"></script>
-  <script src="./static/js/haxe.min.js"></script>
   <script src="./static/js/jquery.min.js"></script>
   <script src="./static/js/semantic.min.js"></script>
-  <script src="./static/js/marked.min.js"></script>
-  <script src="./static/js/diff.min.js"></script>
   <script src="./static/js/coder.js?v=75"></script>
   <script src="./static/js/requirement.js?v=75"></script>
 </head>
@@ -32,28 +26,33 @@
       <a href="#" class="ui right floated dropdown item">
         <span class="f_more_operations"></span> <i class="dropdown icon"></i>
         <div class="menu">
-          <div class="item"><span class="f_hello"></span> <span id="current-username"></span></div>
-          <div class="item" onClick="openUrl('tenant.html')"><span id="current-tenant"></span> - <span class="f_change_tenant"></span></div>
-          <div class="item" onClick="changeLanguage()"><span class="f_change_language"></span></div>
-          <div class="item" onClick="logout()"><span class="f_logout"></span></div>
+          <div class="item"><i class="user icon tiny"></i><span class="f_hello"></span> <span id="current-username"></span></div>
+          <div class="item" onClick="openUrl('tenant.html')"><i class="university icon tiny"></i><span id="current-tenant"></span></div>
+          <div class="item" onClick="changeLanguage()"><i class="exchange icon tiny"></i><span class="f_change_language"></span></div>
+          <div class="item" onClick="logout()"><i class="sign-out icon tiny"></i><span class="f_logout"></span></div>
         </div>
       </a>
     </div>
   </div>
 
-  <div class="ui container">
-    <a href="index.html" class="ui linkedin button" id="add-application">
-      <i class="plus square outline icon"></i>
-      <span class="f_create_new"></span>
-    </a>
+  <div class="ui container padding-bottom-0">
+    <div class="ui fluid category search left floated">
+      <div class="ui icon input">
+        <input class="prompt" type="text" size="40" placeholder="Search...">
+        <i class="search icon"></i>
+      </div>
+      <a href="index.html" class="ui linkedin button right floated background-color-deep-green">
+        <i class="plus icon"></i>
+        <span class="f_create_new"></span>
+      </a>
+    </div>
   </div>
+
   <div class="ui container">
-    <table class="ui celled striped table">
+    <table class="ui table font-size-15">
       <thead>
         <tr>
-          <th><span class="f_requirement_id"></span></th>
           <th><span class="f_requirement_origin"></span></th>
-          <th><span class="f_requirement_status"></span></th>
           <th><span class="f_requirement_user"></span></th>
           <th><span class="f_requirement_completion"></span></th>
           <th><span class="f_requirement_satisfaction"></span></th>

@@ -20,6 +20,7 @@ function hideModal(md) {
 
 function editGit() {
     var requestData = { 
+        'tenant_id': getTenantID(),
         'git_provider': $("#git_provider").val(),
         'git_name': $("#git_name").val(),
         'git_url': $("#git_url").val(),
@@ -52,6 +53,7 @@ function showGitConfig(idx) {
 
 function editCI() {
     var requestData = { 
+        'tenant_id': getTenantID(),
         'ci_name': $("#ci_name").val(),
         'ci_provider': $("#ci_provider").val(),
         'ci_api_url': $("#ci_api_url").val(),
@@ -80,6 +82,7 @@ function showCIConfig(idx) {
 
 function editCD() {
     var requestData = { 
+        'tenant_id': getTenantID(),
         'cd_name': $("#cd_name").val(),
         'cd_provider': $("#cd_provider").val(),
         'ACCESS_KEY': $("#ACCESS_KEY").val(),
@@ -108,7 +111,7 @@ function showCDConfig(idx) {
 
 
 function getGitConfigList() {
-    requestData = ''
+    requestData = {'tenant_id': getTenantID()}
 
     successCallback = function(data) {
         gitconfigs = data.data
@@ -132,7 +135,7 @@ function getGitConfigList() {
 }
 
 function getCIConfigList() {
-    requestData = ''
+    requestData = {'tenant_id': getTenantID()}
 
     successCallback = function(data) {
         ciconfigs = data.data
@@ -154,7 +157,7 @@ function getCIConfigList() {
 }
 
 function getCDConfigList() {
-    requestData = ''
+    requestData = {'tenant_id': getTenantID()}
 
     successCallback = function(data) {
         cdconfigs = data.data
