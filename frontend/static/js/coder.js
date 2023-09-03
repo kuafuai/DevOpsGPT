@@ -1,3 +1,4 @@
+var globalTenantID = 0
 var globalContext = []
 var globalMemory = {}
 var globalTasks = []
@@ -465,6 +466,7 @@ function logincheck() {
     successCallback = function(data) {
         var username = data.data.username
         var tenant = data.data.tenant_name
+        globalTenantID = data.data.tenant_id
         $("#current-username").html(username)
         $("#current-tenant").html(tenant)
         $("#watermark-username").html(username)
@@ -484,7 +486,7 @@ function logincheck() {
         }
     }
 
-    sendAjaxRequest('/requirement/clear_up', 'GET', info, successCallback, errorCallback, true, false)
+    sendAjaxRequest('/requirement/clear_up', 'GET', info, successCallback, errorCallback, false, false)
 }
 
 function logout() {
@@ -1525,5 +1527,8 @@ function getTenantID() {
     var queryString = window.location.search;
     var params = new URLSearchParams(queryString);
     var tenant_id = params.get('tenant_id');
+    if (!tenant_id) {
+        tenant_id = globalTenantID
+    }
     return tenant_id
 }
