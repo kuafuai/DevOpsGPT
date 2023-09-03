@@ -36,9 +36,9 @@ class Application(db.Model):
     def get_all_application(tenant_id, appID):
         applications = Application.query.order_by(Application.app_id.desc()).all()
         if appID:
-            applications = Application.query.filter_by(app_id=appID).all()
+            applications = Application.query.order_by(Application.app_id.desc()).filter_by(app_id=appID).all()
         else:
-            applications = Application.query.filter_by(tenant_id=tenant_id).all()
+            applications = Application.query.order_by(Application.app_id.desc()).filter_by(tenant_id=tenant_id).all()
 
         application_list = []
         
