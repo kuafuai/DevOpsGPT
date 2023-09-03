@@ -56,12 +56,12 @@ def create():
 def gitpush():
     _ = getI18n("controllers")
     username = session['username']
-    commitMsg = session[username]['memory']['originalPrompt']
     requirementID =  request.json.get('task_id')
     serviceName = request.json.get('service_name')
-    fatureBranch = session[username]['memory']['task_info']['feature_branch']
     wsPath = get_ws_path(requirementID)
     req = Requirement.get_requirement_by_id(requirementID) 
+    commitMsg = req["requirement_name"]
+    fatureBranch = req["default_target_branch"]
     gitPath, success = getServiceGitPath(req["app_id"], serviceName)
     tenantID = session['tenant_id']
     username = session['username']
