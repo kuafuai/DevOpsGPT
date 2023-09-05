@@ -2,6 +2,7 @@ from abc import ABC, abstractmethod
 
 from config import GRADE
 
+
 class AppInfoInterface(ABC):
     @abstractmethod
     def getServiceLib(self, appID, serviceName):
@@ -16,5 +17,5 @@ class AppInfoInterface(ABC):
         pass
 
     @abstractmethod
-    def analyzeService(gitPath):
+    def analyzeService(self, tenant_id, git_path):
         pass
