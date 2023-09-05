@@ -64,9 +64,10 @@ def getAll():
 @json_response
 def analyze_service():
     _ = getI18n("controllers")
+    tenantID = session['tenant_id']
     gitPath = request.json.get('service_git_path')
 
-    info, success = analyzeService(gitPath)
+    info, success = analyzeService(tenantID, gitPath)
     if not success:
         raise Exception(_("Failed to analysis applications.")) 
         

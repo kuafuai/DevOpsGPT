@@ -42,7 +42,7 @@ class AppInfoBasic(AppInfoInterface):
 
         return specification, True
     
-    def analyzeService(self, gitPath):
+    def analyzeService(self, tenant_id, gitPath):
         time.sleep(2)
         _ = getI18n("controllers")
         reJson = {

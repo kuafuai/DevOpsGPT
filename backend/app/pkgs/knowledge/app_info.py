@@ -86,7 +86,7 @@ def getServiceLib(appID, serviceName):
         obj = AppInfoBasic()
     else:
         obj = AppInfoPro()
-        
+
     return obj.getServiceLib(appID, serviceName)
 
 def getServiceStruct(appID, serviceName):
@@ -94,7 +94,7 @@ def getServiceStruct(appID, serviceName):
         obj = AppInfoBasic()
     else:
         obj = AppInfoPro()
-        
+
     return obj.getServiceStruct(appID, serviceName)
 
 def getServiceSpecification(appID, serviceName, LibName):
@@ -102,13 +102,13 @@ def getServiceSpecification(appID, serviceName, LibName):
         obj = AppInfoBasic()
     else:
         obj = AppInfoPro()
-        
+
     return obj.getServiceSpecification(appID, serviceName, LibName)
 
-def analyzeService(gitPath):
+def analyzeService(tenant_id, gitPath):
     if GRADE == "base":
         obj = AppInfoBasic()
     else:
         obj = AppInfoPro()
-        
-    return obj.analyzeService(gitPath)
+
+    return obj.analyzeService(tenant_id, gitPath)
