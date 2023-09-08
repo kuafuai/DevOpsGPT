@@ -7,6 +7,8 @@
 <a href="http://www.kuafuai.net"><img src="docs/files/%E5%AE%98%E7%BD%91-%E4%BC%81%E4%B8%9A%E7%89%88-purple.svg" alt="EN doc"></a>
 <a href="docs/CONTACT.md"><img src="docs/files/WeChat-%E5%BE%AE%E4%BF%A1-green.svg" alt="roadmap"></a>
 </p>
+<a href="https://discord.gg/GEGYjrVv"><img src="https://img.shields.io/badge/Discord-DevOpsGPT-green" alt="roadmap"></a>
+</p>
 
 ### 💡 Get Help - [Q&A](https://github.com/kuafuai/DevOpsGPT/issues) 
 ### 💡 Submit Requests - [Issue](https://github.com/kuafuai/DevOpsGPT/discussions)
