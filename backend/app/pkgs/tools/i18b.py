@@ -169,4 +169,13 @@ def getFrontendText():
         "my_role": _("My Role"),
         "others_1": _("The tenant does not exist or is abnormal"),
         "others_2": _("Insufficient authority."),
+        "renewal": _("Renewal Plus"),
+        "recharge": _("Recharge CodePower"),
+        "renewal_PayPal": _("PayPal"),
+        "renewal_Alipay": _("Alipay"),
+        "invite_notice": _("Note: Renewal will take effect immediately. If you switch plus types, the previous plus duration will be reset and start counting anew."),
+        "recharge_notice": _("Note: The CodePower is valid for 12 months, please recharge it reasonably."),
+        "code_power": _("CodePower"),
+        "task_limit_msg": _("Weekly development task limit: "),
+        "expired_at": _("Expired: "),
     }

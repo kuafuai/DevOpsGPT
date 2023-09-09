@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-09-02 11:45+0800\n"
+"POT-Creation-Date: 2023-09-02 12:45+0800\n"
 "PO-Revision-Date: 2023-07-17 18:37+0800\n"
 "Last-Translator: booboo <mac@booboo.local>\n"
 "Language-Team: Language i18n/en\n"
@@ -591,4 +591,10 @@ msgstr ""
 
 #: backend/app/pkgs/tools/i18b.py:170
 msgid "The tenant does not exist or is abnormal"
-msgstr "The company does not exist or is abnormal. Please <a href='tenant.html'>select another company.</a>."
+msgstr ""
+"The company does not exist or is abnormal. Please <a href='tenant."
+"html'>select another company.</a>."
+
+#: backend/app/pkgs/tools/i18b.py:171
+msgid "Insufficient authority."
+msgstr ""

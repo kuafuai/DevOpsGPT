@@ -53,6 +53,7 @@ REQUIREMENT_MEM_TYPE_DevOps = "DevOps"
 
 try:
     BACKEND_HOST = read_config("BACKEND_HOST")
+    BACKEND_URL = read_config("BACKEND_URL")
     BACKEND_DEBUG = read_config("BACKEND_DEBUG")
     LANGUAGE = read_config("LANGUAGE")
     BACKEND_PORT = read_config("BACKEND_PORT")
@@ -81,6 +82,10 @@ try:
     EMAIL_SSL = read_config("EMAIL_SSL")
     EMAIL_SENDER = read_config("EMAIL_SENDER")
     EMAIL_PASSWORD = read_config("EMAIL_PASSWORD")
+
+    PAYPAL_MODE = read_config("PAYPAL_MODE")
+    PAYPAL_ID = read_config("PAYPAL_ID")
+    PAYPAL_SECRET = read_config("PAYPAL_SECRET")
 except Exception as e:
     print(f"\033[91mError: Failed to read the configuration, please copy a new env.yaml from env.yaml.tpl and reconfigure it according to the documentation. Error in env.yaml: {str(e)}. 读取配置错误，请重新从 env.yaml.tpl 复制一个 env.yaml 进行配置后重启程序。 \033[0m")
     input("Press Enter to exit...")

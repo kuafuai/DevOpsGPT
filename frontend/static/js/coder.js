@@ -167,6 +167,7 @@ $(document).ready(function () {
     language()
     logincheck()
     getRequirement()
+    showUrlErrorMsg()
 
     codeMirror = CodeMirror.fromTextArea(document.getElementById('code-edit-code'), {
       theme: 'darcula',
@@ -494,7 +495,7 @@ function logout() {
         window.location.href = "user_login.html";
     }
 
-    sendAjaxRequest('/user/logout', "POST", "", successCallback, alertErrorCallback, false, true)
+    sendAjaxRequest('/user/logout', "GET", "", successCallback, alertErrorCallback, false, true)
 }
 
 function changeLanguage() {
@@ -1531,4 +1532,13 @@ function getTenantID() {
         tenant_id = globalTenantID
     }
     return tenant_id
+}
+
+function showUrlErrorMsg() {
+    var queryString = window.location.search;
+    var params = new URLSearchParams(queryString);
+    var err = params.get('err');
+    if (err.length>0) {
+        myAlert(globalFrontendText["error"], err)
+    }
 }
