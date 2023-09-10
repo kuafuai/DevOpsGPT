@@ -69,8 +69,9 @@ class LLMBase(LLMInterface):
             )
 
             response_text = response["choices"][0]["message"]["content"]
+            total_tokens = response["usage"]["total_tokens"]
             print("chatGPT - response_text:"+response_text, flush=True)
-            return response_text, True
+            return response_text, total_tokens, True
         except Exception as e:
             msg = "\nError: Failed to access GPT, please check whether your network can connect to GPT and terminal proxy is running properly.\n"
             print(f"\033[91m{msg} \033[0m")

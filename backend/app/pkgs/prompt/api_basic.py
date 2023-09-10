@@ -23,7 +23,8 @@ note that it contains only the parts that need to be modified for new requiremen
         
 Without any dialogue or explanation, just output the final API only."""})
 
-    return chatCompletion(context, FAKE_API)
+    message, total_tokens, success = chatCompletion(context, FAKE_API)
+    return message, success
 
 def step1ApiDocTasks(user_prompt, apiDoc):
     context = []
@@ -48,7 +49,7 @@ Existing API：
 """
 
     context.append({"role": "system", "content": content})
-    message, success = chatCompletion(context, FAKE_API)
+    message, total_tokens, success = chatCompletion(context, FAKE_API)
 
     return message, context, success
 

@@ -178,4 +178,7 @@ def getFrontendText():
         "code_power": _("CodePower"),
         "task_limit_msg": _("Weekly development task limit: "),
         "expired_at": _("Expired: "),
+        "others_3": _("The number of tasks for today has exceeded the limit. Please upgrade your membership or try again tomorrow."),
+        "others_4": _("CodePower has been depleted. Please check your bill and recharge before using it again."),
+        "others_5": _("Billing system error, please check your bill.")
     }

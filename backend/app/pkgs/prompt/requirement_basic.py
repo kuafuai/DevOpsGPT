@@ -68,7 +68,7 @@ Note: Keep conversations in """+getCurrentLanguageName()+""".
             ]
             finalContext.extend(preContext)
 
-            message, success = chatCompletion(finalContext, FAKE_CLARIFY_1)
+            message, total_tokens, success = chatCompletion(finalContext, FAKE_CLARIFY_1)
             
             if message.find("Nothing more to clarify") != -1 or message.find('"question":""') != -1 :
                 return organize(firstPrompt, requirementsDetail)
@@ -120,7 +120,7 @@ Note: Keep conversations in """+getCurrentLanguageName()+""".
 """
     })
 
-    message, success = chatCompletion(Organize, FAKE_CLARIFY_2)
+    message, total_tokens, success = chatCompletion(Organize, FAKE_CLARIFY_2)
     print("------")
     print(message)
     message = fix_llm_json_str(message)

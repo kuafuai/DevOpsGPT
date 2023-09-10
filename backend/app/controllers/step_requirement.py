@@ -30,8 +30,7 @@ def clarify():
     if len(globalContext) < 4 :
         Requirement.update_requirement(requirement_id=requirementID, requirement_name=userPrompt, status=REQUIREMENT_STATUS_InProgress)
 
-        if GRADE != "base" and not Tenant.check_quota(tenantID):
-            raise Exception(_("You have exceeded your quota limit, please check your business bill."))
+        # 开始创建一个需求账单
         if GRADE != "base":
             TenantBill.record_requirement(tenantID, userName, requirementID, userPrompt)
     

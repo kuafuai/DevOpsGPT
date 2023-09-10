@@ -1538,7 +1538,7 @@ function showUrlErrorMsg() {
     var queryString = window.location.search;
     var params = new URLSearchParams(queryString);
     var err = params.get('err');
-    if (err.length>0) {
+    if (err && err.length>0) {
         myAlert(globalFrontendText["error"], err)
     }
 }
