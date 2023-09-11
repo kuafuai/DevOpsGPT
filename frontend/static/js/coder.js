@@ -167,6 +167,7 @@ $(document).ready(function () {
     language()
     logincheck()
     getRequirement()
+    showUrlErrorMsg()
 
     codeMirror = CodeMirror.fromTextArea(document.getElementById('code-edit-code'), {
       theme: 'darcula',
@@ -494,7 +495,7 @@ function logout() {
         window.location.href = "user_login.html";
     }
 
-    sendAjaxRequest('/user/logout', "POST", "", successCallback, alertErrorCallback, false, true)
+    sendAjaxRequest('/user/logout', "GET", "", successCallback, alertErrorCallback, false, true)
 }
 
 function changeLanguage() {
@@ -1114,7 +1115,8 @@ function pluginTaskList(info, ifRecover) {
         </h4>
         <div class="ui yellow visible message">`+globalFrontendText["operation"]+`: 
             <button class="ui green button tiny" onclick="checkCompile('`+ service_name +`', 0);"><i class="tasks icon"></i>`+globalFrontendText["auto_check"]+`</button>
-            <button class="ui blue button tiny" onclick="startPush('`+ service_name +`');"><i class="tasks icon"></i>`+globalFrontendText["submit_code"]+`</button>
+            <button class="ui blue button tiny" onclick="resetWorkspace('`+ service_name +`', this);"><i class="sync icon"></i>`+globalFrontendText["reset_workspace"]+`</button>
+            <button class="ui blue button tiny" onclick="startPush('`+ service_name +`', this);"><i class="tasks icon"></i>`+globalFrontendText["submit_code"]+`</button>
             <button class="ui teal button tiny" onClick="startCi('`+ service_name + `','` + globalMemory["task_info"]["feature_branch"] + `')"><i class="tasks icon"></i>`+globalFrontendText["start_ci"]+`</button>
             <button class="ui purple button tiny" onClick="startCd('`+ service_name + `')"><i class="docker icon"></i>`+globalFrontendText["start_cd"]+`</button>
         </div>
@@ -1187,14 +1189,65 @@ function pluginTaskList(info, ifRecover) {
     }
 }
 
-function startPush(serviceName) {
+function resetWorkspace(serviceName, ele) {
+    $(ele).addClass("loading")
+    $(ele).addClass("disabled")
+    
     var requestData = JSON.stringify({ 'service_name': serviceName, 'task_id': getTaskID() })
 
     successCallback = function(data){
+        $(ele).removeClass("loading")
+        $(ele).removeClass("disabled")
+    }
+
+    ErrorCallback = function(error) {
+        $(ele).removeClass("loading")
+        $(ele).removeClass("disabled")
+
+        if (typeof error === 'undefined') {
+            error = "Unknown error"
+        }
+        myAlert("ERROR", error)
+    }
+
+    setTimeout(function () {
+        sendAjaxRequest('/workspace/resetWorkspace', "POST", requestData, successCallback, ErrorCallback, false, false)
+    }, 500);
+}
+
+function startPush(serviceName, ele) {
+    $(ele).addClass("loading")
+    $(ele).addClass("disabled")
+
+    resetWorkspace(serviceName, ele)
+
+    // save all code
+    globalTasks[serviceName].forEach(function (file, element_index, element_array) {
+        let uuid = file.uuid
+        let file_path = file["file-path"]
+        saveCode(serviceName, file_path, uuid)
+    })
+
+    var requestData = JSON.stringify({ 'service_name': serviceName, 'task_id': getTaskID() })
+
+    successCallback = function(data){
+        $(ele).removeClass("loading")
+        $(ele).removeClass("disabled")
+
         myAlert(globalFrontendText["ok"], data.data)
     }
 
-    sendAjaxRequest('/workspace/gitpush', "POST", requestData, successCallback, alertErrorCallback, true, false)
+    ErrorCallback = function(error) {
+        $(ele).removeClass("loading")
+        $(ele).removeClass("disabled")
+
+        if (typeof error === 'undefined') {
+            error = "Unknown error"
+        }
+        myAlert("ERROR", error)
+    }
+
+    sendAjaxRequest('/workspace/gitpush', "POST", requestData, successCallback, ErrorCallback, true, false)
 }
 
 function startCi(repo_path, repo_branch) {  
@@ -1531,4 +1584,13 @@ function getTenantID() {
         tenant_id = globalTenantID
     }
     return tenant_id
+}
+
+function showUrlErrorMsg() {
+    var queryString = window.location.search;
+    var params = new URLSearchParams(queryString);
+    var err = params.get('err');
+    if (err && err.length>0) {
+        myAlert(globalFrontendText["error"], err)
+    }
 }

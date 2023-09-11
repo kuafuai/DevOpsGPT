@@ -94,7 +94,7 @@ Before you finish, double check that all parts of the architecture is present in
 
     # data = TEST_RESULT
     # success = True
-    data, success = chatCompletion(context)
+    data, total_tokens, success = chatCompletion(context)
     
     jsonData = parse_chat(data, serviceName)
     print(jsonData)
@@ -130,7 +130,7 @@ CODE```
 Do not explain and talk, directly respond pseudocode of each file.
 """
     context.append({"role": "user", "content": content})
-    message, success = chatCompletion(context)
+    message, total_tokens, success = chatCompletion(context)
 
     return message, success
 
@@ -162,7 +162,7 @@ Development requirement:
 Do not explain and talk, directly respond substeps.
 """
     context.append({"role": "system", "content": content})
-    message, success = chatCompletion(context)
+    message, total_tokens, success = chatCompletion(context)
 
     return message, context, success
 
@@ -190,7 +190,7 @@ requirements:
 ```
     """
     context.append({"role": "system", "content": content})
-    message, success = chatCompletion(context)
+    message, total_tokens, success = chatCompletion(context)
 
     context.append({
         "role": "assistant",
@@ -208,7 +208,7 @@ You should only directly respond in JSON format as described below, Ensure the r
 """
     })
 
-    data, success = chatCompletion(context)
+    data, total_tokens, success = chatCompletion(context)
     data = fix_llm_json_str(data)
 
     return json.loads(data), success

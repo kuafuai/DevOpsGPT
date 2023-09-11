@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-09-02 11:45+0800\n"
+"POT-Creation-Date: 2023-09-09 22:51+0800\n"
 "PO-Revision-Date: 2023-07-17 18:36+0800\n"
 "Last-Translator: booboo <mac@booboo.local>\n"
 "Language-Team: Language i18n/zh\n"
@@ -587,6 +587,49 @@ msgstr "我的角色"
 #: backend/app/pkgs/tools/i18b.py:170
 msgid "The tenant does not exist or is abnormal"
 msgstr "当前企业不存在或状态异常，请<a href='tenant.html'>选择其他企业。</a>."
+
+#: backend/app/pkgs/tools/i18b.py:171
+msgid "Insufficient authority."
+msgstr "没有操作权限。"
+
+#: backend/app/pkgs/tools/i18b.py:172
+msgid "Renewal Plus"
+msgstr "续费 Plus"
+
+#: backend/app/pkgs/tools/i18b.py:173
+msgid "Recharge CodePower"
+msgstr "充值码力"
+
+#: backend/app/pkgs/tools/i18b.py:174
+msgid "PayPal"
+msgstr "PayPal"
+
+#: backend/app/pkgs/tools/i18b.py:175
+msgid "Alipay"
+msgstr "支付宝"
+
+#: backend/app/pkgs/tools/i18b.py:176
+msgid ""
+"Note: Renewal will take effect immediately. If you switch plus types, the "
+"previous plus duration will be reset and start counting anew."
+msgstr "注意：充值后会立即生效，如果你修改了会员类型，会员有效期将会重新从当前时间计时。"
+
+#: backend/app/pkgs/tools/i18b.py:177
+msgid ""
+"Note: The CodePower is valid for 12 months, please recharge it reasonably."
+msgstr "注意：码力的有效期为 12 个月，请按需充值。"
+
+#: backend/app/pkgs/tools/i18b.py:178
+msgid "CodePower"
+msgstr "码力"
+
+#: backend/app/pkgs/tools/i18b.py:179
+msgid "Weekly development task limit: "
+msgstr "每周开发任务限制："
+
+#: backend/app/pkgs/tools/i18b.py:180
+msgid "Expired: "
+msgstr "过期："
 
 #~ msgid "Phone"
 #~ msgstr "手机号"

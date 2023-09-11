@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-09-02 12:45+0800\n"
+"POT-Creation-Date: 2023-09-11 12:35+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -590,4 +590,63 @@ msgstr ""
 
 #: backend/app/pkgs/tools/i18b.py:171
 msgid "Insufficient authority."
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:172
+msgid "Renewal Plus"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:173
+msgid "Recharge CodePower"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:174
+msgid "PayPal"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:175
+msgid "Alipay"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:176
+msgid ""
+"Note: Renewal will take effect immediately. If you switch plus types, the "
+"previous plus duration will be reset and start counting anew."
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:177
+msgid ""
+"Note: The CodePower is valid for 12 months, please recharge it reasonably."
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:178
+msgid "CodePower"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:179
+msgid "Weekly development task limit: "
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:180
+msgid "Expired: "
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:181
+msgid ""
+"The number of tasks for today has exceeded the limit. Please upgrade your "
+"membership or try again tomorrow."
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:182
+msgid ""
+"CodePower has been depleted. Please check your bill and recharge before "
+"using it again."
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:183
+msgid "Billing system error, please check your bill."
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:184
+msgid "Sync from Git"
 msgstr ""

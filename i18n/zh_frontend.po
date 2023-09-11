@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-09-02 12:45+0800\n"
+"POT-Creation-Date: 2023-09-11 12:35+0800\n"
 "PO-Revision-Date: 2023-07-17 18:36+0800\n"
 "Last-Translator: booboo <mac@booboo.local>\n"
 "Language-Team: Language i18n/zh\n"
@@ -591,6 +591,67 @@ msgstr "当前企业不存在或状态异常，请<a href='tenant.html'>选择�
 #: backend/app/pkgs/tools/i18b.py:171
 msgid "Insufficient authority."
 msgstr "没有操作权限。"
+
+#: backend/app/pkgs/tools/i18b.py:172
+msgid "Renewal Plus"
+msgstr "续费 Plus"
+
+#: backend/app/pkgs/tools/i18b.py:173
+msgid "Recharge CodePower"
+msgstr "充值码力"
+
+#: backend/app/pkgs/tools/i18b.py:174
+msgid "PayPal"
+msgstr "PayPal"
+
+#: backend/app/pkgs/tools/i18b.py:175
+msgid "Alipay"
+msgstr "支付宝"
+
+#: backend/app/pkgs/tools/i18b.py:176
+msgid ""
+"Note: Renewal will take effect immediately. If you switch plus types, the "
+"previous plus duration will be reset and start counting anew."
+msgstr ""
+"注意：充值后会立即生效，如果你修改了会员类型，会员有效期将会重新从当前时间计"
+"时。"
+
+#: backend/app/pkgs/tools/i18b.py:177
+msgid ""
+"Note: The CodePower is valid for 12 months, please recharge it reasonably."
+msgstr "注意：码力的有效期为 12 个月，请按需充值。"
+
+#: backend/app/pkgs/tools/i18b.py:178
+msgid "CodePower"
+msgstr "码力"
+
+#: backend/app/pkgs/tools/i18b.py:179
+msgid "Weekly development task limit: "
+msgstr "每周开发任务限制："
+
+#: backend/app/pkgs/tools/i18b.py:180
+msgid "Expired: "
+msgstr "过期："
+
+#: backend/app/pkgs/tools/i18b.py:181
+msgid ""
+"The number of tasks for today has exceeded the limit. Please upgrade your "
+"membership or try again tomorrow."
+msgstr "今日任务数已超限额，请升级会员等级或者明天再来。"
+
+#: backend/app/pkgs/tools/i18b.py:182
+msgid ""
+"CodePower has been depleted. Please check your bill and recharge before "
+"using it again."
+msgstr "码力已用光，请检查账单并进行充值。"
+
+#: backend/app/pkgs/tools/i18b.py:183
+msgid "Billing system error, please check your bill."
+msgstr "账单系统异常，请检查账单。"
+
+#: backend/app/pkgs/tools/i18b.py:184
+msgid "Sync from Git"
+msgstr "从Git同步代码"
 
 #~ msgid "Phone"
 #~ msgstr "手机号"

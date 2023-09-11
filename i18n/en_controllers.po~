@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-08-31 20:02+0800\n"
+"POT-Creation-Date: 2023-09-09 22:49+0800\n"
 "PO-Revision-Date: 2023-07-17 15:03+0800\n"
 "Last-Translator: booboo <mac@booboo.local>\n"
 "Language-Team: Language i18n/en\n"
@@ -16,30 +16,50 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: backend/app/controllers/app.py:36
+#: backend/app/controllers/app.py:46
 msgid "Failed to add an application."
 msgstr ""
 
-#: backend/app/controllers/app.py:51
+#: backend/app/controllers/app.py:61
 msgid "Failed to get applications."
 msgstr ""
 
-#: backend/app/controllers/app.py:61
+#: backend/app/controllers/app.py:72
 msgid "Failed to analysis applications."
 msgstr ""
 
-#: backend/app/controllers/requirement.py:41
-#: backend/app/controllers/step_requirement.py:33
+#: backend/app/controllers/pay_pro.py:104
+msgid "Incorrect payment status!"
+msgstr ""
+
+#: backend/app/controllers/pay_pro.py:107
+#: backend/app/controllers/pay_pro.py:110
+msgid "Incorrect request parameter!"
+msgstr ""
+
+#: backend/app/controllers/pay_pro.py:153
+msgid "Payment creation failed!"
+msgstr ""
+
+#: backend/app/controllers/requirement.py:42
+#: backend/app/controllers/step_requirement.py:34
 msgid "You have exceeded your quota limit, please check your business bill."
 msgstr ""
 
-#: backend/app/controllers/requirement.py:56
+#: backend/app/controllers/requirement.py:57
+#: backend/app/controllers/requirement.py:105
 msgid "Failed to set up app."
 msgstr ""
 
-#: backend/app/controllers/setting.py:17 backend/app/controllers/setting.py:29
-#: backend/app/controllers/setting.py:41 backend/app/controllers/setting.py:53
+#: backend/app/controllers/setting.py:20 backend/app/controllers/setting.py:32
+#: backend/app/controllers/setting.py:44 backend/app/controllers/setting.py:52
+#: backend/app/controllers/setting.py:57
 msgid "Failed to get git config list."
+msgstr ""
+
+#: backend/app/controllers/setting.py:85 backend/app/controllers/setting.py:109
+#: backend/app/controllers/setting.py:133
+msgid "Failed to edit setting."
 msgstr ""
 
 #: backend/app/controllers/step_api.py:34
@@ -82,11 +102,11 @@ msgstr ""
 msgid "Static code scan failed for unknown reasons."
 msgstr ""
 
-#: backend/app/controllers/step_requirement.py:27
+#: backend/app/controllers/step_requirement.py:28
 msgid "Please select the application you want to develop."
 msgstr ""
 
-#: backend/app/controllers/step_requirement.py:42
+#: backend/app/controllers/step_requirement.py:44
 msgid "Failed to clarify requirement."
 msgstr ""
 
@@ -94,24 +114,42 @@ msgstr ""
 msgid "Failed to split task."
 msgstr ""
 
-#: backend/app/controllers/tenant_pro.py:14
-#: backend/app/controllers/tenant_pro.py:20
-msgid "The current version does not support this feature."
+#: backend/app/controllers/tenant_pro.py:81
+msgid "Unregistered"
 msgstr ""
 
-#: backend/app/controllers/user.py:61
+#: backend/app/controllers/tenant_pro.py:108
+msgid "Not a member of the company."
+msgstr ""
+
+#: backend/app/controllers/tenant_pro.py:132
+msgid ""
+"invite you to join the AI intelligent software development platform - KuafuAI"
+msgstr ""
+
+#: backend/app/controllers/tenant_pro.py:132
+msgid ""
+"Please access the following link through a browser to view the relevant "
+"information."
+msgstr ""
+
+#: backend/app/controllers/tenant_pro.py:136
+msgid "The user has already been invited."
+msgstr ""
+
+#: backend/app/controllers/user.py:65
 msgid "Login successful."
 msgstr ""
 
-#: backend/app/controllers/user.py:63
+#: backend/app/controllers/user.py:67
 msgid "Invalid username or password"
 msgstr ""
 
-#: backend/app/controllers/user.py:76
+#: backend/app/controllers/user.py:80
 msgid "Logout successful."
 msgstr ""
 
-#: backend/app/controllers/user.py:97
+#: backend/app/controllers/user.py:101
 msgid "success."
 msgstr ""
 

@@ -51,35 +51,38 @@
     <div class="ui form">
       <div class="field">
         <label><span class="f_tenant_name"></span></label>
-        <input type="text" id="tenant_name" placeholder="">
+        <input type="text" id="tenant_name" placeholder="" disabled>
       </div>
       <div class="field">
         <label><span class="f_tenant_description"></span></label>
-        <textarea id="tenant_description" rows="4"></textarea>
+        <textarea id="tenant_description" rows="4" disabled></textarea>
       </div>
       <div class="field">
         <label><span class="f_status" ></span></label>
-        <input type="text" id="tenant_status" placeholder="">
+        <input type="text" id="tenant_status" placeholder="" disabled>
       </div>
       <div class="field">
         <label><span class="f_tenant_created_at" ></span></label>
-        <input type="text" id="tenant_created_at" placeholder="">
+        <input type="text" id="tenant_created_at" placeholder="" disabled>
       </div>
       <div class="field">
-        <label><span class="f_tenant_billing_end" ></span></label>
-        <input type="text" id="tenant_billing_end" placeholder="">
+        <label>
+          <span class="f_tenant_billing_end" ></span>
+          <button class="ui button purple tiny" onClick="Renewal()" type="submit"><i class="wifi icon"></i><span class="f_renewal"></span></button>
+        </label>
+        <input type="text" id="tenant_billing_end" placeholder="" disabled>
       </div>
       <div class="field">
         <label><span class="f_country" ></span></label>
-        <input type="text" id="tenant_country" placeholder="">
+        <input type="text" id="tenant_country" placeholder="" disabled>
       </div>
       <div class="field">
         <label><span class="f_employee_count"></span></label>
-        <input type="text" id="tenant_employee_count" placeholder="">
+        <input type="text" id="tenant_employee_count" placeholder="" disabled>
       </div>
       <div class="field">
         <label><span class="f_industry_type" ></span></label>
-        <input type="text" id="tenant_industry_type" placeholder="">
+        <input type="text" id="tenant_industry_type" placeholder="" disabled>
       </div>
       
       <div class="field">
@@ -109,13 +112,18 @@
       </div>
 
       <div class="field">
-        <label><span class="f_billing" ></span> (<span id="billing_info" ></span>)</label>
+        <label>
+          <span class="f_billing" ></span> (<span id="billing_info" ></span>)
+          <button class="ui button purple tiny" onClick="Recharge()" type="submit"><i class="wifi icon"></i><span class="f_recharge"></span></button>
+        
+        </label>
 
         <table class="ui celled striped table">
           <thead>
             <tr>
               <th><span class="f_bill_type"></span></th>
               <th><span class="f_bill_user"></span></th>
+              <th><span class="f_code_power"></span></th>
               <th><span class="f_bill_date"></span></th>
               <th><span class="f_remarks"></span></th>
             </tr>
@@ -124,9 +132,6 @@
             
           </tbody>
         </table>
-        <div class="field">
-          <button class="ui right floated button green" onClick="addMember()" type="submit"><i class="id card outline icon"></i><span class="f_add_member"></span></button>
-        </div>
       </div>
     </div>
   </div>
@@ -134,6 +139,20 @@
   <div class="ui modal" id="my-alert">
     <div class="header" id="my-alert-title"></div>
     <div class="content" id="my-alert-content">
+    </div>
+  </div>
+
+  <div class="ui modal" id="renewal_plus">
+    <div class="header"><span class="f_renewal"></span> - <span id="renewal_company"></span></div>
+    <div class="content"><div class="ignored ui warning message"><span class="f_invite_notice"></span></div></div>
+    <div class="ui middle aligned divided list" id="renewal_list">
+    </div>
+  </div>
+
+  <div class="ui modal" id="recharge_cf">
+    <div class="header"><span class="f_recharge"></span> - <span id="recharge_company"></span></div>
+    <div class="content"><div class="ignored ui warning message"><span class="f_recharge_notice"></span></div></div>
+    <div class="ui middle aligned divided list" id="recharge_list">
     </div>
   </div>
 

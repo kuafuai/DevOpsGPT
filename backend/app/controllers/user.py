@@ -67,7 +67,7 @@ def login():
         raise Exception(_("Invalid username or password"))
 
 
-@bp.route('/logout', methods=['POST'])
+@bp.route('/logout', methods=['GET'])
 @json_response
 def logout():
     _ = getI18n("controllers")

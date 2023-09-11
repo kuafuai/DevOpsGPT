@@ -12,13 +12,13 @@ def chatCompletion(context, fackData=""):
     message = "" 
     success = False
     try:
-        message, success = obj.chatCompletion(context, fackData)
+        message, total_tokens, success = obj.chatCompletion(context, fackData)
     except Exception as e:
         print("chatCompletion failed first time:" + str(e))
         try:
-            message, success = obj.chatCompletion(context, fackData)
+            message, total_tokens, success = obj.chatCompletion(context, fackData)
         except Exception as e:
             print("chatCompletion failed second time:" + str(e))
             traceback.print_exc()
             raise Exception(e)
-    return message, success
+    return message, total_tokens, success

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-09-01 15:44+0800\n"
+"POT-Creation-Date: 2023-09-11 12:34+0800\n"
 "PO-Revision-Date: 2023-07-17 14:55+0800\n"
 "Last-Translator: booboo <mac@booboo.local>\n"
 "Language-Team: Language i18n/zh\n"
@@ -16,24 +16,20 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: backend/app/controllers/app.py:43
+#: backend/app/controllers/app.py:46
 msgid "Failed to add an application."
 msgstr "添加应用失败。"
 
-#: backend/app/controllers/app.py:58
+#: backend/app/controllers/app.py:61
 msgid "Failed to get applications."
 msgstr "获取应用失败。"
 
-#: backend/app/controllers/app.py:68
+#: backend/app/controllers/app.py:72
 msgid "Failed to analysis applications."
 msgstr "分析应用失败。"
 
-#: backend/app/controllers/requirement.py:41
-#: backend/app/controllers/step_requirement.py:34
-msgid "You have exceeded your quota limit, please check your business bill."
-msgstr "已超出账单周期内的使用限额，请企业管理员查看账单情况。"
-
-#: backend/app/controllers/requirement.py:56
+#: backend/app/controllers/requirement.py:59
+#: backend/app/controllers/requirement.py:107
 msgid "Failed to set up app."
 msgstr "初始化应用失败。"
 
@@ -43,8 +39,8 @@ msgstr "初始化应用失败。"
 msgid "Failed to get git config list."
 msgstr "获取Git配置失败。"
 
-#: backend/app/controllers/setting.py:84 backend/app/controllers/setting.py:107
-#: backend/app/controllers/setting.py:130
+#: backend/app/controllers/setting.py:85 backend/app/controllers/setting.py:109
+#: backend/app/controllers/setting.py:133
 msgid "Failed to edit setting."
 msgstr "修改配置失败。"
 
@@ -92,7 +88,7 @@ msgstr "静态扫描失败，原因未知。"
 msgid "Please select the application you want to develop."
 msgstr "请先选择要开发的应用。"
 
-#: backend/app/controllers/step_requirement.py:44
+#: backend/app/controllers/step_requirement.py:43
 msgid "Failed to clarify requirement."
 msgstr "需求澄清失败。"
 
@@ -100,42 +96,24 @@ msgstr "需求澄清失败。"
 msgid "Failed to split task."
 msgstr "任务分解失败。"
 
-#: backend/app/controllers/tenant_pro.py:80
-msgid "Unregistered"
-msgstr "未注册"
+#: backend/app/controllers/tenant_pro.py:14
+#: backend/app/controllers/tenant_pro.py:20
+msgid "The current version does not support this feature."
+msgstr "当前版本不支持此功能。"
 
-#: backend/app/controllers/tenant_pro.py:107
-msgid "Not a member of the company."
-msgstr "非企业成员"
-
-#: backend/app/controllers/tenant_pro.py:131
-msgid ""
-"invite you to join the AI intelligent software development platform - KuafuAI"
-msgstr "邀请你注册 AI 驱动的智能软件开发平台 - KuafuAI"
-
-#: backend/app/controllers/tenant_pro.py:131
-msgid ""
-"Please access the following link through a browser to view the relevant "
-"information."
-msgstr "请通过浏览器访问以下链接了解详情。"
-
-#: backend/app/controllers/tenant_pro.py:135
-msgid "The user has already been invited."
-msgstr "该用户已经被邀请过。"
-
-#: backend/app/controllers/user.py:61
+#: backend/app/controllers/user.py:65
 msgid "Login successful."
 msgstr "登录成功。"
 
-#: backend/app/controllers/user.py:63
+#: backend/app/controllers/user.py:67
 msgid "Invalid username or password"
 msgstr "用户名或者密码错误"
 
-#: backend/app/controllers/user.py:76
+#: backend/app/controllers/user.py:80
 msgid "Logout successful."
 msgstr "登出成功。"
 
-#: backend/app/controllers/user.py:97
+#: backend/app/controllers/user.py:101
 msgid "success."
 msgstr "登录成功。"
 
@@ -160,5 +138,38 @@ msgstr "代码推送失败。"
 msgid "Push code successfully."
 msgstr "推送代码成功。"
 
-#~ msgid "The current version does not support this feature."
-#~ msgstr "当前版本不支持此功能。"
+#: backend/app/controllers/workspace.py:102
+#: backend/app/controllers/workspace.py:109
+msgid "Failed to reset code."
+msgstr "重置代码失败。"
+
+#~ msgid "Incorrect payment status!"
+#~ msgstr "付款状态异常！"
+
+#~ msgid "Incorrect request parameter!"
+#~ msgstr "参数异常！"
+
+#~ msgid "Payment creation failed!"
+#~ msgstr "创建付款订单失败！"
+
+#~ msgid "You have exceeded your quota limit, please check your business bill."
+#~ msgstr "已超出账单周期内的使用限额，请企业管理员查看账单情况。"
+
+#~ msgid "Unregistered"
+#~ msgstr "未注册"
+
+#~ msgid "Not a member of the company."
+#~ msgstr "非企业成员"
+
+#~ msgid ""
+#~ "invite you to join the AI intelligent software development platform - "
+#~ "KuafuAI"
+#~ msgstr "邀请你注册 AI 驱动的智能软件开发平台 - KuafuAI"
+
+#~ msgid ""
+#~ "Please access the following link through a browser to view the relevant "
+#~ "information."
+#~ msgstr "请通过浏览器访问以下链接了解详情。"
+
+#~ msgid "The user has already been invited."
+#~ msgstr "该用户已经被邀请过。"

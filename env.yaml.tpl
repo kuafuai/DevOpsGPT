@@ -34,6 +34,7 @@ BACKEND_PORT: 8081
 # The url that the back end allows cross-domain access (front-end access address)
 # 后端允许跨域访问的url（前端访问地址）
 AICODER_ALLOWED_ORIGIN: 'http://127.0.0.1:8080'  
+BACKEND_URL: 'http://127.0.0.1:8081'
 
 BACKEND_HOST: '0.0.0.0'
 BACKEND_DEBUG: true
@@ -60,6 +61,10 @@ EMAIL_PORT: ""
 EMAIL_SSL: true
 EMAIL_SENDER: ""
 EMAIL_PASSWORD: ""
+
+PAYPAL_MODE: "sandbox" # sandbox or live
+PAYPAL_ID: "xxxx"
+PAYPAL_SECRET: "xxxx"
 
 AUTO_LOGIN: true
 USERS: |

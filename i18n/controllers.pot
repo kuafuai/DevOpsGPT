@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-09-01 15:44+0800\n"
+"POT-Creation-Date: 2023-09-11 12:34+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,24 +17,20 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: backend/app/controllers/app.py:43
+#: backend/app/controllers/app.py:46
 msgid "Failed to add an application."
 msgstr ""
 
-#: backend/app/controllers/app.py:58
+#: backend/app/controllers/app.py:61
 msgid "Failed to get applications."
 msgstr ""
 
-#: backend/app/controllers/app.py:68
+#: backend/app/controllers/app.py:72
 msgid "Failed to analysis applications."
 msgstr ""
 
-#: backend/app/controllers/requirement.py:41
-#: backend/app/controllers/step_requirement.py:34
-msgid "You have exceeded your quota limit, please check your business bill."
-msgstr ""
-
-#: backend/app/controllers/requirement.py:56
+#: backend/app/controllers/requirement.py:59
+#: backend/app/controllers/requirement.py:107
 msgid "Failed to set up app."
 msgstr ""
 
@@ -44,8 +40,8 @@ msgstr ""
 msgid "Failed to get git config list."
 msgstr ""
 
-#: backend/app/controllers/setting.py:84 backend/app/controllers/setting.py:107
-#: backend/app/controllers/setting.py:130
+#: backend/app/controllers/setting.py:85 backend/app/controllers/setting.py:109
+#: backend/app/controllers/setting.py:133
 msgid "Failed to edit setting."
 msgstr ""
 
@@ -93,7 +89,7 @@ msgstr ""
 msgid "Please select the application you want to develop."
 msgstr ""
 
-#: backend/app/controllers/step_requirement.py:44
+#: backend/app/controllers/step_requirement.py:43
 msgid "Failed to clarify requirement."
 msgstr ""
 
@@ -101,42 +97,24 @@ msgstr ""
 msgid "Failed to split task."
 msgstr ""
 
-#: backend/app/controllers/tenant_pro.py:80
-msgid "Unregistered"
+#: backend/app/controllers/tenant_pro.py:14
+#: backend/app/controllers/tenant_pro.py:20
+msgid "The current version does not support this feature."
 msgstr ""
 
-#: backend/app/controllers/tenant_pro.py:107
-msgid "Not a member of the company."
-msgstr ""
-
-#: backend/app/controllers/tenant_pro.py:131
-msgid ""
-"invite you to join the AI intelligent software development platform - KuafuAI"
-msgstr ""
-
-#: backend/app/controllers/tenant_pro.py:131
-msgid ""
-"Please access the following link through a browser to view the relevant "
-"information."
-msgstr ""
-
-#: backend/app/controllers/tenant_pro.py:135
-msgid "The user has already been invited."
-msgstr ""
-
-#: backend/app/controllers/user.py:61
+#: backend/app/controllers/user.py:65
 msgid "Login successful."
 msgstr ""
 
-#: backend/app/controllers/user.py:63
+#: backend/app/controllers/user.py:67
 msgid "Invalid username or password"
 msgstr ""
 
-#: backend/app/controllers/user.py:76
+#: backend/app/controllers/user.py:80
 msgid "Logout successful."
 msgstr ""
 
-#: backend/app/controllers/user.py:97
+#: backend/app/controllers/user.py:101
 msgid "success."
 msgstr ""
 
@@ -159,4 +137,9 @@ msgstr ""
 
 #: backend/app/controllers/workspace.py:78
 msgid "Push code successfully."
+msgstr ""
+
+#: backend/app/controllers/workspace.py:102
+#: backend/app/controllers/workspace.py:109
+msgid "Failed to reset code."
 msgstr ""

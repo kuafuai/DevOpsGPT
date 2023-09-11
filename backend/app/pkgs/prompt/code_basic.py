@@ -31,7 +31,7 @@ class CodeBasic(CodeInterface):
     """
 
         context = [{"role": "user", "content": prompt}]
-        data, success = chatCompletion(context)
+        data, total_tokens, success = chatCompletion(context)
         return json.loads(fix_llm_json_str(data)), success
 
 
@@ -51,7 +51,7 @@ class CodeBasic(CodeInterface):
     """
 
         context = [{"role": "user", "content": prompt}]
-        data, success = chatCompletion(context)
+        data, total_tokens, success = chatCompletion(context)
         return json.loads(fix_llm_json_str(data)), success
 
 
@@ -76,7 +76,7 @@ class CodeBasic(CodeInterface):
     """
 
         context = [{"role": "user", "content": prompt}]
-        data, success = chatCompletion(context)
+        data, total_tokens, success = chatCompletion(context)
         return json.loads(fix_llm_json_str(data)), success
 
 
@@ -107,7 +107,7 @@ The response must be code.
         """
 
         context = [{"role": "user", "content": prompt}]
-        data, success = chatCompletion(context)
+        data, total_tokens, success = chatCompletion(context)
         newCode = get_code_from_str(data)
         if len(newCode) < len(code)/3*2:
             jsonData["code"] = code
@@ -141,7 +141,7 @@ This code is very important and you will review it carefully
     """
 
         context = [{"role": "user", "content": prompt}]
-        data, success = chatCompletion(context)
+        data, total_tokens, success = chatCompletion(context)
 
         return data, success
 
@@ -172,7 +172,7 @@ This code is very important and you will review it carefully
     """
 
         context = [{"role": "user", "content": prompt}]
-        data, success = chatCompletion(context)
+        data, total_tokens, success = chatCompletion(context)
         return json.loads(fix_llm_json_str(data)), success
 
 
@@ -199,5 +199,5 @@ This code is very important and you will review it carefully
     """
 
         context = [{"role": "user", "content": prompt}]
-        data, success = chatCompletion(context)
+        data, total_tokens, success = chatCompletion(context)
         return json.loads(fix_llm_json_str(data)), success

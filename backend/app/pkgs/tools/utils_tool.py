@@ -5,6 +5,9 @@ from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from email.mime.application import MIMEApplication
 import ssl
+import uuid
+import time
+from datetime import datetime, timedelta
 
 from app.pkgs.tools.llm import chatCompletion
 from config import EMAIL_PASSWORD, EMAIL_PORT, EMAIL_SENDER, EMAIL_SERVER, EMAIL_SSL
@@ -73,7 +76,7 @@ def fix_llm_json_str(string):
                     ```"""
                 }]
 
-                message, success = chatCompletion(ctx)
+                message, total_tokens, success = chatCompletion(ctx)
                 pattern = r'```json(.*?)```'
                 match = re.findall(pattern, message, re.DOTALL)
                 if match:
@@ -103,6 +106,47 @@ def get_code_from_str(input_string):
             output_string = match
 
     return output_string
+
+def generate_uuid():
+    # 生成一个UUID
+    uuid_value = uuid.uuid4()
+    
+    # 获取当前时间的毫秒级时间戳
+    timestamp = int(time.time() * 1000)
+    
+    # 将时间戳转换为16进制字符串
+    timestamp_hex = hex(timestamp)[2:]
+    
+    # 将时间戳添加到UUID的末尾
+    time_uuid = f"{uuid_value}-{timestamp_hex}"
+    
+    return time_uuid
+
+def add_days_to_date(input_date_str, days_to_add):
+    print("add_days_to_date")
+    print(input_date_str)
+    print(days_to_add)
+    try:
+        days_to_add = int(days_to_add)
+        input_date = datetime.strptime(input_date_str, "%Y-%m-%d %H:%M:%S")
+        new_date = input_date + timedelta(days=days_to_add)
+        new_date_str = new_date.strftime("%Y-%m-%d %H:%M:%S")
+        return True, new_date_str
+    except Exception as e:
+        return False, "无效的日期格式，请使用 'YYYY-MM-DD HH:MM:SS' 格式。" + str(e)
+
+def if_datetime_expired(target_datetime_str):
+    # 获取当前日期和时间
+    current_datetime = datetime.now()
+
+    # 将目标日期和时间字符串解析为datetime对象
+    target_datetime = datetime.strptime(target_datetime_str, "%Y-%m-%d %H:%M:%S")
+
+    # 比较两个日期和时间对象
+    if current_datetime < target_datetime:
+        return False
+    else:
+        return True
 
 def send_email(receiver_email, subject, html_content):
     # 邮件服务器的信息
