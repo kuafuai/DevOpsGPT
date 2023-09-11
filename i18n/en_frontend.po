@@ -271,7 +271,7 @@ msgstr ""
 
 #: backend/app/pkgs/tools/i18b.py:93
 msgid "Requirement List"
-msgstr "Requirement History"
+msgstr "Task History"
 
 #: backend/app/pkgs/tools/i18b.py:94
 msgid "APP List"
