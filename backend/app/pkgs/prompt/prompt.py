@@ -115,3 +115,16 @@ def aiGenCode(requirementID, fileTask, newTask, newCode, filePath):
         obj = CodePro()
         
     return obj.aiGenCode(requirementID, fileTask, newTask, newCode, filePath)
+
+def gen_write_code(requirement_id, service_name, file_path, development_detail, step_id):
+    if GRADE == "base":
+        obj = SubtaskBasic()
+    else:
+        if "java" in service_name:
+            obj = SubtaskJavaPro()
+        elif "vue" in service_name:
+            obj = SubtaskVuePro()
+        else:
+            obj = SubtaskPro()
+
+    return obj.write_code(requirement_id, service_name, file_path, development_detail, step_id)
