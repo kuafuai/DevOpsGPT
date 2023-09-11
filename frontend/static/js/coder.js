@@ -467,9 +467,10 @@ function logincheck() {
     successCallback = function(data) {
         var username = data.data.username
         var tenant = data.data.tenant_name
+        var code_power = data.data.code_power
         globalTenantID = data.data.tenant_id
         $("#current-username").html(username)
-        $("#current-tenant").html(tenant)
+        $("#current-tenant").html(tenant+' ('+globalFrontendText['code_power']+':'+code_power+')')
         $("#watermark-username").html(username)
     }
 

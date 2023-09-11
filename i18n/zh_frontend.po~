@@ -268,11 +268,11 @@ msgstr "开始部署"
 
 #: backend/app/pkgs/tools/i18b.py:92
 msgid "Start task"
-msgstr "开发需求"
+msgstr "开始任务"
 
 #: backend/app/pkgs/tools/i18b.py:93
 msgid "Requirement List"
-msgstr "历史需求"
+msgstr "历史任务"
 
 #: backend/app/pkgs/tools/i18b.py:94
 msgid "APP List"
@@ -382,7 +382,7 @@ msgstr "满意度评分"
 msgid ""
 "Historical requirement recovery is not supported at this time, please visit "
 "workspace to obtain the code results"
-msgstr "当前版本暂不支持历史需求恢复，您可以访问 workspace 获取之前的代码结果"
+msgstr "当前版本暂不支持历史任务恢复，您可以访问 workspace 获取之前的代码结果"
 
 #: backend/app/pkgs/tools/i18b.py:121
 msgid "Notice"
@@ -418,11 +418,11 @@ msgstr "企业简介"
 
 #: backend/app/pkgs/tools/i18b.py:129
 msgid "Billing type"
-msgstr "账单类型"
+msgstr "会员类型"
 
 #: backend/app/pkgs/tools/i18b.py:130
 msgid "Billing quota"
-msgstr "账单周期内限额"
+msgstr "每日任务限额"
 
 #: backend/app/pkgs/tools/i18b.py:131
 msgid "Created"
@@ -625,7 +625,7 @@ msgstr "码力"
 
 #: backend/app/pkgs/tools/i18b.py:179
 msgid "Weekly development task limit: "
-msgstr "每周开发任务限制："
+msgstr "每日开发任务限制："
 
 #: backend/app/pkgs/tools/i18b.py:180
 msgid "Expired: "

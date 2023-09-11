@@ -271,7 +271,7 @@ msgstr ""
 
 #: backend/app/pkgs/tools/i18b.py:93
 msgid "Requirement List"
-msgstr "Requirement History"
+msgstr "Task History"
 
 #: backend/app/pkgs/tools/i18b.py:94
 msgid "APP List"
@@ -417,11 +417,11 @@ msgstr ""
 
 #: backend/app/pkgs/tools/i18b.py:129
 msgid "Billing type"
-msgstr ""
+msgstr "Plus type"
 
 #: backend/app/pkgs/tools/i18b.py:130
 msgid "Billing quota"
-msgstr ""
+msgstr "Daily task limit"
 
 #: backend/app/pkgs/tools/i18b.py:131
 msgid "Created"
@@ -631,7 +631,7 @@ msgid "CodePower"
 msgstr ""
 
 #: backend/app/pkgs/tools/i18b.py:179
-msgid "Weekly development task limit: "
+msgid "Daily development task limit: "
 msgstr ""
 
 #: backend/app/pkgs/tools/i18b.py:180

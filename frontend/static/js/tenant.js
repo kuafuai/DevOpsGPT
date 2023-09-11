@@ -51,14 +51,13 @@ function getTenantList() {
 
         tenants.forEach(function (tenant, element_index, element_array) { 
             str += `<tr>
-                        <td>`+tenant["name"]+`<br /></td>
+                        <td><a href="#" onClick="useTenant(`+tenant["tenant_id"]+`)">`+tenant["name"]+`</a></td>
                         <td>`+tenant["current_user_role"]+`</td>
-                        <td>`+tenant["status"]+`</td>
+                        <td>`+tenant["status_name"]+`</td>
                         <td>`+tenant["member_count"]+`</td>
-                        <td>`+tenant["billing_type"]+`</td>
+                        <td>`+tenant["billing_type_name"]+`<br><span style="color:#5b5b5b9e">`+globalFrontendText["tenant_billing_end"]+`: `+tenant["billing_end"]+`</span></td>
                         <td>`+tenant["billing_quota"]+`</td>
-                        <td>`+tenant["billing_end"]+`</td>
-                        <td><a href="#" onClick="useTenant(`+tenant["tenant_id"]+`)">`+globalFrontendText["enter"]+`</a> | <a href="#" onClick="showTenant(`+tenant["tenant_id"]+`)">`+globalFrontendText["show_tenant"]+`</a> | <a href="setting.html?tenant_id=`+tenant["tenant_id"]+`">`+globalFrontendText["configuration"]+`</a></td>
+                        <td><a href="#" onClick="showTenant(`+tenant["tenant_id"]+`)">`+globalFrontendText["show_tenant"]+`</a> | <a href="setting.html?tenant_id=`+tenant["tenant_id"]+`">`+globalFrontendText["configuration"]+`</a></td>
                     </tr>`
             $("#tenant_list").html(str)
         });
@@ -92,7 +91,7 @@ function getTenant(tenant_id) {
         $("#tenant_description").val(tenants.description)
         $("#tenant_employee_count").val(tenants.employee_count)
         $("#tenant_industry_type").val(tenants.industry_type)
-        $("#tenant_status").val(tenants.status)
+        $("#tenant_status").val(tenants.status_name)
         $("#tenant_created_at").val(tenants.created_at)
         $("#tenant_billing_end").val(tenants.billing_end + " - " + tenants.plus_name)
         $("#members_count").text(tenants.member_count)
@@ -101,6 +100,7 @@ function getTenant(tenant_id) {
         $("#recharge_company").text(tenants.name)
 
         $("#billing_info").text(globalFrontendText["task_limit_msg"] + tenants.billing_quota)
+        $("#codepower_info").text(globalFrontendText["code_power"] + tenants.code_power)
     }
 
     sendAjaxRequest('/tenant/get_one', 'GET', requestData, successCallback, alertErrorCallback, true, false)
@@ -175,13 +175,17 @@ function getBillings(tenant_id) {
 
         users.forEach(function (user, element_index, element_array) { 
             expired_at = ""
+            code_power = 0
             if (user["bill_type"].startsWith("Income_")) {
                 expired_at = "<br /><span style='color:#5b5b5b9e'>"+globalFrontendText["expired_at"]+user["expired_at"]+"</span>"
+                code_power = '+' + user["amount"] + '('+user['amount_left']+')' + expired_at
+            } else {
+                code_power = '-' + user["amount_used"]
             }
             str += `<tr>
-                        <td>`+user["bill_type"]+`<br /></td>
+                        <td>`+user["bill_type_name"]+`<br /></td>
                         <td>`+user["bill_user"]+`</td>
-                        <td>`+user["amount"]+expired_at+`</td>
+                        <td>`+code_power+`</td>
                         <td>`+user["created_at"]+`</td>
                         <td><a href="/?task_id=`+user["external_info"]+`">`+user["remarks"]+`</a></td>
                     </tr>`
