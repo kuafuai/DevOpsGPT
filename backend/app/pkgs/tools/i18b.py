@@ -180,5 +180,6 @@ def getFrontendText():
         "expired_at": _("Expired: "),
         "others_3": _("The number of tasks for today has exceeded the limit. Please upgrade your membership or try again tomorrow."),
         "others_4": _("CodePower has been depleted. Please check your bill and recharge before using it again."),
-        "others_5": _("Billing system error, please check your bill.")
+        "others_5": _("Billing system error, please check your bill."),
+        "reset_workspace": _("Sync from Git"),
     }

@@ -20,9 +20,9 @@ def pre_check_quota(func):
             passed, msg = Tenant.check_quota(tenantID)
             if not passed:
                 raise Exception(msg)
-        print("pre_check_quota===========")
-        print(passed)
-        print(tenantID)
+            print("pre_check_quota===========")
+            print(passed)
+            print(tenantID)
 
         # 调用原始方法
         result = func(*args, **kwargs)
