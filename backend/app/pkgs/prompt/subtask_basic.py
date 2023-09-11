@@ -38,6 +38,9 @@ class SubtaskBasic(SubtaskInterface):
         else:
             return subtask, False
 
+    def write_code(self, requirement_id, service_name, file_path, development_detail, step_id):
+        pass
+
 
 def setpGenCode(pseudocode, feature, appBasePrompt, specification, serviceStruct, serviceName):
     context = []

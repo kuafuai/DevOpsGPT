@@ -11,3 +11,4 @@ db/env.py
 db/README.md
 db/database_pro.db
 alembic.ini
+.idea
