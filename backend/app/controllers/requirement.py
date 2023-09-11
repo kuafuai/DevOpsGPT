@@ -5,6 +5,7 @@ from app.pkgs.tools.i18b import getI18n
 from app.models.requirement import Requirement
 from app.models.requirement_memory_pro import RequirementMemory
 from app.models.tenant_pro import Tenant
+from app.models.tenant_bill_pro import TenantBill
 from config import REQUIREMENT_STATUS_NotStarted, GRADE
 
 bp = Blueprint('requirement', __name__, url_prefix='/requirement')
@@ -19,12 +20,14 @@ def clear_up():
     
     session[session["username"]] = getEmptyTaskInfo()
     tenant_name = "-"
+    code_power = '0'
     if GRADE != "base":
         tenant = Tenant.get_tenant_baseinfo_by_id(session["tenant_id"])
         if tenant:
             tenant_name = tenant["name"]
+            code_power = TenantBill.get_total_codepower(session["tenant_id"])
 
-    return {"username": session["username"], "tenant_name": tenant_name, "tenant_id": session["tenant_id"], "info": session[session["username"]]} 
+    return {"username": session["username"], "tenant_name": tenant_name, "tenant_id": session["tenant_id"], "info": session[session["username"]], "code_power": code_power} 
 
 
 @bp.route('/setup_app', methods=['POST'])
