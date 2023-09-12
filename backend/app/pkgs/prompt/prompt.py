@@ -136,10 +136,8 @@ def gen_write_code(requirement_id, service_name, file_path, development_detail, 
 
     jsonData = {"reasoning": development_detail, "code": ""}
     success = True
-    try:
-        re = obj.write_code(requirement_id, service_name, file_path, development_detail, step_id)
-        jsonData["code"] = re[0]["content"]
-    except Exception as e:
-        success = False
+    
+    re = obj.write_code(requirement_id, service_name, file_path, development_detail, step_id)
+    jsonData["code"] = re[0]["content"]
 
     return jsonData, success

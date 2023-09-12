@@ -79,7 +79,7 @@ var alertErrorCallback = function(error) {
 function thinkUI(customPrompt, thinkText) {
     $('#prompt-textarea').val("");
     $("#prompt-hidePrompt").val("")
-    var newField = $('<div class="user-code-container"><div class="ui container grid"><div class="one wide column"><i class="blue  odnoklassniki square icon big" style="font-size: 3em;"></i></div><div class="fifteen wide column ai-content"><div class="ai-code">' + customPrompt.replaceAll("\n", "<br />") + '</div></div></div></div> <div class="ai-code-container"><div class="ui container grid"><div class="one wide column"><i class="orange reddit square icon big" style="font-size: 3em;"></i></div><div class="fifteen wide column ai-content"><div class="ai-code"><i class="spinner loading icon"></i>'+thinkText+'</div></div></div></div>');
+    var newField = $('<div class="user-code-container"><div class="ui container grid"><div class="one wide column"><i class="blue  grav icon big" style="font-size: 3em;"></i></div><div class="fifteen wide column ai-content"><div class="ai-code">' + customPrompt.replaceAll("\n", "<br />") + '</div></div></div></div> <div class="ai-code-container"><div class="ui container grid"><div class="one wide column"><i class="orange reddit square icon big" style="font-size: 3em;"></i></div><div class="fifteen wide column ai-content"><div class="ai-code"><i class="spinner loading icon"></i>'+thinkText+'</div></div></div></div>');
     $(".ai-prompt-container").eq($('ai-prompt-container').length - 1).before(newField);
     $(".ai-code-container").eq($('ai-code-container').length - 1).hide();
     $(".user-code-container").eq($('user-code-container').length - 1).hide();
@@ -94,13 +94,20 @@ function thinkUI(customPrompt, thinkText) {
     }, 900);
 }
 
-function thinkUIShow(customPrompt, thinkText) {
+function thinkUIShow(customPrompt, thinkText, role) {
+    role_img = '<i class="blue  grav icon big" style="font-size: 3em;"></i>'
+    if (role=="PM") {
+        role_img = '<img class="ui avatar image" src="https://semantic-ui.com/images/avatar/small/jenny.jpg" data-content="PM" style="width: auto;height: auto;">'
+    } else if (role=="TL") {
+        role_img = '<img class="ui avatar image" src="https://semantic-ui.com/images/avatar2/small/matthew.png"  data-content="TL"  style="width: auto;height: auto;">'
+    }
     $('#prompt-textarea').val("");
     $("#prompt-hidePrompt").val("")
-    var newField = $('<div class="user-code-container"><div class="ui container grid"><div class="one wide column"><i class="blue  odnoklassniki square icon big" style="font-size: 3em;"></i></div><div class="fifteen wide column ai-content"><div class="ai-code">' + customPrompt.replaceAll("\n", "<br />") + '</div></div></div></div> <div class="ai-code-container"><div class="ui container grid"><div class="one wide column"><i class="orange reddit square icon big" style="font-size: 3em;"></i></div><div class="fifteen wide column ai-content"><div class="ai-code"><i class="spinner loading icon"></i>'+thinkText+'</div></div></div></div>');
+    var newField = $('<div class="user-code-container"><div class="ui container grid"><div class="one wide column"><i class="blue  grav icon big" style="font-size: 3em;"></i></div><div class="fifteen wide column ai-content"><div class="ai-code">' + customPrompt.replaceAll("\n", "<br />") + '</div></div></div></div> <div class="ai-code-container"><div class="ui container grid"><div class="one wide column">'+role_img+'</div><div class="fifteen wide column ai-content"><div class="ai-code"><i class="spinner loading icon"></i>'+thinkText+'</div></div></div></div>');
     $(".ai-prompt-container").eq($('ai-prompt-container').length - 1).before(newField);
 
     $('html, body').animate({ scrollTop: $(document).height() }, 'slow');
+    $('img').popup();
 }
 
 function answerUI(str) {
@@ -168,6 +175,8 @@ $(document).ready(function () {
     logincheck()
     getRequirement()
     showUrlErrorMsg()
+
+    $('div').popup();
 
     codeMirror = CodeMirror.fromTextArea(document.getElementById('code-edit-code'), {
       theme: 'darcula',
@@ -324,7 +333,7 @@ function getRequirement() {
             console.log(memory);
             
             if (memory.artifact_type == "RequirementDocument") {
-                thinkUIShow(memory.input_prompt, globalFrontendText["ai_think"]);
+                thinkUIShow(memory.input_prompt, globalFrontendText["ai_think"], 'PM');
                 const d = {
                     "data": {
                         "message": JSON.parse(memory.artifact_content),
@@ -334,6 +343,7 @@ function getRequirement() {
                 clarifySuccessCallback(d);
             }
             if (memory.step == "API_organize") {
+                thinkUIShow(memory.artifact_type, globalFrontendText["ai_think"], 'TL');
                 const d = {
                     "data": {
                         "message": memory.artifact_content
@@ -342,7 +352,7 @@ function getRequirement() {
                 genInterfaceDocSuccessCallback(d);
             }
             if (memory.step == "Subtask_code") {
-                thinkUIShow(memory.artifact_path, globalFrontendText["ai_think"]);
+                thinkUIShow(memory.artifact_path, globalFrontendText["ai_think"], 'TL');
                 const info = {
                         "files": JSON.parse(memory.artifact_content),
                         "service_name": memory.artifact_path
@@ -1433,14 +1443,14 @@ clarifySuccessCallback = function(data){
     }
 
     $(".ai-code").eq($('ai-code').length - 1).html(msg.replaceAll('\n', '<br />')+str);
-    $(".ai-code").eq($('ai-code').length - 1).hide().fadeIn('fast');
+    //$(".ai-code").eq($('ai-code').length - 1).hide().fadeIn('fast');
 }
 
 function clarify(customPrompt, thisElement) {
     customPrompt = decodeURI(customPrompt)
     $(thisElement).addClass("disabled");
 
-    thinkUI(customPrompt, globalFrontendText["ai_think"])
+    thinkUI(customPrompt, globalFrontendText["ai_think"], 'PM')
 
     var requestData = JSON.stringify({ 'user_prompt': customPrompt, 'global_context': JSON.stringify(globalContext), 'task_id': getTaskID() })
     var retruBtn = '<br /><br /><button class="ui green button" onClick="clarify(\''+escapeHtml(customPrompt)+'\', this)">重试</button>'
@@ -1468,7 +1478,7 @@ function genInterfaceDoc(customPrompt, thisElement) {
     customPrompt = decodeURI(customPrompt)
     $(thisElement).addClass("disabled");
 
-    thinkUI(customPrompt, globalFrontendText["ai_think"])
+    thinkUI(customPrompt, globalFrontendText["ai_think"], 'TL')
 
     var requestData = JSON.stringify({ 'user_prompt': customPrompt, 'task_id': getTaskID() })
     var retruBtn = '<br /><br /><button class="ui green button" onClick="genInterfaceDoc(\''+escapeHtml(customPrompt)+'\', this)">'+globalFrontendText["retry"]+'</button>'
@@ -1488,7 +1498,7 @@ function taskAnalysis(customPrompt, service_name, hideUserPrompt, thisElement) {
     $('#prompt-textarea').val("");
     $("#prompt-hidePrompt").val("")
     var ai_code_class = service_name.replace("/","-")
-    var newField = $('<div class="user-code-container"><div class="ui container grid"><div class="one wide column"><i class="blue  odnoklassniki square icon big" style="font-size: 3em;"></i></div><div class="fifteen wide column ai-content"><div class="ai-code" id="">'+globalFrontendText["ai_api_clarify_confirm"]+'</div></div></div></div> <div class="ai-code-container '+ai_code_class+'"><div class="ui container grid"><div class="one wide column"><i class="orange reddit square icon big" style="font-size: 3em;"></i></div><div class="fifteen wide column ai-content"><div class="ai-code '+ai_code_class+'"><i class="spinner loading icon"></i>'+globalFrontendText["ai_api_subtask_1"]+' '+service_name+' '+globalFrontendText["ai_api_subtask_2"]+'</div></div></div></div>');
+    var newField = $('<div class="user-code-container"><div class="ui container grid"><div class="one wide column"><i class="blue  grav icon big" style="font-size: 3em;"></i></div><div class="fifteen wide column ai-content"><div class="ai-code" id="">'+globalFrontendText["ai_api_clarify_confirm"]+'</div></div></div></div> <div class="ai-code-container '+ai_code_class+'"><div class="ui container grid"><div class="one wide column"><img class="ui avatar image" src="https://semantic-ui.com/images/avatar2/small/matthew.png" data-content="TL" style="width: auto;height: auto;"></div><div class="fifteen wide column ai-content"><div class="ai-code '+ai_code_class+'"><i class="spinner loading icon"></i>'+globalFrontendText["ai_api_subtask_1"]+' '+service_name+' '+globalFrontendText["ai_api_subtask_2"]+'</div></div></div></div>');
     $(".ai-prompt-container").before(newField);
     $(".ai-code-container."+ai_code_class).eq($('.ai-code-container.'+ai_code_class).length - 1).hide();
     $(".user-code-container").eq($('.user-code-container').length - 1).hide();
@@ -1504,6 +1514,7 @@ function taskAnalysis(customPrompt, service_name, hideUserPrompt, thisElement) {
     setTimeout(function () {
         $('html, body').animate({ scrollTop: $(document).height() }, 'slow');
     }, 900);
+    $('img').popup();
 
     var requestData = JSON.stringify({ 'service_name': service_name, 'api_doc': customPrompt, 'task_id': getTaskID() })
 
