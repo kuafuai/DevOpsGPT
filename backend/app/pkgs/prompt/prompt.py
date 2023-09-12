@@ -99,13 +99,13 @@ def aiCheckCode(requirementID, fileTask, code, filePath):
     return obj.aiCheckCode(requirementID, fileTask, code, filePath)
 
 @pre_check_quota
-def aiMergeCode(requirementID, fileTask, appName, baseCode, newCode, filePath):
+def aiMergeCode(requirementID, fileTask, baseCode, newCode, filePath):
     if GRADE == "base":
         obj = CodeBasic()
     else:
         obj = CodePro()
         
-    return obj.aiMergeCode(requirementID, fileTask, appName, baseCode, newCode, filePath)
+    return obj.aiMergeCode(requirementID, fileTask, baseCode, newCode, filePath)
 
 @pre_check_quota
 def aiGenCode(requirementID, fileTask, newTask, newCode, filePath):

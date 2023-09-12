@@ -17,7 +17,7 @@ def triggerPipeline(requirementID, branchName, serviceInfo, ciConfig):
     result, piplineID, piplineUrl, success = obj.triggerPipeline(branchName, serviceInfo, ciConfig)
 
     if GRADE != "base":
-        triggerPipelinePro(requirementID, branchName, {"piplineUrl": piplineUrl, "piplineID": piplineID})
+        triggerPipelinePro(requirementID, branchName, {"piplineUrl": piplineUrl, "piplineID": piplineID, "repopath": serviceInfo["git_path"]})
     
     return result, piplineID, piplineUrl, success
 

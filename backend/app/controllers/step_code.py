@@ -53,11 +53,10 @@ def merge_file():
     newCode = request.json.get('new_code')
     fileTask = request.json.get('file_task')
     userName = session["username"]
-    appName = session[userName]['memory']['task_info']['app_name']
     requirementID = request.json.get('task_id')
     filePath = request.json.get('file_path')
 
-    re, success = aiMergeCode(requirementID, fileTask, appName, baseCode, newCode, filePath)
+    re, success = aiMergeCode(requirementID, fileTask, baseCode, newCode, filePath)
     if not success:
         raise Exception(_("Failed to merge old and new code."))
 
@@ -72,16 +71,14 @@ def reference_repair():
     referenceFile = request.json.get('reference_file')
     repo = request.json.get('repo')
     userName = session["username"]
-    appName = session[userName]['memory']['task_info']['app_name']
-    branch = session[userName]['memory']['task_info']['source_branch']
     requirementID = request.json.get('task_id')
     filePath = request.json.get('file_path')
 
-    hasGitCode, referenceCode =  getFileContent(referenceFile, branch, repo)
+    hasGitCode, referenceCode =  getFileContent(referenceFile, repo)
     if not hasGitCode:
         raise Exception(_("Failed to reference repair no reference file found."))
 
-    re, success = aiReferenceRepair(requirementID, newCode, appName, referenceCode, fileTask, filePath)
+    re, success = aiReferenceRepair(requirementID, newCode, referenceCode, fileTask, filePath)
     if not success:
         raise Exception(_("Reference repair failed for unknown reasons."))
 

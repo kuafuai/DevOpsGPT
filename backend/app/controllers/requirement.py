@@ -48,14 +48,6 @@ def setup_app():
 
     requirement = Requirement.create_requirement(tenantID, "New requirement", "New", appID, username, sourceBranch, featureBranch,  REQUIREMENT_STATUS_NotStarted, 0, 0)
 
-    session[username]['memory']['task_info'] = {
-        "app_id": appID,
-        "task_id": requirement.requirement_id,
-        "source_branch": sourceBranch,
-        "feature_branch": featureBranch
-    }
-    session.update()
-
     if requirement.requirement_id:
         return Requirement.get_requirement_by_id(requirement.requirement_id)
     else:

@@ -18,13 +18,12 @@ def analysis():
     serviceName = data['service_name']
     apiDoc = data['api_doc']
     username = session['username']
-    requirementDoc = session[username]['memory']['originalPrompt']
-    sourceBranch = session[username]['memory']['task_info']['source_branch']
     requirementID = request.json.get('task_id')
 
     # todo Use llm to determine which interface documents to adjust
     req = Requirement.get_requirement_by_id(requirementID) 
     defaultApiDoc, success = getServiceSwagger(req["app_id"], 0)
+    requirementDoc = req["original_requirement"]
 
     if len(defaultApiDoc) > 0:
         newfeature = requirementDoc+"""
@@ -47,13 +46,13 @@ You need to think on the basis of the following interface documentation：
     if success and filesToEdit:
         for index, file in enumerate(filesToEdit):
             file_path = file["file-path"] if 'file-path' in file else file["file_path"]
-            isSuccess, oldCode = getFileContent(file_path, sourceBranch, serviceName)
+            isSuccess, oldCode = getFileContent(file_path, serviceName)
             filesToEdit[index]["old-code"] = oldCode
             if not isSuccess:
                 filesToEdit[index]["old-code"] = ''
 
             reference_file = file["reference-file"] if 'reference-file' in file else ''
-            isSuccess, referenceCode = getFileContent(reference_file, sourceBranch, serviceName)
+            isSuccess, referenceCode = getFileContent(reference_file, serviceName)
             filesToEdit[index]["reference-code"] = referenceCode
             if not isSuccess:
                 filesToEdit[index]["reference-code"] = ''

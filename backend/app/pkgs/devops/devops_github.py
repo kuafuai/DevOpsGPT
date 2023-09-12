@@ -33,14 +33,14 @@ class DevopsGitHub(DevopsInterface):
                 # Get the most recent record
                 workflow_url = f"{ciURL}/repos/{repopath}/actions/workflows/{gitWorkflow}/runs"
                 response = requests.get(workflow_url, headers=headers)
-                print(response.json())
+                #print(response.json())
                 if response.status_code == 200:
                     runs = response.json()["workflow_runs"]
                     for run in runs:
                         run_id = run["id"]
                         break
 
-                return "Get pipline status...", run_id, f"{repopath}/actions/runs/{run_id}", True
+                return "Get pipline status...", run_id, f"https://github.com/{repopath}/actions/runs/{run_id}", True
             else:
                 return f"Failed to trigger pipeline giturl:{ciURL} repopath:{repopath} branch:{branch_name} gitWorkflow:{gitWorkflow}, Error: {str(e)}", 0, "", False
         except Exception as e:

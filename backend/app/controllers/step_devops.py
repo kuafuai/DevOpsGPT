@@ -17,6 +17,8 @@ bp = Blueprint('step_devops', __name__, url_prefix='/step_devops')
 @bp.route('/trigger_ci', methods=['POST'])
 @json_response
 def trigger_ci():
+    _ = getI18n("controllers")
+
     serviceName = request.json.get('repo_path')
     username = session['username']
     requirementID = request.json.get('task_id')
@@ -24,7 +26,10 @@ def trigger_ci():
     serviceInfo = ApplicationService.get_service_by_name(req["app_id"], serviceName)
     tenantID = session['tenant_id']
     ciConfigList, success = getCIConfigList(tenantID, req["app_id"])
-    branch = session[username]['memory']['task_info']['feature_branch']
+    if len(ciConfigList) < 1:
+        raise Exception(_("CI is not configured. Configure it in Company Settings"))
+
+    branch = req["default_target_branch"]
 
     result, piplineID, piplineUrl, success = triggerPipeline(requirementID, branch, serviceInfo, ciConfigList[0])
     if success:
