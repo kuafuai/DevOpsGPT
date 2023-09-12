@@ -619,7 +619,7 @@ msgstr ""
 msgid ""
 "Note: Renewal will take effect immediately. If you switch plus types, the "
 "previous plus duration will be reset and start counting anew."
-msgstr ""
+msgstr "Note: Renewal will take effect immediately. If you switch plus types, the previous plus duration will be reset and start counting anew. The CodePower granted through renewal will be issued on a monthly basis and take immediate effect. For example, if you purchase a 2-month membership and are entitled to receive 2N CodePower, the first N CodePower will be valid for the first month, and the second N CodePower will be valid for the second month."
 
 #: backend/app/pkgs/tools/i18b.py:177
 msgid ""

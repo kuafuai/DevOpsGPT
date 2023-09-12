@@ -117,6 +117,13 @@ def aiGenCode(requirementID, fileTask, newTask, newCode, filePath):
     return obj.aiGenCode(requirementID, fileTask, newTask, newCode, filePath)
 
 def gen_write_code(requirement_id, service_name, file_path, development_detail, step_id):
+    print("=============")
+    print(requirement_id)
+    print(service_name)
+    print(file_path)
+    print(development_detail)
+    print(step_id)
+
     if GRADE == "base":
         obj = SubtaskBasic()
     else:
@@ -127,4 +134,12 @@ def gen_write_code(requirement_id, service_name, file_path, development_detail, 
         else:
             obj = SubtaskPro()
 
-    return obj.write_code(requirement_id, service_name, file_path, development_detail, step_id)
+    jsonData = {"reasoning": development_detail, "code": ""}
+    success = True
+    try:
+        re = obj.write_code(requirement_id, service_name, file_path, development_detail, step_id)
+        jsonData["code"] = re[0]["content"]
+    except Exception as e:
+        success = False
+
+    return jsonData, success

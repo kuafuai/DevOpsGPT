@@ -11,16 +11,15 @@ def pullCode(ws_path, repo_path, base_branch, feature_branch, gitConfigList):
     gitUrl = genCloneUrl(repo_path, gitConfig["git_url"], gitConfig["git_username"], gitConfig["git_token"])
     print(f"pullCode start {gitUrl} {base_branch} {repo_path} {ws_path}")
     # 先从feature_branch拉代码，如果失败再从base_branch拉
-    try:
-        result = subprocess.run(['git', 'clone', '-b', feature_branch, gitUrl, repo_path], capture_output=True, text=True, cwd=ws_path)
-        if result.returncode != 0:
-            print(result.stderr)
-            return False, "git clone feature_branch failed: "+result.stderr
-    except Exception as e:
+    result = subprocess.run(['git', 'clone', '-b', feature_branch, gitUrl, repo_path], capture_output=True, text=True, cwd=ws_path)
+    if result.returncode != 0:
+        print("git clone feature_branch failed: "+result.stderr)
+
         result = subprocess.run(['git', 'clone', '-b', base_branch, gitUrl, repo_path], capture_output=True, text=True, cwd=ws_path)
         if result.returncode != 0:
-            print(result.stderr)
-            return False, "git clone base_branch failed: "+result.stderr
+            print("git clone base_branch failed: "+result.stderr)
+            # 克隆失败，说明目录已存在，尝试重置目录
+            return gitResetWorkspace(ws_path, repo_path, feature_branch, '', gitConfigList)
 
         result = subprocess.run(
             ['git', 'checkout', '-b', feature_branch], capture_output=True, text=True, cwd=ws_path+'/'+repo_path)
@@ -82,20 +81,15 @@ def genCloneUrl(gitPath, gitUrl, username, token):
 
     return finalUrl
 
+# 从 fatureBranch 重置当前workspace，如果fatureBranch不存在，则直接返回成功
 def gitResetWorkspace(wsPath, gitPath, fatureBranch, commitMsg, gitConfigList):
-    gitConfig = gitConfigList[0]
     gitCwd = wsPath+'/'+gitPath
-
-    try:
-        os.makedirs(gitCwd, exist_ok=True)
-    except Exception as e:
-        return False, "mkdir failed: "+str(e)
 
     result = subprocess.run(
         ['git', 'fetch', 'origin', fatureBranch], capture_output=True, text=True, cwd=gitCwd)
     if result.returncode != 0:
-        print(result.stderr)
-        return False, "git fetch origin fatureBranch false failed: "+result.stderr
+        print("git fetch origin fatureBranch false failed: "+result.stderr)
+        return True, result.stderr
     
     result = subprocess.run(
         ['git', 'reset', '--hard', 'origin/'+fatureBranch], capture_output=True, text=True, cwd=gitCwd)

@@ -5,6 +5,8 @@ from app.pkgs.prompt.prompt import aiGenCode, aiMergeCode, aiCheckCode, aiFixErr
 from app.pkgs.devops.local_tools import getFileContent
 from flask import Blueprint
 
+from app.pkgs.prompt.prompt import gen_write_code
+
 bp = Blueprint('step_code', __name__, url_prefix='/step_code')
 
 @bp.route('/edit_file_task', methods=['POST'])
@@ -31,8 +33,13 @@ def check_file():
     fileTask = request.json.get('fileTask')
     requirementID = request.json.get('task_id')
     filePath = request.json.get('file_path')
-
-    re, success = aiCheckCode(requirementID, fileTask, code, filePath)
+    step = request.json.get('step')
+    service_name = request.json.get('service_name')
+    
+    if step:
+        re, success = gen_write_code(requirementID, service_name, filePath, fileTask, step)
+    else:
+        re, success = aiCheckCode(requirementID, fileTask, code, filePath)
     if not success:
         raise Exception(_("Failed to check file."))
 

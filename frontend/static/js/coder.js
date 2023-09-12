@@ -778,10 +778,10 @@ function checkCodeSuccessCallback(data, uuid, file_path) {
     gloablCode["newCode_" + uuid] = data.data["code"]
 }
 
-function checkCode(code, fileTask, uuid, file_path, service_name) {
+function checkCode(code, fileTask, uuid, file_path, service_name, step) {
     checkCodeStar(uuid, service_name)
 
-    var requestData = JSON.stringify({ 'code': code, 'fileTask': fileTask, 'task_id': getTaskID(), 'file_path': file_path })
+    var requestData = JSON.stringify({ 'code': code, 'fileTask': fileTask, 'task_id': getTaskID(), 'file_path': file_path, 'service_name': service_name, 'step': step })
 
     successCallback = function(data){
         checkCodeSuccessCallback(data, uuid, file_path)
@@ -1137,7 +1137,7 @@ function pluginTaskList(info, ifRecover) {
                 </tr>
                 <tr>
                 <td>`+globalFrontendText["reasonfor_for_modification"]+`</td>
-                <td>`+ file["code-interpreter"] + `</td>
+                <td>`+ file["code-interpreter"].replaceAll('\n', '<br />') + `</td>
                 </tr>
                 <tr>
                 <td>`+globalFrontendText["status"]+`</td>
@@ -1178,7 +1178,9 @@ function pluginTaskList(info, ifRecover) {
     if (!ifRecover) {
         setTimeout(function () {
             info["files"].forEach(function (file, file_index, file_array) {
-                if (file["old-code"].length > 0) {
+                if (file["step"].length > 0) {
+                    checkCode(file["code"], file["code-interpreter"], file["uuid"], file["file-path"], info["service_name"], file["step"])
+                } else if (file["old-code"].length > 0) {
                     mergeCode(file["uuid"], file["code"], file["old-code"], file["code-interpreter"], info["service_name"], file["file-path"])
                 } else if (file["code"].length > 0 && typeof file["reference-code"] !== "undefined" && file["reference-code"].length > 0) {
                     referenceRepair(file["code"], file["code-interpreter"], file["uuid"], file["reference-file"], info["service_name"], file["file-path"])

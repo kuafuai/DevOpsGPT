@@ -614,7 +614,7 @@ msgid ""
 "previous plus duration will be reset and start counting anew."
 msgstr ""
 "注意：充值后会立即生效，如果你修改了会员类型，会员有效期将会重新从当前时间计"
-"时。"
+"时。续费赠送的码力按月一次性发放，立即生效（比如您购买2个月的会员，共应赠送2N个码力，则第一个月赠送N个码力有效期到第一个月，第二个月赠送N个码力有效期到第二个月）。"
 
 #: backend/app/pkgs/tools/i18b.py:177
 msgid ""

@@ -246,7 +246,7 @@ function getRenewalList() {
                 </div>
                 <i class="chess queen icon yellow big"></i>
                 <div class="content">
-                `+plus["BASIC_MONTHLY"]["value"]+`/`+plus["BASIC_MONTHLY"]["key"]+`
+                `+plus["BASIC_MONTHLY"]["value"]+` / `+plus["BASIC_MONTHLY"]["key"]+` | `+globalFrontendText["task_limit_msg"]+plus["BASIC_MONTHLY"]["billing_quota"]+` | `+globalFrontendText["code_power"]+`: `+plus["BASIC_MONTHLY"]["code_power"] + `
                 </div>
             </div>
             <div class="item" style="padding: 10px 20px">
@@ -263,7 +263,7 @@ function getRenewalList() {
                 </div>
                 <i class="chess queen icon orange big"></i>
                 <div class="content">
-                `+plus["PRO_MONTHLY"]["value"]+`/`+plus["PRO_MONTHLY"]["key"]+`
+                `+plus["PRO_MONTHLY"]["value"]+` / `+plus["PRO_MONTHLY"]["key"]+` | `+globalFrontendText["task_limit_msg"]+plus["PRO_MONTHLY"]["billing_quota"]+` | `+globalFrontendText["code_power"]+`: `+plus["PRO_MONTHLY"]["code_power"] + `
                 </div>
             </div>
             `

@@ -136,16 +136,20 @@ def add_days_to_date(input_date_str, days_to_add):
         return False, "无效的日期格式，请使用 'YYYY-MM-DD HH:MM:SS' 格式。" + str(e)
 
 def if_datetime_expired(target_datetime_str):
-    # 获取当前日期和时间
-    current_datetime = datetime.now()
+    try:
+        # 获取当前日期和时间
+        current_datetime = datetime.now()
 
-    # 将目标日期和时间字符串解析为datetime对象
-    target_datetime = datetime.strptime(target_datetime_str, "%Y-%m-%d %H:%M:%S")
+        # 将目标日期和时间字符串解析为datetime对象
+        target_datetime = datetime.strptime(target_datetime_str, "%Y-%m-%d %H:%M:%S")
 
-    # 比较两个日期和时间对象
-    if current_datetime < target_datetime:
-        return False
-    else:
+        # 比较两个日期和时间对象
+        if current_datetime < target_datetime:
+            return False
+        else:
+            return True
+    except Exception as e:
+        print("if_datetime_expired error:"+str(e))
         return True
 
 def send_email(receiver_email, subject, html_content):

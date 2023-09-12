@@ -38,14 +38,14 @@ def require_login():
         
         if GRADE != "base":
             try:
-                tenant_id = session['tenant_id']
+                tenant_id = request.args.get('tenant_id')
                 if not tenant_id:
-                    tenant_id = request.args.get('tenant_id')
+                    tenant_id = session['tenant_id']
             except Exception as e:
                 tenant_id = 0
 
             # If not on the company management page, determine the company status
-            if not path.startswith("/tenant/") and path != "/requirement/clear_up":
+            if not path.startswith("/tenant/") and path != "/requirement/clear_up" and not path.startswith("/pay/"):
                 success, msg = Tenant.check_tenant(tenant_id)
                 if not success:
                     return {'success': False, 'error': msg, 'code': 404}
