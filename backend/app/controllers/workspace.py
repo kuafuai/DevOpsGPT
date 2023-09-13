@@ -39,7 +39,7 @@ def create():
     gitPath, success = getServiceGitPath(req["app_id"], serviceName)
 
     tenantID = session['tenant_id']
-    gitConfigList, success = getGitConfigList(tenantID, req["app_id"])
+    gitConfigList, success = getGitConfigList(tenantID, req["app_id"], False)
 
     if not GIT_ENABLED:
         success = True
@@ -65,7 +65,7 @@ def gitpush():
     gitPath, success = getServiceGitPath(req["app_id"], serviceName)
     tenantID = session['tenant_id']
     username = session['username']
-    gitConfigList, success = getGitConfigList(tenantID, req["app_id"])
+    gitConfigList, success = getGitConfigList(tenantID, req["app_id"], False)
 
     Requirement.update_requirement(requirement_id=requirementID, status=REQUIREMENT_STATUS_Completed)
 
@@ -94,7 +94,7 @@ def resetWorkspace():
     gitPath, success = getServiceGitPath(req["app_id"], serviceName)
     tenantID = session['tenant_id']
     username = session['username']
-    gitConfigList, success = getGitConfigList(tenantID, req["app_id"])
+    gitConfigList, success = getGitConfigList(tenantID, req["app_id"], False)
 
     Requirement.update_requirement(requirement_id=requirementID, status=REQUIREMENT_STATUS_Completed)
 

@@ -479,7 +479,7 @@ function language() {
 }
 
 function openUrl(newurl){
-    window.location.href = "tenant.html";
+    window.location.href = newurl;
 }
 
 function logincheck() {

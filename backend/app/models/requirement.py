@@ -36,11 +36,11 @@ class Requirement(db.Model):
         return requirement
 
     @staticmethod
-    def get_all_requirements(tenantID=None):
-        requirements = Requirement.query.filter_by(tenant_id=tenantID).order_by(Requirement.requirement_id.desc()).all()
+    def get_all_requirements(tenantID=None, page=1, per_page=40):
+        requirements = Requirement.query.filter_by(tenant_id=tenantID).order_by(Requirement.requirement_id.desc()).paginate(page, per_page, False)
         requirement_list = []
 
-        for req in requirements:
+        for req in requirements.items:
             req_dict = {
                 'requirement_id': req.requirement_id,
                 'requirement_name': req.requirement_name,
@@ -57,7 +57,12 @@ class Requirement(db.Model):
             }
             requirement_list.append(req_dict)
 
-        return requirement_list
+        return {
+            'requirements': requirement_list,
+            'total_pages': requirements.pages,
+            'current_page': requirements.page,
+            'total_items': requirements.total
+        }
 
     @staticmethod
     def get_requirement_by_id(requirement_id):

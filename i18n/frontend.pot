@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-09-11 12:35+0800\n"
+"POT-Creation-Date: 2023-09-13 19:53+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -649,4 +649,54 @@ msgstr ""
 
 #: backend/app/pkgs/tools/i18b.py:184
 msgid "Sync from Git"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:185
+msgid ""
+"Way 2: Create APP via template. Templates are stored on GitHub by default, "
+"and you can clone them into your own repository."
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:186
+msgid ""
+"Way 1: Create APP via AI, give git path, AI automatically analyzes the code "
+"base to create APP, Make sure Git token has code pull permission."
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:187
+msgid "AI code analysis... It will take a few minutes. Please wait"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:188
+msgid "Launch code"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:189
+msgid "Your KUAFUAI launch code"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:190
+msgid "The username cannot be smaller than 4 characters."
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:191
+msgid ""
+"The username format you entered is incorrect(Only letters a-Z and _ - are "
+"allowed)."
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:192
+msgid "The password cannot be smaller than 6 characters."
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:193
+msgid "The phone_number cannot be smaller than 9 characters."
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:194
+msgid "The email format you entered is incorrect."
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:195
+msgid "The email launch code is incorrect."
 msgstr ""

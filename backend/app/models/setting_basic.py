@@ -1,11 +1,15 @@
+from flask import session
 from app.models.setting_interface import SettingInterface
 from config import DEVOPS_TOOLS, GIT_URL, GIT_TOKEN, GIT_USERNAME, GIT_EMAIL, GIT_API, CD_TOOLS, CD_ACCESS_KEY, CD_SECRET_KEY, GPT_KEYS
 
 class SettingBasic(SettingInterface):
     def getGitConfigList(self, tenantID, appID):
         gitList = []
+        name = "Public git config"
+        if session['language'] == 'zh':
+            name = "公共Git配置"
         gitList.append({
-            "name" : "Default(from env.yaml)",
+            "name" : name,
             "git_provider" : DEVOPS_TOOLS,
             "git_url" : GIT_URL,
             "git_token" : GIT_TOKEN,
@@ -18,8 +22,11 @@ class SettingBasic(SettingInterface):
     
     def getCIConfigList(self, tenantID, appID):
         gitList = []
+        name = "Public CI config"
+        if session['language'] == 'zh':
+            name = "公共CI配置"
         gitList.append({
-            "name" : "Default(from env.yaml)",
+            "name" : name,
             "ci_provider" : DEVOPS_TOOLS,
             "ci_config_id" : 0,
             "ci_api_url" : GIT_API,
@@ -31,8 +38,11 @@ class SettingBasic(SettingInterface):
     
     def getCDConfigList(self, tenantID, appID):
         gitList = []
+        name = "Public CD config"
+        if session['language'] == 'zh':
+            name = "公共CD配置"
         gitList.append({
-            "name" : "Default(from env.yaml)",
+            "name" : name,
             "cd_provider" : CD_TOOLS,
             "ACCESS_KEY" : CD_ACCESS_KEY,
             "SECRET_KEY" : CD_SECRET_KEY,

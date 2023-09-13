@@ -25,7 +25,7 @@ def trigger_ci():
     req = Requirement.get_requirement_by_id(requirementID) 
     serviceInfo = ApplicationService.get_service_by_name(req["app_id"], serviceName)
     tenantID = session['tenant_id']
-    ciConfigList, success = getCIConfigList(tenantID, req["app_id"])
+    ciConfigList, success = getCIConfigList(tenantID, req["app_id"], False)
     if len(ciConfigList) < 1:
         raise Exception(_("CI is not configured. Configure it in Company Settings"))
 
@@ -46,7 +46,7 @@ def plugin_ci():
     tenantID = session['tenant_id']
     requirementID = request.args.get('task_id')
     req = Requirement.get_requirement_by_id(requirementID) 
-    ciConfigList, success = getCIConfigList(tenantID, req["app_id"] )
+    ciConfigList, success = getCIConfigList(tenantID, req["app_id"], False)
 
     piplineJobs, success = getPipelineStatus(pipeline_id, repopath, ciConfigList[0])
     print("piplineJobs:", piplineJobs)
@@ -113,7 +113,7 @@ def trigger_cd():
     serviceInfo = ApplicationService.get_service_by_name(req["app_id"], serviceName)
     image, success = getServiceDockerImage(req["app_id"], serviceName)
     tenantID = session['tenant_id']
-    cdConfigList, success = getCDConfigList(tenantID, req["app_id"])
+    cdConfigList, success = getCDConfigList(tenantID, req["app_id"], False)
 
     result, success = triggerCD(requirementID, image, serviceInfo, cdConfigList[0])
     if success:

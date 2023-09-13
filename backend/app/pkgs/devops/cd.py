@@ -14,6 +14,6 @@ def triggerCD(requirementID, image, serviceInfo, cdConfig):
     re, success =  obj.triggerCD(image, serviceInfo, cdConfig)
 
     if GRADE != "base":
-        triggerCDPro(requirementID, image, re)
+        triggerCDPro(requirementID, image, re, cdConfig)
 
     return re, success

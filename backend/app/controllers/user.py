@@ -5,6 +5,8 @@ from app.pkgs.tools.i18b import getFrontendText
 from app.models.user import User
 from app.models.user_pro import UserPro
 from app.models.tenant_user_pro import TenantUser
+from app.models.user_pro import gen_launch_code
+from app.models.tenant_pro import Tenant
 from config import GRADE
 from config import LANGUAGE
 
@@ -19,6 +21,7 @@ def register():
     password = data['password']
     email = data['email']
     phone_number = data['phone']
+    launch_code = data['launch_code']
     zone_language = LANGUAGE
     if "language" in session:
         zone_language = session['language']
@@ -31,10 +34,17 @@ def register():
         for tu in tus:
             current_tenant = tu["tenant_id"]
         
-        user = UserPro.create_user(username, password, phone_number, email, zone_language, current_tenant)
+        user = UserPro.create_user(username, password, phone_number, email, zone_language, current_tenant, launch_code)
         
-        for tu in tus:
-            TenantUser.active_tenant_user(tu["tenant_user_id"], user.user_id)
+        # 激活所有被邀请的企业成员
+        if user:
+            for tu in tus:
+                TenantUser.active_tenant_user(tu["tenant_user_id"], user.user_id)
+
+            # 自动创建一个个人租户
+            tenant = Tenant.create_tenant_with_codepower(username + _("'s personal Organization"), Tenant.STATUS_PendingVerification, username, "", "", "", Tenant.BILLING_TYPE_FREE, Tenant.BILLING_QUOTA_0, billing_star=None, billing_end=None, user_id=user.user_id, username=email)
+            if tenant:
+                UserPro.update_user(user.user_id, current_tenant=tenant.tenant_id)
         
         return user.username
 
@@ -113,3 +123,12 @@ def language():
     frontendText = getFrontendText() 
 
     return {"frontend_text": frontendText}
+
+@bp.route('/send_launch_code', methods=['POST'])
+@json_response
+def send_launch_code():
+    _ = getI18n("controllers")
+    data = request.json
+    email = data['email']
+    
+    return gen_launch_code(email)

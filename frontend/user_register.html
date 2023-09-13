@@ -47,7 +47,14 @@
       </div>
       <div class="field">
         <label><span class="f_email"></span></label>
-        <input type="text" id="login-email" placeholder="">
+        <div class="ui fluid action input">
+          <input type="text" id="login-email" placeholder="">
+          <div class="ui button teal" onClick="send_launch_code(this)"><span class="f_launch_code"></span></div>
+        </div>
+      </div>
+      <div class="field">
+        <label><span class="f_launch_code"></span></label>
+        <input type="text" id="login-launch_code" placeholder="">
       </div>
       <div class="field">
         <label><span class="f_phone"></span></label>

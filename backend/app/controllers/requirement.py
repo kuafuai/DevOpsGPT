@@ -59,9 +59,9 @@ def get_all():
     _ = getI18n("controllers")
     tenantID = session['tenant_id']
 
-    requirements = Requirement.get_all_requirements(tenantID)
+    requirements = Requirement.get_all_requirements(tenantID, 1, 100)
 
-    return {'requirements': requirements}
+    return {'requirements': requirements["requirements"]}
     
 @bp.route('/get_one', methods=['GET'])
 @json_response

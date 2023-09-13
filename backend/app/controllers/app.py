@@ -6,6 +6,8 @@ from app.pkgs.knowledge.app_info import analyzeService
 from app.models.application import Application
 from app.models.application_service import ApplicationService
 from app.models.application_service_lib import ApplicationServiceLib
+from app.models.tenant_pro import Tenant
+from config import GRADE
 
 bp = Blueprint('app', __name__, url_prefix='/app')
 
@@ -59,6 +61,20 @@ def getAll():
         return {'apps': apps}
     except Exception as e:
         raise Exception(_("Failed to get applications.")) 
+    
+@bp.route('/get_tpl', methods=['GET'])
+@json_response
+def get_tpl():
+    _ = getI18n("controllers")
+    tenantID = 0
+    appID = request.args.get('app_id')
+
+    try:
+        apps = Application.get_all_application(tenantID, appID)
+
+        return {'apps': apps}
+    except Exception as e:
+        raise Exception(_("Failed to get applications.")) 
 
 @bp.route('/analyze_service', methods=['POST'])
 @json_response
@@ -66,6 +82,14 @@ def analyze_service():
     _ = getI18n("controllers")
     tenantID = session['tenant_id']
     gitPath = request.json.get('service_git_path')
+
+    if len(gitPath) < 1:
+        raise Exception(_("Failed to analysis applications.")) 
+    
+    if GRADE != "base":
+        passed, msg = Tenant.check_quota(tenantID, checkPlus=False, checkTask=False, checkCodePower=True)
+        if not passed:
+            raise Exception(msg)
 
     info, success = analyzeService(tenantID, gitPath)
     if not success:

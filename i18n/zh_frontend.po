@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-09-11 12:35+0800\n"
+"POT-Creation-Date: 2023-09-13 19:53+0800\n"
 "PO-Revision-Date: 2023-07-17 18:36+0800\n"
 "Last-Translator: booboo <mac@booboo.local>\n"
 "Language-Team: Language i18n/zh\n"
@@ -614,7 +614,9 @@ msgid ""
 "previous plus duration will be reset and start counting anew."
 msgstr ""
 "注意：充值后会立即生效，如果你修改了会员类型，会员有效期将会重新从当前时间计"
-"时。续费赠送的码力按月一次性发放，立即生效（比如您购买2个月的会员，共应赠送2N个码力，则第一个月赠送N个码力有效期到第一个月，第二个月赠送N个码力有效期到第二个月）。"
+"时。续费赠送的码力按月一次性发放，立即生效（比如您购买2个月的会员，共应赠送2N"
+"个码力，则第一个月赠送N个码力有效期到第一个月，第二个月赠送N个码力有效期到第"
+"二个月）。"
 
 #: backend/app/pkgs/tools/i18b.py:177
 msgid ""
@@ -652,6 +654,56 @@ msgstr "账单系统异常，请检查账单。"
 #: backend/app/pkgs/tools/i18b.py:184
 msgid "Sync from Git"
 msgstr "从Git同步代码"
+
+#: backend/app/pkgs/tools/i18b.py:185
+msgid ""
+"Way 2: Create APP via template. Templates are stored on GitHub by default, "
+"and you can clone them into your own repository."
+msgstr "方式2：通过模板创建应用，模板默认存放在GitHub，你可以克隆到自己的仓库中。"
+
+#: backend/app/pkgs/tools/i18b.py:186
+msgid ""
+"Way 1: Create APP via AI, give git path, AI automatically analyzes the code "
+"base to create APP, Make sure Git token has code pull permission."
+msgstr "方式1：通过AI分析代码库，自动创建应用，你需要提供代码仓库的路径并确保Git token可以拉取代码。"
+
+#: backend/app/pkgs/tools/i18b.py:187
+msgid "AI code analysis... It will take a few minutes. Please wait"
+msgstr "AI 代码分析中...预计需要几分钟时间，请稍等。"
+
+#: backend/app/pkgs/tools/i18b.py:188
+msgid "Launch code"
+msgstr "登录码"
+
+#: backend/app/pkgs/tools/i18b.py:189
+msgid "Your KUAFUAI launch code"
+msgstr "你的 KUAFUAI 登录码"
+
+#: backend/app/pkgs/tools/i18b.py:190
+msgid "The username cannot be smaller than 4 characters."
+msgstr "用户名长度不能少于4位。"
+
+#: backend/app/pkgs/tools/i18b.py:191
+msgid ""
+"The username format you entered is incorrect(Only letters a-Z and _ - are "
+"allowed)."
+msgstr "用户名只能使用英文字母以及-_字符组成。"
+
+#: backend/app/pkgs/tools/i18b.py:192
+msgid "The password cannot be smaller than 6 characters."
+msgstr "密码长度不能少于6位"
+
+#: backend/app/pkgs/tools/i18b.py:193
+msgid "The phone_number cannot be smaller than 9 characters."
+msgstr "手机号长度不能少于9位"
+
+#: backend/app/pkgs/tools/i18b.py:194
+msgid "The email format you entered is incorrect."
+msgstr "邮箱格式不正确。"
+
+#: backend/app/pkgs/tools/i18b.py:195
+msgid "The email launch code is incorrect."
+msgstr "邮箱和登录码不匹配。"
 
 #~ msgid "Phone"
 #~ msgstr "手机号"

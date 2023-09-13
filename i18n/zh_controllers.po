@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-09-11 12:34+0800\n"
+"POT-Creation-Date: 2023-09-13 19:51+0800\n"
 "PO-Revision-Date: 2023-07-17 14:55+0800\n"
 "Last-Translator: booboo <mac@booboo.local>\n"
 "Language-Team: Language i18n/zh\n"
@@ -16,20 +16,33 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: backend/app/controllers/app.py:46
+#: backend/app/controllers/app.py:48
 msgid "Failed to add an application."
 msgstr "添加应用失败。"
 
-#: backend/app/controllers/app.py:61
+#: backend/app/controllers/app.py:63 backend/app/controllers/app.py:77
 msgid "Failed to get applications."
 msgstr "获取应用失败。"
 
-#: backend/app/controllers/app.py:72
+#: backend/app/controllers/app.py:87 backend/app/controllers/app.py:96
 msgid "Failed to analysis applications."
 msgstr "分析应用失败。"
 
-#: backend/app/controllers/requirement.py:59
-#: backend/app/controllers/requirement.py:107
+#: backend/app/controllers/pay_pro.py:106
+msgid "Incorrect payment status!"
+msgstr "付款状态异常！"
+
+#: backend/app/controllers/pay_pro.py:109
+#: backend/app/controllers/pay_pro.py:112
+msgid "Incorrect request parameter!"
+msgstr "参数异常！"
+
+#: backend/app/controllers/pay_pro.py:156
+msgid "Payment creation failed!"
+msgstr "创建付款订单失败！"
+
+#: backend/app/controllers/requirement.py:54
+#: backend/app/controllers/requirement.py:102
 msgid "Failed to set up app."
 msgstr "初始化应用失败。"
 
@@ -48,39 +61,43 @@ msgstr "修改配置失败。"
 msgid "Failed to clarify API."
 msgstr "接口澄清失败。"
 
-#: backend/app/controllers/step_code.py:22
+#: backend/app/controllers/step_code.py:24
 msgid "Failed to edit file with new task."
 msgstr "修改代码失败。"
 
-#: backend/app/controllers/step_code.py:37
+#: backend/app/controllers/step_code.py:44
 msgid "Failed to check file."
 msgstr "代码检查失败。"
 
-#: backend/app/controllers/step_code.py:55
+#: backend/app/controllers/step_code.py:61
 msgid "Failed to merge old and new code."
 msgstr "新旧代码整合失败。"
 
-#: backend/app/controllers/step_code.py:75
+#: backend/app/controllers/step_code.py:79
 msgid "Failed to reference repair no reference file found."
 msgstr "根据参考文件调整代码失败，参考文件不存在。"
 
-#: backend/app/controllers/step_code.py:79
+#: backend/app/controllers/step_code.py:83
 msgid "Reference repair failed for unknown reasons."
 msgstr "根据参考文件调整代码失败，原因未知。"
 
-#: backend/app/controllers/step_devops.py:69
+#: backend/app/controllers/step_devops.py:30
+msgid "CI is not configured. Configure it in Company Settings"
+msgstr "CI 没有配置，请在组织管理页面进行配置"
+
+#: backend/app/controllers/step_devops.py:74
 msgid "Compile check pass."
 msgstr "编译检查通过。"
 
-#: backend/app/controllers/step_devops.py:76
+#: backend/app/controllers/step_devops.py:81
 msgid "Compile check failed for unknown reasons."
 msgstr "编译检查失败，原因未知。"
 
-#: backend/app/controllers/step_devops.py:93
+#: backend/app/controllers/step_devops.py:98
 msgid "Static code scan passed."
 msgstr "静态扫描通过。"
 
-#: backend/app/controllers/step_devops.py:100
+#: backend/app/controllers/step_devops.py:105
 msgid "Static code scan failed for unknown reasons."
 msgstr "静态扫描失败，原因未知。"
 
@@ -92,28 +109,50 @@ msgstr "请先选择要开发的应用。"
 msgid "Failed to clarify requirement."
 msgstr "需求澄清失败。"
 
-#: backend/app/controllers/step_subtask.py:64
+#: backend/app/controllers/step_subtask.py:65
 msgid "Failed to split task."
 msgstr "任务分解失败。"
 
-#: backend/app/controllers/tenant_pro.py:14
-#: backend/app/controllers/tenant_pro.py:20
-msgid "The current version does not support this feature."
-msgstr "当前版本不支持此功能。"
+#: backend/app/controllers/tenant_pro.py:84
+msgid "Unregistered"
+msgstr "未注册"
 
-#: backend/app/controllers/user.py:65
+#: backend/app/controllers/tenant_pro.py:111
+msgid "Not a member of the company."
+msgstr "非企业成员"
+
+#: backend/app/controllers/tenant_pro.py:135
+msgid ""
+"invite you to join the AI intelligent software development platform - KuafuAI"
+msgstr "邀请你注册 AI 驱动的智能软件开发平台 - KuafuAI"
+
+#: backend/app/controllers/tenant_pro.py:135
+msgid ""
+"Please access the following link through a browser to view the relevant "
+"information."
+msgstr "请通过浏览器访问以下链接了解详情。"
+
+#: backend/app/controllers/tenant_pro.py:139
+msgid "The user has already been invited."
+msgstr "该用户已经被邀请过。"
+
+#: backend/app/controllers/user.py:45
+msgid "'s personal Organization"
+msgstr "的个人组织"
+
+#: backend/app/controllers/user.py:75
 msgid "Login successful."
 msgstr "登录成功。"
 
-#: backend/app/controllers/user.py:67
+#: backend/app/controllers/user.py:77
 msgid "Invalid username or password"
 msgstr "用户名或者密码错误"
 
-#: backend/app/controllers/user.py:80
+#: backend/app/controllers/user.py:90
 msgid "Logout successful."
 msgstr "登出成功。"
 
-#: backend/app/controllers/user.py:101
+#: backend/app/controllers/user.py:111
 msgid "success."
 msgstr "登录成功。"
 
@@ -143,33 +182,8 @@ msgstr "推送代码成功。"
 msgid "Failed to reset code."
 msgstr "重置代码失败。"
 
-#~ msgid "Incorrect payment status!"
-#~ msgstr "付款状态异常！"
-
-#~ msgid "Incorrect request parameter!"
-#~ msgstr "参数异常！"
-
-#~ msgid "Payment creation failed!"
-#~ msgstr "创建付款订单失败！"
+#~ msgid "The current version does not support this feature."
+#~ msgstr "当前版本不支持此功能。"
 
 #~ msgid "You have exceeded your quota limit, please check your business bill."
 #~ msgstr "已超出账单周期内的使用限额，请企业管理员查看账单情况。"
-
-#~ msgid "Unregistered"
-#~ msgstr "未注册"
-
-#~ msgid "Not a member of the company."
-#~ msgstr "非企业成员"
-
-#~ msgid ""
-#~ "invite you to join the AI intelligent software development platform - "
-#~ "KuafuAI"
-#~ msgstr "邀请你注册 AI 驱动的智能软件开发平台 - KuafuAI"
-
-#~ msgid ""
-#~ "Please access the following link through a browser to view the relevant "
-#~ "information."
-#~ msgstr "请通过浏览器访问以下链接了解详情。"
-
-#~ msgid "The user has already been invited."
-#~ msgstr "该用户已经被邀请过。"
