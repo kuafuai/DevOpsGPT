@@ -29,6 +29,8 @@ GPT_KEYS: |
 LLM_MODEL: "gpt-3.5-turbo-16k-0613"  
 
 LANGUAGE: 'en'  # en、zh
+SITE_NAME: 'DevOpsGPT'
+INVITATION_CODE: ''
 FRONTEND_PORT: 8080
 BACKEND_PORT: 8081
 # The url that the back end allows cross-domain access (front-end access address)

@@ -47,7 +47,7 @@ function getRequirementList() {
 }
 
 function showRequirement(requirement_id) {
-    window.location.href = "/index.html?task_id="+requirement_id
+    window.location.href = "/task.html?task_id="+requirement_id
 }
 
 function updateRequirment(requirement_id, data) {

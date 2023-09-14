@@ -1,7 +1,7 @@
 import gettext
 from flask import session
 
-from config import LANGUAGE
+from config import LANGUAGE, SITE_NAME
 
 def getCurrentLanguageName():
     try:
@@ -31,7 +31,7 @@ def getI18n(domain):
 def getFrontendText():
     _ = getI18n("frontend")
     return {
-        "title": _("DevOpsGPT"),
+        "title": SITE_NAME,
         "change_language": _("切换为中文"),
         "start": _("Start"),
         "more_operations": _("More"),
@@ -193,4 +193,29 @@ def getFrontendText():
         "others_10":  _("The phone_number cannot be smaller than 9 characters."),
         "others_11": _("The email format you entered is incorrect."),
         "others_12": _("The email launch code is incorrect."),
+        "invitation_code": _("invitation code (Thank you for your interest. We will open registration after the beta testing phase.)"),
+        "version_status": _("Alpha(internal testing)"),
+        "intro_short_introduction": _("Welcome to KuafuAI, Multi agent system for AI-driven software development."),
+        "intro_short_introduction2": _("Natural language requirements into working software."),
+        "intro_short_introduction3": _("Multi agent system for AI-driven software development. Combine LLM with DevOps tools to convert natural language requirements into working software. Supports any development language and extends the existing code."),
+        "intro_feature_title_1": _("Full Process"),
+        "intro_feature_title_2": _("Multi-Agent"),
+        "intro_feature_title_3": _("Domain Models"),
+        "intro_feature_intro_1": _("An AI-driven development platform that covers the entire software lifecycle management, combined with various DevOps tools, achieves end-to-end delivery of software from natural language requirements."),
+        "intro_feature_intro_2": _("AI intelligently adjusts workflow orchestration based on user feedback and continuously performs autonomous self-correction and optimization of generated results, enabling flexible and high-quality software development."),
+        "intro_feature_intro_3": _("Multiple domain models are trained for the software production process. These domain models collaborate to complete software development tasks and can support private deployment. Extension development based on existing software code is achieved through proprietary models."),
+        "intro_support_curd_title": _("CURD Requirements"),
+        "intro_support_curd_intro": _("In software development, CRUD (Create, Read, Update, Delete) represents essential operations for managing data. It involves creating new records, retrieving existing data, updating information, and deleting records. These CRUD operations are fundamental in various applications, from database management systems to web and mobile applications, as they enable users to interact with and manipulate data effectively."),
+        "intro_support_chatbot_title": _("ChatBot Requirements"),
+        "intro_support_chatbot_intro": _("In software development, chatbot requirements for applications like Enterprise WeChat typically encompass functionalities such as real-time messaging, automated responses, integration with enterprise systems, user management, and multi-platform compatibility, ensuring efficient communication and task automation within corporate environments."),
+        "intro_support_more_title": _("More"),
+        "intro_support_more_intro": _("As our foundational and product capabilities continue to improve, we will gradually expand our development to encompass more complex application scenarios, bringing universal benefits to every user with software development needs. Please stay tuned and follow us for updates."),
+        "intro_sign_up_msg": _("Now, you can experience our products with minimal cost. We look forward to bringing a whole new experience to your software development!"),
+        "intro_pricing_free": _("Opensource"),
+        "intro_pricing_basic": _("Basic"),
+        "intro_pricing_pro": _("Pro"),
+        "intro_private_deployment": _("Private Deployment"),
+        "intro_private_deployment_intro": _("Utilize our fine-tuned model and deploy it within your private environment to ensure data security. We welcome further communication with you."),
+        "intro_contact_us": _("Contact Us"),
+        "intro_links": _("Links"),
     }

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-09-13 19:53+0800\n"
+"POT-Creation-Date: 2023-09-14 15:14+0800\n"
 "PO-Revision-Date: 2023-07-17 18:37+0800\n"
 "Last-Translator: booboo <mac@booboo.local>\n"
 "Language-Team: Language i18n/en\n"
@@ -15,10 +15,6 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-
-#: backend/app/pkgs/tools/i18b.py:34
-msgid "DevOpsGPT"
-msgstr ""
 
 #: backend/app/pkgs/tools/i18b.py:35
 msgid "切换为中文"
@@ -28,7 +24,7 @@ msgstr ""
 msgid "Start"
 msgstr ""
 
-#: backend/app/pkgs/tools/i18b.py:37
+#: backend/app/pkgs/tools/i18b.py:37 backend/app/pkgs/tools/i18b.py:211
 msgid "More"
 msgstr ""
 
@@ -712,4 +708,136 @@ msgstr ""
 
 #: backend/app/pkgs/tools/i18b.py:195
 msgid "The email launch code is incorrect."
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:196
+msgid ""
+"invitation code (Thank you for your interest. We will open registration "
+"after the beta testing phase.)"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:197
+msgid "Alpha(internal testing)"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:198
+msgid ""
+"Welcome to KuafuAI, Multi agent system for AI-driven software development."
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:199
+msgid "Natural language requirements into working software."
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:200
+msgid ""
+"Multi agent system for AI-driven software development. Combine LLM with "
+"DevOps tools to convert natural language requirements into working software. "
+"Supports any development language and extends the existing code."
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:201
+msgid "Full Process"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:202
+msgid "Multi-Agent"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:203
+msgid "Domain Models"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:204
+msgid ""
+"An AI-driven development platform that covers the entire software lifecycle "
+"management, combined with various DevOps tools, achieves end-to-end delivery "
+"of software from natural language requirements."
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:205
+msgid ""
+"AI intelligently adjusts workflow orchestration based on user feedback and "
+"continuously performs autonomous self-correction and optimization of "
+"generated results, enabling flexible and high-quality software development."
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:206
+msgid ""
+"Multiple domain models are trained for the software production process. "
+"These domain models collaborate to complete software development tasks and "
+"can support private deployment. Extension development based on existing "
+"software code is achieved through proprietary models."
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:207
+msgid "CURD Requirements"
+msgstr "CRUD Requirements"
+
+#: backend/app/pkgs/tools/i18b.py:208
+msgid ""
+"In software development, CRUD (Create, Read, Update, Delete) represents "
+"essential operations for managing data. It involves creating new records, "
+"retrieving existing data, updating information, and deleting records. These "
+"CRUD operations are fundamental in various applications, from database "
+"management systems to web and mobile applications, as they enable users to "
+"interact with and manipulate data effectively."
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:209
+#, fuzzy
+msgid "ChatBot Requirements"
+msgstr "Task History"
+
+#: backend/app/pkgs/tools/i18b.py:210
+msgid ""
+"In software development, chatbot requirements for applications like "
+"Enterprise WeChat typically encompass functionalities such as real-time "
+"messaging, automated responses, integration with enterprise systems, user "
+"management, and multi-platform compatibility, ensuring efficient "
+"communication and task automation within corporate environments."
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:212
+msgid ""
+"As our foundational and product capabilities continue to improve, we will "
+"gradually expand our development to encompass more complex application "
+"scenarios, bringing universal benefits to every user with software "
+"development needs. Please stay tuned and follow us for updates."
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:213
+msgid ""
+"Now, you can experience our products with minimal cost. We look forward to "
+"bringing a whole new experience to your software development!"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:214
+msgid "Opensource"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:215
+msgid "Basic"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:216
+msgid "Pro"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:217
+msgid "Private Deployment"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:218
+msgid ""
+"Utilize our fine-tuned model and deploy it within your private environment "
+"to ensure data security. We welcome further communication with you."
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:219
+msgid "Contact Us"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:220
+msgid "Links"
 msgstr ""

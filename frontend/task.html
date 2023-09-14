@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="robots" content="noarchive">
+  <title class="f_title"></title>
+  <link rel="stylesheet" href="./static/css/style.css?v=6">
+  <link rel="stylesheet" href="./static/css/semantic.min.css">
+  <link rel="stylesheet" href="./static/css/codemirror.min.css" />
+  <link rel="stylesheet" href="./static/css/darcula.min.css" />
+  <script src="./static/js/codemirror.min.js"></script>
+  <script src="./static/js/haxe.min.js"></script>
+  <script src="./static/js/jquery.min.js"></script>
+  <script src="./static/js/semantic.min.js"></script>
+  <script src="./static/js/marked.min.js"></script>
+  <script src="./static/js/diff.min.js"></script>
+  <script src="./static/js/coder.js?v=75"></script>
+</head>
+
+<body>
+  <div class="ui borderless main menu margin-top-0">
+    <div class="ui text container ai-textcontainer">
+      <a href="/" class="header item" style="padding-left: 0px;">
+        <img class="logo" src="./static/image/logo.png" style="margin-right: 5px;">
+        <span class="f_title"></span>
+      </a>
+      <a class="active item" href="task.html"><span class="f_start_task"></span></a>
+      <a class="item" href="requirement.html"><span class="f_requirement_list"></span></a>
+      <a class="item" href="app.html"><span class="f_app_list"></span></a>
+      <a href="#" class="ui right floated dropdown item">
+        <span class="f_more_operations"></span> <i class="dropdown icon"></i>
+        <div class="menu">
+          <div class="item"><i class="user icon tiny"></i><span class="f_hello"></span> <span id="current-username"></span></div>
+          <div class="item" onClick="openUrl('tenant.html')"><i class="university icon tiny"></i><span id="current-tenant"></span></div>
+          <div class="item" onClick="changeLanguage()"><i class="exchange icon tiny"></i><span class="f_change_language"></span></div>
+          <div class="item" onClick="logout()"><i class="sign-out icon tiny"></i><span class="f_logout"></span></div>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <div class="ai-code-container">
+    <div class="ui container grid">
+      <div class="one wide column">
+        <img class="ui avatar image" src="./static/image/role_pm.jpg" data-content="PM" style="width: auto;height: auto;">
+      </div>
+      <div class="fifteen wide column ai-content">
+        <div class="ai-code">
+          <span class="f_ai_start_1"></span>
+          <div class="ui olive button model-selector">
+            <i class="app store ios icon"></i> <span class="f_app"></span>
+          </div>
+          <span class="f_ai_start_2"></span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ai-prompt-container">
+    <div class="ui container">
+      <div class="ui form">
+        <div class="field">
+          <label><span class="f_requirement_description"></span>:</label>
+          <textarea rows="6" id="prompt-textarea"></textarea>
+          <input type="hidden" id="prompt-hidePrompt">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ui container">
+
+    <div class="ui form">
+      <div class="ui padded grid">
+        <div class="row">
+          <div class="eight wide column" id="generate-code-div">
+            <button class="ui primary button fluid" id="generate-code-button"><span class="f_submit"></span></button>
+          </div>
+          <div class="eight wide column" id="cancel-task-div">
+            <button class="ui red button fluid" id="cancel-task"><span class="f_restart"></span></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ui modal" id="task-model">
+    <div class="content" id="task-content">
+    </div>
+  </div>
+  <div class="ui modal" id="model-diff">
+    <div class="content">
+      <div id="diff-output"></div>
+    </div>
+    <div class="actions">
+      <input type="hidden" id="code-actions-uuid" value="">
+      <div class="ui orange button" id="code-actions-edit"><span class="f_edit"></span></div>
+      <div class="ui button" id="code-actions-cancel"><span class="f_close"></span></div>
+    </div>
+  </div>
+  <div class="ui modal" id="model-edit-code">
+    <div class="content" style="width:auto">
+      <div class="ui form">
+        <div class="field">
+          <label><span class="f_edit"></span></label>
+          <textarea id="code-edit-code" rows="35"></textarea>
+        </div>
+      </div>
+    </div>
+    <div class="actions">
+      <div class="ui green button" id="code-edit-code-save"><span class="f_submit"></span></div>
+      <!-- div class="ui blue button" id="code-edit-use-old"><span class="f_use_old_code"></span></div -->
+      <div class="ui button" id="code-edit-code-cancel"><span class="f_cancel"></span></div>
+    </div>
+  </div>
+  <div class="ui modal" id="model-edit">
+    <div class="content">
+      <div class="ui form">
+        <div class="field">
+          <label><span class="f_edit"></span></label>
+          <textarea id="mode-edit-content" rows="35"></textarea>
+          <input type="hidden" id="mode-edit-app-name">
+        </div>
+      </div>
+    </div>
+    <div class="actions">
+      <div class="ui green button" id="mode-edit-content-save"><span class="f_submit"></span></div>
+      <div class="ui button" id="mode-edit-content-cancel"><span class="f_cancel"></span></div>
+    </div>
+  </div>
+  <div class="ui modal" id="model-modal">
+    <div class="header"><span class="f_select_app"></span></div>
+    <div class="content">
+      <div class="ui fluid icon input">
+        <input type="text" placeholder="">
+        <i class="search icon"></i>
+      </div>
+      <div class="ui celled list model_list">
+      </div>
+    </div>
+    <div class="actions">
+      <div class="ui button" id="model-cancel"><span class="f_cancel"></span></div>
+      <div class="ui linkedin button right floated background-color-deep-green" onClick="openUrl('/app.html')"><i class="plus icon"></i><span class="f_create_new"></span></div>
+    </div>
+  </div>
+  <div class="ui modal" id="my-alert">
+    <div class="header" id="my-alert-title"></div>
+    <div class="content" id="my-alert-content">
+    </div>
+  </div>
+  <div class="ui modal" id="my-login">
+    <div class="header"><span class="f_login"></span></div>
+    <div class="content">
+      <div class="ui form">
+        <div class="field">
+          <label><span class="f_username"></span></label>
+          <input type="text" id="login-username" placeholder="">
+        </div>
+        <div class="field">
+          <label><span class="f_password"></span></label>
+          <input type="password" id="login-password" placeholder="">
+        </div>
+        <div class="field">
+            <label id="login-message" style="color: red;"></label>
+        </div>
+        <button class="ui button" onClick="login()" type="submit"><span class="f_submit"></span></div></button>
+      </div>
+    </div>
+  </div>
+
+  <div class="ui watermark">
+    <span id="watermark-username"></span> @ <span class="f_title"></span></div>
+  </div>
+</body>
+
+</html>

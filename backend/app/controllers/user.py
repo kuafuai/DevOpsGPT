@@ -8,7 +8,7 @@ from app.models.tenant_user_pro import TenantUser
 from app.models.user_pro import gen_launch_code
 from app.models.tenant_pro import Tenant
 from config import GRADE
-from config import LANGUAGE
+from config import LANGUAGE, INVITATION_CODE
 
 bp = Blueprint('user', __name__, url_prefix='/user')
 
@@ -22,6 +22,7 @@ def register():
     email = data['email']
     phone_number = data['phone']
     launch_code = data['launch_code']
+    invitation_code = data['invitation_code']
     zone_language = LANGUAGE
     if "language" in session:
         zone_language = session['language']
@@ -29,6 +30,8 @@ def register():
     if GRADE == "base":
         raise Exception("The current version does not support this feature")
     else:
+        if invitation_code != INVITATION_CODE:
+            raise Exception(_("invitation code not right (Thank you for your interest. We will open registration after the beta testing phase.)"))
         current_tenant = 0
         tus = TenantUser.get_tenant_user_by_invite_email(email)
         for tu in tus:

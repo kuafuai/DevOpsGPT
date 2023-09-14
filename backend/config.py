@@ -52,6 +52,8 @@ REQUIREMENT_MEM_TYPE_Code = "Code"
 REQUIREMENT_MEM_TYPE_DevOps = "DevOps"
 
 try:
+    SITE_NAME = read_config("SITE_NAME")
+    INVITATION_CODE = read_config("INVITATION_CODE")
     BACKEND_HOST = read_config("BACKEND_HOST")
     BACKEND_URL = read_config("BACKEND_URL")
     BACKEND_DEBUG = read_config("BACKEND_DEBUG")

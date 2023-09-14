@@ -177,3 +177,12 @@ pre {
 .float-right{
   float: right !important;
 }
+
+.money{
+  color: orange;
+}
+
+.price-content{
+  text-align: left;
+  padding-left: 20px;
+}

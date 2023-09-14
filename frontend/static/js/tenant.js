@@ -70,7 +70,7 @@ function useTenant(tenant_id) {
     var requestData = JSON.stringify({ 'tenant_id': tenant_id })
  
     successCallback = function(data) {
-        window.location.href = "index.html";
+        window.location.href = "task.html";
     }
 
     sendAjaxRequest('/tenant/use_tenant', 'POST', requestData, successCallback, alertErrorCallback, true, false)

@@ -23,7 +23,7 @@ def require_login():
             session[session["username"]] = getEmptyTaskInfo()
 
     path = request.path
-    if path == '/user/send_launch_code' or path == '/user/language' or path == '/user/login' or path == '/user/logout' or path == '/user/change_language' or path == '/user/register':
+    if path == '/user/send_launch_code' or path == '/user/language' or path == '/user/login' or path == '/user/logout' or path == '/user/change_language' or path == '/user/register' or path == '/pay/get_price':
         pass
     elif 'username' not in session:
         return {'success': False, 'error': 'Access denied', 'code': 401}

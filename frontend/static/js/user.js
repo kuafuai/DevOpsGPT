@@ -3,13 +3,17 @@ $(document).ready(function () {
     $('.main.menu  .ui.dropdown').dropdown({
         on: 'hover'
     });
+
+    var queryString = window.location.search;
+    var params = new URLSearchParams(queryString);
+    $("#login-email").val(params.get('email'));
 });
 
 function login() {
     var requestData = JSON.stringify({ 'username': $("#login-username").val(), 'password': $("#login-password").val() })
  
     successCallback = function(data) {
-        window.location.href = "index.html";
+        window.location.href = "task.html";
     }
 
     errorCallback = function(error) {
@@ -27,6 +31,7 @@ function register() {
         'email': $("#login-email").val(),
         'phone': $("#login-phone").val(),
         'launch_code': $("#login-launch_code").val(),
+        'invitation_code': $("#login-invitation-code").val(),
     })
  
     successCallback = function(data) {

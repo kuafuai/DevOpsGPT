@@ -84,6 +84,12 @@ function thinkUI(customPrompt, thinkText, role) {
     if (role=="OP") {
         role_img = '<img class="ui avatar image" src="./static/image/role_op.jpg" data-content="OP" style="width: auto;height: auto;">'
     }
+    if (role=="PM") {
+        role_img = '<img class="ui avatar image" src="./static/image/role_pm.jpg" data-content="PM" style="width: auto;height: auto;">'
+    }
+    if (role=="TL") {
+        role_img = '<img class="ui avatar image" src="./static/image/role_tl.png"  data-content="TL"  style="width: auto;height: auto;">'
+    }
 
     $('#prompt-textarea').val("");
     $("#prompt-hidePrompt").val("")
@@ -105,11 +111,19 @@ function thinkUI(customPrompt, thinkText, role) {
 
 function thinkUIShow(customPrompt, thinkText, role) {
     role_img = '<i class="blue  grav icon big" style="font-size: 3em;"></i>'
+    if (role=="QA") {
+        role_img = '<img class="ui avatar image" src="./static/image/role_qa.png" data-content="QA" style="width: auto;height: auto;">'
+    }
+    if (role=="OP") {
+        role_img = '<img class="ui avatar image" src="./static/image/role_op.jpg" data-content="OP" style="width: auto;height: auto;">'
+    }
     if (role=="PM") {
         role_img = '<img class="ui avatar image" src="./static/image/role_pm.jpg" data-content="PM" style="width: auto;height: auto;">'
-    } else if (role=="TL") {
+    }
+    if (role=="TL") {
         role_img = '<img class="ui avatar image" src="./static/image/role_tl.png"  data-content="TL"  style="width: auto;height: auto;">'
     }
+    
     $('#prompt-textarea').val("");
     $("#prompt-hidePrompt").val("")
     var newField = $('<div class="user-code-container"><div class="ui container grid"><div class="one wide column"><i class="blue  grav icon big" style="font-size: 3em;"></i></div><div class="fifteen wide column ai-content"><div class="ai-code">' + customPrompt.replaceAll("\n", "<br />") + '</div></div></div></div> <div class="ai-code-container"><div class="ui container grid"><div class="one wide column">'+role_img+'</div><div class="fifteen wide column ai-content"><div class="ai-code"><i class="spinner loading icon"></i>'+thinkText+'</div></div></div></div>');
@@ -181,9 +195,14 @@ function modelSelected(appName, appID, repos) {
 
 $(document).ready(function () {
     language()
-    logincheck()
-    getRequirement()
     showUrlErrorMsg()
+
+    const url = window.location;
+    const path = url.pathname;
+    if (path != "/index.html" && path != "/") {
+        logincheck()
+        getRequirement()
+    }
 
     $('img').popup();
 
@@ -265,7 +284,7 @@ $(document).ready(function () {
     });
 
     $('#cancel-task').click(function () {
-        window.location.href = "/index.html"
+        window.location.href = "/task.html"
     });
 
     // show dropdown on hover
@@ -464,7 +483,7 @@ function language() {
             if (frontendText.hasOwnProperty(key)) {
               const value = frontendText[key];
               console.log(key + ": " + value);
-              $(".f_"+key).text(value)
+              $(".f_"+key).html(value)
             }
         }
     }
