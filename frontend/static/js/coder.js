@@ -1221,7 +1221,7 @@ function pluginTaskList(info, ifRecover) {
     if (!ifRecover) {
         setTimeout(function () {
             info["files"].forEach(function (file, file_index, file_array) {
-                if (file["step"].length > 0) {
+                if (file.hasOwnProperty("step") && file["step"].length > 0) {
                     checkCode(file["code"], file["code-interpreter"], file["uuid"], file["file-path"], info["service_name"], file["step"])
                 } else if (file["old-code"].length > 0) {
                     mergeCode(file["uuid"], file["code"], file["old-code"], file["code-interpreter"], info["service_name"], file["file-path"])
@@ -1256,44 +1256,44 @@ function resetWorkspace(serviceName, ele) {
         myAlert("ERROR", error)
     }
 
-    setTimeout(function () {
-        sendAjaxRequest('/workspace/resetWorkspace', "POST", requestData, successCallback, ErrorCallback, false, false)
-    }, 500);
+    sendAjaxRequest('/workspace/resetWorkspace', "POST", requestData, successCallback, ErrorCallback, false, false)
 }
 
 function startPush(serviceName, ele) {
     $(ele).addClass("loading")
     $(ele).addClass("disabled")
 
-    resetWorkspace(serviceName, ele)
+    setTimeout(function() {
+        resetWorkspace(serviceName, ele)
 
-    // save all code
-    globalTasks[serviceName].forEach(function (file, element_index, element_array) {
-        let uuid = file.uuid
-        let file_path = file["file-path"]
-        saveCode(serviceName, file_path, uuid)
-    })
+        // save all code
+        globalTasks[serviceName].forEach(function (file, element_index, element_array) {
+            let uuid = file.uuid
+            let file_path = file["file-path"]
+            saveCode(serviceName, file_path, uuid)
+        })
 
-    var requestData = JSON.stringify({ 'service_name': serviceName, 'task_id': getTaskID() })
+        var requestData = JSON.stringify({ 'service_name': serviceName, 'task_id': getTaskID() })
 
-    successCallback = function(data){
-        $(ele).removeClass("loading")
-        $(ele).removeClass("disabled")
+        successCallback = function(data){
+            $(ele).removeClass("loading")
+            $(ele).removeClass("disabled")
 
-        myAlert(globalFrontendText["ok"], data.data)
-    }
-
-    ErrorCallback = function(error) {
-        $(ele).removeClass("loading")
-        $(ele).removeClass("disabled")
-
-        if (typeof error === 'undefined') {
-            error = "Unknown error"
+            myAlert(globalFrontendText["ok"], data.data)
         }
-        myAlert("ERROR", error)
-    }
 
-    sendAjaxRequest('/workspace/gitpush', "POST", requestData, successCallback, ErrorCallback, true, false)
+        ErrorCallback = function(error) {
+            $(ele).removeClass("loading")
+            $(ele).removeClass("disabled")
+
+            if (typeof error === 'undefined') {
+                error = "Unknown error"
+            }
+            myAlert("ERROR", error)
+        }
+
+        sendAjaxRequest('/workspace/gitpush', "POST", requestData, successCallback, ErrorCallback, true, false)
+    }, 100);
 }
 
 function startCi(repo_path, repo_branch) {  

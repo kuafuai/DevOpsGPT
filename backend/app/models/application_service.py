@@ -21,6 +21,7 @@ class ApplicationService(db.Model):
     cd_public_ip = db.Column(db.String(50))
     cd_security_group = db.Column(db.String(100))
     cd_subnet = db.Column(db.String(100))
+    cd_default_image = db.Column(db.String(200))
     created_at = db.Column(db.TIMESTAMP, server_default=db.text('CURRENT_TIMESTAMP'))
     updated_at = db.Column(db.TIMESTAMP, server_default=db.text('CURRENT_TIMESTAMP'))
 
@@ -30,7 +31,7 @@ class ApplicationService(db.Model):
     LANGUAGE_JAVA = "Java"
 
     def create_service(app_id, name, git_path, git_workflow, role, language, framework, database_type, api_type, api_location,
-                       cd_container_name, cd_container_group, cd_region, cd_public_ip, cd_security_group, cd_subnet, struct_cache):
+                       cd_container_name, cd_container_group, cd_region, cd_public_ip, cd_security_group, cd_subnet, struct_cache, cd_default_image=""):
         service = ApplicationService(
             app_id=app_id,
             name=name,
@@ -49,6 +50,7 @@ class ApplicationService(db.Model):
             cd_public_ip=cd_public_ip,
             cd_security_group=cd_security_group,
             cd_subnet=cd_subnet,
+            cd_default_image=cd_default_image,
             struct_cache=struct_cache
         )
         db.session.add(service)
@@ -88,6 +90,7 @@ class ApplicationService(db.Model):
                 'cd_public_ip': service.cd_public_ip,
                 'cd_security_group': service.cd_security_group,
                 'cd_subnet': service.cd_subnet,
+                'cd_default_image': service.cd_default_image,
                 'struct_cache': service.struct_cache,
                 'libs': ApplicationServiceLib.get_libs_by_service_id(service.service_id)
             }
@@ -146,6 +149,7 @@ class ApplicationService(db.Model):
                 'cd_public_ip': service.cd_public_ip,
                 'cd_security_group': service.cd_security_group,
                 'cd_subnet': service.cd_subnet,
+                'cd_default_image': service.cd_default_image,
                 'struct_cache': service.struct_cache,
                 'libs': ApplicationServiceLib.get_libs_by_service_id(service.service_id)
             }

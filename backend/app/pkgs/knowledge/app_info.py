@@ -77,7 +77,7 @@ def getServiceDockerImage(appID, serviceName):
         for service in services:
             if service["name"] == serviceName:
                 # todo 0
-                gitWorkflow = "todo"
+                gitWorkflow = service["cd_default_image"]
 
     return gitWorkflow, True
 

@@ -6,7 +6,11 @@ $(document).ready(function () {
     getGitConfigList()
     getCIConfigList()
     getCDConfigList()
-    getTenant(getTenantID())
+    const url = window.location;
+    const path = url.pathname;
+    if (path != "/app.html") {
+        getTenant(getTenantID())
+    }
     //getLLMConfigList()
 
     // show dropdown on hover
