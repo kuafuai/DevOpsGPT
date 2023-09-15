@@ -7,7 +7,7 @@ var globalFrontendText = {}
 var globalCompileTimes = {}
 var globalChangeServiceList = []
 var codeMirror
-var apiUrl = "http://8.218.90.105:8091"
+var apiUrl = "http://127.0.0.1:8081"
 
 function sendAjaxRequest(url, method, requestData, successCallback, errorCallback, async, slideDown) {       
     $.ajax({
@@ -155,13 +155,13 @@ modelSelectedSuccessCallback = function(data){
     data = data.data
     var repos = ""
     data.app.service.forEach(function (s, element_index, element_array) {
-        repos += s.name+", "
+        repos += '<i class="git square icon teal"></i>'+s.git_path+"<br/>"+s.name+": "+s.role+"<br/>"+s.struct_cache.replaceAll('\n', "<br/>").replaceAll('  ', "- ")+"<br/>"
     });
-    str = globalFrontendText["ai_selected_app_1"] + ": " + data.app.name
-        +"<br />"+ globalFrontendText["ai_selected_app_2"] + ": "+ data["requirement_id"]
-        +"<br />"+ globalFrontendText["ai_selected_app_3"] + ": "+ repos
-        +"<br />"+ globalFrontendText["ai_selected_app_4"] + data.default_source_branch +" "+ globalFrontendText["ai_selected_app_5"] +" "+ data.default_target_branch
-        +"<br /><br />" + globalFrontendText["ai_selected_app_6"];
+    str = '<i class="thumbtack icon teal"></i>'+globalFrontendText["ai_selected_app_2"] + ": "+ data["requirement_id"]
+        +"<hr />"+'<i class="app store ios icon teal"></i>'+ data.app.name + ": " + data.app.description
+        +"<hr />"+ repos
+        +"<hr />"+'<i class="code branch teal icon"></i>'+ globalFrontendText["ai_selected_app_4"] + data.default_source_branch +" "+ globalFrontendText["ai_selected_app_5"] +" "+ data.default_target_branch
+        +"<hr /><br />" + globalFrontendText["ai_selected_app_6"];
     const url = window.location;
     const newUrl = url.origin + '/task.html?task_id=' + data["requirement_id"];
     history.pushState('', '', newUrl); 
