@@ -218,4 +218,5 @@ def getFrontendText():
         "intro_private_deployment_intro": _("Utilize our fine-tuned model and deploy it within your private environment to ensure data security. We welcome further communication with you."),
         "intro_contact_us": _("Contact Us"),
         "intro_links": _("Links"),
+        "get_launch_code": _("Get Launch code"),
     }

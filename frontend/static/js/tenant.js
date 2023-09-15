@@ -51,7 +51,7 @@ function getTenantList() {
 
         tenants.forEach(function (tenant, element_index, element_array) { 
             str += `<tr>
-                        <td><a href="#" onClick="useTenant(`+tenant["tenant_id"]+`)">`+tenant["name"]+`</a></td>
+                        <td><a href="#" onClick="useTenant(`+tenant["tenant_id"]+`)">`+globalFrontendText["enter"]+`: `+tenant["name"]+`</a></td>
                         <td>`+tenant["current_user_role"]+`</td>
                         <td>`+tenant["status_name"]+`</td>
                         <td>`+tenant["member_count"]+`</td>
@@ -88,6 +88,7 @@ function getTenant(tenant_id) {
 
         $("#tenant_country").val(tenants.country)
         $("#tenant_name").val(tenants.name)
+        $("#current_tenant").text(tenants.name)
         $("#tenant_description").val(tenants.description)
         $("#tenant_employee_count").val(tenants.employee_count)
         $("#tenant_industry_type").val(tenants.industry_type)

@@ -41,13 +41,16 @@ def register():
         
         # 激活所有被邀请的企业成员
         if user:
-            for tu in tus:
-                TenantUser.active_tenant_user(tu["tenant_user_id"], user.user_id)
-
             # 自动创建一个个人租户
             tenant = Tenant.create_tenant_with_codepower(username + _("'s personal Organization"), Tenant.STATUS_PendingVerification, username, "", "", "", Tenant.BILLING_TYPE_FREE, Tenant.BILLING_QUOTA_0, billing_star=None, billing_end=None, user_id=user.user_id, username=email)
-            if tenant:
-                UserPro.update_user(user.user_id, current_tenant=tenant.tenant_id)
+
+            current_tid = tenant.tenant_id
+
+            for tu in tus:
+                current_tid = tu["tenant_id"]
+                TenantUser.active_tenant_user(tu["tenant_user_id"], user.user_id)
+
+            UserPro.update_user(user.user_id, current_tenant=current_tid)
         
         return user.username
 

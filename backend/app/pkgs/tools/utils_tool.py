@@ -131,16 +131,23 @@ def add_days_to_date(input_date_str, days_to_add):
     print(input_date_str)
     print(days_to_add)
     try:
+        if isinstance(input_date_str, datetime):
+            input_date_str = input_date_str.strftime('%Y-%m-%d %H:%M:%S')
+
         days_to_add = int(days_to_add)
         input_date = datetime.strptime(input_date_str, "%Y-%m-%d %H:%M:%S")
         new_date = input_date + timedelta(days=days_to_add)
         new_date_str = new_date.strftime("%Y-%m-%d %H:%M:%S")
         return True, new_date_str
     except Exception as e:
+        print("add_days_to_date failed: "+ str(e))
         return False, "无效的日期格式，请使用 'YYYY-MM-DD HH:MM:SS' 格式。" + str(e)
 
 def if_datetime_expired(target_datetime_str):
     try:
+        if isinstance(target_datetime_str, datetime):
+            target_datetime_str = target_datetime_str.strftime('%Y-%m-%d %H:%M:%S')
+
         # 获取当前日期和时间
         current_datetime = datetime.now()
 

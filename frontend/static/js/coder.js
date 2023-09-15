@@ -7,7 +7,7 @@ var globalFrontendText = {}
 var globalCompileTimes = {}
 var globalChangeServiceList = []
 var codeMirror
-var apiUrl = "http://127.0.0.1:8081"
+var apiUrl = "http://8.218.90.105:8091"
 
 function sendAjaxRequest(url, method, requestData, successCallback, errorCallback, async, slideDown) {       
     $.ajax({
@@ -163,7 +163,7 @@ modelSelectedSuccessCallback = function(data){
         +"<br />"+ globalFrontendText["ai_selected_app_4"] + data.default_source_branch +" "+ globalFrontendText["ai_selected_app_5"] +" "+ data.default_target_branch
         +"<br /><br />" + globalFrontendText["ai_selected_app_6"];
     const url = window.location;
-    const newUrl = url.origin + '?task_id=' + data["requirement_id"];
+    const newUrl = url.origin + '/task.html?task_id=' + data["requirement_id"];
     history.pushState('', '', newUrl); 
     answerUI(str)
 }
@@ -513,7 +513,7 @@ function logincheck() {
         var code_power = data.data.code_power
         globalTenantID = data.data.tenant_id
         $("#current-username").html(username)
-        $("#current-tenant").html(tenant+' ('+globalFrontendText['code_power']+':'+code_power+')')
+        $("#current-tenant").html(tenant+' ('+data.data.billing_type_name+" | "+globalFrontendText['code_power']+':'+code_power+')')
         $("#watermark-username").html(username)
     }
 

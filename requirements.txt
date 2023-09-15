@@ -1,5 +1,6 @@
-flask-sqlalchemy
+flask-sqlalchemy==3.1.1
 flask-cors==3.0.10
+flask==2.2.5
 pyyaml
 python-gitlab
 openai==0.27.8

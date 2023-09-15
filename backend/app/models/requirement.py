@@ -37,7 +37,7 @@ class Requirement(db.Model):
 
     @staticmethod
     def get_all_requirements(tenantID=None, page=1, per_page=40):
-        requirements = Requirement.query.filter_by(tenant_id=tenantID).order_by(Requirement.requirement_id.desc()).paginate(page, per_page, False)
+        requirements = Requirement.query.filter_by(tenant_id=tenantID).order_by(Requirement.requirement_id.desc()).paginate(page=page, per_page=per_page, error_out=False)
         requirement_list = []
 
         for req in requirements.items:

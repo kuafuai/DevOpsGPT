@@ -6,6 +6,7 @@ $(document).ready(function () {
     getGitConfigList()
     getCIConfigList()
     getCDConfigList()
+    getTenant(getTenantID())
     //getLLMConfigList()
 
     // show dropdown on hover

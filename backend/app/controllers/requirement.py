@@ -21,13 +21,15 @@ def clear_up():
     session[session["username"]] = getEmptyTaskInfo()
     tenant_name = "-"
     code_power = '0'
+    billing_type_name = "FREE"
     if GRADE != "base":
         tenant = Tenant.get_tenant_baseinfo_by_id(session["tenant_id"])
         if tenant:
             tenant_name = tenant["name"]
+            billing_type_name = tenant["billing_type_name"]
             code_power = TenantBill.get_total_codepower(session["tenant_id"])
 
-    return {"username": session["username"], "tenant_name": tenant_name, "tenant_id": session["tenant_id"], "info": session[session["username"]], "code_power": code_power} 
+    return {"username": session["username"], "billing_type_name": billing_type_name, "tenant_name": tenant_name, "tenant_id": session["tenant_id"], "info": session[session["username"]], "code_power": code_power} 
 
 
 @bp.route('/setup_app', methods=['POST'])
