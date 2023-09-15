@@ -188,7 +188,7 @@ function getBillings(tenant_id) {
                         <td>`+user["bill_user"]+`</td>
                         <td>`+code_power+`</td>
                         <td>`+user["created_at"]+`</td>
-                        <td><a href="/?task_id=`+user["external_info"]+`">`+user["remarks"]+`</a></td>
+                        <td><a href="/task.html?task_id=`+user["external_info"]+`">`+user["remarks"]+`</a></td>
                     </tr>`
             $("#bill_list").html(str)
         });
