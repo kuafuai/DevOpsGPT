@@ -31,13 +31,13 @@ def pre_check_quota(func):
     return wrapper
 
 @pre_check_quota
-def clarifyRequirement(requirementID, userPrompt, globalContext, appArchitecture):
+def clarifyRequirement(requirementID, userPrompt, globalContext, appArchitecture, req):
     if GRADE == "base":
         obj = RequirementBasic()
     else:
         obj = RequirementPro()
         
-    return obj.clarifyRequirement(requirementID, userPrompt, globalContext, appArchitecture)
+    return obj.clarifyRequirement(requirementID, userPrompt, globalContext, appArchitecture, req)
 
 @pre_check_quota
 def clarifyAPI(requirementID, userPrompt, apiDoc):

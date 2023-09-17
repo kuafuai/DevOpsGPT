@@ -35,7 +35,7 @@ def clarify():
             TenantBill.record_requirement(tenantID, userName, requirementID, userPrompt)
     
     appArchitecture, _ = getAppArchitecture(req["app_id"])
-    msg, success = clarifyRequirement(requirementID, userPrompt, globalContext, appArchitecture)
+    msg, success = clarifyRequirement(requirementID, userPrompt, globalContext, appArchitecture, req)
 
     if success:
         return {'message': msg, 'memory': session[userName]['memory'], "input_prompt": userPrompt}

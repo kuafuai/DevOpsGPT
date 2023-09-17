@@ -45,7 +45,8 @@ $(document).ready(function () {
                 'service_public_ip' : $("#service_public_ip_"+i).val(),
                 'service_security_group' : $("#service_security_group_"+i).val(),
                 'service_cd_subnet' : $("#service_cd_subnet_"+i).val(),
-                'service_cd_default_image' : $("#service_cd_default_image_"+i).val()
+                'service_cd_default_image' : $("#service_cd_default_image_"+i).val(),
+                'service_service_type' : $("#service_service_type_"+i).val()
             }
             requestData.service.push(service)
         }
@@ -94,6 +95,15 @@ $(document).ready(function () {
                 <div class="field">
                 <label>`+globalFrontendText["service_name"]+`</label>
                 <input type="text" id="service_name_`+serviceID+`">
+                </div>
+                <div class="field">
+                <label>`+globalFrontendText["service_type"]+`</label>
+                <select class="ui fluid dropdown" id="service_service_type_`+serviceID+`">
+                    <option value="FRONTEND">前端/移动端（Frontend/Mobile）</option>
+                    <option value="BACKEND">后端服务（Backend）</option>
+                    <option value="GAME">游戏（GAME）</option>
+                    <option value="COMMON">其它（Others）</option>
+                </select>
                 </div>
                 <div class="field">
                 <label>`+globalFrontendText["service_role"]+`</label>
@@ -222,6 +232,15 @@ function showApp(appID, isTpl) {
                     <input type="text" id="service_name_`+idx+`" value="`+service.name+`">
                     </div>
                     <div class="field">
+                    <label>`+globalFrontendText["service_type"]+`</label>
+                    <select class="ui fluid dropdown" id="service_service_type_`+idx+`" value=`+service.service_type+`>
+                        <option value="FRONTEND">前端/移动端（Frontend/Mobile）</option>
+                        <option value="BACKEND">后端服务（Backend）</option>
+                        <option value="GAME">游戏（GAME）</option>
+                        <option value="COMMON">其它（Others）</option>
+                    </select>
+                    </div>
+                    <div class="field">
                     <label>`+globalFrontendText["service_role"]+`</label>
                     <textarea id="service_role_`+idx+`" rows="4">`+service.role+`</textarea>
                     </div>
@@ -292,6 +311,7 @@ function showApp(appID, isTpl) {
             setTimeout(function () {
                 $('#app-edit').modal('refresh');
             }, 550);
+            $("#service_service_type_"+idx).val(service.service_type)
         });
     }
 
@@ -313,6 +333,7 @@ function analyzeService(elementID) {
         console.log(data)
         console.log(elementID)
         $("#service_name_"+elementID).val(data.name)
+        $("#service_service_type_"+elementID).val(data.service_type)
         $("#service_role_"+elementID).val(data.role)
         $("#service_language_"+elementID).val(data.language)
         $("#service_framework_"+elementID).val(data.framework)

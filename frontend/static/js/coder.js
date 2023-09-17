@@ -276,8 +276,12 @@ $(document).ready(function () {
                     taskAnalysis(customPrompt, element)
                 }
             })
-        }else if (operType == "requirement_doc") {
-            genInterfaceDoc(customPrompt)
+        } else if (operType == "requirement_doc") {
+            if (globalChangeServiceList.length == 1) {
+                taskAnalysis(customPrompt, globalChangeServiceList[0])
+            } else {
+                genInterfaceDoc(customPrompt)
+            }
         } else {
             clarify(customPrompt)
         }
@@ -1456,15 +1460,17 @@ clarifySuccessCallback = function(data){
         if (msgJson["services_involved"].length > 0) {
             globalChangeServiceList = []
             msgJson["services_involved"].forEach(function (element, element_index, element_array) {
-                globalChangeServiceList.push(element["service-name"])
+                globalChangeServiceList.push(element["service_name"])
             })
-        } else {
+        }
+        if (globalChangeServiceList < 0 ) {
             myAlert(globalFrontendText["error"], globalFrontendText["service_modification_item_empty"])
         }
-        msg = globalFrontendText["ai_requirement_clarify_1"]+"\n"+msgJson.development_requirements_overview+"\n\n"+globalFrontendText["ai_requirement_clarify_2"]+"\n"+msgJson.development_requirements_detail
+        msg = msgJson.development_requirements_detail
         str = '<br /><br /><button class="ui green button" onClick="taskOk(\''+escapeHtml(msg)+'\', this, \'requirement_doc\')">'+globalFrontendText["submit"]+'</button><button class="ui blue button" onclick="taskChange(\''+escapeHtml(msg)+'\', \'requirement_doc\')">'+globalFrontendText["edit"]+'</button>'
-        msg = msg
-        msg = '<h5>'+globalFrontendText["ai_requirement_clarify_3"]+'</h5>'+msg
+        marked_msg = marked.marked(msg)
+        console.log(marked_msg)
+        msg = '<h5>'+globalFrontendText["ai_requirement_clarify_3"]+'</h5>'+marked_msg
     } else {
         var table = '<h5>'+globalFrontendText["ai_requirement_clarify_4"]+'</h5><table class="ui celled table"><thead><tr><th class="eight wide">'+globalFrontendText["question"]+'</th><th class="eight wide">'+globalFrontendText["answer"]+'</th></tr></thead><tbody>'
         console.log(msgJson)
@@ -1475,7 +1481,7 @@ clarifySuccessCallback = function(data){
         msg = table
     }
 
-    $(".ai-code").eq($('ai-code').length - 1).html(msg.replaceAll('\n', '<br />')+str);
+    $(".ai-code").eq($('ai-code').length - 1).html(msg+str);
     //$(".ai-code").eq($('ai-code').length - 1).hide().fadeIn('fast');
 }
 
@@ -1549,7 +1555,11 @@ function taskAnalysis(customPrompt, service_name, hideUserPrompt, thisElement) {
     }, 900);
     $('img').popup();
 
-    var requestData = JSON.stringify({ 'service_name': service_name, 'api_doc': customPrompt, 'task_id': getTaskID() })
+    doc_type = "api"
+    if (globalChangeServiceList.length == 1) {
+        doc_type = "prd"
+    }
+    var requestData = JSON.stringify({ 'service_name': service_name, 'prompt': customPrompt, 'doc_type': doc_type, 'task_id': getTaskID() })
 
     var retruBtn = '<br /><br /><button class="ui green button" onClick="taskAnalysis(\''+escapeHtml(customPrompt)+'\',\''+service_name+'\', true, this)">'+globalFrontendText["retry"]+'</button>'
 

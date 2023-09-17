@@ -21,6 +21,7 @@
 .ai-content {
   margin-top: 2px;
   padding-left: 0px !important;
+  line-height:1.75 !important;
 }
 
 .user-code-container {
@@ -185,4 +186,20 @@ pre {
 .price-content{
   text-align: left;
   padding-left: 20px;
+}
+
+.ai-code h2 {
+  line-height: 1em;
+  padding: 5px 0;
+  margin: 0px;
+  font-size: 18px;
+}
+
+.ai-code p {
+  padding: 0px;
+  margin: 0px;
+}
+
+.ai-code ul {
+  margin: 0px;
 }

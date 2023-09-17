@@ -7,7 +7,7 @@ from app.pkgs.prompt.requirement_interface import RequirementInterface
 from app.pkgs.tools.llm import chatCompletion
 
 class RequirementBasic(RequirementInterface):
-    def clarifyRequirement(self, requirementID, userPrompt, globalContext, appArchitecture):
+    def clarifyRequirement(self, requirementID, userPrompt, globalContext, appArchitecture, req):
         _ = getI18n("prompt") 
         requirementsDetail = _("Prerequisites, Detailed Operation Steps, Expected Results, Other Explanatory Notes.")
     

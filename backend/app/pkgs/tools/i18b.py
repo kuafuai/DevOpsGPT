@@ -219,4 +219,5 @@ def getFrontendText():
         "intro_contact_us": _("Contact Us"),
         "intro_links": _("Links"),
         "get_launch_code": _("Get Launch code"),
+        "service_type": _("Service Type"),
     }

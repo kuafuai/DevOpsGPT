@@ -16,24 +16,24 @@ def analysis():
     _ = getI18n("controllers")
     data = request.json
     serviceName = data['service_name']
-    apiDoc = data['api_doc']
+    prompt = data['prompt']
+    doc_type = data['doc_type']
     username = session['username']
     requirementID = request.json.get('task_id')
-
-    # todo Use llm to determine which interface documents to adjust
     req = Requirement.get_requirement_by_id(requirementID) 
-    defaultApiDoc, success = getServiceSwagger(req["app_id"], 0)
-    requirementDoc = req["original_requirement"]
 
-    if len(defaultApiDoc) > 0:
+    if doc_type == "api":
+        requirementDoc = req["original_requirement"]
         newfeature = requirementDoc+"""
 
 You need to think on the basis of the following interface documentation：
 ```
-"""+apiDoc.replace("```", "")+"""
+"""+prompt.replace("```", "")+"""
 ```
 """
     else:
+        requirementDoc = prompt
+        Requirement.update_requirement(requirement_id=requirementID, original_requirement=prompt)
         newfeature = requirementDoc
         
     appBasePrompt, _ = getServiceBasePrompt(req["app_id"], serviceName)
