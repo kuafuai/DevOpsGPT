@@ -8,6 +8,7 @@ def getEmptyTaskInfo():
         "task_id": "",
         "source_branch": "",
         "feature_branch": "",
-        "final_requirement": ""
+        "final_requirement": "",
+        "organize": ""
     }
     return {"memory": {"task_info": taskInfo, "originalPrompt": "", "repoPath": "", "clarifyRequirement": ""}}

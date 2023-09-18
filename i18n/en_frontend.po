@@ -105,7 +105,7 @@ msgstr ""
 msgid ""
 "The requirements document has been generated, and the interface document "
 "will be generated after confirmation: "
-msgstr "The PRD has been generated."
+msgstr "The PRD has been generated. You can: Confirm the document, send feedback to me, or manually modify the document."
 
 #: backend/app/pkgs/tools/i18b.py:56
 msgid ""
@@ -181,7 +181,7 @@ msgstr ""
 
 #: backend/app/pkgs/tools/i18b.py:72
 msgid "Requirement description"
-msgstr ""
+msgstr "Send a message"
 
 #: backend/app/pkgs/tools/i18b.py:73
 msgid "Operation"

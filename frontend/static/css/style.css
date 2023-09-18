@@ -190,9 +190,9 @@ pre {
 
 .ai-code h2 {
   line-height: 1em;
-  padding: 5px 0;
+  padding: 15px 0 5px 0;
   margin: 0px;
-  font-size: 18px;
+  font-size: 16px;
 }
 
 .ai-code p {

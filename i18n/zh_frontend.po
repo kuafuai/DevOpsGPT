@@ -105,7 +105,7 @@ msgstr "详细描述："
 msgid ""
 "The requirements document has been generated, and the interface document "
 "will be generated after confirmation: "
-msgstr "需求文档 PRD 已生成。"
+msgstr "需求文档 PRD 已生成，您可以：确认文档、反馈意见给我、或手动修改文档。"
 
 #: backend/app/pkgs/tools/i18b.py:56
 msgid ""
@@ -181,7 +181,7 @@ msgstr "选择应用"
 
 #: backend/app/pkgs/tools/i18b.py:72
 msgid "Requirement description"
-msgstr "开发需求"
+msgstr "发送消息"
 
 #: backend/app/pkgs/tools/i18b.py:73
 msgid "Operation"

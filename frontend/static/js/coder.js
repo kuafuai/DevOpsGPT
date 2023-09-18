@@ -6,6 +6,7 @@ var gloablCode = {}
 var globalFrontendText = {}
 var globalCompileTimes = {}
 var globalChangeServiceList = []
+var globalRole = ""
 var codeMirror
 var apiUrl = "http://127.0.0.1:8081"
 
@@ -75,9 +76,7 @@ var alertErrorCallback = function(error) {
     myAlert("ERROR", error)
 }
 
-
-function thinkUI(customPrompt, thinkText, role) {
-    role_img = '<i class="blue  grav icon big" style="font-size: 3em;"></i>'
+function getRoleImg(role_img, role) {
     if (role=="QA") {
         role_img = '<img class="ui avatar image" src="./static/image/role_qa.png" data-content="QA" style="width: auto;height: auto;">'
     }
@@ -90,10 +89,18 @@ function thinkUI(customPrompt, thinkText, role) {
     if (role=="TL") {
         role_img = '<img class="ui avatar image" src="./static/image/role_tl.png"  data-content="TL"  style="width: auto;height: auto;">'
     }
+    return role_img
+}
 
+
+function thinkUI(customPrompt, thinkText, role) {
+    role_img = getRoleImg('<i class="blue  grav icon big" style="font-size: 3em;"></i>', role)
+    query_img = getRoleImg('<i class="blue  grav icon big" style="font-size: 3em;"></i>', globalRole)
+    globalRole = ""
+    
     $('#prompt-textarea').val("");
     $("#prompt-hidePrompt").val("")
-    var newField = $('<div class="user-code-container"><div class="ui container grid"><div class="one wide column"><i class="blue  grav icon big" style="font-size: 3em;"></i></div><div class="fifteen wide column ai-content"><div class="ai-code">' + customPrompt.replaceAll("\n", "<br />") + '</div></div></div></div> <div class="ai-code-container"><div class="ui container grid"><div class="one wide column">'+role_img+'</div><div class="fifteen wide column ai-content"><div class="ai-code"><i class="spinner loading icon"></i>'+thinkText+'</div></div></div></div>');
+    var newField = $('<div class="user-code-container"><div class="ui container grid"><div class="one wide column">'+query_img+'</div><div class="fifteen wide column ai-content"><div class="ai-code">' + marked.marked(customPrompt).replaceAll("\n", "<br />") + '</div></div></div></div> <div class="ai-code-container"><div class="ui container grid"><div class="one wide column">'+role_img+'</div><div class="fifteen wide column ai-content"><div class="ai-code"><i class="spinner loading icon"></i>'+thinkText+'</div></div></div></div>');
     $(".ai-prompt-container").eq($('ai-prompt-container').length - 1).before(newField);
     $(".ai-code-container").eq($('ai-code-container').length - 1).hide();
     $(".user-code-container").eq($('user-code-container').length - 1).hide();
@@ -110,23 +117,11 @@ function thinkUI(customPrompt, thinkText, role) {
 }
 
 function thinkUIShow(customPrompt, thinkText, role) {
-    role_img = '<i class="blue  grav icon big" style="font-size: 3em;"></i>'
-    if (role=="QA") {
-        role_img = '<img class="ui avatar image" src="./static/image/role_qa.png" data-content="QA" style="width: auto;height: auto;">'
-    }
-    if (role=="OP") {
-        role_img = '<img class="ui avatar image" src="./static/image/role_op.jpg" data-content="OP" style="width: auto;height: auto;">'
-    }
-    if (role=="PM") {
-        role_img = '<img class="ui avatar image" src="./static/image/role_pm.jpg" data-content="PM" style="width: auto;height: auto;">'
-    }
-    if (role=="TL") {
-        role_img = '<img class="ui avatar image" src="./static/image/role_tl.png"  data-content="TL"  style="width: auto;height: auto;">'
-    }
+    role_img = getRoleImg('<i class="blue  grav icon big" style="font-size: 3em;"></i>', role)
     
     $('#prompt-textarea').val("");
     $("#prompt-hidePrompt").val("")
-    var newField = $('<div class="user-code-container"><div class="ui container grid"><div class="one wide column"><i class="blue  grav icon big" style="font-size: 3em;"></i></div><div class="fifteen wide column ai-content"><div class="ai-code">' + customPrompt.replaceAll("\n", "<br />") + '</div></div></div></div> <div class="ai-code-container"><div class="ui container grid"><div class="one wide column">'+role_img+'</div><div class="fifteen wide column ai-content"><div class="ai-code"><i class="spinner loading icon"></i>'+thinkText+'</div></div></div></div>');
+    var newField = $('<div class="user-code-container"><div class="ui container grid"><div class="one wide column"><i class="blue  grav icon big" style="font-size: 3em;"></i></div><div class="fifteen wide column ai-content"><div class="ai-code">' + marked.marked(customPrompt).replaceAll("\n", "<br />") + '</div></div></div></div> <div class="ai-code-container"><div class="ui container grid"><div class="one wide column">'+role_img+'</div><div class="fifteen wide column ai-content"><div class="ai-code"><i class="spinner loading icon"></i>'+thinkText+'</div></div></div></div>');
     $(".ai-prompt-container").eq($('ai-prompt-container').length - 1).before(newField);
 
     $('html, body').animate({ scrollTop: $(document).height() }, 'slow');
@@ -176,7 +171,7 @@ function modelSelected(appName, appID, repos) {
     $("#generate-code-button").removeClass("disabled")
     $('#model-modal').modal('hide');
 
-    thinkUI(customPrompt, globalFrontendText["ai_think"])
+    thinkUI(customPrompt, globalFrontendText["ai_think"], "PM")
 
     requestData = JSON.stringify({ "app_id": appID, "source_branch": source_branch, "feature_branch": feature_branch })
 
@@ -372,7 +367,7 @@ function getRequirement() {
                         "input_prompt": memory.input_prompt
                     }
                 };
-                clarifySuccessCallback(d);
+                clarifySuccessCallback(d, true);
             }
             if (memory.step == "API_organize") {
                 thinkUIShow(memory.artifact_type, globalFrontendText["ai_think"], 'TL');
@@ -1448,15 +1443,18 @@ function clarifyOk(element) {
     clarify(content)
 }
 
-clarifySuccessCallback = function(data){
+clarifySuccessCallback = function(data, isRecover){
+    $('#generate-code-button').removeClass("disabled");
+
     data = data.data
     globalMemory = data.memory
     var msgJson = data.message
-    var msg = JSON.stringify(msgJson)
+    var msgStr = JSON.stringify(msgJson)
+    var msg = ""
     var str = ""
     globalContext.push({ role: 'user', content: data.input_prompt })
-    globalContext.push({ role: 'assistant', content: msg })            
-    if (msg.includes("development_requirements_overview")) {
+    globalContext.push({ role: 'assistant', content: msgStr })    
+    if (msgStr.includes("development_requirements_overview")) {
         if (msgJson["services_involved"].length > 0) {
             globalChangeServiceList = []
             msgJson["services_involved"].forEach(function (element, element_index, element_array) {
@@ -1482,6 +1480,12 @@ clarifySuccessCallback = function(data){
     }
 
     $(".ai-code").eq($('ai-code').length - 1).html(msg+str);
+
+    if (!isRecover && msgStr.includes("review") && msgJson["review"].length>10){
+        $("#prompt-textarea").val(msgJson["review"])
+        globalRole = "TL"
+        $("#generate-code-button").click()
+    } 
     //$(".ai-code").eq($('ai-code').length - 1).hide().fadeIn('fast');
 }
 
