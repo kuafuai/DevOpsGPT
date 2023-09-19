@@ -67,6 +67,10 @@ EMAIL_PASSWORD: ""
 PAYPAL_MODE: "sandbox" # sandbox or live
 PAYPAL_ID: "xxxx"
 PAYPAL_SECRET: "xxxx"
+ALIPAY_SERVER: "https://openapi-sandbox.dl.alipaydev.com/gateway.do" # sandbox or live
+ALIPAY_ID: "666"
+ALIPAY_PRIVATE_KEY: "xxxx"
+ALIPAY_PUBLIC_KEY: "xxxx"
 
 AUTO_LOGIN: true
 USERS: |

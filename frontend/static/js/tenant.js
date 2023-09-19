@@ -208,7 +208,7 @@ function getRechargeList() {
                 <div class="right floated content">
                     <div class="ui right labeled input">
                         <input type="number" placeholder="" value=10 id="cf_number">
-                        <div class="ui button basic blue" onClick="pay_cf('`+data.data.payment_method+`', 'CODE_POWER', this)">
+                        <div class="ui button basic blue pay_btn" onClick="pay_cf('`+data.data.payment_method+`', 'CODE_POWER', this)">
                         <i class="yen sign icon"></i>
                         `+globalFrontendText["recharge"]+`
                         </div>
@@ -235,7 +235,7 @@ function getRenewalList() {
         str = `
             <div class="item" style="padding: 10px 20px">
                 <div class="right floated content">
-                    <div class="ui button blue" onClick="pay('`+data.data.payment_method+`', 'BASIC_MONTHLY', this, 'basic_number')"><i class="yen sign icon"></i>`+globalFrontendText["renewal"]+`</div>
+                    <div class="ui button blue pay_btn" onClick="pay('`+data.data.payment_method+`', 'BASIC_MONTHLY', this, 'basic_number')"><i class="yen sign icon"></i>`+globalFrontendText["renewal"]+`</div>
                 </div>
                 <div class="right floated content">
                     <select class="ui fluid dropdown" id="basic_number">
@@ -292,8 +292,8 @@ function pay(payment_method, plus_type, ele, number_id) {
     errorCallback = function(error) {
         $("#invite-message").html(error)
         $("#invite-message").fadeOut().fadeIn()
-        $("#invite_btn").removeClass("disabled")
-        $("#invite_btn").removeClass("loading")
+        $(".pay_btn").removeClass("disabled")
+        $(".pay_btn").removeClass("loading")
     }
 
     sendAjaxRequest('/pay/create_pay', "POST", requestData, successCallback, alertErrorCallback, true, false)
@@ -306,7 +306,7 @@ function pay_cf(payment_method, plus_type, ele) {
     var requestData = JSON.stringify({ 
         'payment_method': payment_method, 
         'tenant_id': getTenantID(),
-        'number': $("#cf_number").val(),
+        'number': parseFloat($("#cf_number").val()),
         'plus_type': plus_type,
     })
  
@@ -317,8 +317,8 @@ function pay_cf(payment_method, plus_type, ele) {
     errorCallback = function(error) {
         $("#invite-message").html(error)
         $("#invite-message").fadeOut().fadeIn()
-        $("#invite_btn").removeClass("disabled")
-        $("#invite_btn").removeClass("loading")
+        $(".pay_btn").removeClass("disabled")
+        $(".pay_btn").removeClass("loading")
     }
 
     sendAjaxRequest('/pay/create_pay', "POST", requestData, successCallback, alertErrorCallback, true, false)

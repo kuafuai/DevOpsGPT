@@ -62,8 +62,10 @@ function kill_by_port() {
     esac
     if [ -z "$pid" ]; then
         echo "The port is not in use: $port"
+    else
+        echo "will kill port $port pid $pid"
+        kill -9 $pid
     fi
-    kill -9 $pid
 }
 
 cp .github/hooks/pre-commit .git/hooks/
