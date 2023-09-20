@@ -1,11 +1,11 @@
 import gettext
-from flask import session
+from app.pkgs.tools import storage
 
 from config import LANGUAGE, SITE_NAME
 
 def getCurrentLanguageName():
     try:
-        language = session['language']
+        language = storage.get("language")
     except Exception as e:
         language = LANGUAGE
 
@@ -16,7 +16,7 @@ def getCurrentLanguageName():
 
 def getI18n(domain):
     try:
-        language = session['language']
+        language = storage.get("language")
     except Exception as e:
         language = LANGUAGE
 

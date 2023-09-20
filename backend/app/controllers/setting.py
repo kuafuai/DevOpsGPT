@@ -1,4 +1,5 @@
-from flask import request, session
+from flask import request
+from app.pkgs.tools import storage
 from app.controllers.common import json_response
 from flask import Blueprint
 from app.pkgs.tools.i18b import getI18n
@@ -69,7 +70,7 @@ def edit_git():
     git_username = request.json.get('git_username')
     git_config_id = request.json.get('git_config_id')
     name = request.json.get('git_name')
-    creater = session['username']
+    creater = storage.get("username")
     tenant_id = request.json.get('tenant_id')
 
     try:
@@ -93,7 +94,7 @@ def edit_ci():
     ci_provider = request.json.get('ci_provider')
     ci_config_id = request.json.get('ci_config_id')
     name = request.json.get('ci_name')
-    creater = session['username']
+    creater = storage.get("username")
     tenant_id = request.json.get('tenant_id')
 
     try:
@@ -117,7 +118,7 @@ def edit_cd():
     secret_key = request.json.get('SECRET_KEY')
     cd_provider = request.json.get('cd_provider')
     name = request.json.get('cd_name')
-    creater = session['username']
+    creater = storage.get("username")
     tenant_id = request.json.get('tenant_id')
 
     try:

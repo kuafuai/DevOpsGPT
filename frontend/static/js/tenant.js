@@ -281,7 +281,7 @@ function pay(payment_method, plus_type, ele, number_id) {
     var requestData = JSON.stringify({ 
         'payment_method': payment_method, 
         'plus_type': plus_type,
-        'number': $("#" + number_id).val(),
+        'number': parseInt($("#" + number_id).val()),
         'tenant_id': getTenantID(),
     })
  

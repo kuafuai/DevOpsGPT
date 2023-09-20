@@ -1,4 +1,5 @@
-from flask import request, session
+from flask import request
+from app.pkgs.tools import storage
 from app.controllers.common import json_response
 from app.pkgs.prompt.prompt import aiAnalyzeError
 from app.pkgs.devops.local_tools import compileCheck, lintCheck
@@ -20,11 +21,11 @@ def trigger_ci():
     _ = getI18n("controllers")
 
     serviceName = request.json.get('repo_path')
-    username = session['username']
+    username = storage.get("username")
     requirementID = request.json.get('task_id')
     req = Requirement.get_requirement_by_id(requirementID) 
     serviceInfo = ApplicationService.get_service_by_name(req["app_id"], serviceName)
-    tenantID = session['tenant_id']
+    tenantID = storage.get("tenant_id")
     ciConfigList, success = getCIConfigList(tenantID, req["app_id"], False)
     if len(ciConfigList) < 1:
         raise Exception(_("CI is not configured. Configure it in Company Settings"))
@@ -43,7 +44,7 @@ def trigger_ci():
 def plugin_ci():
     pipeline_id = request.args.get('piplineID')
     repopath = request.args.get('repopath')
-    tenantID = session['tenant_id']
+    tenantID = storage.get("tenant_id")
     requirementID = request.args.get('task_id')
     req = Requirement.get_requirement_by_id(requirementID) 
     ciConfigList, success = getCIConfigList(tenantID, req["app_id"], False)
@@ -112,7 +113,7 @@ def trigger_cd():
     serviceName = request.json.get('repo_path')
     serviceInfo = ApplicationService.get_service_by_name(req["app_id"], serviceName)
     image, success = getServiceDockerImage(req["app_id"], serviceName)
-    tenantID = session['tenant_id']
+    tenantID = storage.get("tenant_id")
     cdConfigList, success = getCDConfigList(tenantID, req["app_id"], False)
 
     result, success = triggerCD(requirementID, image, serviceInfo, cdConfigList[0])

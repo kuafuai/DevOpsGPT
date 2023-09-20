@@ -1,6 +1,5 @@
 var globalTenantID = 0
 var globalContext = []
-var globalMemory = {}
 var globalTasks = []
 var gloablCode = {}
 var globalFrontendText = {}
@@ -354,7 +353,6 @@ function getRequirement() {
     successCallback = function(data) {
         modelSelectedSuccessCallback(data)
         for (let element_index = 0; element_index < data.data.memory.length; element_index++) {
-            globalMemory = data.data.old_memory
             const memory = data.data.memory[element_index];
             
             console.log(memory);
@@ -617,14 +615,14 @@ function pluginTaskRunner(info) {
     gloablCode["oldCode_" + info["front_uuid"]] = info["oldCode"]
 }
 
-function createWS(serviceName, sourceBranch, featureBranch) {
+function createWS(serviceName) {
     $("#my-alert").modal('hide')
-    var requestData = JSON.stringify({ 'repo_path': serviceName, 'base_branch': sourceBranch, 'feature_branch': featureBranch, 'task_id': getTaskID() })
+    var requestData = JSON.stringify({ 'repo_path': serviceName, 'task_id': getTaskID() })
 
     successCallback = function(data){}
 
     errorCallback = function(error) {
-        var retruBtn = '<br /><br /><button class="ui green button" onClick="createWS(\''+serviceName+'\', \''+sourceBranch+'\', \''+featureBranch+'\')">'+globalFrontendText["retry"]+'</button>'
+        var retruBtn = '<br /><br /><button class="ui green button" onClick="createWS(\''+serviceName+'\')">'+globalFrontendText["retry"]+'</button>'
         myAlertPure("ERROR", error + retruBtn)
     }
 
@@ -1144,7 +1142,7 @@ function pluginTaskList(info, ifRecover) {
     var service_name = info["service_name"]
     
     if (!ifRecover) {
-        createWS(service_name, globalMemory["task_info"]["source_branch"], globalMemory["task_info"]["feature_branch"])
+        createWS(service_name)
     }
 
     var str = `<p>`+globalFrontendText["ai_api_subtask"]+`</p>`
@@ -1160,7 +1158,7 @@ function pluginTaskList(info, ifRecover) {
             <button class="ui green button tiny" onclick="checkCompile('`+ service_name +`', 0);"><i class="tasks icon"></i>`+globalFrontendText["auto_check"]+`</button>
             <button class="ui blue button tiny" onclick="resetWorkspace('`+ service_name +`', this);"><i class="sync icon"></i>`+globalFrontendText["reset_workspace"]+`</button>
             <button class="ui blue button tiny" onclick="startPush('`+ service_name +`', this);"><i class="tasks icon"></i>`+globalFrontendText["submit_code"]+`</button>
-            <button class="ui teal button tiny" onClick="startCi('`+ service_name + `','` + globalMemory["task_info"]["feature_branch"] + `')"><i class="tasks icon"></i>`+globalFrontendText["start_ci"]+`</button>
+            <button class="ui teal button tiny" onClick="startCi('`+ service_name + `')"><i class="tasks icon"></i>`+globalFrontendText["start_ci"]+`</button>
             <button class="ui purple button tiny" onClick="startCd('`+ service_name + `')"><i class="docker icon"></i>`+globalFrontendText["start_cd"]+`</button>
         </div>
     `;
@@ -1295,8 +1293,8 @@ function startPush(serviceName, ele) {
     }, 100);
 }
 
-function startCi(repo_path, repo_branch) {  
-    customPrompt = "git repo: "+repo_path+", branch: "+repo_branch+", "+globalFrontendText["start_ci"]
+function startCi(repo_path) {  
+    customPrompt = "git repo: "+repo_path+" "+globalFrontendText["start_ci"]
 
     thinkUI(customPrompt, globalFrontendText["ai_think"], "QA")
     
@@ -1447,7 +1445,6 @@ clarifySuccessCallback = function(data, isRecover){
     $('#generate-code-button').removeClass("disabled");
 
     data = data.data
-    globalMemory = data.memory
     var msgJson = data.message
     var msgStr = JSON.stringify(msgJson)
     var msg = ""
@@ -1570,7 +1567,6 @@ function taskAnalysis(customPrompt, service_name, hideUserPrompt, thisElement) {
     successCallback = function(data) {
         data = data.data
         var plugin = data.plugin
-        globalMemory = data.memory
         if (plugin) {
             triggerPlugin(plugin)
         }

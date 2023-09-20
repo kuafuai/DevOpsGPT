@@ -1,4 +1,5 @@
-from flask import request, session
+from flask import request
+from app.pkgs.tools import storage
 from app.controllers.common import json_response
 from app.pkgs.tools.i18b import getI18n
 from app.pkgs.prompt.prompt import aiGenCode, aiMergeCode, aiCheckCode, aiFixError, aiReferenceRepair
@@ -52,7 +53,7 @@ def merge_file():
     baseCode = request.json.get('base_code')
     newCode = request.json.get('new_code')
     fileTask = request.json.get('file_task')
-    userName = session["username"]
+    userName = storage.get("username")
     requirementID = request.json.get('task_id')
     filePath = request.json.get('file_path')
 
@@ -70,7 +71,7 @@ def reference_repair():
     newCode = request.json.get('new_code')
     referenceFile = request.json.get('reference_file')
     repo = request.json.get('repo')
-    userName = session["username"]
+    userName = storage.get("username")
     requirementID = request.json.get('task_id')
     filePath = request.json.get('file_path')
 

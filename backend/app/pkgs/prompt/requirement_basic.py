@@ -1,5 +1,5 @@
 import json
-from flask import session
+from app.pkgs.tools import storage
 from app.pkgs.tools.i18b import getI18n
 from app.pkgs.tools.i18b import getCurrentLanguageName
 from app.pkgs.tools.utils_tool import fix_llm_json_str
@@ -21,11 +21,11 @@ class RequirementBasic(RequirementInterface):
         maxCycle = 2
         message = ""
         if len(preContext) == 0:
-            session[session["username"]]["memory"]["clarifyRequirement"] = ""
+            session[storage.get("username")]["memory"]["clarifyRequirement"] = ""
             firstPrompt = userPrompt
         elif len(preContext) < maxCycle:
             firstPrompt = preContext[0]["content"]
-            session[session["username"]]["memory"]["clarifyRequirement"] += userPrompt + "\n"
+            session[storage.get("username")]["memory"]["clarifyRequirement"] += userPrompt + "\n"
             
             preContext = preContext[1:]
             preContext.append({
@@ -37,7 +37,7 @@ Is there anything else unclear? If yes, continue asking less than 3 unclear ques
             })
         else:
             firstPrompt = preContext[0]["content"]
-            session[session["username"]]["memory"]["clarifyRequirement"] += userPrompt
+            session[storage.get("username")]["memory"]["clarifyRequirement"] += userPrompt
 
         if len(preContext) < maxCycle:
             finalContext = [
@@ -94,7 +94,7 @@ software development requirement:
 
 clarified list:
 ```
-"""+session[session["username"]]["memory"]["clarifyRequirement"]+"""
+"""+session[storage.get("username")]["memory"]["clarifyRequirement"]+"""
 ```
 
 You need to base on "Application Information" to analyze which services need to be modified to meet the requirements document you organize.

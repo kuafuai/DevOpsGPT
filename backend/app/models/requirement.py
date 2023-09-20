@@ -5,8 +5,8 @@ from app.models.application import Application
 class Requirement(db.Model):
     requirement_id = db.Column(db.Integer, primary_key=True)
     tenant_id = db.Column(db.Integer, nullable=False)
-    requirement_name = db.Column(db.String(255), nullable=False)
-    original_requirement = db.Column(db.String(1000))
+    requirement_name = db.Column(db.String(6000), nullable=False)
+    original_requirement = db.Column(db.String(6000))
     app_id = db.Column(db.Integer, nullable=False)
     username = db.Column(db.String(100))
     default_source_branch = db.Column(db.String(255))

@@ -1,11 +1,11 @@
-from flask import request, session
+from flask import request
+from app.pkgs.tools import storage
 from app.controllers.common import json_response
 from flask import Blueprint
 from app.pkgs.tools.i18b import getI18n
 from app.pkgs.prompt.prompt import clarifyRequirement
 from app.pkgs.knowledge.app_info import getAppArchitecture
 from app.models.requirement import Requirement
-from app.models.tenant_pro import Tenant
 from app.models.tenant_bill_pro import TenantBill
 from config import GRADE
 from config import REQUIREMENT_STATUS_InProgress
@@ -18,9 +18,9 @@ def clarify():
     _ = getI18n("controllers")
     userPrompt = request.json.get('user_prompt')
     globalContext = request.json.get('global_context')
-    userName = session["username"]
+    userName = storage.get("username")
     requirementID = request.json.get('task_id')
-    tenantID = session['tenant_id']
+    tenantID = storage.get("tenant_id")
 
     req = Requirement.get_requirement_by_id(requirementID) 
 
@@ -38,6 +38,6 @@ def clarify():
     msg, success = clarifyRequirement(requirementID, userPrompt, globalContext, appArchitecture, req)
 
     if success:
-        return {'message': msg, 'memory': session[userName]['memory'], "input_prompt": userPrompt}
+        return {'message': msg, "input_prompt": userPrompt}
     else:
         raise Exception(_("Failed to clarify requirement."))

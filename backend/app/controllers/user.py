@@ -1,4 +1,5 @@
-from flask import Blueprint, request, session
+from flask import Blueprint, request
+from app.pkgs.tools import storage
 from app.controllers.common import json_response
 from app.pkgs.tools.i18b import getI18n
 from app.pkgs.tools.i18b import getFrontendText
@@ -24,8 +25,8 @@ def register():
     launch_code = data['launch_code']
     invitation_code = data['invitation_code']
     zone_language = LANGUAGE
-    if "language" in session:
-        zone_language = session['language']
+    if storage.get("language"):
+        zone_language = storage.get("language")
 
     if GRADE == "base":
         raise Exception("The current version does not support this feature")
@@ -64,18 +65,18 @@ def login():
 
     if GRADE == "base":
         ok = User.checkPassword(username, password)
-        session['tenant_id'] = 0
-        session['user_id'] = 1
-        session['username'] = username 
+        storage.set("tenant_id", 0) 
+        storage.set("user_id", 1) 
+        storage.set("username", username)
     else:
         ok = UserPro.checkPassword(username, password)
         if ok:
             userinfo = UserPro.get_user_by_name(username)
-            session['language'] = userinfo["zone_language"]
+            storage.set("language", userinfo["zone_language"])
 
-            session['tenant_id'] = userinfo["current_tenant"]
-            session['user_id'] = userinfo["user_id"]
-            session['username'] = username 
+            storage.set("tenant_id", userinfo["current_tenant"])
+            storage.set("user_id", userinfo["user_id"])
+            storage.set("username", username)
         
     if ok:
         return {'message': _('Login successful.')}
@@ -88,31 +89,28 @@ def login():
 def logout():
     _ = getI18n("controllers")
     language = LANGUAGE
-    if "language" in session:
-        language = session['language']
-    session.clear()
-    session['language'] = language
-    session.update()
+    if storage.get("language"):
+        language = storage.get("language")
+    storage.clearup()
+    storage.set("language", language)
     return {'message': _('Logout successful.')}
 
 @bp.route('/change_language', methods=['GET'])
 @json_response
 def change_language():
     _ = getI18n("controllers")
-    if "language" not in session:
-        session['language'] = LANGUAGE
-        session.update()
+    if not storage.get("language"):
+        storage.set("language", LANGUAGE)
         
-    if session['language'] == "zh":
-        session['language'] = "en"
+    if storage.get("language") == "zh":
+        storage.set("language", "en")
     else:
-        session['language'] = "zh"
-    session.update()
+        storage.set("language", "zh")
 
-    if GRADE != "base" and "username" in session:
-        username = session['username']
+    if GRADE != "base" and storage.get("username"):
+        username = storage.get("username")
         userinfo = UserPro.get_user_by_name(username)
-        UserPro.update_user(userinfo["user_id"], zone_language=session['language'])
+        UserPro.update_user(userinfo["user_id"], zone_language=storage.get("language"))
 
     return {'message': _('success.')}
 
@@ -120,11 +118,8 @@ def change_language():
 @bp.route('/language', methods=['GET'])
 @json_response
 def language():
-    if "language" not in session:
-        session['language'] = LANGUAGE
-        session.update()
-
-    print(session)
+    if not storage.get("language"):
+        storage.set("language", LANGUAGE)
     
     frontendText = getFrontendText() 
 

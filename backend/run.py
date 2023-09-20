@@ -1,11 +1,11 @@
 from app.extensions import db
 import datetime
 from app.controllers import register_controllers
-from flask import Flask, request, session
+from flask import Flask, request
 from flask_cors import CORS
-from app.models.task import getEmptyTaskInfo
 from app.models.tenant_pro import Tenant
 from app.models.tenant_user_pro import TenantUser
+from app.pkgs.tools import storage
 from config import APP_SECRET_KEY, BACKEND_DEBUG, BACKEND_HOST, BACKEND_PORT, AICODER_ALLOWED_ORIGIN, AUTO_LOGIN, GRADE
 
 app = Flask(__name__)
@@ -16,19 +16,18 @@ app.config.from_pyfile('config.py')
 @app.before_request
 def require_login():
     if AUTO_LOGIN and GRADE == "base":
-        if "username" not in session:
-            session['username'] = "demo_user"
-            session['user_id'] = 1
-            session['tenant_id'] = 0
-            session[session["username"]] = getEmptyTaskInfo()
+        if not storage.get("username"):
+            storage.set("username", "demo_user")
+            storage.set("user_id", 1)
+            storage.set("tenant_id", 0)
 
     path = request.path
     if path == '/user/send_launch_code' or path == '/user/language' or path == '/user/login' or path == '/user/logout' or path == '/user/change_language' or path == '/user/register' or path == '/pay/get_price':
         pass
-    elif 'username' not in session:
+    elif not storage.get("username"):
         return {'success': False, 'error': 'Access denied', 'code': 401}
     else:
-        user = session["username"]
+        user = storage.get("username")
         current_time = datetime.datetime.now()
         args = request.get_data(as_text=True)
         print(f"req_time: {current_time}")
@@ -40,7 +39,7 @@ def require_login():
             try:
                 tenant_id = request.args.get('tenant_id')
                 if not tenant_id:
-                    tenant_id = session['tenant_id']
+                    tenant_id = storage.get("tenant_id")
             except Exception as e:
                 tenant_id = 0
 
@@ -50,7 +49,7 @@ def require_login():
                 if not success:
                     return {'success': False, 'error': msg, 'code': 404}
             # authority check
-            success, msg = TenantUser.check_role(session['user_id'], tenant_id, path)
+            success, msg = TenantUser.check_role(storage.get("user_id"), tenant_id, path)
             if not success:
                 return {'success': False, 'error': msg, 'code': 403}
 

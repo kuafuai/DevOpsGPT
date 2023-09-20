@@ -26,6 +26,8 @@ REQUIREMENT_STATUS_Canceled = "Canceled"
 
 REQUIREMENT_MEM_STEP_Requirement_clarify = "Requirement_clarify"
 REQUIREMENT_MEM_STEP_Requirement_organize = "Requirement_organize"
+REQUIREMENT_MEM_STEP_Requirement_adjust = "Requirement_adjust"
+REQUIREMENT_MEM_STEP_Requirement_review = "Requirement_review"
 REQUIREMENT_MEM_STEP_API_subtasks = "API_subtasks"
 REQUIREMENT_MEM_STEP_API_organize = "API_organize"
 REQUIREMENT_MEM_STEP_Subtask_chooseLib = "Subtask_chooseLib"

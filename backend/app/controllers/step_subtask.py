@@ -1,10 +1,10 @@
-from flask import request, session
+from flask import request
+from app.pkgs.tools import storage
 from app.controllers.common import json_response
 from app.pkgs.devops.local_tools import getFileContent
 from app.pkgs.tools.i18b import getI18n
 from flask import Blueprint
 from app.pkgs.prompt.prompt import splitTask
-from app.pkgs.knowledge.app_info import getServiceSwagger
 from app.pkgs.knowledge.app_info import getServiceBasePrompt, getServiceIntro, getServiceLib, getServiceStruct
 from app.models.requirement import Requirement
 
@@ -18,7 +18,7 @@ def analysis():
     serviceName = data['service_name']
     prompt = data['prompt']
     doc_type = data['doc_type']
-    username = session['username']
+    username = storage.get("username")
     requirementID = request.json.get('task_id')
     req = Requirement.get_requirement_by_id(requirementID) 
 
@@ -58,8 +58,7 @@ You need to think on the basis of the following interface documentation：
                 filesToEdit[index]["reference-code"] = ''
     
         plugin = {"name": 'task_list', "info": {"files":filesToEdit, "service_name": serviceName}}
-        session[username]['memory']['tasks'] = filesToEdit # There is no session update here, just for the frontend
 
-        return {'plugin': plugin, 'memory': session[username]['memory']}
+        return {'plugin': plugin}
     else:
         raise Exception(_("Failed to split task."))

@@ -1,4 +1,5 @@
-from flask import request, session
+from flask import request
+
 from app.controllers.common import json_response
 from flask import Blueprint
 from app.pkgs.tools.i18b import getI18n
@@ -7,6 +8,7 @@ from app.models.application import Application
 from app.models.application_service import ApplicationService
 from app.models.application_service_lib import ApplicationServiceLib
 from app.models.tenant_pro import Tenant
+from app.pkgs.tools import storage
 from config import GRADE
 
 bp = Blueprint('app', __name__, url_prefix='/app')
@@ -17,7 +19,7 @@ bp = Blueprint('app', __name__, url_prefix='/app')
 def add():
     _ = getI18n("controllers")
     name = request.json.get('app_name')
-    tenant_id = session['tenant_id']
+    tenant_id = storage.get("tenant_id")
     app_id = request.json.get('app_id')
     default_source_branch = request.json.get('app_default_source_branch')
     default_target_branch = request.json.get('app_default_target_branch')
@@ -26,7 +28,7 @@ def add():
     cd_config = request.json.get('app_cd_config')
     ci_config = request.json.get('app_ci_config')
     git_config = request.json.get('app_git_config')
-    creater = session['username']
+    creater = storage.get("username")
 
     try:
         if app_id:
@@ -52,7 +54,7 @@ def add():
 @json_response
 def getAll():
     _ = getI18n("controllers")
-    tenantID = session['tenant_id']
+    tenantID = storage.get("tenant_id")
     appID = request.args.get('app_id')
 
     try:
@@ -80,7 +82,7 @@ def get_tpl():
 @json_response
 def analyze_service():
     _ = getI18n("controllers")
-    tenantID = session['tenant_id']
+    tenantID = storage.get("tenant_id")
     gitPath = request.json.get('service_git_path')
 
     if len(gitPath) < 1:

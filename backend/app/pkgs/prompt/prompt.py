@@ -1,4 +1,4 @@
-from flask import session
+from app.pkgs.tools import storage
 from app.pkgs.prompt.subtask_pro import SubtaskPro
 from app.pkgs.prompt.requirement_basic import RequirementBasic
 from app.pkgs.prompt.requirement_pro import RequirementPro
@@ -16,7 +16,7 @@ def pre_check_quota(func):
     def wrapper(*args, **kwargs):
         # 在方法调用前执行的代码
         if GRADE != "base":
-            tenantID = session['tenant_id']
+            tenantID = storage.get("tenant_id")
             passed, msg = Tenant.check_quota(tenantID)
             if not passed:
                 raise Exception(msg)

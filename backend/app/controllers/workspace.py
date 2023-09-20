@@ -1,4 +1,5 @@
-from flask import request, session
+from flask import request
+from app.pkgs.tools import storage
 from app.controllers.common import json_response
 from app.pkgs.tools.i18b import getI18n
 from app.pkgs.devops.git_tools import pullCode, pushCode, gitResetWorkspace
@@ -38,7 +39,7 @@ def create():
     
     gitPath, success = getServiceGitPath(req["app_id"], serviceName)
 
-    tenantID = session['tenant_id']
+    tenantID = storage.get("tenant_id")
     gitConfigList, success = getGitConfigList(tenantID, req["app_id"], False)
 
     if not GIT_ENABLED:
@@ -55,7 +56,7 @@ def create():
 @json_response
 def gitpush():
     _ = getI18n("controllers")
-    username = session['username']
+    username = storage.get("username")
     requirementID =  request.json.get('task_id')
     serviceName = request.json.get('service_name')
     wsPath = get_ws_path(requirementID)
@@ -63,8 +64,8 @@ def gitpush():
     commitMsg = req["requirement_name"]
     fatureBranch = req["default_target_branch"]
     gitPath, success = getServiceGitPath(req["app_id"], serviceName)
-    tenantID = session['tenant_id']
-    username = session['username']
+    tenantID = storage.get("tenant_id")
+    username = storage.get("username")
     gitConfigList, success = getGitConfigList(tenantID, req["app_id"], False)
 
     Requirement.update_requirement(requirement_id=requirementID, status=REQUIREMENT_STATUS_Completed)
@@ -84,7 +85,7 @@ def gitpush():
 @json_response
 def resetWorkspace():
     _ = getI18n("controllers")
-    username = session['username']
+    username = storage.get("username")
     requirementID =  request.json.get('task_id')
     serviceName = request.json.get('service_name')
     wsPath = get_ws_path(requirementID)
@@ -92,8 +93,8 @@ def resetWorkspace():
     commitMsg = req["requirement_name"]
     fatureBranch = req["default_target_branch"]
     gitPath, success = getServiceGitPath(req["app_id"], serviceName)
-    tenantID = session['tenant_id']
-    username = session['username']
+    tenantID = storage.get("tenant_id")
+    username = storage.get("username")
     gitConfigList, success = getGitConfigList(tenantID, req["app_id"], False)
 
     Requirement.update_requirement(requirement_id=requirementID, status=REQUIREMENT_STATUS_Completed)
