@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-09-17 22:46+0800\n"
+"POT-Creation-Date: 2023-09-21 14:43+0800\n"
 "PO-Revision-Date: 2023-07-17 18:37+0800\n"
 "Last-Translator: booboo <mac@booboo.local>\n"
 "Language-Team: Language i18n/en\n"
@@ -105,7 +105,9 @@ msgstr ""
 msgid ""
 "The requirements document has been generated, and the interface document "
 "will be generated after confirmation: "
-msgstr "The PRD has been generated. You can: Confirm the document, send feedback to me, or manually modify the document."
+msgstr ""
+"The PRD has been generated. You can: Confirm the document, send feedback to "
+"me, or manually modify the document."
 
 #: backend/app/pkgs/tools/i18b.py:56
 msgid ""
@@ -848,4 +850,16 @@ msgstr ""
 
 #: backend/app/pkgs/tools/i18b.py:222
 msgid "Service Type"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:223
+msgid "The email address has been registered."
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:224
+msgid "Change password"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:225
+msgid "New password"
 msgstr ""

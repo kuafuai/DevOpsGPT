@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-09-17 22:46+0800\n"
+"POT-Creation-Date: 2023-09-21 14:43+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -834,4 +834,16 @@ msgstr ""
 
 #: backend/app/pkgs/tools/i18b.py:222
 msgid "Service Type"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:223
+msgid "The email address has been registered."
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:224
+msgid "Change password"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:225
+msgid "New password"
 msgstr ""
