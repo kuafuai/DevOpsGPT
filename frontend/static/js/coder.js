@@ -450,8 +450,8 @@ function getRequirement() {
         }        
     }
 
-    errorCallback = function(){
-        myAlertPure(globalFrontendText["notice"], globalFrontendText["opensource_version_1"] + ": ./workspace/"+requirement_id)
+    errorCallback = function(data){
+        myAlertPure(globalFrontendText["notice"], data +'<hr />'+ globalFrontendText["opensource_version_1"] + ": ./workspace/"+requirement_id)
     }
 
     if (requirement_id>0) {
@@ -520,7 +520,7 @@ function logincheck() {
             username = "Guest"
             $("#current-username").html(username)
             $("#watermark-username").html(username)
-            if (path != "/user_login.html" && path != "/user_register.html") {
+            if (path != "/user_login.html" && path != "/user_register.html" && path != "/user_changepassword.html") {
                 window.location.href = "user_login.html";
             }        
         } else if (data.code == 404) {

@@ -220,4 +220,7 @@ def getFrontendText():
         "intro_links": _("Links"),
         "get_launch_code": _("Get Launch code"),
         "service_type": _("Service Type"),
+        "others_13": _("The email address has been registered."),
+        "change_password":  _("Change password"),
+        "newpassword":  _("New password"),
     }

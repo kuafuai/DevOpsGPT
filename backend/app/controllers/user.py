@@ -114,6 +114,19 @@ def change_language():
 
     return {'message': _('success.')}
 
+@bp.route('/changepassword', methods=['POST'])
+@json_response
+def changepassword():
+    _ = getI18n("controllers")
+    data = request.json
+    password = data['password']
+    email = data['email']
+    launch_code = data['launch_code']
+
+    UserPro.change_password(email, password, launch_code)
+
+    return {'message': _('success.')}
+
 
 @bp.route('/language', methods=['GET'])
 @json_response
@@ -131,5 +144,6 @@ def send_launch_code():
     _ = getI18n("controllers")
     data = request.json
     email = data['email']
+    code_type = data['code_type']
     
-    return gen_launch_code(email)
+    return gen_launch_code(email, code_type)

@@ -9,7 +9,7 @@ class AppInfoBasic(AppInfoInterface):
         appID = int(appID)
 
         appLib = ""
-        apps = Application.get_all_application("", appID)
+        apps = Application.get_all_application(0, appID)
         if len(apps) > 0:
             services = apps[0]["service"]
             for service in services:
@@ -23,7 +23,7 @@ class AppInfoBasic(AppInfoInterface):
         appID = int(appID)
 
         projectStruct = ""
-        apps = Application.get_all_application("", appID)
+        apps = Application.get_all_application(0, appID)
         if len(apps) > 0:
             services = apps[0]["service"]
             for service in services:

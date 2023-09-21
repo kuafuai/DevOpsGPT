@@ -21,7 +21,9 @@ def save_code():
     file_path = request.json.get('file_path')
     serviceName = request.json.get('service_name')
     code = request.json.get('code')
-    req = Requirement.get_requirement_by_id(requirementID) 
+    tenantID = storage.get("tenant_id")
+
+    req = Requirement.get_requirement_by_id(requirementID, tenantID) 
     gitPath, success = getServiceGitPath(req["app_id"] , serviceName)
     path = get_ws_path(requirementID)+'/'+gitPath+"/"+file_path
     write_file_content(path, code)
@@ -35,7 +37,9 @@ def create():
     requirementID =  request.json.get('task_id')
     serviceName = request.json.get('repo_path')
     ws_path = get_ws_path(requirementID)
-    req = Requirement.get_requirement_by_id(requirementID) 
+    tenantID = storage.get("tenant_id") 
+
+    req = Requirement.get_requirement_by_id(requirementID, tenantID) 
     
     gitPath, success = getServiceGitPath(req["app_id"], serviceName)
 
@@ -60,7 +64,9 @@ def gitpush():
     requirementID =  request.json.get('task_id')
     serviceName = request.json.get('service_name')
     wsPath = get_ws_path(requirementID)
-    req = Requirement.get_requirement_by_id(requirementID) 
+    tenantID = storage.get("tenant_id")
+
+    req = Requirement.get_requirement_by_id(requirementID, tenantID) 
     commitMsg = req["requirement_name"]
     fatureBranch = req["default_target_branch"]
     gitPath, success = getServiceGitPath(req["app_id"], serviceName)
@@ -68,7 +74,7 @@ def gitpush():
     username = storage.get("username")
     gitConfigList, success = getGitConfigList(tenantID, req["app_id"], False)
 
-    Requirement.update_requirement(requirement_id=requirementID, status=REQUIREMENT_STATUS_Completed)
+    Requirement.update_requirement(requirement_id=requirementID, tenant_id=tenantID, status=REQUIREMENT_STATUS_Completed)
 
     if not GIT_ENABLED:
         raise Exception(_("Failed to push code.")+f" You did not set Git parameters in the configuration file.")
@@ -89,7 +95,9 @@ def resetWorkspace():
     requirementID =  request.json.get('task_id')
     serviceName = request.json.get('service_name')
     wsPath = get_ws_path(requirementID)
-    req = Requirement.get_requirement_by_id(requirementID) 
+    tenantID = storage.get("tenant_id")
+
+    req = Requirement.get_requirement_by_id(requirementID, tenantID) 
     commitMsg = req["requirement_name"]
     fatureBranch = req["default_target_branch"]
     gitPath, success = getServiceGitPath(req["app_id"], serviceName)
@@ -97,7 +105,7 @@ def resetWorkspace():
     username = storage.get("username")
     gitConfigList, success = getGitConfigList(tenantID, req["app_id"], False)
 
-    Requirement.update_requirement(requirement_id=requirementID, status=REQUIREMENT_STATUS_Completed)
+    Requirement.update_requirement(requirement_id=requirementID, tenant_id=tenantID, status=REQUIREMENT_STATUS_Completed)
 
     if not GIT_ENABLED:
         raise Exception(_("Failed to reset code.")+f" You did not set Git parameters in the configuration file.")

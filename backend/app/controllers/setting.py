@@ -75,7 +75,7 @@ def edit_git():
 
     try:
         if git_config_id:
-            TenantGitConfig.update_config(git_config_id, name=name, git_email=git_email, git_provider=git_provider, git_token=git_token, git_url=git_url, git_username=git_username)
+            TenantGitConfig.update_config(git_config_id, tenant_id, name=name, git_email=git_email, git_provider=git_provider, git_token=git_token, git_url=git_url, git_username=git_username)
             id = git_config_id
         else:
             data = TenantGitConfig.create_config(tenant_id, creater, name, git_url, git_token, git_provider, git_username, git_email)
@@ -99,7 +99,7 @@ def edit_ci():
 
     try:
         if ci_config_id:
-            TenantCIConfig.update_config(ci_config_id, name=name, ci_api_url=ci_api_url, ci_token=ci_token, ci_provider=ci_provider)
+            TenantCIConfig.update_config(ci_config_id, tenant_id, name=name, ci_api_url=ci_api_url, ci_token=ci_token, ci_provider=ci_provider)
             id = ci_config_id
         else:
             data = TenantCIConfig.create_config(tenant_id, creater, name, ci_api_url, ci_token, ci_provider)
@@ -123,7 +123,7 @@ def edit_cd():
 
     try:
         if cd_config_id:
-            TenantCDConfig.update_config(cd_config_id, name=name, access_key=access_key, secret_key=secret_key, cd_provider=cd_provider)
+            TenantCDConfig.update_config(cd_config_id, tenant_id, name=name, access_key=access_key, secret_key=secret_key, cd_provider=cd_provider)
             id = cd_config_id
         else:
             data = TenantCDConfig.create_config(tenant_id, creater, name, access_key, secret_key, cd_provider)

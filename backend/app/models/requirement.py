@@ -65,7 +65,8 @@ class Requirement(db.Model):
         }
 
     @staticmethod
-    def get_requirement_by_id(requirement_id):
+    def get_requirement_by_id(requirement_id, tenant_id):
+        tenant_id = int(tenant_id)
         req = Requirement.query.get(requirement_id)
         if req:
             req_dict = {
@@ -73,6 +74,7 @@ class Requirement(db.Model):
                     'requirement_name': req.requirement_name,
                     'original_requirement': req.original_requirement,
                     'app_id': req.app_id,
+                    'tenant_id': req.tenant_id,
                     'username': req.username,
                     'default_source_branch': req.default_source_branch,
                     'default_target_branch': req.default_target_branch,
@@ -83,12 +85,18 @@ class Requirement(db.Model):
                     'updated_at': req.updated_at,
                     'app': Application.get_application_by_id(req.app_id)
                 }
+            if tenant_id and tenant_id != req_dict["tenant_id"]:
+                return None
             return req_dict
         return None
 
     @staticmethod
-    def update_requirement(requirement_id, **kwargs):
+    def update_requirement(requirement_id, tenant_id, **kwargs):
+        tenant_id = int(tenant_id)
         requirement = Requirement.query.get(requirement_id)
+        if tenant_id and tenant_id != requirement.tenant_id:
+            return None
+        
         if requirement:
             for key, value in kwargs.items():
                 setattr(requirement, key, value)
@@ -98,8 +106,11 @@ class Requirement(db.Model):
         return None
 
     @staticmethod
-    def delete_requirement(requirement_id):
+    def delete_requirement(requirement_id, tenant_id):
+        tenant_id = int(tenant_id)
         requirement = Requirement.query.get(requirement_id)
+        if tenant_id and tenant_id != requirement.tenant_id:
+            return None
         if requirement:
             db.session.delete(requirement)
             db.session.commit()

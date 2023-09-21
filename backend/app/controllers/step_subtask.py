@@ -20,7 +20,9 @@ def analysis():
     doc_type = data['doc_type']
     username = storage.get("username")
     requirementID = request.json.get('task_id')
-    req = Requirement.get_requirement_by_id(requirementID) 
+    tenantID = storage.get("tenant_id")
+
+    req = Requirement.get_requirement_by_id(requirementID, tenantID) 
 
     if doc_type == "api":
         requirementDoc = req["original_requirement"]
@@ -33,7 +35,7 @@ You need to think on the basis of the following interface documentation：
 """
     else:
         requirementDoc = prompt
-        Requirement.update_requirement(requirement_id=requirementID, original_requirement=prompt)
+        Requirement.update_requirement(requirement_id=requirementID, tenant_id=tenantID, original_requirement=prompt)
         newfeature = requirementDoc
         
     appBasePrompt, _ = getServiceBasePrompt(req["app_id"], serviceName)

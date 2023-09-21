@@ -48,7 +48,7 @@ def setup_app():
         tenantID, "New requirement", "New", appID, username, sourceBranch, featureBranch,  REQUIREMENT_STATUS_NotStarted, 0, 0)
 
     if requirement.requirement_id:
-        return Requirement.get_requirement_by_id(requirement.requirement_id)
+        return Requirement.get_requirement_by_id(requirement.requirement_id, tenantID)
     else:
         raise Exception(_("Failed to set up app."))
 
@@ -69,8 +69,11 @@ def get_all():
 def get_one():
     _ = getI18n("controllers")
     requirementID = request.args.get('requirement_id')
+    tenantID = storage.get("tenant_id")
 
-    requirement = Requirement.get_requirement_by_id(requirementID)
+    requirement = Requirement.get_requirement_by_id(requirementID, tenantID)
+    if not requirement:
+        raise Exception(_("The task does not exist.")) 
 
     memory = {
         "task_info": {
@@ -96,10 +99,11 @@ def update():
     data = request.json
     requirement_id = data['requirement_id']
     update_data = data['data']
+    tenantID = storage.get("tenant_id")
 
-    requirement = Requirement.update_requirement(requirement_id, **update_data)
+    requirement = Requirement.update_requirement(requirement_id, tenantID, **update_data)
 
     if requirement.requirement_id:
-        return Requirement.get_requirement_by_id(requirement.requirement_id)
+        return Requirement.get_requirement_by_id(requirement.requirement_id, tenantID)
     else:
         raise Exception(_("Failed to set up app."))

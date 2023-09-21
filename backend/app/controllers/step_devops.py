@@ -23,7 +23,8 @@ def trigger_ci():
     serviceName = request.json.get('repo_path')
     username = storage.get("username")
     requirementID = request.json.get('task_id')
-    req = Requirement.get_requirement_by_id(requirementID) 
+    tenantID = storage.get("tenant_id")
+    req = Requirement.get_requirement_by_id(requirementID, tenantID) 
     serviceInfo = ApplicationService.get_service_by_name(req["app_id"], serviceName)
     tenantID = storage.get("tenant_id")
     ciConfigList, success = getCIConfigList(tenantID, req["app_id"], False)
@@ -46,7 +47,7 @@ def plugin_ci():
     repopath = request.args.get('repopath')
     tenantID = storage.get("tenant_id")
     requirementID = request.args.get('task_id')
-    req = Requirement.get_requirement_by_id(requirementID) 
+    req = Requirement.get_requirement_by_id(requirementID, tenantID) 
     ciConfigList, success = getCIConfigList(tenantID, req["app_id"], False)
 
     piplineJobs, success = getPipelineStatus(pipeline_id, repopath, ciConfigList[0])
@@ -66,7 +67,8 @@ def check_compile():
     requirementID = request.json.get('task_id')
     serviceName = request.json.get('repo_path')
     wsPath = get_ws_path(requirementID)
-    req = Requirement.get_requirement_by_id(requirementID)
+    tenantID = storage.get("tenant_id")
+    req = Requirement.get_requirement_by_id(requirementID, tenantID)
     gitPath, success = getServiceGitPath(req["app_id"], serviceName)
 
     success, message = compileCheck(requirementID, wsPath, gitPath)
@@ -89,7 +91,8 @@ def check_lint():
     requirementID = request.json.get('task_id')
     file_path = request.json.get('file_path')
     serviceName = request.json.get('service_name')
-    req = Requirement.get_requirement_by_id(requirementID)
+    tenantID = storage.get("tenant_id")
+    req = Requirement.get_requirement_by_id(requirementID, tenantID)
     gitPath, success = getServiceGitPath(req["app_id"], serviceName)
     ws_path = get_ws_path(requirementID)
 
@@ -109,7 +112,8 @@ def check_lint():
 @json_response
 def trigger_cd():
     requirementID = request.json.get('task_id')
-    req = Requirement.get_requirement_by_id(requirementID)
+    tenantID = storage.get("tenant_id")
+    req = Requirement.get_requirement_by_id(requirementID, tenantID)
     serviceName = request.json.get('repo_path')
     serviceInfo = ApplicationService.get_service_by_name(req["app_id"], serviceName)
     image, success = getServiceDockerImage(req["app_id"], serviceName)

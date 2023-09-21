@@ -19,10 +19,10 @@ def gen_interface_doc():
     tenant_id = storage.get("tenant_id")
 
     # todo Use llm to determine which interface documents to adjust
-    req = Requirement.get_requirement_by_id(requirementID)
+    req = Requirement.get_requirement_by_id(requirementID, tenant_id)
     apiDoc, success = getServiceSwagger(req["app_id"], 0)
 
-    Requirement.update_requirement(requirement_id=requirementID, original_requirement=userPrompt)
+    Requirement.update_requirement(requirement_id=requirementID, tenant_id=tenant_id, original_requirement=userPrompt)
 
     msg, success = clarifyAPI(requirementID, userPrompt, apiDoc)
 

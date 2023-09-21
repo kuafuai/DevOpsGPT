@@ -22,13 +22,13 @@ def clarify():
     requirementID = request.json.get('task_id')
     tenantID = storage.get("tenant_id")
 
-    req = Requirement.get_requirement_by_id(requirementID) 
+    req = Requirement.get_requirement_by_id(requirementID, tenantID) 
 
     if not req or req["app_id"] < 1 :
         raise Exception(_("Please select the application you want to develop."))
     
     if len(globalContext) < 4 :
-        Requirement.update_requirement(requirement_id=requirementID, requirement_name=userPrompt, status=REQUIREMENT_STATUS_InProgress)
+        Requirement.update_requirement(requirement_id=requirementID, tenant_id=tenantID, requirement_name=userPrompt, status=REQUIREMENT_STATUS_InProgress)
 
         # 开始创建一个需求账单
         if GRADE != "base":

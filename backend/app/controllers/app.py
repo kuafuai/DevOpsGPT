@@ -32,7 +32,7 @@ def add():
 
     try:
         if app_id:
-            app = Application.update_application(app_id, name=name, description=description, default_source_branch=default_source_branch, default_target_branch=default_target_branch, cd_config=cd_config, ci_config=ci_config, git_config=git_config)
+            app = Application.update_application(app_id, tenant_id=tenant_id, name=name, description=description, default_source_branch=default_source_branch, default_target_branch=default_target_branch, cd_config=cd_config, ci_config=ci_config, git_config=git_config)
             ApplicationService.delete_service_by_app_id(app_id)
             appID = app_id
         else:

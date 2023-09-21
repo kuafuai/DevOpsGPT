@@ -34,6 +34,7 @@ class Application(db.Model):
 
     @staticmethod
     def get_all_application(tenant_id, appID):
+        tenant_id = int(tenant_id)
         applications = Application.query.order_by(Application.app_id.desc()).all()
         if appID:
             applications = Application.query.order_by(Application.app_id.desc()).filter_by(app_id=appID).all()
@@ -56,13 +57,18 @@ class Application(db.Model):
                 'default_target_branch': app.default_target_branch,
                 'service': ApplicationService.get_services_by_app_id(app.app_id)
             }
-            application_list.append(app_dict)
+            # 0 为模板，也可以获取
+            if app_dict["tenant_id"] == 0 or tenant_id == app_dict["tenant_id"]:
+                application_list.append(app_dict)
         
         return application_list
 
-    def get_application_by_id(appID):
+    def get_application_by_id(appID, tenant_id=0):
+        tenant_id = int(tenant_id)
         app = Application.query.get(appID)
-        app_dict = {
+        app_dict = None
+        if app:
+            app_dict = {
                 'app_id': app.app_id,
                 'tenant_id': app.tenant_id,
                 'creater': app.creater,
@@ -75,11 +81,18 @@ class Application(db.Model):
                 'default_target_branch': app.default_target_branch,
                 'service': ApplicationService.get_services_by_app_id(app.app_id)
             }
+            if tenant_id and tenant_id != app_dict["tenant_id"]:
+                return None
         return app_dict
     
-    def update_application(app_id, **kwargs):
+    def update_application(app_id, tenant_id, **kwargs):
+        tenant_id = int(tenant_id)
         app = Application.query.get(app_id)
+        
         if app:
+            if tenant_id and tenant_id != app.tenant_id:
+                return None
+        
             for key, value in kwargs.items():
                 setattr(app, key, value)
             db.session.commit()

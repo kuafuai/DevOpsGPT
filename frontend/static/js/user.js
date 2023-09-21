@@ -7,6 +7,13 @@ $(document).ready(function () {
     var queryString = window.location.search;
     var params = new URLSearchParams(queryString);
     $("#login-email").val(params.get('email'));
+
+    $("#login-password").keydown(function (event) {
+        if (event.keyCode === 13) {
+            // 在这里执行回车键被按下时的操作
+            login()
+        }
+    });
 });
 
 function login() {
@@ -46,12 +53,32 @@ function register() {
     sendAjaxRequest('/user/register', "POST", requestData, successCallback, errorCallback, true, false)
 }
 
-function send_launch_code(ele) {
+function changePassword() {
+    var requestData = JSON.stringify({ 
+        'password': $("#login-password").val(),
+        'email': $("#login-email").val(),
+        'launch_code': $("#login-launch_code").val(),
+    })
+ 
+    successCallback = function(data) {
+        window.location.href = "user_login.html";
+    }
+
+    errorCallback = function(error) {
+        $("#login-message").html(error)
+        $("#login-message").fadeOut().fadeIn()
+    }
+
+    sendAjaxRequest('/user/changepassword', "POST", requestData, successCallback, errorCallback, true, false)
+}
+
+function send_launch_code(ele, code_type) {
     $(ele).addClass("disabled")
     $(ele).addClass("loading")
 
     var requestData = JSON.stringify({
         'email': $("#login-email").val(),
+        'code_type': code_type
     })
  
     successCallback = function(data) {
