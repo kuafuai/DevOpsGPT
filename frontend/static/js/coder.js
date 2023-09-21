@@ -498,6 +498,10 @@ function openUrl(newurl){
     window.location.href = newurl;
 }
 
+function openUrlNew(newurl){
+   window.open(newurl);
+}
+
 function logincheck() {
     const url = window.location;
     const path = url.pathname;

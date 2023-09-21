@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-09-21 14:43+0800\n"
+"POT-Creation-Date: 2023-09-21 15:04+0800\n"
 "PO-Revision-Date: 2023-07-17 18:37+0800\n"
 "Last-Translator: booboo <mac@booboo.local>\n"
 "Language-Team: Language i18n/en\n"
@@ -862,4 +862,8 @@ msgstr ""
 
 #: backend/app/pkgs/tools/i18b.py:225
 msgid "New password"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:226
+msgid "Help center"
 msgstr ""

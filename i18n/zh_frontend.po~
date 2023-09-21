@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-09-17 22:46+0800\n"
+"POT-Creation-Date: 2023-09-21 14:43+0800\n"
 "PO-Revision-Date: 2023-07-17 18:36+0800\n"
 "Last-Translator: booboo <mac@booboo.local>\n"
 "Language-Team: Language i18n/zh\n"
@@ -864,6 +864,18 @@ msgstr "获取登录码"
 #: backend/app/pkgs/tools/i18b.py:222
 msgid "Service Type"
 msgstr "服务类别"
+
+#: backend/app/pkgs/tools/i18b.py:223
+msgid "The email address has been registered."
+msgstr "该邮箱已被注册"
+
+#: backend/app/pkgs/tools/i18b.py:224
+msgid "Change password"
+msgstr "修改密码"
+
+#: backend/app/pkgs/tools/i18b.py:225
+msgid "New password"
+msgstr "新密码"
 
 #~ msgid "Phone"
 #~ msgstr "手机号"

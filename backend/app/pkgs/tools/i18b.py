@@ -223,4 +223,5 @@ def getFrontendText():
         "others_13": _("The email address has been registered."),
         "change_password":  _("Change password"),
         "newpassword":  _("New password"),
+        "help":  _("Help center"),
     }
