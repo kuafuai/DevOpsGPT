@@ -6,6 +6,7 @@ from app.pkgs.prompt.api_pro import ApiPro
 from app.pkgs.prompt.api_basic import ApiBasic
 from app.pkgs.prompt.subtask_basic import SubtaskBasic
 from app.pkgs.prompt.subtask_java_pro import SubtaskJavaPro
+from app.pkgs.prompt.subtask_python_pro import SubtaskPythonPro
 from app.pkgs.prompt.subtask_vue_pro import SubtaskVuePro
 from app.pkgs.prompt.code_basic import CodeBasic
 from app.pkgs.prompt.code_pro import CodePro
@@ -55,6 +56,8 @@ def splitTask(requirementID, newfeature, serviceName, appBasePrompt, projectInfo
     else:
         if "java" in serviceName:
             obj = SubtaskJavaPro()
+        elif "python" in serviceName:
+            obj = SubtaskPythonPro()
         elif "vue" in serviceName:
             obj = SubtaskVuePro()
         else:
@@ -129,6 +132,8 @@ def gen_write_code(requirement_id, service_name, file_path, development_detail, 
     else:
         if "java" in service_name:
             obj = SubtaskJavaPro()
+        elif "python" in service_name:
+            obj = SubtaskPythonPro()
         elif "vue" in service_name:
             obj = SubtaskVuePro()
         else:
