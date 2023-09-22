@@ -9,5 +9,7 @@ aliyun-python-sdk-eci
 alembic
 paypalrestsdk
 alipay-sdk-python==3.6.640
+typed_ast
+click
 # yum install mysql-devel gcc gcc-devel python-devel
-mysqlclient 
+mysqlclient

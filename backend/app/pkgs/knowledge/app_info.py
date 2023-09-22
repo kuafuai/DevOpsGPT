@@ -49,11 +49,11 @@ def getServiceBasePrompt(appID, serviceName):
 
     return appBasePrompt, True
 
-def getServiceIntro(appID, serviceName):
+def getServiceIntro(appID, serviceName, tenantID):
     appID = int(appID)
 
     appInfo = ""
-    apps = Application.get_all_application(0, appID)
+    apps = Application.get_all_application(tenantID, appID)
     if len(apps) > 0:
         services = apps[0]["service"]
         for service in services:

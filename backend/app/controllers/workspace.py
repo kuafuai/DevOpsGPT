@@ -82,7 +82,10 @@ def gitpush():
         success, msg = pushCode(wsPath, gitPath, fatureBranch, commitMsg, gitConfigList)
 
     if success:
-        return _("Push code successfully.") + f" from {wsPath} to {gitPath} {fatureBranch}"
+        gitConfig = gitConfigList[0]
+        git_url = gitConfig["git_url"]+"/"+gitPath+"/tree/"+fatureBranch
+        clone_url = f"git clone -b {fatureBranch} "+gitConfig["git_url"]+f"/{gitPath}"
+        return _("Push code successfully.") + f" from {wsPath} to {git_url} <br /><br /> "+_("Fetch code command: ")+f"{clone_url}"
     else:
         raise Exception(_("Failed to push code.")+f"In the {wsPath}/{gitPath} directory, {msg}")
 

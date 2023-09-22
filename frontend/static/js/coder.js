@@ -640,6 +640,7 @@ function createWS(serviceName) {
     errorCallback = function(error) {
         var retruBtn = '<br /><br /><button class="ui green button" onClick="createWS(\''+serviceName+'\')">'+globalFrontendText["retry"]+'</button>'
         myAlertPure("ERROR", error + retruBtn)
+        throw new Error("发生了一个错误")
     }
 
     sendAjaxRequest('/workspace/create', "POST", requestData, successCallback, errorCallback, false, false)
@@ -1285,6 +1286,9 @@ function startPush(serviceName, ele) {
             let file_path = file["file-path"]
             saveCode(serviceName, file_path, uuid)
         })
+
+        $(ele).addClass("loading")
+        $(ele).addClass("disabled")
 
         var requestData = JSON.stringify({ 'service_name': serviceName, 'task_id': getTaskID() })
 

@@ -36,8 +36,11 @@ class Application(db.Model):
     def get_all_application(tenant_id, appID):
         tenant_id = int(tenant_id)
         applications = Application.query.order_by(Application.app_id.desc()).all()
+        print("6666666")
+        print(appID)
         if appID:
             applications = Application.query.order_by(Application.app_id.desc()).filter_by(app_id=appID).all()
+            print(applications)
         else:
             applications = Application.query.order_by(Application.app_id.desc()).filter_by(tenant_id=tenant_id).all()
 
@@ -58,7 +61,7 @@ class Application(db.Model):
                 'service': ApplicationService.get_services_by_app_id(app.app_id)
             }
             # 0 为模板，也可以获取
-            if app_dict["tenant_id"] == 0 or tenant_id == app_dict["tenant_id"]:
+            if app_dict["tenant_id"] == 0 or tenant_id == 0 or tenant_id == app_dict["tenant_id"]:
                 application_list.append(app_dict)
         
         return application_list

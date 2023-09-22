@@ -1,3 +1,4 @@
+from sqlalchemy import func
 from app.extensions import db
 
 class SysLib(db.Model):
@@ -39,7 +40,9 @@ class SysLib(db.Model):
 
     @staticmethod
     def get_lib_by_name(sys_lib_name):
-        libs = SysLib.query.filter_by(lib_name=sys_lib_name).all()
+        sys_lib_name = sys_lib_name.lower()
+
+        libs = SysLib.query.filter(func.lower(SysLib.lib_name).ilike(sys_lib_name)).all()
 
         lib_dict = {}
         for lib in libs:

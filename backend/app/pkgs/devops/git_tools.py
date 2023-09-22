@@ -1,4 +1,5 @@
 import os
+import shutil
 import subprocess
 
 def pullCode(ws_path, repo_path, base_branch, feature_branch, gitConfigList):
@@ -7,6 +8,11 @@ def pullCode(ws_path, repo_path, base_branch, feature_branch, gitConfigList):
         os.makedirs(ws_path, exist_ok=True)
     except Exception as e:
         return False, "mkdir failed: "+str(e)
+    
+    try:
+        shutil.move(ws_path+'/'+repo_path, ws_path+'/'+repo_path+"_bak")
+    except Exception as e:
+        print("pullCode move failed "+str(e))
 
     gitUrl = genCloneUrl(repo_path, gitConfig["git_url"], gitConfig["git_username"], gitConfig["git_token"])
     print(f"pullCode start {gitUrl} {base_branch} {repo_path} {ws_path}")
@@ -19,7 +25,7 @@ def pullCode(ws_path, repo_path, base_branch, feature_branch, gitConfigList):
         if result.returncode != 0:
             print("git clone base_branch failed: "+result.stderr)
             # 克隆失败，说明目录已存在，尝试重置目录
-            return gitResetWorkspace(ws_path, repo_path, feature_branch, '', gitConfigList)
+            return False, "git clone branch failed: "+result.stderr
 
         result = subprocess.run(
             ['git', 'checkout', '-b', feature_branch], capture_output=True, text=True, cwd=ws_path+'/'+repo_path)
