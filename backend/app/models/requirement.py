@@ -65,7 +65,7 @@ class Requirement(db.Model):
         }
 
     @staticmethod
-    def get_requirement_by_id(requirement_id, tenant_id):
+    def get_requirement_by_id(requirement_id, tenant_id=0):
         tenant_id = int(tenant_id)
         req = Requirement.query.get(requirement_id)
         if req:
