@@ -216,6 +216,9 @@ $(document).ready(function () {
                 })
                 repos = repos.replace(/, $/g, '')
 
+                var rand = Math.random().toString(36).substr(2, 4)
+                feature_branch = app.default_target_branch +'/'+ getCurrentDate()+'_'+rand
+
                 str += `
                     <div class="item" style="padding: 15px 0px;">
                         <div class="content">
@@ -225,7 +228,7 @@ $(document).ready(function () {
                             `+globalFrontendText["ai_selected_app_4"]+`
                             <input type="text" placeholder="" value="`+app.default_source_branch+`" class="fenzhiguifan" id="model_source_branch_`+app.app_id+`">
                             `+globalFrontendText["ai_selected_app_5"]+`
-                            <input type="text" placeholder="" value="`+app.default_target_branch+`" class="fenzhiguifan" id="model_feature_branch_`+app.app_id+`">
+                            <input type="text" placeholder="" value="`+feature_branch+`" class="fenzhiguifan" id="model_feature_branch_`+app.app_id+`">
                         </div>
                         <div class="description" style="line-height: 25px;">`+app.description+`</div>
                         <div class="ui button blue model-selected" onClick="modelSelected('`+app.name+`','`+app.app_id+`', '`+repos+`')" style="float: right;">`+globalFrontendText["start"]+`</div> 
@@ -322,6 +325,15 @@ $(document).ready(function () {
     });
 
 });
+
+function getCurrentDate() {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = (today.getMonth() + 1).toString().padStart(2, '0');
+    const day = today.getDate().toString().padStart(2, '0');
+    
+    return `${year}${month}${day}`;
+  }
 
 function escapeString(str) {
     console.log("str:"+str)

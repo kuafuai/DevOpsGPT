@@ -300,7 +300,7 @@ msgstr "默认源分支"
 
 #: backend/app/pkgs/tools/i18b.py:101
 msgid "Feature branch"
-msgstr "新需求默认分支"
+msgstr "新需求默认分支前缀"
 
 #: backend/app/pkgs/tools/i18b.py:102
 msgid "Service name"
