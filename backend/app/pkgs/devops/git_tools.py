@@ -2,6 +2,8 @@ import os
 import shutil
 import subprocess
 
+from app.pkgs.tools.utils_tool import generate_uuid
+
 def pullCode(ws_path, repo_path, base_branch, feature_branch, gitConfigList):
     gitConfig = gitConfigList[0]
     try:
@@ -10,7 +12,7 @@ def pullCode(ws_path, repo_path, base_branch, feature_branch, gitConfigList):
         return False, "mkdir failed: "+str(e)
     
     try:
-        shutil.move(ws_path+'/'+repo_path, ws_path+'/'+repo_path+"_bak")
+        shutil.move(ws_path+'/'+repo_path, ws_path+'/'+repo_path+"_bak"+generate_uuid())
     except Exception as e:
         print("pullCode move failed "+str(e))
 
