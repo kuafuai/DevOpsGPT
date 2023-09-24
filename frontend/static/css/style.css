@@ -202,4 +202,12 @@ pre {
 
 .ai-code ul {
   margin: 0px;
+  line-height: 1;
+  padding-inline-start:20px;
+}
+
+.ai-code ol {
+  margin: 0px;
+  line-height: 1;
+  padding-inline-start:20px;
 }

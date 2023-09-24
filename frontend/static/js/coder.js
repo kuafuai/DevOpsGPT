@@ -409,7 +409,7 @@ function getRequirement() {
                 for (const key in globalTasks) {
                     globalTasks[key].forEach(function (file, element_index, element_array) {
                         let file_path = file["file-path"]
-                        if (file_path == memory.artifact_path) {
+                        if (file_path.endsWith(memory.artifact_path)) {
                             uuid = file.uuid
                             service_name = key
                         }
@@ -669,7 +669,7 @@ function fixLintSuccessCallback(data, service_name, times, uuid, file_path) {
     gloablCode["newCode_" + uuid] = data.data["code"]
 }
 
-function fixLint(solution, uuid, file_path, service_name, times) {
+function fixLint(error_msg, solution, uuid, file_path, service_name, times) {
     if (times >= 2) {
         return
     }
@@ -677,7 +677,7 @@ function fixLint(solution, uuid, file_path, service_name, times) {
 
     fixLintStar(service_name, times, uuid)
 
-    var requestData = JSON.stringify({ 'code': code, 'solution': solution, 'task_id': getTaskID(), 'file_path': file_path })
+    var requestData = JSON.stringify({ 'code': code, 'error_msg': error_msg, 'solution': solution, 'task_id': getTaskID(), 'file_path': file_path })
 
     successCallback = function(data) {
         fixLintSuccessCallback(data, service_name, times, uuid, file_path)
@@ -723,7 +723,7 @@ function fixCompileStar(service_name, times, uuid) {
     $('.task_status_fix_compile_button').popup();
 }
 
-function fixCompile(solution, uuid, file_path, service_name, times) {
+function fixCompile(error_msg, solution, uuid, file_path, service_name, times) {
     if (times >= 2) {
         return
     }
@@ -731,7 +731,7 @@ function fixCompile(solution, uuid, file_path, service_name, times) {
 
     fixCompileStar(service_name, times, uuid)
 
-    var requestData = JSON.stringify({ 'code': code, 'solution': solution, 'task_id': getTaskID(), 'file_path': file_path })
+    var requestData = JSON.stringify({ 'code': code, 'solution': solution, 'task_id': getTaskID(), 'file_path': file_path, 'error_msg': error_msg })
     
     successCallback = function(data) {
         fixCompileSuccessCallback(data, service_name, times, uuid, file_path)
@@ -786,7 +786,7 @@ function checkLint(service_name, filePath, uuid, times) {
             $("#"+buttonid).attr("show-code-key", globalFrontendText["static_scan"]+": "+filePath)
             $("#"+buttonid).attr("show-code-reason", "Not pass")
             $("#"+buttonid).attr("show-code-value", escapeHtml(data.data["message"]))
-            fixLint(data.data["reasoning"][0]["solution-analysis"], uuid, filePath, service_name, times)
+            fixLint(data.data["message"], data.data["reasoning"][0]["solution-analysis"], uuid, filePath, service_name, times)
         } else {
             $("#"+buttonid).children().removeClass("spinner")
             $("#"+buttonid).children().removeClass("loading")
@@ -823,14 +823,18 @@ function checkCodeStar(uuid, service_name) {
 
 function checkCodeSuccessCallback(data, uuid, file_path) {
     console.log("checkCodeSuccessCallback:", data, uuid, file_path)
-    $("#task_status_check_"+uuid).children().removeClass("spinner")
-    $("#task_status_check_"+uuid).children().removeClass("loading")
-    $("#task_status_check_"+uuid).children().addClass("check")
-    $("#task_status_check_"+uuid).addClass("green")
-    $("#task_status_check_"+uuid).removeClass("olive")
-    $("#task_status_check_"+uuid).attr("show-code-key", file_path)
-    $("#task_status_check_"+uuid).attr("show-code-value", escapeHtml(data.data["code"]))
-    $("#task_status_check_"+uuid).attr("show-code-reason", escapeHtml(data.data["reasoning"]))
+    var elements = document.querySelectorAll('[id="task_status_check_'+uuid+'"]');
+    console.log(elements)
+    for (var i = 0; i < elements.length; i++) {
+        $(elements[i]).children().removeClass("spinner")
+        $(elements[i]).children().removeClass("loading")
+        $(elements[i]).children().addClass("check")
+        $(elements[i]).addClass("green")
+        $(elements[i]).removeClass("olive")
+        $(elements[i]).attr("show-code-key", file_path)
+        $(elements[i]).attr("show-code-value", escapeHtml(data.data["code"]))
+        $(elements[i]).attr("show-code-reason", escapeHtml(data.data["reasoning"]))
+    }
 
     gloablCode["newCode_" + uuid] = data.data["code"]
 }
@@ -843,8 +847,13 @@ function checkCode(code, fileTask, uuid, file_path, service_name, step) {
     successCallback = function(data){
         checkCodeSuccessCallback(data, uuid, file_path)
 
-        if(globalTasks[service_name.replace("/","-")].length == $('.'+service_name.replace("/","-")+'.green.task_status_check_button').length){
-            checkCompile(service_name, 0)
+        // 如果是子任务写代码，则还需要review一下
+        if (step && step.length > 0) {
+            checkCode(data.data.code, data.data.reasoning, uuid, file_path, service_name)
+        } else {
+            if(globalTasks[service_name.replace("/","-")].length == $('.'+service_name.replace("/","-")+'.green.task_status_check_button').length){
+                checkCompile(service_name, 0)
+            }
         }
     }
 
@@ -881,7 +890,7 @@ function checkCompileSuccessCallback(data, times, repo_path){
                 if (element["file-path"].includes(file_path)) {
                     $("#"+buttonid).addClass("red")
                     solution = element["solution-analysis"];
-                    fixCompile(solution, uuid, file_path, repo_path, times)
+                    fixCompile(data.data["message"], solution, uuid, file_path, repo_path, times)
                     break
                 } else {
                     $("#"+buttonid).addClass("teal")
@@ -961,6 +970,13 @@ function editFileTask(service_name, file_idx) {
     var fileTask = globalTasks[service_name.replace("/","-")][file_idx]["code-interpreter"]
     var newTask = globalTasks[service_name.replace("/","-")][file_idx]["code-edit-task"]
     var file_path = globalTasks[service_name.replace("/","-")][file_idx]["file-path"]
+
+    // 如果没有输入修改建议，直接点击重启，则重新生成代码
+    if (newTask==undefined || newTask.length < 1) {
+        var oldCode = globalTasks[service_name.replace("/","-")][file_idx]["code"]
+        var step = globalTasks[service_name.replace("/","-")][file_idx]["step"]
+        return checkCode(oldCode, fileTask, uuid, file_path, service_name, step)
+    }
 
     str = $("#task_status_td_" + uuid).html()+`
         <button class="ui circular olive icon button task_status_button tiny" id="task_status_redo_` + uuid + `" data-content="" onClick="showCode(this)"><i class="spinner loading icon"></i> `+globalFrontendText["initial_code"]+`</button>
@@ -1499,7 +1515,7 @@ clarifySuccessCallback = function(data, isRecover){
     $(".ai-code").eq($('ai-code').length - 1).html(msg+str);
 
     if (!isRecover && msgStr.includes("review") && msgJson["review"].length>10){
-        $("#prompt-textarea").val(msgJson["review"])
+        $("#prompt-textarea").val(msgJson["review"].replaceAll('\n\n', '\n'))
         globalRole = "TL"
         $("#generate-code-button").click()
     } 

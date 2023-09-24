@@ -55,7 +55,7 @@ class CodeBasic(CodeInterface):
         return json.loads(fix_llm_json_str(data)), success
 
 
-    def aiFixError(self, requirementID, solution, code, filePath, type):
+    def aiFixError(self, requirementID, error_msg, solution, code, filePath, type):
         prompt = f"""
     As a senior full stack developer. Your task is to fix errors in the "initial code". Please fix the problems in the "initial code" according to the solution, taking care not to affect other code functions. The consolidated code responds according to the response format example.
 
@@ -67,6 +67,11 @@ class CodeBasic(CodeInterface):
     solution:
     ```
     """+solution+"""
+    ```
+
+    error msg:
+    ```
+    """+error_msg+"""
     ```
 
     You should only directly respond in JSON format as described below, Ensure the response must can be parsed by Python json.loads, Response Format example:

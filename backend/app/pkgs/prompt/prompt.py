@@ -84,13 +84,13 @@ def aiAnalyzeError(requirementID, message, filePath):
     return obj.aiAnalyzeError(requirementID, message, filePath)
 
 @pre_check_quota
-def aiFixError(requirementID, solution, code, filePath, type):
+def aiFixError(requirementID, error_msg, solution, code, filePath, type):
     if GRADE == "base":
         obj = CodeBasic()
     else:
         obj = CodePro()
         
-    return obj.aiFixError(requirementID, solution, code, filePath, type)
+    return obj.aiFixError(requirementID, error_msg, solution, code, filePath, type)
 
 @pre_check_quota
 def aiCheckCode(requirementID, fileTask, code, filePath):

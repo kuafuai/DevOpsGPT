@@ -93,8 +93,9 @@ def fix_compile():
     solution = request.json.get('solution')
     requirementID = request.json.get('task_id')
     filePath = request.json.get('file_path')
+    error_msg = request.json.get('error_msg')
 
-    re, success = aiFixError(requirementID, solution, code, filePath, "compile")
+    re, success = aiFixError(requirementID, error_msg, solution, code, filePath, "compile")
     reCode = re["code"]
     reason = re["reasoning"]
 
@@ -108,8 +109,9 @@ def fix_lint():
     solution = request.json.get('solution')
     requirementID = request.json.get('task_id')
     filePath = request.json.get('file_path')
+    error_msg = request.json.get('error_msg')
 
-    re, success = aiFixError(requirementID, solution, code, filePath, "lint")
+    re, success = aiFixError(requirementID ,error_msg, solution, code, filePath, "lint")
     reCode = re["code"]
     reason = re["reasoning"]
 
