@@ -141,15 +141,15 @@ msgstr "根据以上开发任务以及产品的资料库，我分析需要修改
 
 #: backend/app/pkgs/tools/i18b.py:62
 msgid "Start CI"
-msgstr "持续集成"
+msgstr "触发持续集成"
 
 #: backend/app/pkgs/tools/i18b.py:63
 msgid "Submit code"
-msgstr "提交代码"
+msgstr "将代码提交到 Git 仓库"
 
 #: backend/app/pkgs/tools/i18b.py:64
 msgid "Auto check"
-msgstr "自我检查"
+msgstr "运行代码自动检查"
 
 #: backend/app/pkgs/tools/i18b.py:65
 msgid "Modify file"
@@ -260,7 +260,7 @@ msgstr ""
 
 #: backend/app/pkgs/tools/i18b.py:91
 msgid "Start deployment"
-msgstr "开始部署"
+msgstr "触发持续部署"
 
 #: backend/app/pkgs/tools/i18b.py:92
 msgid "Start task"
@@ -649,7 +649,7 @@ msgstr "账单系统异常，请检查账单。"
 
 #: backend/app/pkgs/tools/i18b.py:184
 msgid "Sync from Git"
-msgstr "从Git同步代码"
+msgstr "从 Git 同步最新代码"
 
 #: backend/app/pkgs/tools/i18b.py:185
 msgid ""

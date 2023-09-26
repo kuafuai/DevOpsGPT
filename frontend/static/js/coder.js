@@ -851,9 +851,10 @@ function checkCode(code, fileTask, uuid, file_path, service_name, step) {
         if (step && step.length > 0) {
             checkCode(data.data.code, data.data.reasoning, uuid, file_path, service_name)
         } else {
-            if(globalTasks[service_name.replace("/","-")].length == $('.'+service_name.replace("/","-")+'.green.task_status_check_button').length){
-                checkCompile(service_name, 0)
-            }
+            // 暂时改为手动去点检查
+            // if(globalTasks[service_name.replace("/","-")].length == $('.'+service_name.replace("/","-")+'.green.task_status_check_button').length){
+            //     checkCompile(service_name, 0)
+            // }
         }
     }
 
@@ -1037,9 +1038,10 @@ function mergeCode(uuid, newCode, oldCode, fileTask, service_name, file_path) {
 
         gloablCode["newCode_" + uuid] = data.data["code"]
 
-        if(globalTasks[service_name.replace("/","-")].length == $('.'+service_name.replace("/","-")+'.green.task_status_check_button').length){
-            checkCompile(service_name, 0)
-        }
+        // 暂时改为手动去点检查
+        // if(globalTasks[service_name.replace("/","-")].length == $('.'+service_name.replace("/","-")+'.green.task_status_check_button').length){
+        //     checkCompile(service_name, 0)
+        // }
     }
 
     errorCallback = function(error) {
@@ -1078,9 +1080,10 @@ function referenceRepair(newCode, fileTask, uuid, referenceFile, repo, file_path
 
         gloablCode["newCode_" + uuid] = data.data["code"]
 
-        if(globalTasks[service_name.replace("/","-")].length == $('.'+service_name.replace("/","-")+'.green.task_status_check_button').length){
-            checkCompile(service_name, 0)
-        }
+        // 暂时改为手动去点检查
+        // if(globalTasks[service_name.replace("/","-")].length == $('.'+service_name.replace("/","-")+'.green.task_status_check_button').length){
+        //     checkCompile(service_name, 0)
+        // }
     }
 
     errorCallback = function(error){
@@ -1189,10 +1192,10 @@ function pluginTaskList(info, ifRecover) {
         </h4>
         <div class="ui yellow visible message">`+globalFrontendText["operation"]+`: 
             <button class="ui green button tiny" onclick="checkCompile('`+ service_name +`', 0);"><i class="tasks icon"></i>`+globalFrontendText["auto_check"]+`</button>
-            <button class="ui blue button tiny" onclick="resetWorkspace('`+ service_name +`', this);"><i class="sync icon"></i>`+globalFrontendText["reset_workspace"]+`</button>
-            <button class="ui blue button tiny" onclick="startPush('`+ service_name +`', this);"><i class="tasks icon"></i>`+globalFrontendText["submit_code"]+`</button>
             <button class="ui teal button tiny" onClick="startCi('`+ service_name + `')"><i class="tasks icon"></i>`+globalFrontendText["start_ci"]+`</button>
             <button class="ui purple button tiny" onClick="startCd('`+ service_name + `')"><i class="docker icon"></i>`+globalFrontendText["start_cd"]+`</button>
+            <button class="ui blue button tiny" onclick="resetWorkspace('`+ service_name +`', this);"><i class="sync icon"></i>`+globalFrontendText["reset_workspace"]+`</button>
+            <button class="ui blue button tiny" onclick="startPush('`+ service_name +`', this);"><i class="tasks icon"></i>`+globalFrontendText["submit_code"]+`</button>
         </div>
     `;
 

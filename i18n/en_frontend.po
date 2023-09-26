@@ -143,15 +143,15 @@ msgstr ""
 
 #: backend/app/pkgs/tools/i18b.py:62
 msgid "Start CI"
-msgstr ""
+msgstr "Trigger continuous integration"
 
 #: backend/app/pkgs/tools/i18b.py:63
 msgid "Submit code"
-msgstr ""
+msgstr "Push code to the Git repository"
 
 #: backend/app/pkgs/tools/i18b.py:64
 msgid "Auto check"
-msgstr ""
+msgstr "Running automated code checks"
 
 #: backend/app/pkgs/tools/i18b.py:65
 msgid "Modify file"
@@ -261,7 +261,7 @@ msgstr ""
 
 #: backend/app/pkgs/tools/i18b.py:91
 msgid "Start deployment"
-msgstr ""
+msgstr "Trigger continuous deployment"
 
 #: backend/app/pkgs/tools/i18b.py:92
 msgid "Start task"
@@ -660,7 +660,7 @@ msgstr ""
 
 #: backend/app/pkgs/tools/i18b.py:184
 msgid "Sync from Git"
-msgstr ""
+msgstr "Synchronize the latest code from Git"
 
 #: backend/app/pkgs/tools/i18b.py:185
 msgid ""
