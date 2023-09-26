@@ -58,12 +58,25 @@ def splitTask(requirementID, newfeature, serviceName, appBasePrompt, projectInfo
             obj = SubtaskJavaPro()
         elif "python" in serviceName:
             obj = SubtaskPythonPro()
-        elif "vue" in serviceName:
-            obj = SubtaskVuePro()
         else:
             obj = SubtaskPro()
 
     return obj.splitTask(requirementID, newfeature, serviceName, appBasePrompt, projectInfo, projectLib, serviceStruct, appID)
+
+@pre_check_quota
+def splitTaskDo(req_info, service_info, tec_doc):
+    if GRADE == "base":
+        obj = SubtaskBasic()
+    else:
+        language = service_info["language"].lower()
+        if "java" in language:
+            obj = SubtaskJavaPro()
+        elif "python" in language:
+            obj = SubtaskPythonPro()
+        else:
+            obj = SubtaskPro()
+
+    return obj.splitTaskDo(req_info, service_info, tec_doc)
 
 @pre_check_quota
 def aiReferenceRepair(requirementID, newCode, referenceCode, fileTask, filePath):

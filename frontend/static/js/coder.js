@@ -77,16 +77,16 @@ var alertErrorCallback = function(error) {
 
 function getRoleImg(role_img, role) {
     if (role=="QA") {
-        role_img = '<img class="ui avatar image" src="./static/image/role_qa.png" data-content="QA" style="width: auto;height: auto;">'
+        role_img = '<img class="ui avatar image" src="./static/image/role_qa.jpeg" data-content="QA" style="width: auto;height: auto;">'
     }
     if (role=="OP") {
-        role_img = '<img class="ui avatar image" src="./static/image/role_op.jpg" data-content="OP" style="width: auto;height: auto;">'
+        role_img = '<img class="ui avatar image" src="./static/image/role_op.jpeg" data-content="OP" style="width: auto;height: auto;">'
     }
     if (role=="PM") {
-        role_img = '<img class="ui avatar image" src="./static/image/role_pm.jpg" data-content="PM" style="width: auto;height: auto;">'
+        role_img = '<img class="ui avatar image" src="./static/image/role_pm.jpeg" data-content="PM" style="width: auto;height: auto;">'
     }
     if (role=="TL") {
-        role_img = '<img class="ui avatar image" src="./static/image/role_tl.png"  data-content="TL"  style="width: auto;height: auto;">'
+        role_img = '<img class="ui avatar image" src="./static/image/role_tl.jpeg"  data-content="TL"  style="width: auto;height: auto;">'
     }
     return role_img
 }
@@ -115,12 +115,16 @@ function thinkUI(customPrompt, thinkText, role) {
     $('img').popup();
 }
 
-function thinkUIShow(customPrompt, thinkText, role) {
+function thinkUIShow(customPrompt, thinkText, role, role_two) {
     role_img = getRoleImg('<i class="blue  grav icon big" style="font-size: 3em;"></i>', role)
+    if (!role_two) {
+        role_two = ""
+    }
+    role_two_img = getRoleImg('<i class="blue  grav icon big" style="font-size: 3em;"></i>', role_two)
     
     $('#prompt-textarea').val("");
     $("#prompt-hidePrompt").val("")
-    var newField = $('<div class="user-code-container"><div class="ui container grid"><div class="one wide column"><i class="blue  grav icon big" style="font-size: 3em;"></i></div><div class="fifteen wide column ai-content"><div class="ai-code">' + marked.marked(customPrompt).replaceAll("\n", "<br />") + '</div></div></div></div> <div class="ai-code-container"><div class="ui container grid"><div class="one wide column">'+role_img+'</div><div class="fifteen wide column ai-content"><div class="ai-code"><i class="spinner loading icon"></i>'+thinkText+'</div></div></div></div>');
+    var newField = $('<div class="user-code-container"><div class="ui container grid"><div class="one wide column">'+role_two_img+'</div><div class="fifteen wide column ai-content"><div class="ai-code">' + marked.marked(customPrompt).replaceAll("\n", "<br />") + '</div></div></div></div> <div class="ai-code-container"><div class="ui container grid"><div class="one wide column">'+role_img+'</div><div class="fifteen wide column ai-content"><div class="ai-code"><i class="spinner loading icon"></i>'+thinkText+'</div></div></div></div>');
     $(".ai-prompt-container").eq($('ai-prompt-container').length - 1).before(newField);
 
     $('html, body').animate({ scrollTop: $(document).height() }, 'slow');
@@ -263,7 +267,11 @@ $(document).ready(function () {
         $('#prompt-textarea').val('');
         var operType = $('#prompt-hidePrompt').val();
         $('#prompt-hidePrompt').val('');
-        if (operType == "api_doc") {
+        var serviceName = $('#prompt-serviceName').val();
+        $('#prompt-serviceName').val('');
+        if (operType == "tec_doc") { 
+            taskSplitOK(customPrompt, serviceName)
+        } else if (operType == "api_doc") {
             globalChangeServiceList.forEach(function (element, element_index, element_array) {
                 if (element_index > 0 ) {
                     setTimeout(function () {
@@ -370,7 +378,11 @@ function getRequirement() {
             console.log(memory);
             
             if (memory.artifact_type == "RequirementDocument") {
-                thinkUIShow(memory.input_prompt, globalFrontendText["ai_think"], 'PM');
+                role_two = ''
+                if (memory.step == "Requirement_adjust") { 
+                    role_two = "TL"
+                }
+                thinkUIShow(memory.input_prompt, globalFrontendText["ai_think"], 'PM', role_two);
                 const d = {
                     "data": {
                         "message": JSON.parse(memory.artifact_content),
@@ -387,6 +399,16 @@ function getRequirement() {
                     }
                 };
                 genInterfaceDocSuccessCallback(d);
+            }
+            if (memory.step == "Subtask_subtasks") {
+                thinkUIShow(memory.input_prompt, globalFrontendText["ai_think"], 'TL');
+                const d = {
+                    "data": {
+                        "message": memory.artifact_content,
+                        "service_name": memory.artifact_path
+                    }
+                };
+                taskAnalysisSuccessCallback(d, true);
             }
             if (memory.step == "Subtask_code") {
                 thinkUIShow(memory.artifact_path, globalFrontendText["ai_think"], 'TL');
@@ -1370,13 +1392,14 @@ function taskOk(newPrompt, element, operType) {
     $('#generate-code-button').click()
 }
 
-function taskChange(newPrompt, operType) {
+function taskChange(newPrompt, operType, serviceName) {
     var prompt = decodeURI(newPrompt)
     
     $('#generate-code-button').removeClass("disabled");
     $(".ai-prompt-container").last().children().children().find("textarea").val(prompt);
     globalContext = []
     $('#prompt-hidePrompt').val(operType);
+    $("#prompt-serviceName").val(serviceName)
     $('html, body').animate({ scrollTop: $(document).height() }, 'slow');
 }
 
@@ -1570,6 +1593,20 @@ function genInterfaceDoc(customPrompt, thisElement) {
     sendAjaxRequest('/step_api/clarify', "POST", requestData, genInterfaceDocSuccessCallback, errorCallback, true, true)
 }
 
+taskAnalysisSuccessCallback = function(data, isRecover){
+    $('#generate-code-button').removeClass("disabled");
+
+    data = data.data
+    var msg = data.message
+    var service_name = data.service_name
+    var str = ""  
+    str = '<br /><br /><button class="ui green button" onClick="taskSplitOK(\''+escapeHtml(msg)+'\', \''+service_name+'\', this)">'+globalFrontendText["submit"]+'</button><button class="ui blue button" onclick="taskChange(\''+escapeHtml(msg)+'\', \'tec_doc\', \''+service_name+'\')">'+globalFrontendText["edit"]+'</button>'
+    marked_msg = marked.marked(msg)
+    msg = '<h5>'+globalFrontendText["ai_tecDoc_clarify_1"]+'</h5>'+marked_msg
+
+    $(".ai-code").eq($('ai-code').length - 1).html(msg+str);
+}
+
 function taskAnalysis(customPrompt, service_name, hideUserPrompt, thisElement) {
     customPrompt = decodeURI(customPrompt)
     $(thisElement).addClass("disabled");
@@ -1577,7 +1614,7 @@ function taskAnalysis(customPrompt, service_name, hideUserPrompt, thisElement) {
     $('#prompt-textarea').val("");
     $("#prompt-hidePrompt").val("")
     var ai_code_class = service_name.replace("/","-")
-    var newField = $('<div class="user-code-container"><div class="ui container grid"><div class="one wide column"><i class="blue  grav icon big" style="font-size: 3em;"></i></div><div class="fifteen wide column ai-content"><div class="ai-code" id="">'+globalFrontendText["ai_api_clarify_confirm"]+'</div></div></div></div> <div class="ai-code-container '+ai_code_class+'"><div class="ui container grid"><div class="one wide column"><img class="ui avatar image" src="./static/image/role_tl.png" data-content="TL" style="width: auto;height: auto;"></div><div class="fifteen wide column ai-content"><div class="ai-code '+ai_code_class+'"><i class="spinner loading icon"></i>'+globalFrontendText["ai_api_subtask_1"]+' '+service_name+' '+globalFrontendText["ai_api_subtask_2"]+'</div></div></div></div>');
+    var newField = $('<div class="user-code-container"><div class="ui container grid"><div class="one wide column"><i class="blue  grav icon big" style="font-size: 3em;"></i></div><div class="fifteen wide column ai-content"><div class="ai-code" id="">'+globalFrontendText["ai_api_clarify_confirm"]+'</div></div></div></div> <div class="ai-code-container '+ai_code_class+'"><div class="ui container grid"><div class="one wide column"><img class="ui avatar image" src="./static/image/role_tl.jpeg" data-content="TL" style="width: auto;height: auto;"></div><div class="fifteen wide column ai-content"><div class="ai-code '+ai_code_class+'"><i class="spinner loading icon"></i>'+globalFrontendText["ai_api_subtask_1"]+' '+service_name+' '+globalFrontendText["ai_api_subtask_2"]+'</div></div></div></div>');
     $(".ai-prompt-container").before(newField);
     $(".ai-code-container."+ai_code_class).eq($('.ai-code-container.'+ai_code_class).length - 1).hide();
     $(".user-code-container").eq($('.user-code-container').length - 1).hide();
@@ -1603,6 +1640,50 @@ function taskAnalysis(customPrompt, service_name, hideUserPrompt, thisElement) {
 
     var retruBtn = '<br /><br /><button class="ui green button" onClick="taskAnalysis(\''+escapeHtml(customPrompt)+'\',\''+service_name+'\', true, this)">'+globalFrontendText["retry"]+'</button>'
 
+    errorCallback = function(errorMsg) {
+        $(".ai-code."+ai_code_class).eq($('.ai-code.'+ai_code_class).length - 1).html(service_name+errorMsg+retruBtn);
+    }
+
+    sendAjaxRequest('/step_subtask/analysis', "POST", requestData, taskAnalysisSuccessCallback, errorCallback, true, true)
+}
+
+function taskSplitOK(customPrompt, service_name, thisElement) {
+    customPrompt = decodeURI(customPrompt)
+    $(thisElement).addClass("disabled");
+
+    var msg = customPrompt
+    if (thisElement) {
+        msg = globalFrontendText["ai_api_clarify_confirm"]
+    }
+
+    $('#prompt-textarea').val("");
+    $("#prompt-hidePrompt").val("")
+    $("#prompt-serviceName").val("")
+    var ai_code_class = service_name.replace("/","-")
+    var newField = $('<div class="user-code-container"><div class="ui container grid"><div class="one wide column"><i class="blue  grav icon big" style="font-size: 3em;"></i></div><div class="fifteen wide column ai-content"><div class="ai-code" id="">'+msg+'</div></div></div></div> <div class="ai-code-container '+ai_code_class+'"><div class="ui container grid"><div class="one wide column"><img class="ui avatar image" src="./static/image/role_tl.jpeg" data-content="TL" style="width: auto;height: auto;"></div><div class="fifteen wide column ai-content"><div class="ai-code '+ai_code_class+'"><i class="spinner loading icon"></i>'+globalFrontendText["ai_api_subtask_1"]+' '+service_name+' '+globalFrontendText["ai_api_subtask_2"]+'</div></div></div></div>');
+    $(".ai-prompt-container").before(newField);
+    $(".ai-code-container."+ai_code_class).eq($('.ai-code-container.'+ai_code_class).length - 1).hide();
+    $(".user-code-container").eq($('.user-code-container').length - 1).hide();
+    setTimeout(function () {
+        $(".user-code-container").eq($('.user-code-container').length - 1).slideDown();
+    }, 200);
+    setTimeout(function () {
+        $(".ai-code-container."+ai_code_class).eq($('ai-code-container.'+ai_code_class).length - 1).slideDown();
+    }, 700);
+    // 滚动到页面底部
+    setTimeout(function () {
+        $('html, body').animate({ scrollTop: $(document).height() }, 'slow');
+    }, 900);
+    $('img').popup();
+
+    doc_type = "api"
+    if (globalChangeServiceList.length == 1) {
+        doc_type = "prd"
+    }
+    var requestData = JSON.stringify({ 'service_name': service_name, 'prompt': customPrompt, 'doc_type': doc_type, 'task_id': getTaskID() })
+
+    var retruBtn = '<br /><br /><button class="ui green button" onClick="taskSplitOK(\''+escapeHtml(customPrompt)+'\',\''+service_name+'\', this)">'+globalFrontendText["retry"]+'</button>'
+
     successCallback = function(data) {
         data = data.data
         var plugin = data.plugin
@@ -1615,7 +1696,7 @@ function taskAnalysis(customPrompt, service_name, hideUserPrompt, thisElement) {
         $(".ai-code."+ai_code_class).eq($('.ai-code.'+ai_code_class).length - 1).html(service_name+errorMsg+retruBtn);
     }
 
-    sendAjaxRequest('/step_subtask/analysis', "POST", requestData, successCallback, errorCallback, true, true)
+    sendAjaxRequest('/step_subtask/task_split', "POST", requestData, successCallback, errorCallback, true, true)
 }
 
 function escapeHtml(html) {

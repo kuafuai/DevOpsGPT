@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-09-21 15:04+0800\n"
+"POT-Creation-Date: 2023-09-26 16:01+0800\n"
 "PO-Revision-Date: 2023-07-17 18:37+0800\n"
 "Last-Translator: booboo <mac@booboo.local>\n"
 "Language-Team: Language i18n/en\n"
@@ -866,4 +866,41 @@ msgstr ""
 
 #: backend/app/pkgs/tools/i18b.py:226
 msgid "Help center"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:227
+msgid ""
+"Technical document has been generated. You can confirm the document, or "
+"manually modify the document."
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:228
+msgid ""
+"Assist in clarifying product requirements and produce requirement documents."
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:229
+msgid ""
+"Design system architecture, break down development tasks, and produce "
+"technical documentation for development."
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:230
+msgid "Assess product quality, identify and report defects."
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:231
+msgid "Write, review, test, and maintain software code."
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:232
+msgid ""
+"Responsible for application deployment, as well as managing servers, "
+"networks, and systems to ensure system availability and stability."
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:233
+msgid ""
+"The following AI roles will assist you in completing the entire development "
+"process for requirement tasks."
 msgstr ""

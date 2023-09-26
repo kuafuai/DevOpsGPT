@@ -224,4 +224,11 @@ def getFrontendText():
         "change_password":  _("Change password"),
         "newpassword":  _("New password"),
         "help":  _("Help center"),
+        "ai_tecDoc_clarify_1": _("Technical document has been generated. You can confirm the document, or manually modify the document."),
+        "ai_pm":  _("Assist in clarifying product requirements and produce requirement documents."),
+        "ai_tl":  _("Design system architecture, break down development tasks, and produce technical documentation for development."),
+        "ai_qa":  _("Assess product quality, identify and report defects."),
+        "ai_rd":  _("Write, review, test, and maintain software code."),
+        "ai_op":  _("Responsible for application deployment, as well as managing servers, networks, and systems to ensure system availability and stability."),
+        "ai_intro": _("The following AI roles will assist you in completing the entire development process for requirement tasks.")
     }
