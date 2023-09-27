@@ -95,6 +95,6 @@ def analyze_service():
 
     info, success = analyzeService(tenantID, gitPath)
     if not success:
-        raise Exception(_("Failed to analysis applications.")) 
+        raise Exception(_("Failed to analysis applications.")+"目前只支持Java和python语言 Currently, only Java and python languages are supported") 
         
     return info
