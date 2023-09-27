@@ -1385,6 +1385,12 @@ function startCd(repo_path) {
     sendAjaxRequest('/step_devops/trigger_cd', "POST", requestData, successCallback, aiErrorCallback, true, true)
 }
 
+function useGoodCase(classname) {
+    prompt = $("."+classname).text()
+    $('#prompt-textarea').val(prompt)
+    $('html, body').animate({ scrollTop: $(document).height() }, 'slow');
+}
+
 function taskOk(newPrompt, element, operType) {
     var prompt = decodeURI(newPrompt)
     $(element).addClass("disabled");

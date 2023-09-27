@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-09-27 10:46+0800\n"
+"POT-Creation-Date: 2023-09-27 16:22+0800\n"
 "PO-Revision-Date: 2023-07-17 18:36+0800\n"
 "Last-Translator: booboo <mac@booboo.local>\n"
 "Language-Team: Language i18n/zh\n"
@@ -61,7 +61,10 @@ msgstr "你好，我是 AI 辅助需求开发助手，请先选择"
 
 #: backend/app/pkgs/tools/i18b.py:45
 msgid "to start the development task!"
-msgstr "开始开发任务吧！"
+msgstr ""
+"开始开发任务吧！（<a href='https://vvx03gck2p.feishu.cn/docx/"
+"KwnSdasq1oK3LMxfVBAcwhG2neQ' target='_blank'>还不知道玩法？戳这里10分钟带你入"
+"门。</a>）"
 
 #: backend/app/pkgs/tools/i18b.py:46
 msgid "I need to develop requirements in the"
@@ -402,7 +405,7 @@ msgstr "邮箱"
 
 #: backend/app/pkgs/tools/i18b.py:126
 msgid "Company Name"
-msgstr "企业名称"
+msgstr "组织名称"
 
 #: backend/app/pkgs/tools/i18b.py:127
 msgid "Company Status"
@@ -410,7 +413,7 @@ msgstr "状态"
 
 #: backend/app/pkgs/tools/i18b.py:128
 msgid "Company Description"
-msgstr "企业简介"
+msgstr "组织简介"
 
 #: backend/app/pkgs/tools/i18b.py:129
 msgid "Billing type"
@@ -430,7 +433,7 @@ msgstr "Plus 过期时间"
 
 #: backend/app/pkgs/tools/i18b.py:133
 msgid "Employee count"
-msgstr "企业规模"
+msgstr "组织规模"
 
 #: backend/app/pkgs/tools/i18b.py:134
 msgid "Industry type"
@@ -438,7 +441,7 @@ msgstr "所属行业"
 
 #: backend/app/pkgs/tools/i18b.py:135
 msgid "Switch Tenant"
-msgstr "切换企业"
+msgstr "切换组织"
 
 #: backend/app/pkgs/tools/i18b.py:136
 msgid "Member Count"
@@ -566,15 +569,15 @@ msgstr "配置名称"
 
 #: backend/app/pkgs/tools/i18b.py:166
 msgid "Associated CD Config"
-msgstr "关联 CD 配置（企业管理员在企业配置中添加）"
+msgstr "关联 CD 配置（组织管理员在组织配置中添加）"
 
 #: backend/app/pkgs/tools/i18b.py:167
 msgid "Associated CI Config"
-msgstr "关联 CI 配置（企业管理员在企业配置中添加）"
+msgstr "关联 CI 配置（组织管理员在组织配置中添加）"
 
 #: backend/app/pkgs/tools/i18b.py:168
 msgid "Associated Git Config"
-msgstr "关联 Git 配置（企业管理员在企业配置中添加）"
+msgstr "关联 Git 配置（组织管理员在组织配置中添加）"
 
 #: backend/app/pkgs/tools/i18b.py:169
 msgid "My Role"
@@ -582,7 +585,7 @@ msgstr "我的角色"
 
 #: backend/app/pkgs/tools/i18b.py:170
 msgid "The tenant does not exist or is abnormal"
-msgstr "当前企业不存在或状态异常，请<a href='tenant.html'>选择其他企业。</a>."
+msgstr "当前组织不存在或状态异常，请<a href='tenant.html'>选择其他组织。</a>."
 
 #: backend/app/pkgs/tools/i18b.py:171
 msgid "Insufficient authority."
@@ -879,7 +882,7 @@ msgstr "新密码"
 
 #: backend/app/pkgs/tools/i18b.py:226
 msgid "Help center"
-msgstr "帮助中心"
+msgstr "新手指引 · 帮助中心"
 
 #: backend/app/pkgs/tools/i18b.py:227
 msgid ""
@@ -921,6 +924,58 @@ msgstr "已下 AI 角色将辅助您完成需求任务的完整开发过程。"
 #: backend/app/pkgs/tools/i18b.py:234
 msgid "Try it!"
 msgstr "试一把！"
+
+#: backend/app/pkgs/tools/i18b.py:235
+msgid "Web application"
+msgstr "<a href='https://vvx03gck2p.feishu.cn/docx/GXBVd3hFdogeYsx6BoscceVPnMf' target='_blank'>Web 应用</a>"
+
+#: backend/app/pkgs/tools/i18b.py:236
+msgid ""
+"Asset Registration Function: Supports adding new fixed asset information, "
+"including asset number, name, specifications, purchase date, and purchase "
+"price."
+msgstr "资产登记功能：支持添加新的固定资产信息，包括资产编号、名称、规格、采购日期、采购价格。"
+
+#: backend/app/pkgs/tools/i18b.py:237
+msgid "Office collaboration application expansion"
+msgstr "<a href='https://vvx03gck2p.feishu.cn/docx/JcaLdMYgRoYU6zxWz9Ocmlm6nCb' target='_blank'>办公协同类应用扩展</a>"
+
+#: backend/app/pkgs/tools/i18b.py:238
+msgid ""
+"Input meeting notes, invoke ChatGPT to organize the meeting notes into "
+"meeting minutes, and send them to the group via the enterprise WeChat bot."
+msgstr "传入会议记录，调用ChatGPT将会议记录整理成会议纪要，通过企业微信机器人发送到群里"
+
+#: backend/app/pkgs/tools/i18b.py:239
+msgid "Integration between services via API"
+msgstr "<a href='https://vvx03gck2p.feishu.cn/docx/GFnadpTkuoRerixLkJlcZxvznRf' target='_blank'>通过API进行系统间集成</a>"
+
+#: backend/app/pkgs/tools/i18b.py:240
+msgid ""
+"Integrate with the GitLab server using GitLab's OpenAPI. The system will "
+"query the recent one-hour continuous integration failure records every hour."
+msgstr "使用GitLab的OpenAPI与GitLab服务器进行集成。系统将每小时查询最近一小时内持续集成的失败记录。"
+
+#: backend/app/pkgs/tools/i18b.py:241
+msgid "mini-games"
+msgstr "<a href='https://vvx03gck2p.feishu.cn/docx/OMKvda3HxozhQrxcxY4cAUg0nzd' target='_blank'>小游戏</a>"
+
+#: backend/app/pkgs/tools/i18b.py:242
+msgid ""
+"Snake Game: Players control the direction of the snake, collect food, and "
+"the snake grows in length when it eats food."
+msgstr "贪吃蛇游戏：玩家控制贪吃蛇的方向，获得食物，贪吃蛇吃到食物后会增长长度。"
+
+#: backend/app/pkgs/tools/i18b.py:243
+msgid "Try this requirement"
+msgstr "试一下这个需求"
+
+#: backend/app/pkgs/tools/i18b.py:244
+msgid ""
+"Please note that different types of applications are suitable for different "
+"types of needs. Please provide a detailed description of your requirements. "
+"Below are some reference cases."
+msgstr "注意，不同类型的应用适用于不同类型的需求，请详细描述您的需求，以下是一些参考案例。"
 
 #~ msgid "Phone"
 #~ msgstr "手机号"

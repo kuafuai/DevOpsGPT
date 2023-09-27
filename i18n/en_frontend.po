@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-09-27 10:46+0800\n"
+"POT-Creation-Date: 2023-09-27 16:22+0800\n"
 "PO-Revision-Date: 2023-07-17 18:37+0800\n"
 "Last-Translator: booboo <mac@booboo.local>\n"
 "Language-Team: Language i18n/en\n"
@@ -62,6 +62,9 @@ msgstr ""
 #: backend/app/pkgs/tools/i18b.py:45
 msgid "to start the development task!"
 msgstr ""
+"to start the development task!（<a href='https://vvx03gck2p.feishu.cn/docx/"
+"OvjMd4ImKoIyLuxmuIpcC3WrnEd' target='_blank'>Don't know how to play? Click "
+"here to get you started in 10 minutes</a>）"
 
 #: backend/app/pkgs/tools/i18b.py:46
 msgid "I need to develop requirements in the"
@@ -403,15 +406,15 @@ msgstr ""
 
 #: backend/app/pkgs/tools/i18b.py:126
 msgid "Company Name"
-msgstr ""
+msgstr "Organization Name"
 
 #: backend/app/pkgs/tools/i18b.py:127
 msgid "Company Status"
-msgstr ""
+msgstr "Organization Status"
 
 #: backend/app/pkgs/tools/i18b.py:128
 msgid "Company Description"
-msgstr ""
+msgstr "Organization Description"
 
 #: backend/app/pkgs/tools/i18b.py:129
 msgid "Billing type"
@@ -568,20 +571,20 @@ msgstr ""
 #: backend/app/pkgs/tools/i18b.py:166
 msgid "Associated CD Config"
 msgstr ""
-"Associated CD Config (Company administrator Added in Company configuration "
-"page)"
+"Associated CD Config (Organization administrator Added in Organization "
+"configuration page)"
 
 #: backend/app/pkgs/tools/i18b.py:167
 msgid "Associated CI Config"
 msgstr ""
-"Associated CI Config (Company administrator Added in Company configuration "
-"page)"
+"Associated CI Config (Organization administrator Added in Organization "
+"configuration page)"
 
 #: backend/app/pkgs/tools/i18b.py:168
 msgid "Associated Git Config"
 msgstr ""
-"Associated Git Config (Company administrator Added in Company configuration "
-"page)"
+"Associated Git Config (Organization administrator Added in Organization "
+"configuration page)"
 
 #: backend/app/pkgs/tools/i18b.py:169
 msgid "My Role"
@@ -590,8 +593,8 @@ msgstr ""
 #: backend/app/pkgs/tools/i18b.py:170
 msgid "The tenant does not exist or is abnormal"
 msgstr ""
-"The company does not exist or is abnormal. Please <a href='tenant."
-"html'>select another company.</a>."
+"The Organization does not exist or is abnormal. Please <a href='tenant."
+"html'>select another Organization.</a>."
 
 #: backend/app/pkgs/tools/i18b.py:171
 msgid "Insufficient authority."
@@ -866,7 +869,7 @@ msgstr ""
 
 #: backend/app/pkgs/tools/i18b.py:226
 msgid "Help center"
-msgstr ""
+msgstr "Getting Started · Help"
 
 #: backend/app/pkgs/tools/i18b.py:227
 msgid ""
@@ -907,4 +910,56 @@ msgstr ""
 
 #: backend/app/pkgs/tools/i18b.py:234
 msgid "Try it!"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:235
+msgid "Web application"
+msgstr "<a href='https://vvx03gck2p.feishu.cn/docx/L1jidyKYSoCpozxN3uQcUoHxnnd' target='_blank'>Web application</a>"
+
+#: backend/app/pkgs/tools/i18b.py:236
+msgid ""
+"Asset Registration Function: Supports adding new fixed asset information, "
+"including asset number, name, specifications, purchase date, and purchase "
+"price."
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:237
+msgid "Office collaboration application expansion"
+msgstr "<a href='https://vvx03gck2p.feishu.cn/docx/YmFQdwbkHomOXWx9o8zcjD8fnzg' target='_blank'>Office collaboration application expansion</a>"
+
+#: backend/app/pkgs/tools/i18b.py:238
+msgid ""
+"Input meeting notes, invoke ChatGPT to organize the meeting notes into "
+"meeting minutes, and send them to the group via the enterprise WeChat bot."
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:239
+msgid "Integration between services via API"
+msgstr "<a href='https://vvx03gck2p.feishu.cn/docx/JryhdKZZQoURV7xxC8ncXurlnPf' target='_blank'>Integration between services via API</a>"
+
+#: backend/app/pkgs/tools/i18b.py:240
+msgid ""
+"Integrate with the GitLab server using GitLab's OpenAPI. The system will "
+"query the recent one-hour continuous integration failure records every hour."
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:241
+msgid "mini-games"
+msgstr "<a href='https://vvx03gck2p.feishu.cn/docx/KNu3dzLGFomj2QxWaSycEgvHncb' target='_blank'>mini-game</a>"
+
+#: backend/app/pkgs/tools/i18b.py:242
+msgid ""
+"Snake Game: Players control the direction of the snake, collect food, and "
+"the snake grows in length when it eats food."
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:243
+msgid "Try this requirement"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:244
+msgid ""
+"Please note that different types of applications are suitable for different "
+"types of needs. Please provide a detailed description of your requirements. "
+"Below are some reference cases."
 msgstr ""

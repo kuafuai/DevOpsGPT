@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-09-26 16:01+0800\n"
+"POT-Creation-Date: 2023-09-27 10:46+0800\n"
 "PO-Revision-Date: 2023-07-17 18:36+0800\n"
 "Last-Translator: booboo <mac@booboo.local>\n"
 "Language-Team: Language i18n/zh\n"
@@ -61,7 +61,7 @@ msgstr "你好，我是 AI 辅助需求开发助手，请先选择"
 
 #: backend/app/pkgs/tools/i18b.py:45
 msgid "to start the development task!"
-msgstr "开始开发任务吧！"
+msgstr "开始开发任务吧！（<a href='https://vvx03gck2p.feishu.cn/docx/KwnSdasq1oK3LMxfVBAcwhG2neQ' target='_blank'>还不知道玩法？戳这里10分钟带你入门。</a>）"
 
 #: backend/app/pkgs/tools/i18b.py:46
 msgid "I need to develop requirements in the"
@@ -402,7 +402,7 @@ msgstr "邮箱"
 
 #: backend/app/pkgs/tools/i18b.py:126
 msgid "Company Name"
-msgstr "企业名称"
+msgstr "组织名称"
 
 #: backend/app/pkgs/tools/i18b.py:127
 msgid "Company Status"
@@ -410,7 +410,7 @@ msgstr "状态"
 
 #: backend/app/pkgs/tools/i18b.py:128
 msgid "Company Description"
-msgstr "企业简介"
+msgstr "组织简介"
 
 #: backend/app/pkgs/tools/i18b.py:129
 msgid "Billing type"
@@ -430,7 +430,7 @@ msgstr "Plus 过期时间"
 
 #: backend/app/pkgs/tools/i18b.py:133
 msgid "Employee count"
-msgstr "企业规模"
+msgstr "组织规模"
 
 #: backend/app/pkgs/tools/i18b.py:134
 msgid "Industry type"
@@ -438,7 +438,7 @@ msgstr "所属行业"
 
 #: backend/app/pkgs/tools/i18b.py:135
 msgid "Switch Tenant"
-msgstr "切换企业"
+msgstr "切换组织"
 
 #: backend/app/pkgs/tools/i18b.py:136
 msgid "Member Count"
@@ -566,15 +566,15 @@ msgstr "配置名称"
 
 #: backend/app/pkgs/tools/i18b.py:166
 msgid "Associated CD Config"
-msgstr "关联 CD 配置（企业管理员在企业配置中添加）"
+msgstr "关联 CD 配置（组织管理员在组织配置中添加）"
 
 #: backend/app/pkgs/tools/i18b.py:167
 msgid "Associated CI Config"
-msgstr "关联 CI 配置（企业管理员在企业配置中添加）"
+msgstr "关联 CI 配置（组织管理员在组织配置中添加）"
 
 #: backend/app/pkgs/tools/i18b.py:168
 msgid "Associated Git Config"
-msgstr "关联 Git 配置（企业管理员在企业配置中添加）"
+msgstr "关联 Git 配置（组织管理员在组织配置中添加）"
 
 #: backend/app/pkgs/tools/i18b.py:169
 msgid "My Role"
@@ -582,7 +582,7 @@ msgstr "我的角色"
 
 #: backend/app/pkgs/tools/i18b.py:170
 msgid "The tenant does not exist or is abnormal"
-msgstr "当前企业不存在或状态异常，请<a href='tenant.html'>选择其他企业。</a>."
+msgstr "当前组织不存在或状态异常，请<a href='tenant.html'>选择其他组织。</a>."
 
 #: backend/app/pkgs/tools/i18b.py:171
 msgid "Insufficient authority."
@@ -879,7 +879,7 @@ msgstr "新密码"
 
 #: backend/app/pkgs/tools/i18b.py:226
 msgid "Help center"
-msgstr "帮助中心"
+msgstr "新手指引 · 帮助中心"
 
 #: backend/app/pkgs/tools/i18b.py:227
 msgid ""
@@ -917,6 +917,10 @@ msgid ""
 "The following AI roles will assist you in completing the entire development "
 "process for requirement tasks."
 msgstr "已下 AI 角色将辅助您完成需求任务的完整开发过程。"
+
+#: backend/app/pkgs/tools/i18b.py:234
+msgid "Try it!"
+msgstr "试一把！"
 
 #~ msgid "Phone"
 #~ msgstr "手机号"

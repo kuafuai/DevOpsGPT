@@ -211,3 +211,10 @@ pre {
   line-height: 1;
   padding-inline-start:20px;
 }
+
+.goodcase_list .content{
+  color: #666;
+}
+.goodcase_list .content .header{
+  color: #666 !important;
+}
