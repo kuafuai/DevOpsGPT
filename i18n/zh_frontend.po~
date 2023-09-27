@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-09-26 15:55+0800\n"
+"POT-Creation-Date: 2023-09-26 16:01+0800\n"
 "PO-Revision-Date: 2023-07-17 18:36+0800\n"
 "Last-Translator: booboo <mac@booboo.local>\n"
 "Language-Team: Language i18n/zh\n"
@@ -672,11 +672,11 @@ msgstr "AI 代码分析中...预计需要几分钟时间，请稍等。"
 
 #: backend/app/pkgs/tools/i18b.py:188
 msgid "Launch code"
-msgstr "登录码"
+msgstr "验证码"
 
 #: backend/app/pkgs/tools/i18b.py:189
 msgid "Your KUAFUAI launch code"
-msgstr "你的 KUAFUAI 登录码"
+msgstr "你的 KUAFUAI 验证码"
 
 #: backend/app/pkgs/tools/i18b.py:190
 msgid "The username cannot be smaller than 4 characters."
@@ -702,7 +702,7 @@ msgstr "邮箱格式不正确。"
 
 #: backend/app/pkgs/tools/i18b.py:195
 msgid "The email launch code is incorrect."
-msgstr "邮箱和登录码不匹配。"
+msgstr "邮箱和验证码不匹配。"
 
 #: backend/app/pkgs/tools/i18b.py:196
 msgid ""
@@ -859,7 +859,7 @@ msgstr "链接"
 
 #: backend/app/pkgs/tools/i18b.py:221
 msgid "Get Launch code"
-msgstr "获取登录码"
+msgstr "获取验证码"
 
 #: backend/app/pkgs/tools/i18b.py:222
 msgid "Service Type"
@@ -911,6 +911,12 @@ msgid ""
 "Responsible for application deployment, as well as managing servers, "
 "networks, and systems to ensure system availability and stability."
 msgstr "负责应用部署，以及管理服务器、网络和系统，确保系统的可用性和稳定性。"
+
+#: backend/app/pkgs/tools/i18b.py:233
+msgid ""
+"The following AI roles will assist you in completing the entire development "
+"process for requirement tasks."
+msgstr "已下 AI 角色将辅助您完成需求任务的完整开发过程。"
 
 #~ msgid "Phone"
 #~ msgstr "手机号"

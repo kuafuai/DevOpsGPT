@@ -230,5 +230,6 @@ def getFrontendText():
         "ai_qa":  _("Assess product quality, identify and report defects."),
         "ai_rd":  _("Write, review, test, and maintain software code."),
         "ai_op":  _("Responsible for application deployment, as well as managing servers, networks, and systems to ensure system availability and stability."),
-        "ai_intro": _("The following AI roles will assist you in completing the entire development process for requirement tasks.")
+        "ai_intro": _("The following AI roles will assist you in completing the entire development process for requirement tasks."),
+        "try_it": _("Try it!"),
     }
