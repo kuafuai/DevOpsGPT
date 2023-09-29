@@ -162,10 +162,49 @@ modelSelectedSuccessCallback = function(data){
         +"<hr />"+ repos
         +"<hr />"+'<i class="code branch teal icon"></i>'+ globalFrontendText["ai_selected_app_4"] + data.default_source_branch +" "+ globalFrontendText["ai_selected_app_5"] +" "+ data.default_target_branch
         +"<hr /><br />" + globalFrontendText["ai_selected_app_6"];
+    goodcase = `<div class="ui middle aligned divided list goodcase_list">
+    <h4 style="padding-top: 10px;">`+globalFrontendText["ai_goodcase_intro"]+`</h4>
+    <div class="item">
+      <div class="right floated content">
+        <div class="ui button" onclick="useGoodCase('f_goodcase_content_1')">`+globalFrontendText["goodcase_chose"]+`</div>
+      </div>
+      <div class="content">
+        <div class="header">`+globalFrontendText["goodcase_title_1"]+`</div>
+        <span class="f_goodcase_content_1">`+globalFrontendText["goodcase_content_1"]+`</span>
+      </div>
+    </div>
+    <div class="item">
+      <div class="right floated content">
+        <div class="ui button" onclick="useGoodCase('f_goodcase_content_2')">`+globalFrontendText["goodcase_chose"]+`</div>
+      </div>
+      <div class="content">
+        <div class="header">`+globalFrontendText["goodcase_title_2"]+`</div>
+        <span class="f_goodcase_content_2">`+globalFrontendText["goodcase_content_2"]+`</span>
+      </div>
+    </div>
+    <div class="item">
+      <div class="right floated content">
+        <div class="ui button" onclick="useGoodCase('f_goodcase_content_3')">`+globalFrontendText["goodcase_chose"]+`</div>
+      </div>
+      <div class="content">
+        <div class="header">`+globalFrontendText["goodcase_title_3"]+`</div>
+        <span class="f_goodcase_content_3">`+globalFrontendText["goodcase_content_3"]+`</span>
+      </div>
+    </div>
+    <div class="item">
+      <div class="right floated content">
+        <div class="ui button" onclick="useGoodCase('f_goodcase_content_4')">`+globalFrontendText["goodcase_chose"]+`</div>
+      </div>
+      <div class="content">
+        <div class="header">`+globalFrontendText["goodcase_title_4"]+`</div>
+        <span class="f_goodcase_content_4">`+globalFrontendText["goodcase_content_4"]+`</span>
+      </div>
+    </div>
+  </div>`
     const url = window.location;
     const newUrl = url.origin + '/task.html?task_id=' + data["requirement_id"];
     history.pushState('', '', newUrl); 
-    answerUI(str)
+    answerUI(str+goodcase)
 }
 
 function modelSelected(appName, appID, repos) {
