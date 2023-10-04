@@ -85,7 +85,7 @@ class CodeBasic(CodeInterface):
         return json.loads(fix_llm_json_str(data)), success
 
 
-    def aiCheckCode(self, requirementID, fileTask, code, filePath):
+    def aiCheckCode(self, requirementID, fileTask, code, filePath, service_name):
         goodCodeRe, success = self.aiReviewCode(requirementID, fileTask, code, filePath)
 
         jsonData = {"reasoning": goodCodeRe, "code": code}

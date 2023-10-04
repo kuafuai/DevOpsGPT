@@ -40,7 +40,7 @@ def check_file():
     if step:
         re, success = gen_write_code(requirementID, service_name, filePath, fileTask, step)
     else:
-        re, success = aiCheckCode(requirementID, fileTask, code, filePath)
+        re, success = aiCheckCode(requirementID, fileTask, code, filePath, service_name)
     if not success:
         raise Exception(_("Failed to check file."))
 

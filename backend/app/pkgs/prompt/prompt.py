@@ -106,13 +106,13 @@ def aiFixError(requirementID, error_msg, solution, code, filePath, type):
     return obj.aiFixError(requirementID, error_msg, solution, code, filePath, type)
 
 @pre_check_quota
-def aiCheckCode(requirementID, fileTask, code, filePath):
+def aiCheckCode(requirementID, fileTask, code, filePath, service_name):
     if GRADE == "base":
         obj = CodeBasic()
     else:
         obj = CodePro()
         
-    return obj.aiCheckCode(requirementID, fileTask, code, filePath)
+    return obj.aiCheckCode(requirementID, fileTask, code, filePath, service_name)
 
 @pre_check_quota
 def aiMergeCode(requirementID, fileTask, baseCode, newCode, filePath):
