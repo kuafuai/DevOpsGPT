@@ -115,7 +115,7 @@ function thinkUI(customPrompt, thinkText, role) {
     $('img').popup();
 }
 
-function thinkUIShow(customPrompt, thinkText, role, role_two) {
+function thinkUIShow(customPrompt, thinkText, role, role_two, service_name) {
     role_img = getRoleImg('<i class="blue  grav icon big" style="font-size: 3em;"></i>', role)
     if (!role_two) {
         role_two = ""
@@ -123,10 +123,15 @@ function thinkUIShow(customPrompt, thinkText, role, role_two) {
     role_two_img = getRoleImg('<i class="blue  grav icon big" style="font-size: 3em;"></i>', role_two)
 
     customPrompt = customPrompt.replaceAll('\n\n', '\n')
+
+    if (!service_name) {
+        service_name = ""
+    }
+    var ai_code_class = service_name.replace("/","-")
     
     $('#prompt-textarea').val("");
     $("#prompt-hidePrompt").val("")
-    var newField = $('<div class="user-code-container"><div class="ui container grid"><div class="one wide column">'+role_two_img+'</div><div class="fifteen wide column ai-content"><div class="ai-code">' + marked.marked(customPrompt) + '</div></div></div></div> <div class="ai-code-container"><div class="ui container grid"><div class="one wide column">'+role_img+'</div><div class="fifteen wide column ai-content"><div class="ai-code"><i class="spinner loading icon"></i>'+thinkText+'</div></div></div></div>');
+    var newField = $('<div class="user-code-container"><div class="ui container grid"><div class="one wide column">'+role_two_img+'</div><div class="fifteen wide column ai-content"><div class="ai-code">' + marked.marked(customPrompt) + '</div></div></div></div> <div class="ai-code-container"><div class="ui container grid"><div class="one wide column">'+role_img+'</div><div class="fifteen wide column ai-content"><div class="ai-code '+ai_code_class+'"><i class="spinner loading icon"></i>'+thinkText+'</div></div></div></div>');
     $(".ai-prompt-container").eq($('ai-prompt-container').length - 1).before(newField);
 
     $('html, body').animate({ scrollTop: $(document).height() }, 'slow');
@@ -442,7 +447,7 @@ function getRequirement() {
                 genInterfaceDocSuccessCallback(d);
             }
             if (memory.step == "Subtask_subtasks") {
-                thinkUIShow(memory.input_prompt, globalFrontendText["ai_think"], 'TL');
+                thinkUIShow(memory.input_prompt, globalFrontendText["ai_think"], 'TL', '', memory.artifact_path);
                 const d = {
                     "data": {
                         "message": memory.artifact_content,
@@ -888,21 +893,24 @@ function checkCodeSuccessCallback(data, uuid, file_path) {
     console.log("checkCodeSuccessCallback:", data, uuid, file_path)
     var elements = document.querySelectorAll('[id="task_status_check_'+uuid+'"]');
     console.log(elements)
-    for (var i = 0; i < elements.length; i++) {
-        $(elements[i]).children().removeClass("spinner")
-        $(elements[i]).children().removeClass("loading")
-        $(elements[i]).children().addClass("check")
-        $(elements[i]).addClass("green")
-        $(elements[i]).removeClass("olive")
-        $(elements[i]).attr("show-code-key", file_path)
-        $(elements[i]).attr("show-code-value", escapeHtml(data.data["code"]))
-        $(elements[i]).attr("show-code-reason", escapeHtml(data.data["reasoning"]))
-    }
+
+    var i = elements.length-1
+    $(elements[i]).children().removeClass("spinner")
+    $(elements[i]).children().removeClass("loading")
+    $(elements[i]).children().addClass("check")
+    $(elements[i]).addClass("green")
+    $(elements[i]).removeClass("olive")
+    $(elements[i]).attr("show-code-key", file_path)
+    $(elements[i]).attr("show-code-value", escapeHtml(data.data["code"]))
+    $(elements[i]).attr("show-code-reason", escapeHtml(data.data["reasoning"]))
 
     gloablCode["newCode_" + uuid] = data.data["code"]
 }
 
 function checkCode(code, fileTask, uuid, file_path, service_name, step) {
+    if (code.length < 1) {
+        code = gloablCode["newCode_" + uuid]
+    }
     checkCodeStar(uuid, service_name)
 
     var requestData = JSON.stringify({ 'code': code, 'fileTask': fileTask, 'task_id': getTaskID(), 'file_path': file_path, 'service_name': service_name, 'step': step })
@@ -910,15 +918,16 @@ function checkCode(code, fileTask, uuid, file_path, service_name, step) {
     successCallback = function(data){
         checkCodeSuccessCallback(data, uuid, file_path)
 
-        // 如果是子任务写代码，则还需要review一下
-        if (step && step.length > 0) {
-            checkCode(data.data.code, data.data.reasoning, uuid, file_path, service_name)
-        } else {
-            // 暂时改为手动去点检查
-            // if(globalTasks[service_name.replace("/","-")].length == $('.'+service_name.replace("/","-")+'.green.task_status_check_button').length){
-            //     checkCompile(service_name, 0)
-            // }
-        }
+        // 这里Java总会画蛇添足，改为手动触发
+        review_btn = `<button class="ui circular blue icon button tiny `+service_name.replace("/","-")+`" data-content="" onClick="checkCode('', '`+escapeHtml(data.data["reasoning"])+`', '`+uuid+`', '`+file_path+`', '`+service_name+`')"> `+globalFrontendText["review_code"]+`</button>`
+        var elements = document.querySelectorAll('[id="task_status_check_'+uuid+'"]');
+        var i = elements.length-1
+        $(elements[i]).after(review_btn)
+
+        // 暂时改为手动去点检查
+        // if(globalTasks[service_name.replace("/","-")].length == $('.'+service_name.replace("/","-")+'.green.task_status_check_button').length){
+        //     checkCompile(service_name, 0)
+        // }
     }
 
     errorCallback = function(error){
@@ -1646,12 +1655,13 @@ taskAnalysisSuccessCallback = function(data, isRecover){
     data = data.data
     var msg = data.message
     var service_name = data.service_name
+    var ai_code_class = service_name.replace("/","-")
     var str = ""  
     str = '<br /><br /><button class="ui green button" onClick="taskSplitOK(\''+escapeHtml(msg)+'\', \''+service_name+'\', this)">'+globalFrontendText["submit"]+'</button><button class="ui blue button" onclick="taskChange(\''+escapeHtml(msg)+'\', \'tec_doc\', \''+service_name+'\')">'+globalFrontendText["edit"]+'</button>'
     marked_msg = marked.marked(msg)
     msg = '<h5>'+globalFrontendText["ai_tecDoc_clarify_1"]+'</h5>'+marked_msg
 
-    $(".ai-code").eq($('ai-code').length - 1).html(msg+str);
+    $("."+ai_code_class).eq($(ai_code_class).length - 1).html(msg+str);
 }
 
 function taskAnalysis(customPrompt, service_name, hideUserPrompt, thisElement) {
@@ -1749,6 +1759,19 @@ function taskSplitOK(customPrompt, service_name, thisElement) {
 function escapeHtml(html) {
   return encodeURI(html.replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/'/g, ' '));
 }
+
+function decodeHTML(encodedHTML) {
+    // 首先将编码后的字符串中的空格还原为单引号
+    var decodedHTML = encodedHTML.replace(/ /g, "'");
+    
+    // 然后将编码后的特殊字符还原为原始的字符
+    decodedHTML = decodeURIComponent(decodedHTML);
+  
+    // 最后将 '&lt;' 替换回 '<'，将 '&gt;' 替换回 '>'
+    decodedHTML = decodedHTML.replace(/&lt;/g, '<').replace(/&gt;/g, '>');
+    
+    return decodedHTML;
+  }
 
 function compareCode(uuid) {
     console.log(uuid)

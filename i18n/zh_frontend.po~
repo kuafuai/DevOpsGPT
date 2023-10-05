@@ -165,7 +165,7 @@ msgstr "调整代码"
 
 #: backend/app/pkgs/tools/i18b.py:68
 msgid "Review code"
-msgstr "查看代码"
+msgstr "检查代码"
 
 #: backend/app/pkgs/tools/i18b.py:69
 msgid "Status"
