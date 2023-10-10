@@ -70,6 +70,11 @@ def pushCode(wsPath, gitPath, fatureBranch, commitMsg, gitConfigList):
 
     gitUrl = genCloneUrl(gitPath, gitConfig["git_url"], gitConfig["git_username"], gitConfig["git_token"])
     print(f"pushCode start {gitUrl} {fatureBranch} {gitPath} {wsPath}")
+    
+    result = subprocess.run(['git','remote','set-url','origin',gitUrl],capture_output=True, text=True, cwd=gitCwd)
+    print(result.stdout)
+    print(result.stderr)
+
     result = subprocess.run(
         ['git', 'push', 'origin', fatureBranch], capture_output=True, text=True, cwd=gitCwd)
     if result.returncode != 0:
