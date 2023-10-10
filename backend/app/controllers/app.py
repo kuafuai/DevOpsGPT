@@ -41,7 +41,7 @@ def add():
 
         for service in services:
             if "service_name" in service:
-                newService = ApplicationService.create_service(appID, service["service_name"], service["service_git_path"], service["service_workflow"], service["service_role"], service["service_language"], service["service_framework"], service["service_database"], service["service_api_type"], service["service_api_location"], service["service_container_name"], service["service_container_group"], service["service_region"], service["service_public_ip"], service["service_security_group"], service["service_cd_subnet"], service["service_struct_cache"], service["service_cd_default_image"], service["service_service_type"])
+                newService = ApplicationService.create_service(appID, service["service_name"], service["service_git_path"], service["service_workflow"], service["service_role"], service["service_language"], service["service_framework"], service["service_database"], service["service_api_type"], service["service_api_location"], service["service_container_name"], service["service_container_group"], service["service_region"], '', service["service_security_group"], service["service_cd_subnet"], service["service_struct_cache"], '', service["service_service_type"])
 
             ApplicationServiceLib.create_libs(newService.service_id, service["service_libs_name"])
 

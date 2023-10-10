@@ -5,6 +5,7 @@ var gloablCode = {}
 var globalFrontendText = {}
 var globalCompileTimes = {}
 var globalChangeServiceList = []
+var globalDockerImage = ""
 var globalRole = ""
 var codeMirror
 var apiUrl = "http://127.0.0.1:8081"
@@ -524,8 +525,12 @@ function getRequirement() {
             }
             if (memory.step == "DevOps_CI") {
                 thinkUI(memory.artifact_type, globalFrontendText["ai_think"], 'QA');
-                const info = JSON.parse(memory.artifact_content.replaceAll("'", '"'))
-                pluginci(info, true)
+                try {
+                    const info = JSON.parse(memory.artifact_content.replaceAll("'", '"'))
+                    pluginci(info, true)
+                } catch (error) {
+
+                }
             }
         }        
     }
@@ -919,7 +924,7 @@ function checkCode(code, fileTask, uuid, file_path, service_name, step) {
         checkCodeSuccessCallback(data, uuid, file_path)
 
         // 这里Java总会画蛇添足，改为手动触发
-        review_btn = `<button class="ui circular blue icon button tiny `+service_name.replace("/","-")+`" data-content="" onClick="checkCode('', '`+escapeHtml(data.data["reasoning"])+`', '`+uuid+`', '`+file_path+`', '`+service_name+`')"> `+globalFrontendText["review_code"]+`</button>`
+        review_btn = `<button class="ui circular blue icon button tiny `+service_name.replace("/","-")+`" data-content="" onClick="checkCode('', '`+escapeHtml(data.data["reasoning"])+`', '`+uuid+`', '`+file_path+`', '`+service_name+`')"> `+globalFrontendText["trigger_code_review"]+`</button>`
         var elements = document.querySelectorAll('[id="task_status_check_'+uuid+'"]');
         var i = elements.length-1
         $(elements[i]).after(review_btn)
@@ -1264,10 +1269,13 @@ function pluginTaskList(info, ifRecover) {
         </h4>
         <div class="ui yellow visible message">`+globalFrontendText["operation"]+`: 
             <button class="ui green button tiny" onclick="checkCompile('`+ service_name +`', 0);"><i class="tasks icon"></i>`+globalFrontendText["auto_check"]+`</button>
-            <button class="ui teal button tiny" onClick="startCi('`+ service_name + `')"><i class="tasks icon"></i>`+globalFrontendText["start_ci"]+`</button>
-            <button class="ui purple button tiny" onClick="startCd('`+ service_name + `')"><i class="docker icon"></i>`+globalFrontendText["start_cd"]+`</button>
+            >>
             <button class="ui blue button tiny" onclick="resetWorkspace('`+ service_name +`', this);"><i class="sync icon"></i>`+globalFrontendText["reset_workspace"]+`</button>
             <button class="ui blue button tiny" onclick="startPush('`+ service_name +`', this);"><i class="tasks icon"></i>`+globalFrontendText["submit_code"]+`</button>
+            >>
+            <button class="ui teal button tiny" onClick="startCi('`+ service_name + `')"><i class="tasks icon"></i>`+globalFrontendText["start_ci"]+`</button>
+            >>
+            <button class="ui purple button tiny" onClick="startCd('`+ service_name + `')"><i class="docker icon"></i>`+globalFrontendText["start_cd"]+`</button>
         </div>
     `;
 
@@ -1361,7 +1369,7 @@ function resetWorkspace(serviceName, ele) {
         myAlert("ERROR", error)
     }
 
-    sendAjaxRequest('/workspace/resetWorkspace', "POST", requestData, successCallback, ErrorCallback, false, false)
+    sendAjaxRequest('/workspace/resetWorkspace', "POST", requestData, successCallback, ErrorCallback, true, false)
 }
 
 function startPush(serviceName, ele) {
@@ -1423,7 +1431,7 @@ function startCd(repo_path) {
 
     thinkUI(customPrompt, globalFrontendText["ai_think"], "OP")
     
-    var requestData = JSON.stringify({ 'repo_path': repo_path, 'task_id': getTaskID()})
+    var requestData = JSON.stringify({ 'repo_path': repo_path, 'task_id': getTaskID(), 'docker_image': globalDockerImage})
 
     successCallback = function(data) {
         var str = globalFrontendText["start_cd"]+": "+data.data["internet_ip"]
@@ -1486,11 +1494,12 @@ function refreshPluginciStatus(piplineID, repopath, piplineUrl, element, times) 
         if( data.success ) {
             data=data.data
             console.log(data)
+            globalDockerImage = data.docker_mage
             var loadingClass = ""
             if( times < 20 ) {
                 loadingClass = "loading"
             }
-            var str = `<h4>`+globalFrontendText["start_ci"]+` <div class="ui olive `+loadingClass+` button" onclick="refreshPluginciStatus('` + piplineID + `','` + repopath + `', '`+piplineUrl+`', this, 20)"><i class="sync icon"></i>Update</div><div class="ui blue button" onclick="window.open('`+piplineUrl+`', '_blank');"><i class="tasks icon"></i>View</div></h4><div class="ui middle aligned divided list">`
+            var str = `<h4>`+globalFrontendText["start_ci"]+` <div class="ui olive `+loadingClass+` button" onclick="refreshPluginciStatus('` + piplineID + `','` + repopath + `', '`+piplineUrl+`', this, 20)"><i class="sync icon"></i>`+globalFrontendText["update_status"]+`</div><div class="ui blue button" onclick="window.open('`+piplineUrl+`', '_blank');"><i class="tasks icon"></i>`+globalFrontendText["view_detail"]+`</div></h4><div class="ui middle aligned divided list">`
             var allDone = true
             data["piplineJobs"].forEach(element => {
                 var jobDone = false
@@ -1521,7 +1530,7 @@ function refreshPluginciStatus(piplineID, repopath, piplineUrl, element, times) 
                 if( times < 20 ) {
                     refreshPluginciStatus(piplineID, repopath, piplineUrl, element, times)
                 }
-            }, 5000);
+            }, 20000);
         } else {
             myAlert(globalFrontendText["error"], data.error)
         }

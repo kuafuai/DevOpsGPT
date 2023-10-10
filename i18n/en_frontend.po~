@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-09-27 10:46+0800\n"
+"POT-Creation-Date: 2023-09-27 16:22+0800\n"
 "PO-Revision-Date: 2023-07-17 18:37+0800\n"
 "Last-Translator: booboo <mac@booboo.local>\n"
 "Language-Team: Language i18n/en\n"
@@ -61,7 +61,10 @@ msgstr ""
 
 #: backend/app/pkgs/tools/i18b.py:45
 msgid "to start the development task!"
-msgstr "to start the development task!（<a href='https://vvx03gck2p.feishu.cn/docx/OvjMd4ImKoIyLuxmuIpcC3WrnEd' target='_blank'>Don't know how to play? Click here to get you started in 10 minutes</a>）"
+msgstr ""
+"to start the development task!（<a href='https://vvx03gck2p.feishu.cn/docx/"
+"OvjMd4ImKoIyLuxmuIpcC3WrnEd' target='_blank'>Don't know how to play? Click "
+"here to get you started in 10 minutes</a>）"
 
 #: backend/app/pkgs/tools/i18b.py:46
 msgid "I need to develop requirements in the"
@@ -167,7 +170,7 @@ msgstr ""
 
 #: backend/app/pkgs/tools/i18b.py:68
 msgid "Review code"
-msgstr ""
+msgstr "View code"
 
 #: backend/app/pkgs/tools/i18b.py:69
 msgid "Status"
@@ -215,7 +218,7 @@ msgstr ""
 
 #: backend/app/pkgs/tools/i18b.py:80
 msgid "Restart"
-msgstr ""
+msgstr "Start task"
 
 #: backend/app/pkgs/tools/i18b.py:81
 msgid "Question"
@@ -568,20 +571,20 @@ msgstr ""
 #: backend/app/pkgs/tools/i18b.py:166
 msgid "Associated CD Config"
 msgstr ""
-"Associated CD Config (Organization administrator Added in Organization configuration "
-"page)"
+"Associated CD Config (Organization administrator Added in Organization "
+"configuration page)"
 
 #: backend/app/pkgs/tools/i18b.py:167
 msgid "Associated CI Config"
 msgstr ""
-"Associated CI Config (Organization administrator Added in Organization configuration "
-"page)"
+"Associated CI Config (Organization administrator Added in Organization "
+"configuration page)"
 
 #: backend/app/pkgs/tools/i18b.py:168
 msgid "Associated Git Config"
 msgstr ""
-"Associated Git Config (Organization administrator Added in Organization configuration "
-"page)"
+"Associated Git Config (Organization administrator Added in Organization "
+"configuration page)"
 
 #: backend/app/pkgs/tools/i18b.py:169
 msgid "My Role"
@@ -664,13 +667,13 @@ msgstr "Synchronize the latest code from Git"
 
 #: backend/app/pkgs/tools/i18b.py:185
 msgid ""
-"Way 2: Create APP via template. Templates are stored on GitHub by default, "
+"Way 1: Create APP via template. Templates are stored on <a href='https://github.com/orgs/kuafuai/repositories' target='_blank'>GitHub</a> by default, "
 "and you can clone them into your own repository."
 msgstr ""
 
 #: backend/app/pkgs/tools/i18b.py:186
 msgid ""
-"Way 1: Create APP via AI, give git path, AI automatically analyzes the code "
+"Way 2: Create APP via AI, give git path, AI automatically analyzes the code "
 "base to create APP, Make sure Git token has code pull permission."
 msgstr ""
 
@@ -720,7 +723,7 @@ msgstr ""
 
 #: backend/app/pkgs/tools/i18b.py:197
 msgid "Alpha(internal testing)"
-msgstr ""
+msgstr "Beta 1.0"
 
 #: backend/app/pkgs/tools/i18b.py:198
 msgid ""
@@ -907,4 +910,56 @@ msgstr ""
 
 #: backend/app/pkgs/tools/i18b.py:234
 msgid "Try it!"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:235
+msgid "Web application"
+msgstr "<a href='https://vvx03gck2p.feishu.cn/docx/L1jidyKYSoCpozxN3uQcUoHxnnd' target='_blank'>Web application</a>"
+
+#: backend/app/pkgs/tools/i18b.py:236
+msgid ""
+"Asset Registration Function: Supports adding new fixed asset information, "
+"including asset number, name, specifications, purchase date, and purchase "
+"price."
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:237
+msgid "Office collaboration application expansion"
+msgstr "<a href='https://vvx03gck2p.feishu.cn/docx/YmFQdwbkHomOXWx9o8zcjD8fnzg' target='_blank'>Office collaboration application expansion</a>"
+
+#: backend/app/pkgs/tools/i18b.py:238
+msgid ""
+"Input meeting notes, invoke ChatGPT to organize the meeting notes into "
+"meeting minutes, and send them to the group via the enterprise WeChat bot."
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:239
+msgid "Integration between services via API"
+msgstr "<a href='https://vvx03gck2p.feishu.cn/docx/JryhdKZZQoURV7xxC8ncXurlnPf' target='_blank'>Integration between services via API</a>"
+
+#: backend/app/pkgs/tools/i18b.py:240
+msgid ""
+"Integrate with the GitLab server using GitLab's OpenAPI. The system will "
+"query the recent one-hour continuous integration failure records every hour."
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:241
+msgid "mini-games"
+msgstr "<a href='https://vvx03gck2p.feishu.cn/docx/KNu3dzLGFomj2QxWaSycEgvHncb' target='_blank'>mini-game</a>"
+
+#: backend/app/pkgs/tools/i18b.py:242
+msgid ""
+"Snake Game: Players control the direction of the snake, collect food, and "
+"the snake grows in length when it eats food."
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:243
+msgid "Try this requirement"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:244
+msgid ""
+"Please note that different types of applications are suitable for different "
+"types of needs. Please provide a detailed description of your requirements. "
+"Below are some reference cases."
 msgstr ""

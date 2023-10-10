@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-09-27 10:46+0800\n"
+"POT-Creation-Date: 2023-09-27 16:22+0800\n"
 "PO-Revision-Date: 2023-07-17 18:36+0800\n"
 "Last-Translator: booboo <mac@booboo.local>\n"
 "Language-Team: Language i18n/zh\n"
@@ -61,7 +61,10 @@ msgstr "你好，我是 AI 辅助需求开发助手，请先选择"
 
 #: backend/app/pkgs/tools/i18b.py:45
 msgid "to start the development task!"
-msgstr "开始开发任务吧！（<a href='https://vvx03gck2p.feishu.cn/docx/KwnSdasq1oK3LMxfVBAcwhG2neQ' target='_blank'>还不知道玩法？戳这里10分钟带你入门。</a>）"
+msgstr ""
+"开始开发任务吧！（<a href='https://vvx03gck2p.feishu.cn/docx/"
+"KwnSdasq1oK3LMxfVBAcwhG2neQ' target='_blank'>还不知道玩法？戳这里10分钟带你入"
+"门。</a>）"
 
 #: backend/app/pkgs/tools/i18b.py:46
 msgid "I need to develop requirements in the"
@@ -165,7 +168,7 @@ msgstr "调整代码"
 
 #: backend/app/pkgs/tools/i18b.py:68
 msgid "Review code"
-msgstr "检查代码"
+msgstr "查看代码"
 
 #: backend/app/pkgs/tools/i18b.py:69
 msgid "Status"
@@ -213,7 +216,7 @@ msgstr "重试"
 
 #: backend/app/pkgs/tools/i18b.py:80
 msgid "Restart"
-msgstr "重启"
+msgstr "启动任务"
 
 #: backend/app/pkgs/tools/i18b.py:81
 msgid "Question"
@@ -656,14 +659,14 @@ msgid ""
 "Way 2: Create APP via template. Templates are stored on GitHub by default, "
 "and you can clone them into your own repository."
 msgstr ""
-"方式2：通过模板创建应用，模板默认存放在GitHub，你可以克隆到自己的仓库中。"
+"方式1：通过模板创建应用，模板默认存放在<a href='https://github.com/orgs/kuafuai/repositories' target='_blank'>GitHub</a>，你可以克隆到自己的仓库中。"
 
 #: backend/app/pkgs/tools/i18b.py:186
 msgid ""
 "Way 1: Create APP via AI, give git path, AI automatically analyzes the code "
 "base to create APP, Make sure Git token has code pull permission."
 msgstr ""
-"方式1：通过AI分析代码库，自动创建应用，你需要提供代码仓库的路径并确保Git "
+"方式2：通过AI分析代码库，自动创建应用，你需要提供代码仓库的路径并确保Git "
 "token可以拉取代码。"
 
 #: backend/app/pkgs/tools/i18b.py:187
@@ -712,7 +715,7 @@ msgstr "邀请码（感谢您的关注。我们将在测试阶段后开放注册
 
 #: backend/app/pkgs/tools/i18b.py:197
 msgid "Alpha(internal testing)"
-msgstr "Alpha（内部测试）"
+msgstr "Beta 1.0"
 
 #: backend/app/pkgs/tools/i18b.py:198
 msgid ""
@@ -921,6 +924,58 @@ msgstr "已下 AI 角色将辅助您完成需求任务的完整开发过程。"
 #: backend/app/pkgs/tools/i18b.py:234
 msgid "Try it!"
 msgstr "试一把！"
+
+#: backend/app/pkgs/tools/i18b.py:235
+msgid "Web application"
+msgstr "<a href='https://vvx03gck2p.feishu.cn/docx/GXBVd3hFdogeYsx6BoscceVPnMf' target='_blank'>Web 应用</a>"
+
+#: backend/app/pkgs/tools/i18b.py:236
+msgid ""
+"Asset Registration Function: Supports adding new fixed asset information, "
+"including asset number, name, specifications, purchase date, and purchase "
+"price."
+msgstr "资产登记功能：支持添加新的固定资产信息，包括资产编号、名称、规格、采购日期、采购价格。"
+
+#: backend/app/pkgs/tools/i18b.py:237
+msgid "Office collaboration application expansion"
+msgstr "<a href='https://vvx03gck2p.feishu.cn/docx/JcaLdMYgRoYU6zxWz9Ocmlm6nCb' target='_blank'>办公协同类应用扩展</a>"
+
+#: backend/app/pkgs/tools/i18b.py:238
+msgid ""
+"Input meeting notes, invoke ChatGPT to organize the meeting notes into "
+"meeting minutes, and send them to the group via the enterprise WeChat bot."
+msgstr "传入会议记录，调用ChatGPT将会议记录整理成会议纪要，通过企业微信机器人发送到群里"
+
+#: backend/app/pkgs/tools/i18b.py:239
+msgid "Integration between services via API"
+msgstr "<a href='https://vvx03gck2p.feishu.cn/docx/GFnadpTkuoRerixLkJlcZxvznRf' target='_blank'>通过API进行系统间集成</a>"
+
+#: backend/app/pkgs/tools/i18b.py:240
+msgid ""
+"Integrate with the GitLab server using GitLab's OpenAPI. The system will "
+"query the recent one-hour continuous integration failure records every hour."
+msgstr "使用GitLab的OpenAPI与GitLab服务器进行集成。系统将每小时查询最近一小时内持续集成的失败记录。"
+
+#: backend/app/pkgs/tools/i18b.py:241
+msgid "mini-games"
+msgstr "<a href='https://vvx03gck2p.feishu.cn/docx/OMKvda3HxozhQrxcxY4cAUg0nzd' target='_blank'>小游戏</a>"
+
+#: backend/app/pkgs/tools/i18b.py:242
+msgid ""
+"Snake Game: Players control the direction of the snake, collect food, and "
+"the snake grows in length when it eats food."
+msgstr "贪吃蛇游戏：玩家控制贪吃蛇的方向，获得食物，贪吃蛇吃到食物后会增长长度。"
+
+#: backend/app/pkgs/tools/i18b.py:243
+msgid "Try this requirement"
+msgstr "试一下这个需求"
+
+#: backend/app/pkgs/tools/i18b.py:244
+msgid ""
+"Please note that different types of applications are suitable for different "
+"types of needs. Please provide a detailed description of your requirements. "
+"Below are some reference cases."
+msgstr "注意，不同类型的应用适用于不同类型的需求，请详细描述您的需求，以下是一些参考案例。"
 
 #~ msgid "Phone"
 #~ msgstr "手机号"

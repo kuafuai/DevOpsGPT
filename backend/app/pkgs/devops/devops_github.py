@@ -42,9 +42,9 @@ class DevopsGitHub(DevopsInterface):
 
                 return "Get pipline status...", run_id, f"https://github.com/{repopath}/actions/runs/{run_id}", True
             else:
-                return f"Failed to trigger pipeline giturl:{ciURL} repopath:{repopath} branch:{branch_name} gitWorkflow:{gitWorkflow}, Error: {str(e)}", 0, "", False
+                return f"Failed to trigger pipeline 【Please confirm that the code has been pushed】. giturl:{ciURL} repopath:{repopath} branch:{branch_name} gitWorkflow:{gitWorkflow}, Error: {str(e)}", 0, "", False
         except Exception as e:
-            return f"Failed to trigger pipeline giturl:{ciURL} repopath:{repopath} branch:{branch_name} gitWorkflow:{gitWorkflow}, Error: {str(e)}", 0, "", False
+            return f"Failed to trigger pipeline 【Please confirm that the code has been pushed】. giturl:{ciURL} repopath:{repopath} branch:{branch_name} gitWorkflow:{gitWorkflow}, Error: {str(e)}", 0, "", False
 
     def getPipelineStatus(self, run_id, repopath, ciConfig):
         ciToken = ciConfig["ci_token"]
@@ -70,6 +70,7 @@ class DevopsGitHub(DevopsInterface):
                     jobs = run_details.json()["jobs"]
                     
                     job_info = []
+                    docker_image = ""
                     for job in jobs:
                         print("job:", job)
                         if job["conclusion"] is None:
@@ -81,18 +82,24 @@ class DevopsGitHub(DevopsInterface):
                             if step["conclusion"] is None:
                                 step["conclusion"] = "none"
                             steps += step["name"]+"<br>"+step["conclusion"]+"<br><br>"
+                        
+                        job_log = self.getPipelineJobLogs(repopath, run_id, job["id"], ciConfig)
+                        img = parseDockerImage(job_log)
+                        if len(img) > 1:
+                            docker_image = img
+
                         job_info.append({
                             'job_id': job["id"],
                             'job_name': job["name"],
                             'status': "none" if job["status"]=="in_progress" else ("failed" if job["conclusion"]=="failure" else job["conclusion"]),
                             'duration': "none" if job["status"]=="in_progress" else job["completed_at"],
-                            'log': steps
+                            'log': steps + "<br><br>" + job_log
                         })
 
-                    return list(reversed(job_info)), True
-            return f"Failed to get pipeline status for repo {repopath} and pipeline ID {run_id}, Error: {str(e)}", False
+                    return list(reversed(job_info)), docker_image, True
+            return f"Failed to get pipeline status for repo {repopath} and pipeline ID {run_id}, Error: {str(e)}", '', False
         except Exception as e:
-            return f"Failed to get pipeline status for repo {repopath} and pipeline ID {run_id}, Error: {str(e)}", False
+            return f"Failed to get pipeline status for repo {repopath} and pipeline ID {run_id}, Error: {str(e)}", '', False
 
     def getPipelineJobLogs(self, repopath, pipeline_id, job_id, ciConfig):
         ciToken = ciConfig["ci_token"]
@@ -124,3 +131,18 @@ def removeColorCodes(log_string):
     cleaned_string = re.sub(r'(\x9B|\x1B\[)[0-?]*[ -\/]*[@-~]', ' ', cleaned_string)
     cleaned_string = html.escape(cleaned_string)
     return cleaned_string
+
+def parseDockerImage(input_str):
+    # 定义正则表达式模式
+    pattern = r'kuafuai_docker_image_pushed:(.+?)[&|\n]'
+
+    # 使用 re.search 来查找匹配项
+    match = re.search(pattern, input_str)
+
+    # 如果找到匹配项，则提取结果
+    if match:
+        result = match.group(1)
+        return result
+    else:
+        print("parseDockerImage: 未找到匹配项")
+        return ""

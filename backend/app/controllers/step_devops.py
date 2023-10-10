@@ -50,11 +50,11 @@ def plugin_ci():
     req = Requirement.get_requirement_by_id(requirementID, tenantID) 
     ciConfigList, success = getCIConfigList(tenantID, req["app_id"], False)
 
-    piplineJobs, success = getPipelineStatus(pipeline_id, repopath, ciConfigList[0])
+    piplineJobs, docker_mage,success = getPipelineStatus(pipeline_id, repopath, ciConfigList[0])
     print("piplineJobs:", piplineJobs)
 
     if success:
-        return {'piplineJobs': piplineJobs}
+        return {'piplineJobs': piplineJobs, 'docker_mage': docker_mage}
     else:
         raise Exception(piplineJobs)
     
@@ -116,7 +116,7 @@ def trigger_cd():
     req = Requirement.get_requirement_by_id(requirementID, tenantID)
     serviceName = request.json.get('repo_path')
     serviceInfo = ApplicationService.get_service_by_name(req["app_id"], serviceName)
-    image, success = getServiceDockerImage(req["app_id"], serviceName)
+    image = request.json.get('docker_image')
     tenantID = storage.get("tenant_id")
     cdConfigList, success = getCDConfigList(tenantID, req["app_id"], False)
 

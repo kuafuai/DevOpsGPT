@@ -242,4 +242,7 @@ def getFrontendText():
         "goodcase_content_4": _("Snake Game: Players control the direction of the snake, collect food, and the snake grows in length when it eats food."),
         "goodcase_chose": _("Try this requirement"),
         "ai_goodcase_intro": _("Please note that different types of applications are suitable for different types of needs. Please provide a detailed description of your requirements. Below are some reference cases."),
+        "trigger_code_review": _("Trigger code review"),  
+        "update_status": _("Update status"),
+        "view_detail": _("View details"),
     }

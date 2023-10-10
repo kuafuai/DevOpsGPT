@@ -42,10 +42,8 @@ $(document).ready(function () {
                 'service_container_group' : $("#service_container_group_"+i).val(),
                 'service_container_name' : $("#service_container_name_"+i).val(),
                 'service_region' : $("#service_region_"+i).val(),
-                'service_public_ip' : $("#service_public_ip_"+i).val(),
                 'service_security_group' : $("#service_security_group_"+i).val(),
                 'service_cd_subnet' : $("#service_cd_subnet_"+i).val(),
-                'service_cd_default_image' : $("#service_cd_default_image_"+i).val(),
                 'service_service_type' : $("#service_service_type_"+i).val()
             }
             requestData.service.push(service)
@@ -154,20 +152,12 @@ $(document).ready(function () {
                 <input type="text" id="service_region_`+serviceID+`">
                 </div>
                 <div class="field">
-                <label>CD - PUBLIC IP</label>
-                <input type="text" id="service_public_ip_`+serviceID+`">
-                </div>
-                <div class="field">
                 <label>CD - SECURITY GROUP</label>
                 <input type="text" id="service_security_group_`+serviceID+`">
                 </div>
                 <div class="field">
                 <label>CD - SUBNET/SWITCH</label>
                 <input type="text" id="service_cd_subnet_`+serviceID+`">
-                </div>
-                <div class="field">
-                <label>CD - DockerImage</label>
-                <input type="text" id="service_cd_default_image_`+serviceID+`">
                 </div>
             </div>
         </div>`
@@ -289,20 +279,12 @@ function showApp(appID, isTpl) {
                     <input type="text" id="service_region_`+idx+`" value="`+service.cd_region+`">
                     </div>
                     <div class="field">
-                    <label>CD - PUBLIC IP</label>
-                    <input type="text" id="service_public_ip_`+idx+`" value="`+service.cd_public_ip+`">
-                    </div>
-                    <div class="field">
                     <label>CD - SECURITY GROUP</label>
                     <input type="text" id="service_security_group_`+idx+`" value="`+service.cd_security_group+`">
                     </div>
                     <div class="field">
                     <label>CD - SUBNET/SWITCH</label>
                     <input type="text" id="service_cd_subnet_`+idx+`" value="`+service.cd_subnet+`">
-                    </div>
-                    <div class="field">
-                    <label>CD - DockerImage</label>
-                    <input type="text" id="service_cd_default_image_`+idx+`" value="`+service.cd_default_image+`">
                     </div>
                 </div>
             </div>`
@@ -346,10 +328,8 @@ function analyzeService(elementID) {
         $("#service_container_group_"+elementID).val(data.cd_container_group)
         $("#service_container_name_"+elementID).val(data.cd_container_name)
         $("#service_region_"+elementID).val(data.cd_region)
-        $("#service_public_ip_"+elementID).val(data.cd_public_ip)
         $("#service_security_group_"+elementID).val(data.cd_security_group)
         $("#service_cd_subnet_"+elementID).val(data.cd_subnet)
-        $("#service_cd_default_image_"+elementID).val(data.cd_default_image)
 
         if ($("#app_name").val().length < 1) {
             $("#app_name").val(data.name)

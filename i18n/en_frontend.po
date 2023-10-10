@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-09-27 16:22+0800\n"
+"POT-Creation-Date: 2023-10-10 16:44+0800\n"
 "PO-Revision-Date: 2023-07-17 18:37+0800\n"
 "Last-Translator: booboo <mac@booboo.local>\n"
 "Language-Team: Language i18n/en\n"
@@ -170,7 +170,7 @@ msgstr ""
 
 #: backend/app/pkgs/tools/i18b.py:68
 msgid "Review code"
-msgstr ""
+msgstr "View code"
 
 #: backend/app/pkgs/tools/i18b.py:69
 msgid "Status"
@@ -218,7 +218,7 @@ msgstr ""
 
 #: backend/app/pkgs/tools/i18b.py:80
 msgid "Restart"
-msgstr ""
+msgstr "Start task"
 
 #: backend/app/pkgs/tools/i18b.py:81
 msgid "Question"
@@ -667,13 +667,13 @@ msgstr "Synchronize the latest code from Git"
 
 #: backend/app/pkgs/tools/i18b.py:185
 msgid ""
-"Way 2: Create APP via template. Templates are stored on GitHub by default, "
+"Way 1: Create APP via template. Templates are stored on <a href='https://github.com/orgs/kuafuai/repositories' target='_blank'>GitHub</a> by default, "
 "and you can clone them into your own repository."
 msgstr ""
 
 #: backend/app/pkgs/tools/i18b.py:186
 msgid ""
-"Way 1: Create APP via AI, give git path, AI automatically analyzes the code "
+"Way 2: Create APP via AI, give git path, AI automatically analyzes the code "
 "base to create APP, Make sure Git token has code pull permission."
 msgstr ""
 
@@ -723,7 +723,7 @@ msgstr ""
 
 #: backend/app/pkgs/tools/i18b.py:197
 msgid "Alpha(internal testing)"
-msgstr ""
+msgstr "Beta 1.0"
 
 #: backend/app/pkgs/tools/i18b.py:198
 msgid ""
@@ -914,7 +914,9 @@ msgstr ""
 
 #: backend/app/pkgs/tools/i18b.py:235
 msgid "Web application"
-msgstr "<a href='https://vvx03gck2p.feishu.cn/docx/L1jidyKYSoCpozxN3uQcUoHxnnd' target='_blank'>Web application</a>"
+msgstr ""
+"<a href='https://vvx03gck2p.feishu.cn/docx/L1jidyKYSoCpozxN3uQcUoHxnnd' "
+"target='_blank'>Web application</a>"
 
 #: backend/app/pkgs/tools/i18b.py:236
 msgid ""
@@ -925,7 +927,9 @@ msgstr ""
 
 #: backend/app/pkgs/tools/i18b.py:237
 msgid "Office collaboration application expansion"
-msgstr "<a href='https://vvx03gck2p.feishu.cn/docx/YmFQdwbkHomOXWx9o8zcjD8fnzg' target='_blank'>Office collaboration application expansion</a>"
+msgstr ""
+"<a href='https://vvx03gck2p.feishu.cn/docx/YmFQdwbkHomOXWx9o8zcjD8fnzg' "
+"target='_blank'>Office collaboration application expansion</a>"
 
 #: backend/app/pkgs/tools/i18b.py:238
 msgid ""
@@ -935,7 +939,9 @@ msgstr ""
 
 #: backend/app/pkgs/tools/i18b.py:239
 msgid "Integration between services via API"
-msgstr "<a href='https://vvx03gck2p.feishu.cn/docx/JryhdKZZQoURV7xxC8ncXurlnPf' target='_blank'>Integration between services via API</a>"
+msgstr ""
+"<a href='https://vvx03gck2p.feishu.cn/docx/JryhdKZZQoURV7xxC8ncXurlnPf' "
+"target='_blank'>Integration between services via API</a>"
 
 #: backend/app/pkgs/tools/i18b.py:240
 msgid ""
@@ -945,7 +951,9 @@ msgstr ""
 
 #: backend/app/pkgs/tools/i18b.py:241
 msgid "mini-games"
-msgstr "<a href='https://vvx03gck2p.feishu.cn/docx/KNu3dzLGFomj2QxWaSycEgvHncb' target='_blank'>mini-game</a>"
+msgstr ""
+"<a href='https://vvx03gck2p.feishu.cn/docx/KNu3dzLGFomj2QxWaSycEgvHncb' "
+"target='_blank'>mini-game</a>"
 
 #: backend/app/pkgs/tools/i18b.py:242
 msgid ""
@@ -962,4 +970,16 @@ msgid ""
 "Please note that different types of applications are suitable for different "
 "types of needs. Please provide a detailed description of your requirements. "
 "Below are some reference cases."
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:245
+msgid "Trigger code review"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:246
+msgid "Update status"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:247
+msgid "View details"
 msgstr ""

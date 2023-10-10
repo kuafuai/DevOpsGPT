@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-09-27 16:22+0800\n"
+"POT-Creation-Date: 2023-10-10 16:44+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -943,4 +943,16 @@ msgid ""
 "Please note that different types of applications are suitable for different "
 "types of needs. Please provide a detailed description of your requirements. "
 "Below are some reference cases."
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:245
+msgid "Trigger code review"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:246
+msgid "Update status"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:247
+msgid "View details"
 msgstr ""
