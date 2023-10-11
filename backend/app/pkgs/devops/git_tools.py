@@ -3,6 +3,7 @@ import shutil
 import subprocess
 
 from app.pkgs.tools.utils_tool import generate_uuid
+from config import GITHUB_PROXY
 
 def pullCode(ws_path, repo_path, base_branch, feature_branch, gitConfigList):
     gitConfig = gitConfigList[0]
@@ -91,6 +92,10 @@ def genCloneUrl(gitPath, gitUrl, username, token):
 
     # Combine the components to form the final URL
     finalUrl = f"{prot}//{username}:{token}@{domain}/{gitPath}.git"
+
+    # 配置GitHub代理
+    if len(GITHUB_PROXY) > 0 and '@github.com' in finalUrl:
+        finalUrl = f"http://{username}:{token}@{GITHUB_PROXY}/{gitPath}.git"
 
     return finalUrl
 

@@ -720,7 +720,7 @@ msgstr "Beta 1.0"
 #: backend/app/pkgs/tools/i18b.py:198
 msgid ""
 "Welcome to KuafuAI, Multi agent system for AI-driven software development."
-msgstr "欢迎使用 KUAFUAI，Multi Agent AI驱动的软件开发平台。"
+msgstr "欢迎使用 KUAFUAI，Multi Agent AI 驱动的软件开发平台。"
 
 #: backend/app/pkgs/tools/i18b.py:199
 msgid "Natural language requirements into working software."
@@ -732,7 +732,7 @@ msgid ""
 "DevOps tools to convert natural language requirements into working software. "
 "Supports any development language and extends the existing code."
 msgstr ""
-"Multi Agent AI驱动的智能软件开发系统。结合LLM与DevOps工具将自然语言需求转化为"
+"Multi Agent AI 驱动的智能软件开发系统。结合 LLM 与 DevOps 工具将自然语言需求转化为"
 "可工作的软件。支持任何开发语言并扩展现有代码。"
 
 #: backend/app/pkgs/tools/i18b.py:201
@@ -777,7 +777,7 @@ msgstr ""
 
 #: backend/app/pkgs/tools/i18b.py:207
 msgid "CURD Requirements"
-msgstr "CRUD 类型任务"
+msgstr "WEB 应用开发"
 
 #: backend/app/pkgs/tools/i18b.py:208
 msgid ""
@@ -788,10 +788,7 @@ msgid ""
 "management systems to web and mobile applications, as they enable users to "
 "interact with and manipulate data effectively."
 msgstr ""
-"在软件开发中，CRUD（创建、读取、更新、删除）代表了管理数据的基本操作。它包括"
-"创建新记录、检索现有数据、更新信息和删除记录。这些CRUD操作在各种应用程序中都"
-"是基础性的，从数据库管理系统到Web和移动应用程序，因为它们使用户能够有效地与数"
-"据进行交互和操作。"
+"Web应用开发是指创建和构建可以通过互联网浏览器访问的软件应用程序的过程。这些应用程序通常运行在Web服务器上，可以通过各种设备（如计算机、智能手机、平板电脑）的Web浏览器进行访问，而无需安装专用的客户端软件。Web应用开发通常涉及多个技术领域，包括前端开发、后端开发和数据库管理。<a href='https://vvx03gck2p.feishu.cn/docx/GXBVd3hFdogeYsx6BoscceVPnMf' target='_blank'>了解更多</a>"
 
 #: backend/app/pkgs/tools/i18b.py:209
 msgid "ChatBot Requirements"

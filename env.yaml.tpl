@@ -57,6 +57,7 @@ GIT_API: "https://api.github.com" # https://api.github.com
 GIT_TOKEN: "xxxx"   # Get from here https://github.com/settings/tokens、https://gitlab.com/-/profile/personal_access_tokens
 GIT_USERNAME: "xxxx"
 GIT_EMAIL: "xxxx@x.x"
+GITHUB_PROXY: ""
 
 EMAIL_SERVER: ""
 EMAIL_PORT: ""

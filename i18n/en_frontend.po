@@ -667,13 +667,13 @@ msgstr "Synchronize the latest code from Git"
 
 #: backend/app/pkgs/tools/i18b.py:185
 msgid ""
-"Way 1: Create APP via template. Templates are stored on <a href='https://github.com/orgs/kuafuai/repositories' target='_blank'>GitHub</a> by default, "
+"Way 2: Create APP via template. Templates are stored on GitHub by default, "
 "and you can clone them into your own repository."
 msgstr ""
 
 #: backend/app/pkgs/tools/i18b.py:186
 msgid ""
-"Way 2: Create APP via AI, give git path, AI automatically analyzes the code "
+"Way 1: Create APP via AI, give git path, AI automatically analyzes the code "
 "base to create APP, Make sure Git token has code pull permission."
 msgstr ""
 
@@ -777,7 +777,7 @@ msgstr ""
 
 #: backend/app/pkgs/tools/i18b.py:207
 msgid "CURD Requirements"
-msgstr "CRUD Requirements"
+msgstr "WEB Applications"
 
 #: backend/app/pkgs/tools/i18b.py:208
 msgid ""
@@ -788,6 +788,15 @@ msgid ""
 "management systems to web and mobile applications, as they enable users to "
 "interact with and manipulate data effectively."
 msgstr ""
+"Web application development refers to the process of creating and building "
+"software applications that can be accessed through internet browsers. These "
+"applications typically run on web servers and can be accessed through web "
+"browsers on various devices such as computers, smartphones, and tablets, "
+"without the need for installing dedicated client software. Web application "
+"development often involves multiple technical domains, including front-end "
+"development, back-end development, and database management. <a href='https://"
+"vvx03gck2p.feishu.cn/docx/L1jidyKYSoCpozxN3uQcUoHxnnd' target='_blank'>More</"
+"a>"
 
 #: backend/app/pkgs/tools/i18b.py:209
 #, fuzzy

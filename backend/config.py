@@ -79,6 +79,7 @@ try:
     GIT_TOKEN = read_config("GIT_TOKEN")
     GIT_USERNAME = read_config("GIT_USERNAME")
     GIT_EMAIL = read_config("GIT_EMAIL")
+    GITHUB_PROXY = read_config("GITHUB_PROXY")
     CD_TOOLS = read_config("CD_TOOLS")
     CD_ACCESS_KEY = read_config("CD_ACCESS_KEY")
     CD_SECRET_KEY = read_config("CD_SECRET_KEY")
