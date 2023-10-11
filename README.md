@@ -74,6 +74,38 @@ Through the above introduction and Demo demonstration, you must be curious about
 
 **For detailed documentation and configuration parameters, please refer to the [documentation link](docs/DOCUMENT.md).**
 
+## Use Anthropic,Huggingface,Palm,Ollama, etc.[Full List](https://docs.litellm.ai/docs/providers)
+
+### Create OpenAI-proxy
+We'll use [LiteLLM](https://docs.litellm.ai/docs/) to create an OpenAI-compatible endpoint, that translates OpenAI calls to any of the [supported providers](https://docs.litellm.ai/docs/providers).
+
+Example to use a local codellama using Ollama.ai with DevOpsGPT: 
+
+```python
+pip install litellm
+```
+```python
+$ litellm --model ollama/codellama
+
+#INFO: Ollama running on http://0.0.0.0:8000
+```
+
+[Docs](https://docs.litellm.ai/docs/proxy_server)
+
+### Update DevOpsGPT
+
+Update the .env.yaml
+
+```python
+"openai": {
+            "keys": [
+                {"my-fake-key": {"count": 0, "timestamp": 0}}
+            ],
+            "api_type": "open_ai",
+            "api_base": "http://0.0.0.0:8000",
+        }
+```
+
 
 ## Limitations
 Although we strive to enhance enterprise-level software development efficiency and reduce barriers with the help of large-scale language models, there are still some limitations in the current version:
