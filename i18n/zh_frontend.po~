@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-09-27 16:22+0800\n"
+"POT-Creation-Date: 2023-10-10 16:44+0800\n"
 "PO-Revision-Date: 2023-07-17 18:36+0800\n"
 "Last-Translator: booboo <mac@booboo.local>\n"
 "Language-Team: Language i18n/zh\n"
@@ -788,7 +788,7 @@ msgid ""
 "management systems to web and mobile applications, as they enable users to "
 "interact with and manipulate data effectively."
 msgstr ""
-"Web应用开发是指创建和构建可以通过互联网浏览器访问的软件应用程序的过程。这些应用程序通常运行在Web服务器上，可以通过各种设备（如计算机、智能手机、平板电脑）的Web浏览器进行访问，而无需安装专用的客户端软件。Web应用开发通常涉及多个技术领域，包括前端开发、后端开发和数据库管理。<a href='https://vvx03gck2p.feishu.cn/docx/GXBVd3hFdogeYsx6BoscceVPnMf' target='_blank'>了解更多</a>"
+"Web应用开发是指创建和构建可以通过互联网浏览器访问的软件应用程序的过程。这些应用程序通常运行在Web服务器上，可以通过各种设备（如计算机、智能手机、平板电脑）的Web浏览器进行访问，而无需安装专用的客户端软件。Web应用开发通常涉及多个技术领域，包括前端开发、后端开发和数据库管理。 <a href='https://vvx03gck2p.feishu.cn/docx/GXBVd3hFdogeYsx6BoscceVPnMf' target='_blank'>了解更多</a>"
 
 #: backend/app/pkgs/tools/i18b.py:209
 msgid "ChatBot Requirements"
@@ -920,48 +920,63 @@ msgstr "已下 AI 角色将辅助您完成需求任务的完整开发过程。"
 
 #: backend/app/pkgs/tools/i18b.py:234
 msgid "Try it!"
-msgstr "试一把！"
+msgstr "免费试用"
 
 #: backend/app/pkgs/tools/i18b.py:235
 msgid "Web application"
-msgstr "<a href='https://vvx03gck2p.feishu.cn/docx/GXBVd3hFdogeYsx6BoscceVPnMf' target='_blank'>Web 应用</a>"
+msgstr ""
+"<a href='https://vvx03gck2p.feishu.cn/docx/GXBVd3hFdogeYsx6BoscceVPnMf' "
+"target='_blank'>Web 应用</a>"
 
 #: backend/app/pkgs/tools/i18b.py:236
 msgid ""
 "Asset Registration Function: Supports adding new fixed asset information, "
 "including asset number, name, specifications, purchase date, and purchase "
 "price."
-msgstr "资产登记功能：支持添加新的固定资产信息，包括资产编号、名称、规格、采购日期、采购价格。"
+msgstr ""
+"资产登记功能：支持添加新的固定资产信息，包括资产编号、名称、规格、采购日期、"
+"采购价格。"
 
 #: backend/app/pkgs/tools/i18b.py:237
 msgid "Office collaboration application expansion"
-msgstr "<a href='https://vvx03gck2p.feishu.cn/docx/JcaLdMYgRoYU6zxWz9Ocmlm6nCb' target='_blank'>办公协同类应用扩展</a>"
+msgstr ""
+"<a href='https://vvx03gck2p.feishu.cn/docx/JcaLdMYgRoYU6zxWz9Ocmlm6nCb' "
+"target='_blank'>办公协同类应用扩展</a>"
 
 #: backend/app/pkgs/tools/i18b.py:238
 msgid ""
 "Input meeting notes, invoke ChatGPT to organize the meeting notes into "
 "meeting minutes, and send them to the group via the enterprise WeChat bot."
-msgstr "传入会议记录，调用ChatGPT将会议记录整理成会议纪要，通过企业微信机器人发送到群里"
+msgstr ""
+"传入会议记录，调用ChatGPT将会议记录整理成会议纪要，通过企业微信机器人发送到群"
+"里"
 
 #: backend/app/pkgs/tools/i18b.py:239
 msgid "Integration between services via API"
-msgstr "<a href='https://vvx03gck2p.feishu.cn/docx/GFnadpTkuoRerixLkJlcZxvznRf' target='_blank'>通过API进行系统间集成</a>"
+msgstr ""
+"<a href='https://vvx03gck2p.feishu.cn/docx/GFnadpTkuoRerixLkJlcZxvznRf' "
+"target='_blank'>通过API进行系统间集成</a>"
 
 #: backend/app/pkgs/tools/i18b.py:240
 msgid ""
 "Integrate with the GitLab server using GitLab's OpenAPI. The system will "
 "query the recent one-hour continuous integration failure records every hour."
-msgstr "使用GitLab的OpenAPI与GitLab服务器进行集成。系统将每小时查询最近一小时内持续集成的失败记录。"
+msgstr ""
+"使用GitLab的OpenAPI与GitLab服务器进行集成。系统将每小时查询最近一小时内持续集"
+"成的失败记录。"
 
 #: backend/app/pkgs/tools/i18b.py:241
 msgid "mini-games"
-msgstr "<a href='https://vvx03gck2p.feishu.cn/docx/OMKvda3HxozhQrxcxY4cAUg0nzd' target='_blank'>小游戏</a>"
+msgstr ""
+"<a href='https://vvx03gck2p.feishu.cn/docx/OMKvda3HxozhQrxcxY4cAUg0nzd' "
+"target='_blank'>小游戏</a>"
 
 #: backend/app/pkgs/tools/i18b.py:242
 msgid ""
 "Snake Game: Players control the direction of the snake, collect food, and "
 "the snake grows in length when it eats food."
-msgstr "贪吃蛇游戏：玩家控制贪吃蛇的方向，获得食物，贪吃蛇吃到食物后会增长长度。"
+msgstr ""
+"贪吃蛇游戏：玩家控制贪吃蛇的方向，获得食物，贪吃蛇吃到食物后会增长长度。"
 
 #: backend/app/pkgs/tools/i18b.py:243
 msgid "Try this requirement"
@@ -972,7 +987,21 @@ msgid ""
 "Please note that different types of applications are suitable for different "
 "types of needs. Please provide a detailed description of your requirements. "
 "Below are some reference cases."
-msgstr "注意，不同类型的应用适用于不同类型的需求，请详细描述您的需求，以下是一些参考案例。"
+msgstr ""
+"注意，不同类型的应用适用于不同类型的需求，请详细描述您的需求，以下是一些参考"
+"案例。"
+
+#: backend/app/pkgs/tools/i18b.py:245
+msgid "Trigger code review"
+msgstr "执行自动检查"
+
+#: backend/app/pkgs/tools/i18b.py:246
+msgid "Update status"
+msgstr "更新状态"
+
+#: backend/app/pkgs/tools/i18b.py:247
+msgid "View details"
+msgstr "查看详情"
 
 #~ msgid "Phone"
 #~ msgstr "手机号"

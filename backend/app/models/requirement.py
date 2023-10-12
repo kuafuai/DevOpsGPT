@@ -14,8 +14,8 @@ class Requirement(db.Model):
     status = db.Column(db.String(20))
     satisfaction_rating = db.Column(db.Integer)
     completion_rating = db.Column(db.Integer)
-    created_at = db.Column(db.TIMESTAMP, default=db.func.current_timestamp())
-    updated_at = db.Column(db.TIMESTAMP, default=db.func.current_timestamp(), onupdate=db.func.current_timestamp())
+    created_at = db.Column(db.String(100), default=db.func.current_timestamp())
+    updated_at = db.Column(db.String(100), default=db.func.current_timestamp(), onupdate=db.func.current_timestamp())
 
     @staticmethod
     def create_requirement(tenant_id, requirement_name, original_requirement, app_id, username, default_source_branch, default_target_branch, status, satisfaction_rating=None, completion_rating=None):
@@ -81,8 +81,8 @@ class Requirement(db.Model):
                     'status': req.status,
                     'satisfaction_rating': req.satisfaction_rating,
                     'completion_rating': req.completion_rating,
-                    'created_at': req.created_at,
-                    'updated_at': req.updated_at,
+                    'created_at': str(req.created_at),
+                    'updated_at': str(req.updated_at),
                     'app': Application.get_application_by_id(req.app_id)
                 }
             if tenant_id and tenant_id != req_dict["tenant_id"]:

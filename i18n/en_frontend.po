@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-10-10 16:44+0800\n"
+"POT-Creation-Date: 2023-10-12 22:27+0800\n"
 "PO-Revision-Date: 2023-07-17 18:37+0800\n"
 "Last-Translator: booboo <mac@booboo.local>\n"
 "Language-Team: Language i18n/en\n"
@@ -683,11 +683,11 @@ msgstr ""
 
 #: backend/app/pkgs/tools/i18b.py:188
 msgid "Launch code"
-msgstr ""
+msgstr "E-mail verification code"
 
 #: backend/app/pkgs/tools/i18b.py:189
 msgid "Your KUAFUAI launch code"
-msgstr ""
+msgstr "Your KUAFUAI E-mail verification code"
 
 #: backend/app/pkgs/tools/i18b.py:190
 msgid "The username cannot be smaller than 4 characters."
@@ -713,7 +713,7 @@ msgstr ""
 
 #: backend/app/pkgs/tools/i18b.py:195
 msgid "The email launch code is incorrect."
-msgstr ""
+msgstr "E-mail verification code is incorrect."
 
 #: backend/app/pkgs/tools/i18b.py:196
 msgid ""
@@ -858,7 +858,7 @@ msgstr ""
 
 #: backend/app/pkgs/tools/i18b.py:221
 msgid "Get Launch code"
-msgstr ""
+msgstr "Get E-mail verification code"
 
 #: backend/app/pkgs/tools/i18b.py:222
 msgid "Service Type"
@@ -992,3 +992,7 @@ msgstr ""
 #: backend/app/pkgs/tools/i18b.py:247
 msgid "View details"
 msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:248
+msgid "index_view_url"
+msgstr "<source src='https://upos-sz-mirrorali.bilivideo.com/upgcxcode/46/10/1297241046/1297241046-1-16.mp4?e=ig8euxZM2rNcNbRVhwdVhwdlhWdVhwdVhoNvNC8BqJIzNbfq9rVEuxTEnE8L5F6VnEsSTx0vkX8fqJeYTj_lta53NCM=&uipk=5&nbs=1&deadline=1697135333&gen=playurlv2&os=alibv&oi=3722360070&trid=b38a98c58c5c43ee866b4ce4b62bd266T&mid=3537105328277687&platform=html5&upsig=bafdbb615237219eb19cebd271ee70f3&uparams=e,uipk,nbs,deadline,gen,os,oi,trid,mid,platform&bvc=vod&nettype=0&bw=52953&orderid=0,1&buvid=&build=0&mobi_app=&f=T_0_0&logo=80000000' type='video/mp4'>Your browser does not support HTML5 video."

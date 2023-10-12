@@ -245,4 +245,5 @@ def getFrontendText():
         "trigger_code_review": _("Trigger code review"),  
         "update_status": _("Update status"),
         "view_detail": _("View details"),
+        "index_view_url": _("index_view_url"),
     }

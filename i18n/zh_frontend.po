@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-10-10 16:44+0800\n"
+"POT-Creation-Date: 2023-10-12 22:27+0800\n"
 "PO-Revision-Date: 2023-07-17 18:36+0800\n"
 "Last-Translator: booboo <mac@booboo.local>\n"
 "Language-Team: Language i18n/zh\n"
@@ -659,7 +659,8 @@ msgid ""
 "Way 2: Create APP via template. Templates are stored on GitHub by default, "
 "and you can clone them into your own repository."
 msgstr ""
-"方式1：通过模板创建应用，模板默认存放在<a href='https://github.com/orgs/kuafuai/repositories' target='_blank'>GitHub</a>，你可以克隆到自己的仓库中。"
+"方式1：通过模板创建应用，模板默认存放在<a href='https://github.com/orgs/"
+"kuafuai/repositories' target='_blank'>GitHub</a>，你可以克隆到自己的仓库中。"
 
 #: backend/app/pkgs/tools/i18b.py:186
 msgid ""
@@ -732,8 +733,8 @@ msgid ""
 "DevOps tools to convert natural language requirements into working software. "
 "Supports any development language and extends the existing code."
 msgstr ""
-"Multi Agent AI 驱动的智能软件开发系统。结合 LLM 与 DevOps 工具将自然语言需求转化为"
-"可工作的软件。支持任何开发语言并扩展现有代码。"
+"Multi Agent AI 驱动的智能软件开发系统。结合 LLM 与 DevOps 工具将自然语言需求"
+"转化为可工作的软件。支持任何开发语言并扩展现有代码。"
 
 #: backend/app/pkgs/tools/i18b.py:201
 msgid "Full Process"
@@ -788,7 +789,11 @@ msgid ""
 "management systems to web and mobile applications, as they enable users to "
 "interact with and manipulate data effectively."
 msgstr ""
-"Web应用开发是指创建和构建可以通过互联网浏览器访问的软件应用程序的过程。这些应用程序通常运行在Web服务器上，可以通过各种设备（如计算机、智能手机、平板电脑）的Web浏览器进行访问，而无需安装专用的客户端软件。Web应用开发通常涉及多个技术领域，包括前端开发、后端开发和数据库管理。 <a href='https://vvx03gck2p.feishu.cn/docx/GXBVd3hFdogeYsx6BoscceVPnMf' target='_blank'>了解更多</a>"
+"Web应用开发是指创建和构建可以通过互联网浏览器访问的软件应用程序的过程。这些应"
+"用程序通常运行在Web服务器上，可以通过各种设备（如计算机、智能手机、平板电脑）"
+"的Web浏览器进行访问，而无需安装专用的客户端软件。Web应用开发通常涉及多个技术"
+"领域，包括前端开发、后端开发和数据库管理。 <a href='https://vvx03gck2p."
+"feishu.cn/docx/GXBVd3hFdogeYsx6BoscceVPnMf' target='_blank'>了解更多</a>"
 
 #: backend/app/pkgs/tools/i18b.py:209
 msgid "ChatBot Requirements"
@@ -920,7 +925,7 @@ msgstr "已下 AI 角色将辅助您完成需求任务的完整开发过程。"
 
 #: backend/app/pkgs/tools/i18b.py:234
 msgid "Try it!"
-msgstr "试一把！"
+msgstr "免费试用"
 
 #: backend/app/pkgs/tools/i18b.py:235
 msgid "Web application"
@@ -1002,6 +1007,10 @@ msgstr "更新状态"
 #: backend/app/pkgs/tools/i18b.py:247
 msgid "View details"
 msgstr "查看详情"
+
+#: backend/app/pkgs/tools/i18b.py:248
+msgid "index_view_url"
+msgstr "<source src='https://upos-sz-mirrorcos.bilivideo.com/upgcxcode/38/97/1297199738/1297199738-1-16.mp4?e=ig8euxZM2rNcNbRVhwdVhwdlhWdVhwdVhoNvNC8BqJIzNbfq9rVEuxTEnE8L5F6VnEsSTx0vkX8fqJeYTj_lta53NCM=&uipk=5&nbs=1&deadline=1697132992&gen=playurlv2&os=cosbv&oi=3722360070&trid=642f979fd53c4d68bcc22a7b2b1aa7bcT&mid=3537105328277687&platform=html5&upsig=1d312d767b523c21f64eaf9ee1c588b3&uparams=e,uipk,nbs,deadline,gen,os,oi,trid,mid,platform&bvc=vod&nettype=0&bw=52437&orderid=0,1&buvid=&build=0&mobi_app=&f=T_0_0&logo=80000000' type='video/mp4'>您的浏览器不支持HTML5视频。"
 
 #~ msgid "Phone"
 #~ msgstr "手机号"
