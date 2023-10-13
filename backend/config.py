@@ -64,7 +64,7 @@ try:
     BACKEND_PORT = read_config("BACKEND_PORT")
     APP_SECRET_KEY = read_config("APP_SECRET_KEY")
     WORKSPACE_PATH = read_config("WORKSPACE_PATH")
-    AICODER_ALLOWED_ORIGIN = read_config("AICODER_ALLOWED_ORIGIN")
+    AICODER_ALLOWED_ORIGIN = json.loads(read_config("AICODER_ALLOWED_ORIGIN"))
     SQLALCHEMY_DATABASE_URI = read_config("SQLALCHEMY_DATABASE_URI")
     GPT_KEYS = json.loads(read_config("GPT_KEYS"))
     LLM_MODEL = read_config("LLM_MODEL")

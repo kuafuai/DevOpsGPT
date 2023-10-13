@@ -26,6 +26,10 @@ function login() {
     errorCallback = function(error) {
         $("#login-message").html(error)
         $("#login-message").fadeOut().fadeIn()
+
+        setTimeout(function () {
+            $("#login-message").fadeOut();
+        }, 4000);
     }
 
     sendAjaxRequest('/user/login', "POST", requestData, successCallback, errorCallback, true, false)
@@ -48,6 +52,10 @@ function register() {
     errorCallback = function(error) {
         $("#login-message").html(error)
         $("#login-message").fadeOut().fadeIn()
+
+        setTimeout(function () {
+            $("#login-message").fadeOut();
+        }, 4000);
     }
 
     sendAjaxRequest('/user/register', "POST", requestData, successCallback, errorCallback, true, false)
@@ -56,7 +64,7 @@ function register() {
 function changePassword() {
     var requestData = JSON.stringify({ 
         'password': $("#login-password").val(),
-        'email': $("#login-email").val(),
+        'phone': $("#login-phone").val(),
         'launch_code': $("#login-launch_code").val(),
     })
  
@@ -67,6 +75,10 @@ function changePassword() {
     errorCallback = function(error) {
         $("#login-message").html(error)
         $("#login-message").fadeOut().fadeIn()
+
+        setTimeout(function () {
+            $("#login-message").fadeOut();
+        }, 4000);
     }
 
     sendAjaxRequest('/user/changepassword', "POST", requestData, successCallback, errorCallback, true, false)
@@ -77,7 +89,7 @@ function send_launch_code(ele, code_type) {
     $(ele).addClass("loading")
 
     var requestData = JSON.stringify({
-        'email': $("#login-email").val(),
+        'phone': $("#login-phone").val(),
         'code_type': code_type
     })
  
@@ -90,6 +102,10 @@ function send_launch_code(ele, code_type) {
         $("#login-message").fadeOut().fadeIn()
         $(ele).removeClass("loading")
         $(ele).removeClass("disabled")
+
+        setTimeout(function () {
+            $("#login-message").fadeOut();
+        }, 4000);
     }
 
     sendAjaxRequest('/user/send_launch_code', "POST", requestData, successCallback, errorCallback, true, false)

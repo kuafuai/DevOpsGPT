@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-09-22 18:25+0800\n"
+"POT-Creation-Date: 2023-10-13 19:29+0800\n"
 "PO-Revision-Date: 2023-07-17 15:03+0800\n"
 "Last-Translator: booboo <mac@booboo.local>\n"
 "Language-Team: Language i18n/en\n"
@@ -32,12 +32,14 @@ msgstr ""
 msgid "Incorrect payment status!"
 msgstr ""
 
-#: backend/app/controllers/pay_pro.py:156
+#: backend/app/controllers/pay_pro.py:159
+#: backend/app/controllers/pay_pro.py:182
+#: backend/app/controllers/pay_pro.py:185
 msgid "Incorrect request parameter!"
 msgstr ""
 
-#: backend/app/controllers/pay_pro.py:201
-#: backend/app/controllers/pay_pro.py:241
+#: backend/app/controllers/pay_pro.py:230
+#: backend/app/controllers/pay_pro.py:270
 msgid "Payment creation failed!"
 msgstr ""
 
@@ -105,6 +107,12 @@ msgstr ""
 msgid "Static code scan failed for unknown reasons."
 msgstr ""
 
+#: backend/app/controllers/step_devops.py:125
+msgid ""
+"Could not get deployment docker image, Please “Trigger continuous "
+"integration” first."
+msgstr ""
+
 #: backend/app/controllers/step_requirement.py:28
 msgid "Please select the application you want to develop."
 msgstr ""
@@ -113,7 +121,8 @@ msgstr ""
 msgid "Failed to clarify requirement."
 msgstr ""
 
-#: backend/app/controllers/step_subtask.py:66
+#: backend/app/controllers/step_subtask.py:52
+#: backend/app/controllers/step_subtask.py:87
 msgid "Failed to split task."
 msgstr ""
 
@@ -140,29 +149,29 @@ msgstr ""
 msgid "The user has already been invited."
 msgstr ""
 
-#: backend/app/controllers/user.py:35
+#: backend/app/controllers/user.py:37
 msgid ""
 "invitation code not right (Thank you for your interest. We will open "
 "registration after the beta testing phase.)"
 msgstr ""
 
-#: backend/app/controllers/user.py:46
+#: backend/app/controllers/user.py:52
 msgid "'s personal Organization"
 msgstr ""
 
-#: backend/app/controllers/user.py:82
+#: backend/app/controllers/user.py:88
 msgid "Login successful."
 msgstr ""
 
-#: backend/app/controllers/user.py:84
+#: backend/app/controllers/user.py:90
 msgid "Invalid username or password"
 msgstr ""
 
-#: backend/app/controllers/user.py:96
+#: backend/app/controllers/user.py:102
 msgid "Logout successful."
 msgstr ""
 
-#: backend/app/controllers/user.py:115 backend/app/controllers/user.py:128
+#: backend/app/controllers/user.py:121 backend/app/controllers/user.py:134
 msgid "success."
 msgstr ""
 

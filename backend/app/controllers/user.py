@@ -1,3 +1,4 @@
+from datetime import datetime
 from flask import Blueprint, request
 from app.pkgs.tools import storage
 from app.controllers.common import json_response
@@ -8,6 +9,7 @@ from app.models.user_pro import UserPro
 from app.models.tenant_user_pro import TenantUser
 from app.models.user_pro import gen_launch_code
 from app.models.tenant_pro import Tenant
+from app.pkgs.tools.utils_tool import add_days_to_date
 from config import GRADE
 from config import LANGUAGE, INVITATION_CODE
 
@@ -43,7 +45,11 @@ def register():
         # 激活所有被邀请的企业成员
         if user:
             # 自动创建一个个人租户
-            tenant = Tenant.create_tenant_with_codepower(username + _("'s personal Organization"), Tenant.STATUS_PendingVerification, username, "", "", "", Tenant.BILLING_TYPE_FREE, Tenant.BILLING_QUOTA_0, billing_star=None, billing_end=None, user_id=user.user_id, username=email)
+            # 免费赠送14天基础会员
+            from_data = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            success, billing_end = add_days_to_date(from_data, 14)
+
+            tenant = Tenant.create_tenant_with_codepower(username + _("'s personal Organization"), Tenant.STATUS_PendingVerification, username, "", "", "", Tenant.BILLING_TYPE_BASIC_MONTHLY, Tenant.BILLING_QUOTA_5, billing_star=None, billing_end=billing_end, user_id=user.user_id, username=email)
 
             current_tid = tenant.tenant_id
 
@@ -120,10 +126,10 @@ def changepassword():
     _ = getI18n("controllers")
     data = request.json
     password = data['password']
-    email = data['email']
+    phone = data['phone']
     launch_code = data['launch_code']
 
-    UserPro.change_password(email, password, launch_code)
+    UserPro.change_password(phone, password, launch_code)
 
     return {'message': _('success.')}
 
@@ -143,7 +149,7 @@ def language():
 def send_launch_code():
     _ = getI18n("controllers")
     data = request.json
-    email = data['email']
+    phone = data['phone']
     code_type = data['code_type']
     
-    return gen_launch_code(email, code_type)
+    return gen_launch_code(phone, code_type)

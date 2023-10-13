@@ -49,6 +49,7 @@
       <div class="fifteen wide column ai-content">
         <div class="ai-code">
           <span class="f_ai_start_1"></span>
+          <i class="hand point right outline icon big red"></i>
           <div class="ui olive button model-selector">
             <i class="app store ios icon"></i> <span class="f_app"></span>
           </div>
@@ -96,7 +97,7 @@
     </div>
   </div>
 
-  <div class="ai-prompt-container">
+  <div class="ai-prompt-container ai-prompt-area" style="display: none;">
     <div class="ui container">
       <div class="ui form">
         <div class="field">
@@ -109,8 +110,7 @@
     </div>
   </div>
 
-  <div class="ui container">
-
+  <div class="ui container ai-prompt-area" style="display: none;">
     <div class="ui form">
       <div class="ui padded grid">
         <div class="row">
@@ -181,7 +181,7 @@
     </div>
     <div class="actions">
       <div class="ui button" id="model-cancel"><span class="f_cancel"></span></div>
-      <div class="ui linkedin button right floated background-color-deep-green" onClick="openUrl('/app.html')"><i class="plus icon"></i><span class="f_create_new"></span></div>
+      <div class="ui linkedin button right floated background-color-deep-green" onClick="openUrl('/app.html?action=create_new')"><i class="plus icon"></i><span class="f_create_new"></span></div>
     </div>
   </div>
   <div class="ui modal" id="my-alert">

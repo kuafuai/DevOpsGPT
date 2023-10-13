@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-10-12 22:27+0800\n"
+"POT-Creation-Date: 2023-10-13 19:02+0800\n"
 "PO-Revision-Date: 2023-07-17 18:36+0800\n"
 "Last-Translator: booboo <mac@booboo.local>\n"
 "Language-Team: Language i18n/zh\n"
@@ -108,7 +108,9 @@ msgstr "详细描述："
 msgid ""
 "The requirements document has been generated, and the interface document "
 "will be generated after confirmation: "
-msgstr "需求文档 PRD 已生成，您可以：确认文档、反馈意见给我、或手动修改文档。"
+msgstr ""
+"需求文档 PRD 已生成，您可以：确认文档、通过“发送消息”框反馈意见给我、或手动修"
+"改文档。"
 
 #: backend/app/pkgs/tools/i18b.py:56
 msgid ""
@@ -1010,7 +1012,31 @@ msgstr "查看详情"
 
 #: backend/app/pkgs/tools/i18b.py:248
 msgid "index_view_url"
-msgstr "<source src='https://upos-sz-mirrorcos.bilivideo.com/upgcxcode/38/97/1297199738/1297199738-1-16.mp4?e=ig8euxZM2rNcNbRVhwdVhwdlhWdVhwdVhoNvNC8BqJIzNbfq9rVEuxTEnE8L5F6VnEsSTx0vkX8fqJeYTj_lta53NCM=&uipk=5&nbs=1&deadline=1697132992&gen=playurlv2&os=cosbv&oi=3722360070&trid=642f979fd53c4d68bcc22a7b2b1aa7bcT&mid=3537105328277687&platform=html5&upsig=1d312d767b523c21f64eaf9ee1c588b3&uparams=e,uipk,nbs,deadline,gen,os,oi,trid,mid,platform&bvc=vod&nettype=0&bw=52437&orderid=0,1&buvid=&build=0&mobi_app=&f=T_0_0&logo=80000000' type='video/mp4'>您的浏览器不支持HTML5视频。"
+msgstr ""
+"<source src='https://upos-sz-mirrorcos.bilivideo.com/"
+"upgcxcode/38/97/1297199738/1297199738-1-16.mp4?"
+"e=ig8euxZM2rNcNbRVhwdVhwdlhWdVhwdVhoNvNC8BqJIzNbfq9rVEuxTEnE8L5F6VnEsSTx0vkX8fqJeYTj_lta53NCM=&uipk=5&nbs=1&deadline=1697192261&gen=playurlv2&os=cosbv&oi=2088712938&trid=65c2595a614343c9ac616caa31dc47d1T&mid=3537105328277687&platform=html5&upsig=0649f0bc57e16fd190dbb339db18c0c3&uparams=e,"
+"uipk,nbs,deadline,gen,os,oi,trid,mid,"
+"platform&bvc=vod&nettype=0&bw=52437&orderid=0,1&buvid=&build=0&mobi_app=&f=T_0_0&logo=80000000' "
+"type='video/mp4'>您的浏览器不支持HTML5视频。"
+
+#: backend/app/pkgs/tools/i18b.py:249
+msgid ""
+"You haven't created an app yet. <a href='/app.html?action=create_new' "
+"target='_blank'>You can quickly create one.</a>"
+msgstr "你还没有创建应用，<a href='/app.html?action=create_new' target='_blank'>点击快速创建应用。</a>"
+
+#: backend/app/pkgs/tools/i18b.py:250
+msgid "The verify code is incorrect."
+msgstr "验证码有误。"
+
+#: backend/app/pkgs/tools/i18b.py:251
+msgid "The phone number has been registered."
+msgstr "该手机号已被注册。"
+
+#: backend/app/pkgs/tools/i18b.py:252
+msgid "You have obtained the verify code too many times."
+msgstr "获取验证码次数过多。"
 
 #~ msgid "Phone"
 #~ msgstr "手机号"

@@ -57,7 +57,9 @@ def require_login():
 
 @app.after_request
 def after_request(response):
-    response.headers.add('Access-Control-Allow-Origin', AICODER_ALLOWED_ORIGIN)
+    origin = request.headers.get("Origin")
+    if origin in AICODER_ALLOWED_ORIGIN:
+        response.headers.add('Access-Control-Allow-Origin', origin)
     response.headers.add('Access-Control-Allow-Credentials', 'true')
     response.headers.add('Access-Control-Allow-Headers',
                          'Content-Type,Authorization')

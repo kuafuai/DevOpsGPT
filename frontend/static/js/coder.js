@@ -211,6 +211,8 @@ modelSelectedSuccessCallback = function(data){
     const newUrl = url.origin + '/task.html?task_id=' + data["requirement_id"];
     history.pushState('', '', newUrl); 
     answerUI(str+goodcase)
+
+    $(".ai-prompt-area").show()
 }
 
 function modelSelected(appName, appID, repos) {
@@ -282,11 +284,14 @@ $(document).ready(function () {
                             <input type="text" placeholder="" value="`+feature_branch+`" class="fenzhiguifan" id="model_feature_branch_`+app.app_id+`">
                         </div>
                         <div class="description" style="line-height: 25px;">`+app.description+`</div>
-                        <div class="ui button blue model-selected" onClick="modelSelected('`+app.name+`','`+app.app_id+`', '`+repos+`')" style="float: right;">`+globalFrontendText["start"]+`</div> 
+                        <div class="ui button blue model-selected" onClick="modelSelected('`+app.name+`','`+app.app_id+`', '`+repos+`')" style="float: right;">`+globalFrontendText["start_task"]+`</div> 
                         </div>
                     </div>
                 `
             })
+            if (str.length < 1) {
+                str = globalFrontendText["msg_empty_task"]
+            }
             $(".model_list").html(str)
             $('#model-modal').modal('show');
         }
@@ -1273,7 +1278,7 @@ function pluginTaskList(info, ifRecover) {
             <button class="ui blue button tiny" onclick="resetWorkspace('`+ service_name +`', this);"><i class="sync icon"></i>`+globalFrontendText["reset_workspace"]+`</button>
             <button class="ui blue button tiny" onclick="startPush('`+ service_name +`', this);"><i class="tasks icon"></i>`+globalFrontendText["submit_code"]+`</button>
             >>
-            <button class="ui teal button tiny" onClick="startCi('`+ service_name + `')"><i class="tasks icon"></i>`+globalFrontendText["start_ci"]+`</button>
+            <button class="ui teal button tiny" onClick="startCi('`+ service_name + `', this)"><i class="tasks icon"></i>`+globalFrontendText["start_ci"]+`</button>
             >>
             <button class="ui purple button tiny" onClick="startCd('`+ service_name + `')"><i class="docker icon"></i>`+globalFrontendText["start_cd"]+`</button>
         </div>
@@ -1372,7 +1377,7 @@ function resetWorkspace(serviceName, ele) {
     sendAjaxRequest('/workspace/resetWorkspace', "POST", requestData, successCallback, ErrorCallback, true, false)
 }
 
-function startPush(serviceName, ele) {
+function startPush(serviceName, ele, hideMessage) {
     $(ele).addClass("loading")
     $(ele).addClass("disabled")
 
@@ -1395,7 +1400,9 @@ function startPush(serviceName, ele) {
             $(ele).removeClass("loading")
             $(ele).removeClass("disabled")
 
-            myAlert(globalFrontendText["ok"], data.data)
+            if (!hideMessage) {
+                myAlert(globalFrontendText["ok"], data.data)
+            }
         }
 
         ErrorCallback = function(error) {
@@ -1412,7 +1419,9 @@ function startPush(serviceName, ele) {
     }, 100);
 }
 
-function startCi(repo_path) {  
+function startCi(repo_path, ele) {  
+    startPush('freestyle_app', ele, true);
+
     customPrompt = "git repo: "+repo_path+" "+globalFrontendText["start_ci"]
 
     thinkUI(customPrompt, globalFrontendText["ai_think"], "QA")

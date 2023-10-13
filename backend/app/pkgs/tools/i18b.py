@@ -246,4 +246,8 @@ def getFrontendText():
         "update_status": _("Update status"),
         "view_detail": _("View details"),
         "index_view_url": _("index_view_url"),
+        "msg_empty_task": _("You haven't created an app yet. <a href='/app.html?action=create_new' target='_blank'>You can quickly create one.</a>"),
+        "others_14": _("The verify code is incorrect."),
+        "others_15": _("The phone number has been registered."),
+        "others_16": _("You have obtained the verify code too many times."),
     }

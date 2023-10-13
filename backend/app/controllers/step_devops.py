@@ -111,6 +111,7 @@ def check_lint():
 @bp.route('/trigger_cd', methods=['POST'])
 @json_response
 def trigger_cd():
+    _ = getI18n("controllers")
     requirementID = request.json.get('task_id')
     tenantID = storage.get("tenant_id")
     req = Requirement.get_requirement_by_id(requirementID, tenantID)
@@ -119,6 +120,9 @@ def trigger_cd():
     image = request.json.get('docker_image')
     tenantID = storage.get("tenant_id")
     cdConfigList, success = getCDConfigList(tenantID, req["app_id"], False)
+
+    if len(image) < 1:
+        raise Exception(_("Could not get deployment docker image, Please “Trigger continuous integration” first."))
 
     result, success = triggerCD(requirementID, image, serviceInfo, cdConfigList[0])
     if success:

@@ -1,6 +1,13 @@
 $(document).ready(function () {
     getAppList()
 
+    action = getAction()
+    if (action == "create_new") {
+        setTimeout(function () {
+            $("#add-application").click()
+        }, 1000);
+    }
+
     // show dropdown on hover
     $('.main.menu  .ui.dropdown').dropdown({
         on: 'hover'
@@ -51,14 +58,14 @@ $(document).ready(function () {
         requestData = JSON.stringify(requestData)
 
         successCallback = function(data) {
-            location.reload();
+            window.location.href = "/app.html"
         }
 
         sendAjaxRequest('/app/create', 'POST', requestData, successCallback, alertErrorCallback, true, false)
     });
 
     $("#app-edit-cancel").click(function () {
-        location.reload();
+        window.location.href = "/app.html"
     });
     $("#app-edit-cancel-new").click(function () {
         $('#app-new').modal('hide');
@@ -451,4 +458,15 @@ function cleanUpApp() {
     $("#app_git_config").empty();
     $("#app_ci_config").empty();
     $("#app_cd_config").empty();
+}
+
+
+function getAction() {
+    var queryString = window.location.search;
+
+    var params = new URLSearchParams(queryString);
+
+    var action = params.get('action');
+
+    return action
 }

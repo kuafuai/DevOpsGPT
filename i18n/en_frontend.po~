@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-10-10 16:44+0800\n"
+"POT-Creation-Date: 2023-10-12 22:27+0800\n"
 "PO-Revision-Date: 2023-07-17 18:37+0800\n"
 "Last-Translator: booboo <mac@booboo.local>\n"
 "Language-Team: Language i18n/en\n"
@@ -110,7 +110,7 @@ msgid ""
 "will be generated after confirmation: "
 msgstr ""
 "The PRD has been generated. You can: Confirm the document, send feedback to "
-"me, or manually modify the document."
+"me by “Send a message” input field, or manually modify the document."
 
 #: backend/app/pkgs/tools/i18b.py:56
 msgid ""
@@ -669,13 +669,13 @@ msgstr "Synchronize the latest code from Git"
 msgid ""
 "Way 2: Create APP via template. Templates are stored on GitHub by default, "
 "and you can clone them into your own repository."
-msgstr ""
+msgstr "Way 1: Create APP via template. Templates are stored on GitHub by default, and you can clone them into your own repository."
 
 #: backend/app/pkgs/tools/i18b.py:186
 msgid ""
 "Way 1: Create APP via AI, give git path, AI automatically analyzes the code "
 "base to create APP, Make sure Git token has code pull permission."
-msgstr ""
+msgstr "Way 2: Create APP via AI, give git path, AI automatically analyzes the code base to create APP, Make sure Git token has code pull permission."
 
 #: backend/app/pkgs/tools/i18b.py:187
 msgid "AI code analysis... It will take a few minutes. Please wait"
@@ -683,11 +683,11 @@ msgstr ""
 
 #: backend/app/pkgs/tools/i18b.py:188
 msgid "Launch code"
-msgstr "E-mail verification code"
+msgstr "verify code"
 
 #: backend/app/pkgs/tools/i18b.py:189
 msgid "Your KUAFUAI launch code"
-msgstr "Your KUAFUAI E-mail verification code"
+msgstr "Your KUAFUAI verify code"
 
 #: backend/app/pkgs/tools/i18b.py:190
 msgid "The username cannot be smaller than 4 characters."
@@ -713,7 +713,7 @@ msgstr ""
 
 #: backend/app/pkgs/tools/i18b.py:195
 msgid "The email launch code is incorrect."
-msgstr "E-mail verification code is incorrect."
+msgstr "verify code is incorrect."
 
 #: backend/app/pkgs/tools/i18b.py:196
 msgid ""
@@ -858,7 +858,7 @@ msgstr ""
 
 #: backend/app/pkgs/tools/i18b.py:221
 msgid "Get Launch code"
-msgstr "Get E-mail verification code"
+msgstr "Get verify code"
 
 #: backend/app/pkgs/tools/i18b.py:222
 msgid "Service Type"
@@ -992,3 +992,7 @@ msgstr ""
 #: backend/app/pkgs/tools/i18b.py:247
 msgid "View details"
 msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:248
+msgid "index_view_url"
+msgstr "<source src='https://upos-sz-mirrorctos.bilivideo.com/upgcxcode/46/10/1297241046/1297241046-1-16.mp4?e=ig8euxZM2rNcNbRVhwdVhwdlhWdVhwdVhoNvNC8BqJIzNbfq9rVEuxTEnE8L5F6VnEsSTx0vkX8fqJeYTj_lta53NCM=&uipk=5&nbs=1&deadline=1697192349&gen=playurlv2&os=ctosbv&oi=2088712938&trid=1a839f6da97540428a14a3e897645a58T&mid=3537105328277687&platform=html5&upsig=faa0abf24f7788cc0c288c5227cbe33e&uparams=e,uipk,nbs,deadline,gen,os,oi,trid,mid,platform&bvc=vod&nettype=0&bw=52953&orderid=0,1&buvid=&build=0&mobi_app=&f=T_0_0&logo=80000000' type='video/mp4'>Your browser does not support HTML5 video."
