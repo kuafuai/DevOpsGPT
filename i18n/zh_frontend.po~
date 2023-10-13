@@ -1010,7 +1010,7 @@ msgstr "查看详情"
 
 #: backend/app/pkgs/tools/i18b.py:248
 msgid "index_view_url"
-msgstr "<source src='https://upos-sz-mirrorcos.bilivideo.com/upgcxcode/38/97/1297199738/1297199738-1-16.mp4?e=ig8euxZM2rNcNbRVhwdVhwdlhWdVhwdVhoNvNC8BqJIzNbfq9rVEuxTEnE8L5F6VnEsSTx0vkX8fqJeYTj_lta53NCM=&uipk=5&nbs=1&deadline=1697192261&gen=playurlv2&os=cosbv&oi=2088712938&trid=65c2595a614343c9ac616caa31dc47d1T&mid=3537105328277687&platform=html5&upsig=0649f0bc57e16fd190dbb339db18c0c3&uparams=e,uipk,nbs,deadline,gen,os,oi,trid,mid,platform&bvc=vod&nettype=0&bw=52437&orderid=0,1&buvid=&build=0&mobi_app=&f=T_0_0&logo=80000000' type='video/mp4'>您的浏览器不支持HTML5视频。"
+msgstr "<iframe src='//player.bilibili.com/player.html?aid=619522551&bvid=BV1Z84y117qn&cid=1297199738&p=1&autoplay=0&muted=0' scrolling='no' border='0' width='800px' height='450px' frameborder='no' framespacing='0' allowfullscreen='true'> </iframe>"
 
 #~ msgid "Phone"
 #~ msgstr "手机号"

@@ -14,3 +14,4 @@ click
 # yum install mysql-devel gcc gcc-devel python-devel
 mysqlclient
 alibabacloud_dysmsapi20170525
+certifi

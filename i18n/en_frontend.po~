@@ -995,4 +995,4 @@ msgstr ""
 
 #: backend/app/pkgs/tools/i18b.py:248
 msgid "index_view_url"
-msgstr "<source src='https://upos-sz-mirrorctos.bilivideo.com/upgcxcode/46/10/1297241046/1297241046-1-16.mp4?e=ig8euxZM2rNcNbRVhwdVhwdlhWdVhwdVhoNvNC8BqJIzNbfq9rVEuxTEnE8L5F6VnEsSTx0vkX8fqJeYTj_lta53NCM=&uipk=5&nbs=1&deadline=1697192349&gen=playurlv2&os=ctosbv&oi=2088712938&trid=1a839f6da97540428a14a3e897645a58T&mid=3537105328277687&platform=html5&upsig=faa0abf24f7788cc0c288c5227cbe33e&uparams=e,uipk,nbs,deadline,gen,os,oi,trid,mid,platform&bvc=vod&nettype=0&bw=52953&orderid=0,1&buvid=&build=0&mobi_app=&f=T_0_0&logo=80000000' type='video/mp4'>Your browser does not support HTML5 video."
+msgstr "<iframe src='//player.bilibili.com/player.html?aid=874614890&bvid=BV1QN4y1y7uo&cid=1297241046&p=1&autoplay=0&muted=0' scrolling='no' border='0' width='800px' height='450px' frameborder='no' framespacing='0' allowfullscreen='true'> </iframe>"
