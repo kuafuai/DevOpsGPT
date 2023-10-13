@@ -667,13 +667,13 @@ msgstr "Synchronize the latest code from Git"
 
 #: backend/app/pkgs/tools/i18b.py:185
 msgid ""
-"Way 1: Create APP via template. Templates are stored on <a href='https://github.com/orgs/kuafuai/repositories' target='_blank'>GitHub</a> by default, "
+"Way 2: Create APP via template. Templates are stored on GitHub by default, "
 "and you can clone them into your own repository."
 msgstr ""
 
 #: backend/app/pkgs/tools/i18b.py:186
 msgid ""
-"Way 2: Create APP via AI, give git path, AI automatically analyzes the code "
+"Way 1: Create APP via AI, give git path, AI automatically analyzes the code "
 "base to create APP, Make sure Git token has code pull permission."
 msgstr ""
 
@@ -683,11 +683,11 @@ msgstr ""
 
 #: backend/app/pkgs/tools/i18b.py:188
 msgid "Launch code"
-msgstr ""
+msgstr "E-mail verification code"
 
 #: backend/app/pkgs/tools/i18b.py:189
 msgid "Your KUAFUAI launch code"
-msgstr ""
+msgstr "Your KUAFUAI E-mail verification code"
 
 #: backend/app/pkgs/tools/i18b.py:190
 msgid "The username cannot be smaller than 4 characters."
@@ -713,7 +713,7 @@ msgstr ""
 
 #: backend/app/pkgs/tools/i18b.py:195
 msgid "The email launch code is incorrect."
-msgstr ""
+msgstr "E-mail verification code is incorrect."
 
 #: backend/app/pkgs/tools/i18b.py:196
 msgid ""
@@ -787,7 +787,16 @@ msgid ""
 "CRUD operations are fundamental in various applications, from database "
 "management systems to web and mobile applications, as they enable users to "
 "interact with and manipulate data effectively."
-msgstr "Web application development refers to the process of creating and building software applications that can be accessed through internet browsers. These applications typically run on web servers and can be accessed through web browsers on various devices such as computers, smartphones, and tablets, without the need for installing dedicated client software. Web application development often involves multiple technical domains, including front-end development, back-end development, and database management. <a href='https://vvx03gck2p.feishu.cn/docx/L1jidyKYSoCpozxN3uQcUoHxnnd' target='_blank'>More</a>"
+msgstr ""
+"Web application development refers to the process of creating and building "
+"software applications that can be accessed through internet browsers. These "
+"applications typically run on web servers and can be accessed through web "
+"browsers on various devices such as computers, smartphones, and tablets, "
+"without the need for installing dedicated client software. Web application "
+"development often involves multiple technical domains, including front-end "
+"development, back-end development, and database management. <a href='https://"
+"vvx03gck2p.feishu.cn/docx/L1jidyKYSoCpozxN3uQcUoHxnnd' target='_blank'>More</"
+"a>"
 
 #: backend/app/pkgs/tools/i18b.py:209
 #, fuzzy
@@ -849,7 +858,7 @@ msgstr ""
 
 #: backend/app/pkgs/tools/i18b.py:221
 msgid "Get Launch code"
-msgstr ""
+msgstr "Get E-mail verification code"
 
 #: backend/app/pkgs/tools/i18b.py:222
 msgid "Service Type"
