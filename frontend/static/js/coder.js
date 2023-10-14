@@ -10,6 +10,14 @@ var globalRole = ""
 var codeMirror
 var apiUrl = "http://127.0.0.1:8081"
 
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?b4ab6a8ab861f8cca03710ba96cb53c7";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+
 function sendAjaxRequest(url, method, requestData, successCallback, errorCallback, async, slideDown) {       
     $.ajax({
         type: method,

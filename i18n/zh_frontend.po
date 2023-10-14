@@ -727,7 +727,7 @@ msgstr "欢迎使用 KUAFUAI，Multi Agent AI 驱动的软件开发平台。"
 
 #: backend/app/pkgs/tools/i18b.py:199
 msgid "Natural language requirements into working software."
-msgstr "将自然语言需求转化为可工作的软件。"
+msgstr "将自然语言需求转化为可工作的软件"
 
 #: backend/app/pkgs/tools/i18b.py:200
 msgid ""
@@ -735,8 +735,8 @@ msgid ""
 "DevOps tools to convert natural language requirements into working software. "
 "Supports any development language and extends the existing code."
 msgstr ""
-"Multi Agent AI 驱动的智能软件开发系统。结合 LLM 与 DevOps 工具将自然语言需求"
-"转化为可工作的软件。支持任何开发语言并扩展现有代码。"
+"Multi Agent AI 驱动的智能软件开发系统，结合 LLM 与 DevOps 工具将自然语言需求"
+"转化为可工作的软件，支持任何开发语言并扩展现有代码。"
 
 #: backend/app/pkgs/tools/i18b.py:201
 msgid "Full Process"

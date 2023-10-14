@@ -147,9 +147,12 @@ def language():
 @bp.route('/send_launch_code', methods=['POST'])
 @json_response
 def send_launch_code():
-    _ = getI18n("controllers")
+    _ = getI18n("frontend")
     data = request.json
     phone = data['phone']
     code_type = data['code_type']
+
+    if len(phone) < 9:
+        raise Exception(_("The phone_number cannot be smaller than 9 characters."))
     
     return gen_launch_code(phone, code_type)
