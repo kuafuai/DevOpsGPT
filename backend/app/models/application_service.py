@@ -6,6 +6,7 @@ class ApplicationService(db.Model):
     app_id = db.Column(db.Integer, db.ForeignKey('application.app_id'), nullable=False)
     name = db.Column(db.String(255), nullable=False)
     status = db.Column(db.String(50))
+    service_type = db.Column(db.String(50))
     git_path = db.Column(db.String(255))
     git_workflow = db.Column(db.String(255))
     role = db.Column(db.Text)
@@ -21,6 +22,7 @@ class ApplicationService(db.Model):
     cd_public_ip = db.Column(db.String(50))
     cd_security_group = db.Column(db.String(100))
     cd_subnet = db.Column(db.String(100))
+    cd_default_image = db.Column(db.String(200))
     created_at = db.Column(db.TIMESTAMP, server_default=db.text('CURRENT_TIMESTAMP'))
     updated_at = db.Column(db.TIMESTAMP, server_default=db.text('CURRENT_TIMESTAMP'))
 
@@ -30,11 +32,12 @@ class ApplicationService(db.Model):
     LANGUAGE_JAVA = "Java"
 
     def create_service(app_id, name, git_path, git_workflow, role, language, framework, database_type, api_type, api_location,
-                       cd_container_name, cd_container_group, cd_region, cd_public_ip, cd_security_group, cd_subnet, struct_cache):
+                       cd_container_name, cd_container_group, cd_region, cd_public_ip, cd_security_group, cd_subnet, struct_cache, cd_default_image="", service_type=""):
         service = ApplicationService(
             app_id=app_id,
             name=name,
             git_path=git_path,
+            service_type=service_type,
             status=ApplicationService.STATUS_OK,
             git_workflow=git_workflow,
             role=role,
@@ -49,6 +52,7 @@ class ApplicationService(db.Model):
             cd_public_ip=cd_public_ip,
             cd_security_group=cd_security_group,
             cd_subnet=cd_subnet,
+            cd_default_image=cd_default_image,
             struct_cache=struct_cache
         )
         db.session.add(service)
@@ -74,6 +78,7 @@ class ApplicationService(db.Model):
                 'app_id': service.app_id,
                 'name': service.name,
                 'git_path': service.git_path,
+                'service_type': service.service_type,
                 'status': service.status,
                 'git_workflow': service.git_workflow,
                 'role': service.role,
@@ -88,6 +93,7 @@ class ApplicationService(db.Model):
                 'cd_public_ip': service.cd_public_ip,
                 'cd_security_group': service.cd_security_group,
                 'cd_subnet': service.cd_subnet,
+                'cd_default_image': service.cd_default_image,
                 'struct_cache': service.struct_cache,
                 'libs': ApplicationServiceLib.get_libs_by_service_id(service.service_id)
             }
@@ -132,6 +138,7 @@ class ApplicationService(db.Model):
                 'app_id': service.app_id,
                 'name': service.name,
                 'git_path': service.git_path,
+                'service_type': service.service_type,
                 'status': service.status,
                 'git_workflow': service.git_workflow,
                 'role': service.role,
@@ -146,6 +153,7 @@ class ApplicationService(db.Model):
                 'cd_public_ip': service.cd_public_ip,
                 'cd_security_group': service.cd_security_group,
                 'cd_subnet': service.cd_subnet,
+                'cd_default_image': service.cd_default_image,
                 'struct_cache': service.struct_cache,
                 'libs': ApplicationServiceLib.get_libs_by_service_id(service.service_id)
             }

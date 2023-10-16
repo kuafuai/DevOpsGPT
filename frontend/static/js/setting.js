@@ -6,6 +6,11 @@ $(document).ready(function () {
     getGitConfigList()
     getCIConfigList()
     getCDConfigList()
+    const url = window.location;
+    const path = url.pathname;
+    if (path != "/app.html") {
+        getTenant(getTenantID())
+    }
     //getLLMConfigList()
 
     // show dropdown on hover
@@ -123,7 +128,7 @@ function getGitConfigList() {
                         <td>`+config["name"]+`</td>
                         <td>`+config["git_provider"]+`</td>
                         <td>`+config["git_url"]+`</td>
-                        <td>`+hideMiddleCharacters(config["git_token"], 2)+`</td>
+                        <td>`+config["git_token"]+`</td>
                         <td>`+config["git_username"]+`</td>
                         <td>`+config["git_email"]+`</td>
                     </tr>`
@@ -147,7 +152,7 @@ function getCIConfigList() {
                         <td>`+config["name"]+`</td>
                         <td>`+config["ci_provider"]+`</td>
                         <td>`+config["ci_api_url"]+`</td>
-                        <td>`+hideMiddleCharacters(config["ci_token"], 2)+`</td>
+                        <td>`+config["ci_token"]+`</td>
                     </tr>`
         });
         $("#ci_config_list").html(str)
@@ -168,8 +173,8 @@ function getCDConfigList() {
             str += `<tr style="cursor: pointer;" onClick="showCDConfig(`+element_index+`)">
                         <td>`+config["name"]+`</td>
                         <td>`+config["cd_provider"]+`</td>
-                        <td>`+hideMiddleCharacters(config["access_key"], 2)+`</td>
-                        <td>`+hideMiddleCharacters(config["secret_key"], 2)+`</td>
+                        <td>`+config["ACCESS_KEY"]+`</td>
+                        <td>`+config["SECRET_KEY"]+`</td>
                     </tr>`
         });
         $("#cd_config_list").html(str)

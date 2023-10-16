@@ -29,11 +29,13 @@ GPT_KEYS: |
 LLM_MODEL: "gpt-3.5-turbo-16k-0613"  
 
 LANGUAGE: 'en'  # en、zh
+SITE_NAME: 'DevOpsGPT'
+INVITATION_CODE: ''
 FRONTEND_PORT: 8080
 BACKEND_PORT: 8081
 # The url that the back end allows cross-domain access (front-end access address)
 # 后端允许跨域访问的url（前端访问地址）
-AICODER_ALLOWED_ORIGIN: 'http://127.0.0.1:8080'  
+AICODER_ALLOWED_ORIGIN: '["http://127.0.0.1:8080"]'
 BACKEND_URL: 'http://127.0.0.1:8081'
 
 BACKEND_HOST: '0.0.0.0'
@@ -55,6 +57,7 @@ GIT_API: "https://api.github.com" # https://api.github.com
 GIT_TOKEN: "xxxx"   # Get from here https://github.com/settings/tokens、https://gitlab.com/-/profile/personal_access_tokens
 GIT_USERNAME: "xxxx"
 GIT_EMAIL: "xxxx@x.x"
+GITHUB_PROXY: ""
 
 EMAIL_SERVER: ""
 EMAIL_PORT: ""
@@ -65,6 +68,10 @@ EMAIL_PASSWORD: ""
 PAYPAL_MODE: "sandbox" # sandbox or live
 PAYPAL_ID: "xxxx"
 PAYPAL_SECRET: "xxxx"
+ALIPAY_SERVER: "https://openapi-sandbox.dl.alipaydev.com/gateway.do" # sandbox or live
+ALIPAY_ID: "666"
+ALIPAY_PRIVATE_KEY: "xxxx"
+ALIPAY_PUBLIC_KEY: "xxxx"
 
 AUTO_LOGIN: true
 USERS: |

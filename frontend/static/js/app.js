@@ -1,9 +1,12 @@
 $(document).ready(function () {
     getAppList()
 
-    getGitConfigList()
-    getCIConfigList()
-    getCDConfigList()
+    action = getAction()
+    if (action == "create_new") {
+        setTimeout(function () {
+            $("#add-application").click()
+        }, 1000);
+    }
 
     // show dropdown on hover
     $('.main.menu  .ui.dropdown').dropdown({
@@ -13,7 +16,8 @@ $(document).ready(function () {
     $("#add-application").click(function () {
         cleanUpApp()
         rendSelect()
-        $('#app-edit').modal('show');
+        getAppTplList()
+        $('#app-new').modal('show');
     });
 
     $("#app-edit-save").click(function () {
@@ -45,23 +49,39 @@ $(document).ready(function () {
                 'service_container_group' : $("#service_container_group_"+i).val(),
                 'service_container_name' : $("#service_container_name_"+i).val(),
                 'service_region' : $("#service_region_"+i).val(),
-                'service_public_ip' : $("#service_public_ip_"+i).val(),
                 'service_security_group' : $("#service_security_group_"+i).val(),
-                'service_cd_subnet' : $("#service_cd_subnet_"+i).val()
+                'service_cd_subnet' : $("#service_cd_subnet_"+i).val(),
+                'service_service_type' : $("#service_service_type_"+i).val()
             }
             requestData.service.push(service)
         }
         requestData = JSON.stringify(requestData)
 
         successCallback = function(data) {
-            location.reload();
+            window.location.href = "/app.html"
         }
 
         sendAjaxRequest('/app/create', 'POST', requestData, successCallback, alertErrorCallback, true, false)
     });
 
     $("#app-edit-cancel").click(function () {
-        location.reload();
+        window.location.href = "/app.html"
+    });
+    $("#app-edit-cancel-new").click(function () {
+        $('#app-new').modal('hide');
+    });
+
+    $("#app-app-save").click(function(){
+        git_path = $("#ai_code_analysis_git_path").val()
+        $('#app-edit').modal('setting', 'closable', false).modal('show');
+        $("#add-service").click();
+        $("#service_git_path_1").val(git_path);
+        analyzeService(1)
+    });
+
+    $("#app-tpl-save").click(function(){
+        tpl_id = $("#tpl_select").val()
+        showApp(tpl_id, true)
     });
 
     $("#add-service").click(function(){
@@ -74,12 +94,21 @@ $(document).ready(function () {
                 <label>`+globalFrontendText["git_path"]+`</label>
                 <div class="ui action input">
                     <input type="text" id="service_git_path_`+serviceID+`">
-                    <button class="ui button" onClick="analyzeService(`+serviceID+`)" value="1"><span id="ai_analyze_service_icon"><i class="orange reddit square icon"></i></span>`+globalFrontendText["ai_code_analysis"]+`</button>
+                    <button class="purple ui button ai_analyze_service_btn" onClick="analyzeService(`+serviceID+`)" value="1"><span id="ai_analyze_service_icon"><i class=" reddit square icon"></i></span>`+globalFrontendText["ai_code_analysis"]+`</button>
                 </div>
                 </div>
                 <div class="field">
                 <label>`+globalFrontendText["service_name"]+`</label>
                 <input type="text" id="service_name_`+serviceID+`">
+                </div>
+                <div class="field">
+                <label>`+globalFrontendText["service_type"]+`</label>
+                <select class="ui fluid dropdown" id="service_service_type_`+serviceID+`">
+                    <option value="FRONTEND">前端/移动端（Frontend/Mobile）</option>
+                    <option value="BACKEND">后端服务（Backend）</option>
+                    <option value="GAME">游戏（GAME）</option>
+                    <option value="COMMON">其它（Others）</option>
+                </select>
                 </div>
                 <div class="field">
                 <label>`+globalFrontendText["service_role"]+`</label>
@@ -130,10 +159,6 @@ $(document).ready(function () {
                 <input type="text" id="service_region_`+serviceID+`">
                 </div>
                 <div class="field">
-                <label>CD - PUBLIC IP</label>
-                <input type="text" id="service_public_ip_`+serviceID+`">
-                </div>
-                <div class="field">
                 <label>CD - SECURITY GROUP</label>
                 <input type="text" id="service_security_group_`+serviceID+`">
                 </div>
@@ -155,17 +180,19 @@ function removeSubservice(idx){
     $("#subservice_"+idx).remove()
 }
 
-function showApp(appID) {
+function showApp(appID, isTpl) {
     cleanUpApp()
     rendSelect()
-    $('#app-edit').modal('show');
+    $('#app-edit').modal('setting', 'closable', false).modal('show');
     
     var requestData = { 'app_id': appID }
 
     successCallback = function(data) {
         data = data.data.apps[0]
         console.log(data)
-        $("#app_id").val(data.app_id)
+        if (!isTpl) {
+            $("#app_id").val(data.app_id)
+        }
         $("#app_default_source_branch").val(data.default_source_branch)
         $("#app_default_target_branch").val(data.default_target_branch)
         $("#app_description").val(data.description)
@@ -194,12 +221,21 @@ function showApp(appID) {
                     <label>`+globalFrontendText["git_path"]+`</label>
                     <div class="ui action input">
                         <input type="text" id="service_git_path_`+idx+`" value="`+service.git_path+`">
-                        <button class="ui button" onClick="analyzeService(`+idx+`)" value="1"><span id="ai_analyze_service_icon"><i class="orange reddit square icon"></i></span>`+globalFrontendText["ai_code_analysis"]+`</button>
+                        <button class="purple ui button ai_analyze_service_btn" onClick="analyzeService(`+idx+`)" value="1"><span id="ai_analyze_service_icon"><i class=" reddit square icon"></i></span>`+globalFrontendText["ai_code_analysis"]+`</button>
                     </div>
                     </div>
                     <div class="field">
                     <label>`+globalFrontendText["service_name"]+`</label>
                     <input type="text" id="service_name_`+idx+`" value="`+service.name+`">
+                    </div>
+                    <div class="field">
+                    <label>`+globalFrontendText["service_type"]+`</label>
+                    <select class="ui fluid dropdown" id="service_service_type_`+idx+`" value=`+service.service_type+`>
+                        <option value="FRONTEND">前端/移动端（Frontend/Mobile）</option>
+                        <option value="BACKEND">后端服务（Backend）</option>
+                        <option value="GAME">游戏（GAME）</option>
+                        <option value="COMMON">其它（Others）</option>
+                    </select>
                     </div>
                     <div class="field">
                     <label>`+globalFrontendText["service_role"]+`</label>
@@ -250,10 +286,6 @@ function showApp(appID) {
                     <input type="text" id="service_region_`+idx+`" value="`+service.cd_region+`">
                     </div>
                     <div class="field">
-                    <label>CD - PUBLIC IP</label>
-                    <input type="text" id="service_public_ip_`+idx+`" value="`+service.cd_public_ip+`">
-                    </div>
-                    <div class="field">
                     <label>CD - SECURITY GROUP</label>
                     <input type="text" id="service_security_group_`+idx+`" value="`+service.cd_security_group+`">
                     </div>
@@ -268,6 +300,7 @@ function showApp(appID) {
             setTimeout(function () {
                 $('#app-edit').modal('refresh');
             }, 550);
+            $("#service_service_type_"+idx).val(service.service_type)
         });
     }
 
@@ -276,15 +309,20 @@ function showApp(appID) {
 
 function analyzeService(elementID) {
     $("#ai_analyze_service_icon").html('<i class="loading spinner icon"></i>')
+    $(".ai_analyze_service_btn").addClass("disabled")
+    $('#app-edit').dimmer('show');
 
     var requestData = JSON.stringify({ 'service_git_path': $("#service_git_path_"+elementID).val() })
 
     successCallback = function(data) {
         data = data.data
-        $("#ai_analyze_service_icon").html('<i class="orange reddit square icon"></i>')
+        $("#ai_analyze_service_icon").html('<i class=" reddit square icon"></i>')
+        $(".ai_analyze_service_btn").removeClass("disabled")
+        $('#app-edit').dimmer('hide');
         console.log(data)
         console.log(elementID)
         $("#service_name_"+elementID).val(data.name)
+        $("#service_service_type_"+elementID).val(data.service_type)
         $("#service_role_"+elementID).val(data.role)
         $("#service_language_"+elementID).val(data.language)
         $("#service_framework_"+elementID).val(data.framework)
@@ -297,12 +335,47 @@ function analyzeService(elementID) {
         $("#service_container_group_"+elementID).val(data.cd_container_group)
         $("#service_container_name_"+elementID).val(data.cd_container_name)
         $("#service_region_"+elementID).val(data.cd_region)
-        $("#service_public_ip_"+elementID).val(data.cd_public_ip)
         $("#service_security_group_"+elementID).val(data.cd_security_group)
         $("#service_cd_subnet_"+elementID).val(data.cd_subnet)
+
+        if ($("#app_name").val().length < 1) {
+            $("#app_name").val(data.name)
+        }
+        if ($("#app_description").val().length < 1) {
+            $("#app_description").val(data.role)
+        }
+        if ($("#app_default_source_branch").val().length < 1) {
+            $("#app_default_source_branch").val('master')
+            $("#app_default_target_branch").val('feat/xxx')
+        }
     }
 
-    sendAjaxRequest('/app/analyze_service', 'POST', requestData, successCallback, alertErrorCallback, true, false)
+    errorCallback = function(data) {
+        $("#ai_analyze_service_icon").html('<i class=" reddit square icon"></i>')
+        $(".ai_analyze_service_btn").removeClass("disabled")
+        $('#app-edit').dimmer('hide');
+        $("#service_name_"+elementID).val(data)
+    }
+
+    sendAjaxRequest('/app/analyze_service', 'POST', requestData, successCallback, errorCallback, true, false)
+}
+
+function getAppTplList() {
+    $("#tpl_select").empty();
+
+    requestData = ''
+
+    successCallback = function(data) {
+        apps = data.data.apps
+        console.log(apps)
+
+        apps.forEach(function (app, element_index, element_array) {
+            var newOption = $("<option></option>").attr("value", app.app_id).text(app.name);
+            $("#tpl_select").append(newOption);
+        });
+    }
+
+    sendAjaxRequest('/app/get_tpl', 'GET', requestData, successCallback, alertErrorCallback, true, false)
 }
 
 function getAppList() {
@@ -349,15 +422,29 @@ function rendSelect() {
     
     gitconfigs.forEach(function (gc, idx, arr) {
         var newOption = $("<option></option>").attr("value", gc.git_config_id).text(gc.name);
+        
+
+        if (idx == arr.length - 1) {
+
+            newOption.prop("selected", true);
+        }
         $("#app_git_config").append(newOption);
     })
     ciconfigs.forEach(function (gc, idx, arr) {
         var newOption = $("<option></option>").attr("value", gc.ci_config_id).text(gc.name);
         $("#app_ci_config").append(newOption);
+
+        if (idx === arr.length - 1) {
+            newOption.prop("selected", true);
+        }
     })
     cdconfigs.forEach(function (gc, idx, arr) {
         var newOption = $("<option></option>").attr("value", gc.cd_config_id).text(gc.name);
         $("#app_cd_config").append(newOption);
+
+        if (idx === arr.length - 1) {
+            newOption.prop("selected", true);
+        }
     })
 }
 
@@ -371,4 +458,15 @@ function cleanUpApp() {
     $("#app_git_config").empty();
     $("#app_ci_config").empty();
     $("#app_cd_config").empty();
+}
+
+
+function getAction() {
+    var queryString = window.location.search;
+
+    var params = new URLSearchParams(queryString);
+
+    var action = params.get('action');
+
+    return action
 }

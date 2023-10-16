@@ -1,4 +1,5 @@
-from flask import request, session
+from flask import request
+from app.pkgs.tools import storage
 from app.controllers.common import json_response
 from flask import Blueprint
 from app.pkgs.tools.i18b import getI18n
@@ -17,7 +18,7 @@ def get_git_config_list():
 
     gitList, success = getGitConfigList(tenantID, 0)
     if not success:
-        raise Exception(_("Failed to get git config list.")) 
+        raise Exception(_("Failed to get git config list."))
 
     return gitList
 
@@ -29,7 +30,7 @@ def get_ci_config_list():
 
     gitList, success = getCIConfigList(tenantID, 0)
     if not success:
-        raise Exception(_("Failed to get git config list.")) 
+        raise Exception(_("Failed to get git config list."))
 
     return gitList
 
@@ -41,7 +42,7 @@ def get_cd_config_list():
 
     gitList, success = getCDConfigList(tenantID, 0)
     if not success:
-        raise Exception(_("Failed to get git config list.")) 
+        raise Exception(_("Failed to get git config list."))
 
     return gitList
 
@@ -49,12 +50,12 @@ def get_cd_config_list():
 @json_response
 def get_llm_config_list():
     _ = getI18n("controllers")
-    raise Exception(_("Failed to get git config list.")) 
+    raise Exception(_("Failed to get git config list."))
     tenantID = request.args.get('tenant_id')
 
     gitList, success = getLLMConfigList(tenantID, 0)
     if not success:
-        raise Exception(_("Failed to get git config list.")) 
+        raise Exception(_("Failed to get git config list."))
 
     return gitList
 
@@ -69,12 +70,21 @@ def edit_git():
     git_username = request.json.get('git_username')
     git_config_id = request.json.get('git_config_id')
     name = request.json.get('git_name')
-    creater = session['username']
+    creater = storage.get("username")
     tenant_id = request.json.get('tenant_id')
 
     try:
         if git_config_id:
-            TenantGitConfig.update_config(git_config_id, name=name, git_email=git_email, git_provider=git_provider, git_token=git_token, git_url=git_url, git_username=git_username)
+            generate_kwargs = dict(
+                name=name,
+                git_email=git_email,
+                git_provider=git_provider,
+                git_url=git_url,
+                git_username=git_username
+            )
+            if git_token.find("*") == -1:
+                generate_kwargs.update(dict(git_token=git_token))
+            TenantGitConfig.update_config(git_config_id, tenant_id, **generate_kwargs)
             id = git_config_id
         else:
             data = TenantGitConfig.create_config(tenant_id, creater, name, git_url, git_token, git_provider, git_username, git_email)
@@ -83,7 +93,7 @@ def edit_git():
         return {'success': id}
     except Exception as e:
         raise Exception(_("Failed to edit setting."))
-    
+
 @bp.route('/edit_ci', methods=['POST'])
 @json_response
 def edit_ci():
@@ -93,12 +103,19 @@ def edit_ci():
     ci_provider = request.json.get('ci_provider')
     ci_config_id = request.json.get('ci_config_id')
     name = request.json.get('ci_name')
-    creater = session['username']
+    creater = storage.get("username")
     tenant_id = request.json.get('tenant_id')
 
     try:
         if ci_config_id:
-            TenantCIConfig.update_config(ci_config_id, name=name, ci_api_url=ci_api_url, ci_token=ci_token, ci_provider=ci_provider)
+            generate_kwargs = dict(
+                name=name,
+                ci_api_url=ci_api_url,
+                ci_provider=ci_provider
+            )
+            if ci_token.find("*") == -1:
+                generate_kwargs.update(dict(ci_token=ci_token))
+            TenantCIConfig.update_config(ci_config_id, tenant_id, **generate_kwargs)
             id = ci_config_id
         else:
             data = TenantCIConfig.create_config(tenant_id, creater, name, ci_api_url, ci_token, ci_provider)
@@ -107,7 +124,7 @@ def edit_ci():
         return {'success': id}
     except Exception as e:
         raise Exception(_("Failed to edit setting."))
-    
+
 @bp.route('/edit_cd', methods=['POST'])
 @json_response
 def edit_cd():
@@ -117,12 +134,20 @@ def edit_cd():
     secret_key = request.json.get('SECRET_KEY')
     cd_provider = request.json.get('cd_provider')
     name = request.json.get('cd_name')
-    creater = session['username']
+    creater = storage.get("username")
     tenant_id = request.json.get('tenant_id')
 
     try:
         if cd_config_id:
-            TenantCDConfig.update_config(cd_config_id, name=name, access_key=access_key, secret_key=secret_key, cd_provider=cd_provider)
+            generate_kwargs = dict(
+                name=name, cd_provider=cd_provider
+            )
+            if access_key.find("*") == -1:
+                generate_kwargs.update(dict(access_key=access_key))
+            if secret_key.find("*") == -1:
+                generate_kwargs.update(dict(secret_key=secret_key))
+
+            TenantCDConfig.update_config(cd_config_id, tenant_id, **generate_kwargs)
             id = cd_config_id
         else:
             data = TenantCDConfig.create_config(tenant_id, creater, name, access_key, secret_key, cd_provider)

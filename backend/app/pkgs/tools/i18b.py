@@ -1,11 +1,11 @@
 import gettext
-from flask import session
+from app.pkgs.tools import storage
 
-from config import LANGUAGE
+from config import LANGUAGE, SITE_NAME
 
 def getCurrentLanguageName():
     try:
-        language = session['language']
+        language = storage.get("language")
     except Exception as e:
         language = LANGUAGE
 
@@ -16,7 +16,7 @@ def getCurrentLanguageName():
 
 def getI18n(domain):
     try:
-        language = session['language']
+        language = storage.get("language")
     except Exception as e:
         language = LANGUAGE
 
@@ -31,7 +31,7 @@ def getI18n(domain):
 def getFrontendText():
     _ = getI18n("frontend")
     return {
-        "title": _("DevOpsGPT"),
+        "title": SITE_NAME,
         "change_language": _("切换为中文"),
         "start": _("Start"),
         "more_operations": _("More"),
@@ -182,4 +182,72 @@ def getFrontendText():
         "others_4": _("CodePower has been depleted. Please check your bill and recharge before using it again."),
         "others_5": _("Billing system error, please check your bill."),
         "reset_workspace": _("Sync from Git"),
+        "create_from_tpl": _("Way 2: Create APP via template. Templates are stored on GitHub by default, and you can clone them into your own repository."),
+        "create_from_gitpath": _("Way 1: Create APP via AI, give git path, AI automatically analyzes the code base to create APP, Make sure Git token has code pull permission."),
+        "ai_code_analysis_wait": _("AI code analysis... It will take a few minutes. Please wait"),
+        "launch_code": _("Launch code"),
+        "others_6": _("Your KUAFUAI launch code"),
+        "others_7": _("The username cannot be smaller than 4 characters."),
+        "others_8":  _("The username format you entered is incorrect(Only letters a-Z and _ - are allowed)."),
+        "others_9":  _("The password cannot be smaller than 6 characters."),
+        "others_10":  _("The phone_number cannot be smaller than 9 characters."),
+        "others_11": _("The email format you entered is incorrect."),
+        "others_12": _("The email launch code is incorrect."),
+        "invitation_code": _("invitation code (Thank you for your interest. We will open registration after the beta testing phase.)"),
+        "version_status": _("Alpha(internal testing)"),
+        "intro_short_introduction": _("Welcome to KuafuAI, Multi agent system for AI-driven software development."),
+        "intro_short_introduction2": _("Natural language requirements into working software."),
+        "intro_short_introduction3": _("Multi agent system for AI-driven software development. Combine LLM with DevOps tools to convert natural language requirements into working software. Supports any development language and extends the existing code."),
+        "intro_feature_title_1": _("Full Process"),
+        "intro_feature_title_2": _("Multi-Agent"),
+        "intro_feature_title_3": _("Domain Models"),
+        "intro_feature_intro_1": _("An AI-driven development platform that covers the entire software lifecycle management, combined with various DevOps tools, achieves end-to-end delivery of software from natural language requirements."),
+        "intro_feature_intro_2": _("AI intelligently adjusts workflow orchestration based on user feedback and continuously performs autonomous self-correction and optimization of generated results, enabling flexible and high-quality software development."),
+        "intro_feature_intro_3": _("Multiple domain models are trained for the software production process. These domain models collaborate to complete software development tasks and can support private deployment. Extension development based on existing software code is achieved through proprietary models."),
+        "intro_support_curd_title": _("CURD Requirements"),
+        "intro_support_curd_intro": _("In software development, CRUD (Create, Read, Update, Delete) represents essential operations for managing data. It involves creating new records, retrieving existing data, updating information, and deleting records. These CRUD operations are fundamental in various applications, from database management systems to web and mobile applications, as they enable users to interact with and manipulate data effectively."),
+        "intro_support_chatbot_title": _("ChatBot Requirements"),
+        "intro_support_chatbot_intro": _("In software development, chatbot requirements for applications like Enterprise WeChat typically encompass functionalities such as real-time messaging, automated responses, integration with enterprise systems, user management, and multi-platform compatibility, ensuring efficient communication and task automation within corporate environments."),
+        "intro_support_more_title": _("More"),
+        "intro_support_more_intro": _("As our foundational and product capabilities continue to improve, we will gradually expand our development to encompass more complex application scenarios, bringing universal benefits to every user with software development needs. Please stay tuned and follow us for updates."),
+        "intro_sign_up_msg": _("Now, you can experience our products with minimal cost. We look forward to bringing a whole new experience to your software development!"),
+        "intro_pricing_free": _("Opensource"),
+        "intro_pricing_basic": _("Basic"),
+        "intro_pricing_pro": _("Pro"),
+        "intro_private_deployment": _("Private Deployment"),
+        "intro_private_deployment_intro": _("Utilize our fine-tuned model and deploy it within your private environment to ensure data security. We welcome further communication with you."),
+        "intro_contact_us": _("Contact Us"),
+        "intro_links": _("Links"),
+        "get_launch_code": _("Get Launch code"),
+        "service_type": _("Service Type"),
+        "others_13": _("The email address has been registered."),
+        "change_password":  _("Change password"),
+        "newpassword":  _("New password"),
+        "help":  _("Help center"),
+        "ai_tecDoc_clarify_1": _("Technical document has been generated. You can confirm the document, or manually modify the document."),
+        "ai_pm":  _("Assist in clarifying product requirements and produce requirement documents."),
+        "ai_tl":  _("Design system architecture, break down development tasks, and produce technical documentation for development."),
+        "ai_qa":  _("Assess product quality, identify and report defects."),
+        "ai_rd":  _("Write, review, test, and maintain software code."),
+        "ai_op":  _("Responsible for application deployment, as well as managing servers, networks, and systems to ensure system availability and stability."),
+        "ai_intro": _("The following AI roles will assist you in completing the entire development process for requirement tasks."),
+        "try_it": _("Try it!"),
+        "goodcase_title_1": _("Web application"),
+        "goodcase_content_1": _("Asset Registration Function: Supports adding new fixed asset information, including asset number, name, specifications, purchase date, and purchase price."),
+        "goodcase_title_2": _("Office collaboration application expansion"),
+        "goodcase_content_2": _("Input meeting notes, invoke ChatGPT to organize the meeting notes into meeting minutes, and send them to the group via the enterprise WeChat bot."),
+        "goodcase_title_3": _("Integration between services via API"),
+        "goodcase_content_3": _("Integrate with the GitLab server using GitLab's OpenAPI. The system will query the recent one-hour continuous integration failure records every hour."),
+        "goodcase_title_4": _("mini-games"),
+        "goodcase_content_4": _("Snake Game: Players control the direction of the snake, collect food, and the snake grows in length when it eats food."),
+        "goodcase_chose": _("Try this requirement"),
+        "ai_goodcase_intro": _("Please note that different types of applications are suitable for different types of needs. Please provide a detailed description of your requirements. Below are some reference cases."),
+        "trigger_code_review": _("Trigger code review"),  
+        "update_status": _("Update status"),
+        "view_detail": _("View details"),
+        "index_view_url": _("index_view_url"),
+        "msg_empty_task": _("You haven't created an app yet. <a href='/app.html?action=create_new' target='_blank'>You can quickly create one.</a>"),
+        "others_14": _("The verify code is incorrect."),
+        "others_15": _("The phone number has been registered."),
+        "others_16": _("You have obtained the verify code too many times."),
     }

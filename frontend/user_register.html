@@ -22,14 +22,15 @@
 <body>
   <div class="ui borderless main menu margin-top-0">
     <div class="ui text container ai-textcontainer">
-      <div class="header item" style="padding-left: 0px;">
+      <a href="/" class="header item" style="padding-left: 0px;">
         <img class="logo" src="./static/image/logo.png" style="margin-right: 5px;">
         <span class="f_title"></span>
-      </div>
+      </a>
       <a href="#" class="ui right floated dropdown item">
         <span class="f_more_operations"></span> <i class="dropdown icon"></i>
         <div class="menu">
           <div class="item" onClick="changeLanguage()"><i class="exchange icon tiny"></i><span class="f_change_language"></span></div>
+          <div class="item" onClick="openUrlNew('https://vvx03gck2p.feishu.cn/docx/KwnSdasq1oK3LMxfVBAcwhG2neQ')"><i class="question circle icon tiny"></i><span class="f_help"></span></div>
         </div>
       </a>
     </div>
@@ -37,6 +38,10 @@
 
   <div class="ui container" style="width: 600px;">
     <div class="ui form">
+      <div class="field">
+        <label><span class="f_invitation_code"></span></label>
+        <input type="text" id="login-invitation-code" placeholder="">
+      </div>
       <div class="field">
         <label><span class="f_username"></span></label>
         <input type="text" id="login-username" placeholder="">
@@ -46,12 +51,19 @@
         <input type="password" id="login-password" placeholder="">
       </div>
       <div class="field">
-        <label><span class="f_email"></span></label>
-        <input type="text" id="login-email" placeholder="">
+        <label><span class="f_phone"></span></label>
+        <div class="ui fluid action input">
+          <input type="text" id="login-phone" placeholder="">
+          <div class="ui button teal" onClick="send_launch_code(this, 'register')"><span class="f_get_launch_code"></span></div>
+        </div>
       </div>
       <div class="field">
-        <label><span class="f_phone"></span></label>
-        <input type="text" id="login-phone" placeholder="">
+        <label><span class="f_launch_code"></span></label>
+        <input type="text" id="login-launch_code" placeholder="">
+      </div>
+      <div class="field">
+        <label><span class="f_email"></span></label>
+        <input type="text" id="login-email" placeholder="">
       </div>
       <div class="field">
           <label id="login-message" style="color: red;"></label>
@@ -59,7 +71,7 @@
       <div class="field">
         <div class="f_create_user_notice form-message"></div>
         <a class="ui right floated button" href="user_login.html"><i class="user icon"></i><span class="f_login"></span></a>        
-        <button class="ui right floated button green" onClick="register()" type="submit"><i class="id card outline icon"></i><span class="f_submit"></span></div></button>
+        <button class="ui right floated button green" onClick="register()" type="submit"><i class="id card outline icon"></i><span class="f_register"></span></div></button>
       </div>
     </div>
   </div>

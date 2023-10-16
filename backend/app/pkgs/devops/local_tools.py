@@ -4,7 +4,7 @@ from app.pkgs.devops.local_tools_pro import LocalToolsPro
 from config import GRADE
 from config import WORKSPACE_PATH
 
-def getFileContent(file_path, branch_name, repopath):
+def getFileContent(file_path, repopath):
     path = WORKSPACE_PATH + repopath + "/" + file_path
 
     try:

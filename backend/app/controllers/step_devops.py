@@ -1,4 +1,5 @@
-from flask import request, session
+from flask import request
+from app.pkgs.tools import storage
 from app.controllers.common import json_response
 from app.pkgs.prompt.prompt import aiAnalyzeError
 from app.pkgs.devops.local_tools import compileCheck, lintCheck
@@ -17,14 +18,20 @@ bp = Blueprint('step_devops', __name__, url_prefix='/step_devops')
 @bp.route('/trigger_ci', methods=['POST'])
 @json_response
 def trigger_ci():
+    _ = getI18n("controllers")
+
     serviceName = request.json.get('repo_path')
-    username = session['username']
+    username = storage.get("username")
     requirementID = request.json.get('task_id')
-    req = Requirement.get_requirement_by_id(requirementID) 
+    tenantID = storage.get("tenant_id")
+    req = Requirement.get_requirement_by_id(requirementID, tenantID) 
     serviceInfo = ApplicationService.get_service_by_name(req["app_id"], serviceName)
-    tenantID = session['tenant_id']
-    ciConfigList, success = getCIConfigList(tenantID, req["app_id"])
-    branch = session[username]['memory']['task_info']['feature_branch']
+    tenantID = storage.get("tenant_id")
+    ciConfigList, success = getCIConfigList(tenantID, req["app_id"], False)
+    if len(ciConfigList) < 1:
+        raise Exception(_("CI is not configured. Configure it in Company Settings"))
+
+    branch = req["default_target_branch"]
 
     result, piplineID, piplineUrl, success = triggerPipeline(requirementID, branch, serviceInfo, ciConfigList[0])
     if success:
@@ -38,16 +45,16 @@ def trigger_ci():
 def plugin_ci():
     pipeline_id = request.args.get('piplineID')
     repopath = request.args.get('repopath')
-    tenantID = session['tenant_id']
+    tenantID = storage.get("tenant_id")
     requirementID = request.args.get('task_id')
-    req = Requirement.get_requirement_by_id(requirementID) 
-    ciConfigList, success = getCIConfigList(tenantID, req["app_id"] )
+    req = Requirement.get_requirement_by_id(requirementID, tenantID) 
+    ciConfigList, success = getCIConfigList(tenantID, req["app_id"], False)
 
-    piplineJobs, success = getPipelineStatus(pipeline_id, repopath, ciConfigList[0])
+    piplineJobs, docker_mage,success = getPipelineStatus(pipeline_id, repopath, ciConfigList[0])
     print("piplineJobs:", piplineJobs)
 
     if success:
-        return {'piplineJobs': piplineJobs}
+        return {'piplineJobs': piplineJobs, 'docker_mage': docker_mage}
     else:
         raise Exception(piplineJobs)
     
@@ -60,7 +67,8 @@ def check_compile():
     requirementID = request.json.get('task_id')
     serviceName = request.json.get('repo_path')
     wsPath = get_ws_path(requirementID)
-    req = Requirement.get_requirement_by_id(requirementID)
+    tenantID = storage.get("tenant_id")
+    req = Requirement.get_requirement_by_id(requirementID, tenantID)
     gitPath, success = getServiceGitPath(req["app_id"], serviceName)
 
     success, message = compileCheck(requirementID, wsPath, gitPath)
@@ -83,7 +91,8 @@ def check_lint():
     requirementID = request.json.get('task_id')
     file_path = request.json.get('file_path')
     serviceName = request.json.get('service_name')
-    req = Requirement.get_requirement_by_id(requirementID)
+    tenantID = storage.get("tenant_id")
+    req = Requirement.get_requirement_by_id(requirementID, tenantID)
     gitPath, success = getServiceGitPath(req["app_id"], serviceName)
     ws_path = get_ws_path(requirementID)
 
@@ -102,13 +111,18 @@ def check_lint():
 @bp.route('/trigger_cd', methods=['POST'])
 @json_response
 def trigger_cd():
+    _ = getI18n("controllers")
     requirementID = request.json.get('task_id')
-    req = Requirement.get_requirement_by_id(requirementID)
+    tenantID = storage.get("tenant_id")
+    req = Requirement.get_requirement_by_id(requirementID, tenantID)
     serviceName = request.json.get('repo_path')
     serviceInfo = ApplicationService.get_service_by_name(req["app_id"], serviceName)
-    image, success = getServiceDockerImage(req["app_id"], serviceName)
-    tenantID = session['tenant_id']
-    cdConfigList, success = getCDConfigList(tenantID, req["app_id"])
+    image = request.json.get('docker_image')
+    tenantID = storage.get("tenant_id")
+    cdConfigList, success = getCDConfigList(tenantID, req["app_id"], False)
+
+    if len(image) < 1:
+        raise Exception(_("Could not get deployment docker image, Please “Trigger continuous integration” first."))
 
     result, success = triggerCD(requirementID, image, serviceInfo, cdConfigList[0])
     if success:

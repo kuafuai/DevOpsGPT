@@ -1,4 +1,5 @@
 import json
+import random
 import re
 import smtplib
 from email.mime.text import MIMEText
@@ -122,31 +123,79 @@ def generate_uuid():
     
     return time_uuid
 
+def generate_launch_code():
+    return str(random.randint(100000, 999999))
+
 def add_days_to_date(input_date_str, days_to_add):
     print("add_days_to_date")
     print(input_date_str)
     print(days_to_add)
     try:
+        if isinstance(input_date_str, datetime):
+            input_date_str = input_date_str.strftime('%Y-%m-%d %H:%M:%S')
+
         days_to_add = int(days_to_add)
         input_date = datetime.strptime(input_date_str, "%Y-%m-%d %H:%M:%S")
         new_date = input_date + timedelta(days=days_to_add)
         new_date_str = new_date.strftime("%Y-%m-%d %H:%M:%S")
         return True, new_date_str
     except Exception as e:
+        print("add_days_to_date failed: "+ str(e))
         return False, "无效的日期格式，请使用 'YYYY-MM-DD HH:MM:SS' 格式。" + str(e)
 
 def if_datetime_expired(target_datetime_str):
-    # 获取当前日期和时间
-    current_datetime = datetime.now()
+    try:
+        if isinstance(target_datetime_str, datetime):
+            target_datetime_str = target_datetime_str.strftime('%Y-%m-%d %H:%M:%S')
 
-    # 将目标日期和时间字符串解析为datetime对象
-    target_datetime = datetime.strptime(target_datetime_str, "%Y-%m-%d %H:%M:%S")
+        # 获取当前日期和时间
+        current_datetime = datetime.now()
 
-    # 比较两个日期和时间对象
-    if current_datetime < target_datetime:
-        return False
-    else:
+        # 将目标日期和时间字符串解析为datetime对象
+        target_datetime = datetime.strptime(target_datetime_str, "%Y-%m-%d %H:%M:%S")
+
+        # 比较两个日期和时间对象
+        if current_datetime < target_datetime:
+            return False
+        else:
+            return True
+    except Exception as e:
+        print("if_datetime_expired error:"+str(e))
         return True
+
+def hide_half_str(input_string):
+    # 如果输入字符串长度小于2，返回全部星号
+    if len(input_string) < 2:
+        return '*' * len(input_string)
+
+    # 计算要隐藏的字符数，这是字符串长度的一半
+    num_to_hide = len(input_string) // 2
+
+    # 生成星号替换字符串
+    asterisks = '*' * num_to_hide
+
+    # 将星号替换字符串与原字符串的前半部分组合起来
+    result = input_string[:num_to_hide] + asterisks
+
+    return result
+
+def is_valid_email(email):
+    # 定义邮箱地址的正则表达式模式
+    pattern = r'^[\w\.-]+@[\w\.-]+\.\w+$'
+    
+    # 使用re.match()来检查邮箱是否匹配模式
+    if re.match(pattern, email):
+        return True
+    else:
+        return False
+    
+def is_valid_username(username):
+    # 使用正则表达式匹配用户名
+    pattern = r'^[a-zA-Z0-9_-]+$'
+    if re.match(pattern, username):
+        return True
+    else:
+        return False
 
 def send_email(receiver_email, subject, html_content):
     # 邮件服务器的信息
@@ -216,6 +265,7 @@ def send_email(receiver_email, subject, html_content):
         <div class="footer">
             <p>本邮件为系统邮件，请勿回复。This email is a system email, please do not reply.</p>
             <p>如有疑问，请添加我们的公众号：KuafuAI</p>
+            <p>© 2023 kuafuai.net</p>
         </div>
     </div>
 </body>

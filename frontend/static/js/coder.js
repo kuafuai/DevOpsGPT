@@ -1,13 +1,22 @@
 var globalTenantID = 0
 var globalContext = []
-var globalMemory = {}
 var globalTasks = []
 var gloablCode = {}
 var globalFrontendText = {}
 var globalCompileTimes = {}
 var globalChangeServiceList = []
+var globalDockerImage = ""
+var globalRole = ""
 var codeMirror
 var apiUrl = "http://127.0.0.1:8081"
+
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?b4ab6a8ab861f8cca03710ba96cb53c7";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
 
 function sendAjaxRequest(url, method, requestData, successCallback, errorCallback, async, slideDown) {       
     $.ajax({
@@ -75,11 +84,31 @@ var alertErrorCallback = function(error) {
     myAlert("ERROR", error)
 }
 
+function getRoleImg(role_img, role) {
+    if (role=="QA") {
+        role_img = '<img class="ui avatar image" src="./static/image/role_qa.jpeg" data-content="QA" style="width: auto;height: auto;">'
+    }
+    if (role=="OP") {
+        role_img = '<img class="ui avatar image" src="./static/image/role_op.jpeg" data-content="OP" style="width: auto;height: auto;">'
+    }
+    if (role=="PM") {
+        role_img = '<img class="ui avatar image" src="./static/image/role_pm.jpeg" data-content="PM" style="width: auto;height: auto;">'
+    }
+    if (role=="TL") {
+        role_img = '<img class="ui avatar image" src="./static/image/role_tl.jpeg"  data-content="TL"  style="width: auto;height: auto;">'
+    }
+    return role_img
+}
 
-function thinkUI(customPrompt, thinkText) {
+
+function thinkUI(customPrompt, thinkText, role) {
+    role_img = getRoleImg('<i class="blue  grav icon big" style="font-size: 3em;"></i>', role)
+    query_img = getRoleImg('<i class="blue  grav icon big" style="font-size: 3em;"></i>', globalRole)
+    globalRole = ""
+    
     $('#prompt-textarea').val("");
     $("#prompt-hidePrompt").val("")
-    var newField = $('<div class="user-code-container"><div class="ui container grid"><div class="one wide column"><i class="blue  odnoklassniki square icon big" style="font-size: 3em;"></i></div><div class="fifteen wide column ai-content"><div class="ai-code">' + customPrompt.replaceAll("\n", "<br />") + '</div></div></div></div> <div class="ai-code-container"><div class="ui container grid"><div class="one wide column"><i class="orange reddit square icon big" style="font-size: 3em;"></i></div><div class="fifteen wide column ai-content"><div class="ai-code"><i class="spinner loading icon"></i>'+thinkText+'</div></div></div></div>');
+    var newField = $('<div class="user-code-container"><div class="ui container grid"><div class="one wide column">'+query_img+'</div><div class="fifteen wide column ai-content"><div class="ai-code">' + marked.marked(customPrompt).replaceAll("\n", "<br />") + '</div></div></div></div> <div class="ai-code-container"><div class="ui container grid"><div class="one wide column">'+role_img+'</div><div class="fifteen wide column ai-content"><div class="ai-code"><i class="spinner loading icon"></i>'+thinkText+'</div></div></div></div>');
     $(".ai-prompt-container").eq($('ai-prompt-container').length - 1).before(newField);
     $(".ai-code-container").eq($('ai-code-container').length - 1).hide();
     $(".user-code-container").eq($('user-code-container').length - 1).hide();
@@ -92,15 +121,30 @@ function thinkUI(customPrompt, thinkText) {
     setTimeout(function () {
         $('html, body').animate({ scrollTop: $(document).height() }, 'slow');
     }, 900);
+    $('img').popup();
 }
 
-function thinkUIShow(customPrompt, thinkText) {
+function thinkUIShow(customPrompt, thinkText, role, role_two, service_name) {
+    role_img = getRoleImg('<i class="blue  grav icon big" style="font-size: 3em;"></i>', role)
+    if (!role_two) {
+        role_two = ""
+    }
+    role_two_img = getRoleImg('<i class="blue  grav icon big" style="font-size: 3em;"></i>', role_two)
+
+    customPrompt = customPrompt.replaceAll('\n\n', '\n')
+
+    if (!service_name) {
+        service_name = ""
+    }
+    var ai_code_class = service_name.replace("/","-")
+    
     $('#prompt-textarea').val("");
     $("#prompt-hidePrompt").val("")
-    var newField = $('<div class="user-code-container"><div class="ui container grid"><div class="one wide column"><i class="blue  odnoklassniki square icon big" style="font-size: 3em;"></i></div><div class="fifteen wide column ai-content"><div class="ai-code">' + customPrompt.replaceAll("\n", "<br />") + '</div></div></div></div> <div class="ai-code-container"><div class="ui container grid"><div class="one wide column"><i class="orange reddit square icon big" style="font-size: 3em;"></i></div><div class="fifteen wide column ai-content"><div class="ai-code"><i class="spinner loading icon"></i>'+thinkText+'</div></div></div></div>');
+    var newField = $('<div class="user-code-container"><div class="ui container grid"><div class="one wide column">'+role_two_img+'</div><div class="fifteen wide column ai-content"><div class="ai-code">' + marked.marked(customPrompt) + '</div></div></div></div> <div class="ai-code-container"><div class="ui container grid"><div class="one wide column">'+role_img+'</div><div class="fifteen wide column ai-content"><div class="ai-code '+ai_code_class+'"><i class="spinner loading icon"></i>'+thinkText+'</div></div></div></div>');
     $(".ai-prompt-container").eq($('ai-prompt-container').length - 1).before(newField);
 
     $('html, body').animate({ scrollTop: $(document).height() }, 'slow');
+    $('img').popup();
 }
 
 function answerUI(str) {
@@ -125,17 +169,58 @@ modelSelectedSuccessCallback = function(data){
     data = data.data
     var repos = ""
     data.app.service.forEach(function (s, element_index, element_array) {
-        repos += s.name+", "
+        repos += '<i class="git square icon teal"></i>'+s.git_path+"<br/>"+s.name+": "+s.role+"<br/>"+s.struct_cache.replaceAll('\n', "<br/>").replaceAll('  ', "- ")+"<br/>"
     });
-    str = globalFrontendText["ai_selected_app_1"] + ": " + data.app.name
-        +"<br />"+ globalFrontendText["ai_selected_app_2"] + ": "+ data["requirement_id"]
-        +"<br />"+ globalFrontendText["ai_selected_app_3"] + ": "+ repos
-        +"<br />"+ globalFrontendText["ai_selected_app_4"] + data.default_source_branch +" "+ globalFrontendText["ai_selected_app_5"] +" "+ data.default_target_branch
-        +"<br /><br />" + globalFrontendText["ai_selected_app_6"];
+    str = '<i class="thumbtack icon teal"></i>'+globalFrontendText["ai_selected_app_2"] + ": "+ data["requirement_id"]
+        +"<hr />"+'<i class="app store ios icon teal"></i>'+ data.app.name + ": " + data.app.description
+        +"<hr />"+ repos
+        +"<hr />"+'<i class="code branch teal icon"></i>'+ globalFrontendText["ai_selected_app_4"] + data.default_source_branch +" "+ globalFrontendText["ai_selected_app_5"] +" "+ data.default_target_branch
+        +"<hr /><br />" + globalFrontendText["ai_selected_app_6"];
+    goodcase = `<div class="ui middle aligned divided list goodcase_list">
+    <h4 style="padding-top: 10px;">`+globalFrontendText["ai_goodcase_intro"]+`</h4>
+    <div class="item">
+      <div class="right floated content">
+        <div class="ui button" onclick="useGoodCase('f_goodcase_content_1')">`+globalFrontendText["goodcase_chose"]+`</div>
+      </div>
+      <div class="content">
+        <div class="header">`+globalFrontendText["goodcase_title_1"]+`</div>
+        <span class="f_goodcase_content_1">`+globalFrontendText["goodcase_content_1"]+`</span>
+      </div>
+    </div>
+    <div class="item">
+      <div class="right floated content">
+        <div class="ui button" onclick="useGoodCase('f_goodcase_content_2')">`+globalFrontendText["goodcase_chose"]+`</div>
+      </div>
+      <div class="content">
+        <div class="header">`+globalFrontendText["goodcase_title_2"]+`</div>
+        <span class="f_goodcase_content_2">`+globalFrontendText["goodcase_content_2"]+`</span>
+      </div>
+    </div>
+    <div class="item">
+      <div class="right floated content">
+        <div class="ui button" onclick="useGoodCase('f_goodcase_content_3')">`+globalFrontendText["goodcase_chose"]+`</div>
+      </div>
+      <div class="content">
+        <div class="header">`+globalFrontendText["goodcase_title_3"]+`</div>
+        <span class="f_goodcase_content_3">`+globalFrontendText["goodcase_content_3"]+`</span>
+      </div>
+    </div>
+    <div class="item">
+      <div class="right floated content">
+        <div class="ui button" onclick="useGoodCase('f_goodcase_content_4')">`+globalFrontendText["goodcase_chose"]+`</div>
+      </div>
+      <div class="content">
+        <div class="header">`+globalFrontendText["goodcase_title_4"]+`</div>
+        <span class="f_goodcase_content_4">`+globalFrontendText["goodcase_content_4"]+`</span>
+      </div>
+    </div>
+  </div>`
     const url = window.location;
-    const newUrl = url.origin + '?task_id=' + data["requirement_id"];
+    const newUrl = url.origin + '/task.html?task_id=' + data["requirement_id"];
     history.pushState('', '', newUrl); 
-    answerUI(str)
+    answerUI(str+goodcase)
+
+    $(".ai-prompt-area").show()
 }
 
 function modelSelected(appName, appID, repos) {
@@ -146,7 +231,7 @@ function modelSelected(appName, appID, repos) {
     $("#generate-code-button").removeClass("disabled")
     $('#model-modal').modal('hide');
 
-    thinkUI(customPrompt, globalFrontendText["ai_think"])
+    thinkUI(customPrompt, globalFrontendText["ai_think"], "PM")
 
     requestData = JSON.stringify({ "app_id": appID, "source_branch": source_branch, "feature_branch": feature_branch })
 
@@ -165,9 +250,16 @@ function modelSelected(appName, appID, repos) {
 
 $(document).ready(function () {
     language()
-    logincheck()
-    getRequirement()
     showUrlErrorMsg()
+
+    const url = window.location;
+    const path = url.pathname;
+    if (path != "/index.html" && path != "/") {
+        logincheck()
+        getRequirement()
+    }
+
+    $('img').popup();
 
     codeMirror = CodeMirror.fromTextArea(document.getElementById('code-edit-code'), {
       theme: 'darcula',
@@ -185,6 +277,9 @@ $(document).ready(function () {
                 })
                 repos = repos.replace(/, $/g, '')
 
+                var rand = Math.random().toString(36).substr(2, 4)
+                feature_branch = app.default_target_branch +'/'+ getCurrentDate()+'_'+rand
+
                 str += `
                     <div class="item" style="padding: 15px 0px;">
                         <div class="content">
@@ -194,14 +289,17 @@ $(document).ready(function () {
                             `+globalFrontendText["ai_selected_app_4"]+`
                             <input type="text" placeholder="" value="`+app.default_source_branch+`" class="fenzhiguifan" id="model_source_branch_`+app.app_id+`">
                             `+globalFrontendText["ai_selected_app_5"]+`
-                            <input type="text" placeholder="" value="`+app.default_target_branch+`" class="fenzhiguifan" id="model_feature_branch_`+app.app_id+`">
+                            <input type="text" placeholder="" value="`+feature_branch+`" class="fenzhiguifan" id="model_feature_branch_`+app.app_id+`">
                         </div>
                         <div class="description" style="line-height: 25px;">`+app.description+`</div>
-                        <div class="ui button blue model-selected" onClick="modelSelected('`+app.name+`','`+app.app_id+`', '`+repos+`')" style="float: right;">`+globalFrontendText["start"]+`</div> 
+                        <div class="ui button blue model-selected" onClick="modelSelected('`+app.name+`','`+app.app_id+`', '`+repos+`')" style="float: right;">`+globalFrontendText["start_task"]+`</div> 
                         </div>
                     </div>
                 `
             })
+            if (str.length < 1) {
+                str = globalFrontendText["msg_empty_task"]
+            }
             $(".model_list").html(str)
             $('#model-modal').modal('show');
         }
@@ -229,7 +327,11 @@ $(document).ready(function () {
         $('#prompt-textarea').val('');
         var operType = $('#prompt-hidePrompt').val();
         $('#prompt-hidePrompt').val('');
-        if (operType == "api_doc") {
+        var serviceName = $('#prompt-serviceName').val();
+        $('#prompt-serviceName').val('');
+        if (operType == "tec_doc") { 
+            taskSplitOK(customPrompt, serviceName)
+        } else if (operType == "api_doc") {
             globalChangeServiceList.forEach(function (element, element_index, element_array) {
                 if (element_index > 0 ) {
                     setTimeout(function () {
@@ -239,15 +341,19 @@ $(document).ready(function () {
                     taskAnalysis(customPrompt, element)
                 }
             })
-        }else if (operType == "requirement_doc") {
-            genInterfaceDoc(customPrompt)
+        } else if (operType == "requirement_doc") {
+            if (globalChangeServiceList.length == 1) {
+                taskAnalysis(customPrompt, globalChangeServiceList[0])
+            } else {
+                genInterfaceDoc(customPrompt)
+            }
         } else {
             clarify(customPrompt)
         }
     });
 
     $('#cancel-task').click(function () {
-        window.location.href = "/index.html"
+        window.location.href = "/task.html"
     });
 
     // show dropdown on hover
@@ -288,6 +394,15 @@ $(document).ready(function () {
 
 });
 
+function getCurrentDate() {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = (today.getMonth() + 1).toString().padStart(2, '0');
+    const day = today.getDate().toString().padStart(2, '0');
+    
+    return `${year}${month}${day}`;
+  }
+
 function escapeString(str) {
     console.log("str:"+str)
     if (typeof str === 'undefined') {
@@ -318,22 +433,26 @@ function getRequirement() {
     successCallback = function(data) {
         modelSelectedSuccessCallback(data)
         for (let element_index = 0; element_index < data.data.memory.length; element_index++) {
-            globalMemory = data.data.old_memory
             const memory = data.data.memory[element_index];
             
             console.log(memory);
             
             if (memory.artifact_type == "RequirementDocument") {
-                thinkUIShow(memory.input_prompt, globalFrontendText["ai_think"]);
+                role_two = ''
+                if (memory.step == "Requirement_adjust") { 
+                    role_two = "TL"
+                }
+                thinkUIShow(memory.input_prompt, globalFrontendText["ai_think"], 'PM', role_two);
                 const d = {
                     "data": {
                         "message": JSON.parse(memory.artifact_content),
                         "input_prompt": memory.input_prompt
                     }
                 };
-                clarifySuccessCallback(d);
+                clarifySuccessCallback(d, true);
             }
             if (memory.step == "API_organize") {
+                thinkUIShow(memory.artifact_type, globalFrontendText["ai_think"], 'TL');
                 const d = {
                     "data": {
                         "message": memory.artifact_content
@@ -341,8 +460,18 @@ function getRequirement() {
                 };
                 genInterfaceDocSuccessCallback(d);
             }
+            if (memory.step == "Subtask_subtasks") {
+                thinkUIShow(memory.input_prompt, globalFrontendText["ai_think"], 'TL', '', memory.artifact_path);
+                const d = {
+                    "data": {
+                        "message": memory.artifact_content,
+                        "service_name": memory.artifact_path
+                    }
+                };
+                taskAnalysisSuccessCallback(d, true);
+            }
             if (memory.step == "Subtask_code") {
-                thinkUIShow(memory.artifact_path, globalFrontendText["ai_think"]);
+                thinkUIShow(memory.artifact_path, globalFrontendText["ai_think"], 'TL');
                 const info = {
                         "files": JSON.parse(memory.artifact_content),
                         "service_name": memory.artifact_path
@@ -362,7 +491,7 @@ function getRequirement() {
                 for (const key in globalTasks) {
                     globalTasks[key].forEach(function (file, element_index, element_array) {
                         let file_path = file["file-path"]
-                        if (file_path == memory.artifact_path) {
+                        if (file_path.endsWith(memory.artifact_path)) {
                             uuid = file.uuid
                             service_name = key
                         }
@@ -407,11 +536,20 @@ function getRequirement() {
                 fixLintStar(service_name, element_index, uuid)
                 fixLintSuccessCallback(codedata, service_name, element_index, uuid, memory.artifact_path)
             }
+            if (memory.step == "DevOps_CI") {
+                thinkUI(memory.artifact_type, globalFrontendText["ai_think"], 'QA');
+                try {
+                    const info = JSON.parse(memory.artifact_content.replaceAll("'", '"'))
+                    pluginci(info, true)
+                } catch (error) {
+
+                }
+            }
         }        
     }
 
-    errorCallback = function(){
-        myAlertPure(globalFrontendText["notice"], globalFrontendText["opensource_version_1"] + ": ./workspace/"+requirement_id)
+    errorCallback = function(data){
+        myAlertPure(globalFrontendText["notice"], data +'<hr />'+ globalFrontendText["opensource_version_1"] + ": ./workspace/"+requirement_id)
     }
 
     if (requirement_id>0) {
@@ -440,7 +578,7 @@ function language() {
             if (frontendText.hasOwnProperty(key)) {
               const value = frontendText[key];
               console.log(key + ": " + value);
-              $(".f_"+key).text(value)
+              $(".f_"+key).html(value)
             }
         }
     }
@@ -455,7 +593,11 @@ function language() {
 }
 
 function openUrl(newurl){
-    window.location.href = "tenant.html";
+    window.location.href = newurl;
+}
+
+function openUrlNew(newurl){
+   window.open(newurl);
 }
 
 function logincheck() {
@@ -470,7 +612,7 @@ function logincheck() {
         var code_power = data.data.code_power
         globalTenantID = data.data.tenant_id
         $("#current-username").html(username)
-        $("#current-tenant").html(tenant+' ('+globalFrontendText['code_power']+':'+code_power+')')
+        $("#current-tenant").html(tenant+' ('+data.data.billing_type_name+" | "+globalFrontendText['code_power']+':'+code_power+')')
         $("#watermark-username").html(username)
     }
 
@@ -480,7 +622,7 @@ function logincheck() {
             username = "Guest"
             $("#current-username").html(username)
             $("#watermark-username").html(username)
-            if (path != "/user_login.html" && path != "/user_register.html") {
+            if (path != "/user_login.html" && path != "/user_register.html" && path != "/user_changepassword.html") {
                 window.location.href = "user_login.html";
             }        
         } else if (data.code == 404) {
@@ -575,15 +717,16 @@ function pluginTaskRunner(info) {
     gloablCode["oldCode_" + info["front_uuid"]] = info["oldCode"]
 }
 
-function createWS(serviceName, sourceBranch, featureBranch) {
+function createWS(serviceName) {
     $("#my-alert").modal('hide')
-    var requestData = JSON.stringify({ 'repo_path': serviceName, 'base_branch': sourceBranch, 'feature_branch': featureBranch, 'task_id': getTaskID() })
+    var requestData = JSON.stringify({ 'repo_path': serviceName, 'task_id': getTaskID() })
 
     successCallback = function(data){}
 
     errorCallback = function(error) {
-        var retruBtn = '<br /><br /><button class="ui green button" onClick="createWS(\''+serviceName+'\', \''+sourceBranch+'\', \''+featureBranch+'\')">'+globalFrontendText["retry"]+'</button>'
+        var retruBtn = '<br /><br /><button class="ui green button" onClick="createWS(\''+serviceName+'\')">'+globalFrontendText["retry"]+'</button>'
         myAlertPure("ERROR", error + retruBtn)
+        throw new Error("发生了一个错误")
     }
 
     sendAjaxRequest('/workspace/create', "POST", requestData, successCallback, errorCallback, false, false)
@@ -612,7 +755,7 @@ function fixLintSuccessCallback(data, service_name, times, uuid, file_path) {
     gloablCode["newCode_" + uuid] = data.data["code"]
 }
 
-function fixLint(solution, uuid, file_path, service_name, times) {
+function fixLint(error_msg, solution, uuid, file_path, service_name, times) {
     if (times >= 2) {
         return
     }
@@ -620,7 +763,7 @@ function fixLint(solution, uuid, file_path, service_name, times) {
 
     fixLintStar(service_name, times, uuid)
 
-    var requestData = JSON.stringify({ 'code': code, 'solution': solution, 'task_id': getTaskID(), 'file_path': file_path })
+    var requestData = JSON.stringify({ 'code': code, 'error_msg': error_msg, 'solution': solution, 'task_id': getTaskID(), 'file_path': file_path })
 
     successCallback = function(data) {
         fixLintSuccessCallback(data, service_name, times, uuid, file_path)
@@ -666,7 +809,7 @@ function fixCompileStar(service_name, times, uuid) {
     $('.task_status_fix_compile_button').popup();
 }
 
-function fixCompile(solution, uuid, file_path, service_name, times) {
+function fixCompile(error_msg, solution, uuid, file_path, service_name, times) {
     if (times >= 2) {
         return
     }
@@ -674,7 +817,7 @@ function fixCompile(solution, uuid, file_path, service_name, times) {
 
     fixCompileStar(service_name, times, uuid)
 
-    var requestData = JSON.stringify({ 'code': code, 'solution': solution, 'task_id': getTaskID(), 'file_path': file_path })
+    var requestData = JSON.stringify({ 'code': code, 'solution': solution, 'task_id': getTaskID(), 'file_path': file_path, 'error_msg': error_msg })
     
     successCallback = function(data) {
         fixCompileSuccessCallback(data, service_name, times, uuid, file_path)
@@ -729,7 +872,7 @@ function checkLint(service_name, filePath, uuid, times) {
             $("#"+buttonid).attr("show-code-key", globalFrontendText["static_scan"]+": "+filePath)
             $("#"+buttonid).attr("show-code-reason", "Not pass")
             $("#"+buttonid).attr("show-code-value", escapeHtml(data.data["message"]))
-            fixLint(data.data["reasoning"][0]["solution-analysis"], uuid, filePath, service_name, times)
+            fixLint(data.data["message"], data.data["reasoning"][0]["solution-analysis"], uuid, filePath, service_name, times)
         } else {
             $("#"+buttonid).children().removeClass("spinner")
             $("#"+buttonid).children().removeClass("loading")
@@ -766,29 +909,43 @@ function checkCodeStar(uuid, service_name) {
 
 function checkCodeSuccessCallback(data, uuid, file_path) {
     console.log("checkCodeSuccessCallback:", data, uuid, file_path)
-    $("#task_status_check_"+uuid).children().removeClass("spinner")
-    $("#task_status_check_"+uuid).children().removeClass("loading")
-    $("#task_status_check_"+uuid).children().addClass("check")
-    $("#task_status_check_"+uuid).addClass("green")
-    $("#task_status_check_"+uuid).removeClass("olive")
-    $("#task_status_check_"+uuid).attr("show-code-key", file_path)
-    $("#task_status_check_"+uuid).attr("show-code-value", escapeHtml(data.data["code"]))
-    $("#task_status_check_"+uuid).attr("show-code-reason", escapeHtml(data.data["reasoning"]))
+    var elements = document.querySelectorAll('[id="task_status_check_'+uuid+'"]');
+    console.log(elements)
+
+    var i = elements.length-1
+    $(elements[i]).children().removeClass("spinner")
+    $(elements[i]).children().removeClass("loading")
+    $(elements[i]).children().addClass("check")
+    $(elements[i]).addClass("green")
+    $(elements[i]).removeClass("olive")
+    $(elements[i]).attr("show-code-key", file_path)
+    $(elements[i]).attr("show-code-value", escapeHtml(data.data["code"]))
+    $(elements[i]).attr("show-code-reason", escapeHtml(data.data["reasoning"]))
 
     gloablCode["newCode_" + uuid] = data.data["code"]
 }
 
-function checkCode(code, fileTask, uuid, file_path, service_name) {
+function checkCode(code, fileTask, uuid, file_path, service_name, step) {
+    if (code.length < 1) {
+        code = gloablCode["newCode_" + uuid]
+    }
     checkCodeStar(uuid, service_name)
 
-    var requestData = JSON.stringify({ 'code': code, 'fileTask': fileTask, 'task_id': getTaskID(), 'file_path': file_path })
+    var requestData = JSON.stringify({ 'code': code, 'fileTask': fileTask, 'task_id': getTaskID(), 'file_path': file_path, 'service_name': service_name, 'step': step })
 
     successCallback = function(data){
         checkCodeSuccessCallback(data, uuid, file_path)
 
-        if(globalTasks[service_name.replace("/","-")].length == $('.'+service_name.replace("/","-")+'.green.task_status_check_button').length){
-            checkCompile(service_name, 0)
-        }
+        // 这里Java总会画蛇添足，改为手动触发
+        review_btn = `<button class="ui circular blue icon button tiny `+service_name.replace("/","-")+`" data-content="" onClick="checkCode('', '`+escapeHtml(data.data["reasoning"])+`', '`+uuid+`', '`+file_path+`', '`+service_name+`')"> `+globalFrontendText["trigger_code_review"]+`</button>`
+        var elements = document.querySelectorAll('[id="task_status_check_'+uuid+'"]');
+        var i = elements.length-1
+        $(elements[i]).after(review_btn)
+
+        // 暂时改为手动去点检查
+        // if(globalTasks[service_name.replace("/","-")].length == $('.'+service_name.replace("/","-")+'.green.task_status_check_button').length){
+        //     checkCompile(service_name, 0)
+        // }
     }
 
     errorCallback = function(error){
@@ -824,7 +981,7 @@ function checkCompileSuccessCallback(data, times, repo_path){
                 if (element["file-path"].includes(file_path)) {
                     $("#"+buttonid).addClass("red")
                     solution = element["solution-analysis"];
-                    fixCompile(solution, uuid, file_path, repo_path, times)
+                    fixCompile(data.data["message"], solution, uuid, file_path, repo_path, times)
                     break
                 } else {
                     $("#"+buttonid).addClass("teal")
@@ -905,6 +1062,13 @@ function editFileTask(service_name, file_idx) {
     var newTask = globalTasks[service_name.replace("/","-")][file_idx]["code-edit-task"]
     var file_path = globalTasks[service_name.replace("/","-")][file_idx]["file-path"]
 
+    // 如果没有输入修改建议，直接点击重启，则重新生成代码
+    if (newTask==undefined || newTask.length < 1) {
+        var oldCode = globalTasks[service_name.replace("/","-")][file_idx]["code"]
+        var step = globalTasks[service_name.replace("/","-")][file_idx]["step"]
+        return checkCode(oldCode, fileTask, uuid, file_path, service_name, step)
+    }
+
     str = $("#task_status_td_" + uuid).html()+`
         <button class="ui circular olive icon button task_status_button tiny" id="task_status_redo_` + uuid + `" data-content="" onClick="showCode(this)"><i class="spinner loading icon"></i> `+globalFrontendText["initial_code"]+`</button>
         `
@@ -964,9 +1128,10 @@ function mergeCode(uuid, newCode, oldCode, fileTask, service_name, file_path) {
 
         gloablCode["newCode_" + uuid] = data.data["code"]
 
-        if(globalTasks[service_name.replace("/","-")].length == $('.'+service_name.replace("/","-")+'.green.task_status_check_button').length){
-            checkCompile(service_name, 0)
-        }
+        // 暂时改为手动去点检查
+        // if(globalTasks[service_name.replace("/","-")].length == $('.'+service_name.replace("/","-")+'.green.task_status_check_button').length){
+        //     checkCompile(service_name, 0)
+        // }
     }
 
     errorCallback = function(error) {
@@ -1005,9 +1170,10 @@ function referenceRepair(newCode, fileTask, uuid, referenceFile, repo, file_path
 
         gloablCode["newCode_" + uuid] = data.data["code"]
 
-        if(globalTasks[service_name.replace("/","-")].length == $('.'+service_name.replace("/","-")+'.green.task_status_check_button').length){
-            checkCompile(service_name, 0)
-        }
+        // 暂时改为手动去点检查
+        // if(globalTasks[service_name.replace("/","-")].length == $('.'+service_name.replace("/","-")+'.green.task_status_check_button').length){
+        //     checkCompile(service_name, 0)
+        // }
     }
 
     errorCallback = function(error){
@@ -1102,7 +1268,7 @@ function pluginTaskList(info, ifRecover) {
     var service_name = info["service_name"]
     
     if (!ifRecover) {
-        createWS(service_name, globalMemory["task_info"]["source_branch"], globalMemory["task_info"]["feature_branch"])
+        createWS(service_name)
     }
 
     var str = `<p>`+globalFrontendText["ai_api_subtask"]+`</p>`
@@ -1116,9 +1282,12 @@ function pluginTaskList(info, ifRecover) {
         </h4>
         <div class="ui yellow visible message">`+globalFrontendText["operation"]+`: 
             <button class="ui green button tiny" onclick="checkCompile('`+ service_name +`', 0);"><i class="tasks icon"></i>`+globalFrontendText["auto_check"]+`</button>
+            >>
             <button class="ui blue button tiny" onclick="resetWorkspace('`+ service_name +`', this);"><i class="sync icon"></i>`+globalFrontendText["reset_workspace"]+`</button>
             <button class="ui blue button tiny" onclick="startPush('`+ service_name +`', this);"><i class="tasks icon"></i>`+globalFrontendText["submit_code"]+`</button>
-            <button class="ui teal button tiny" onClick="startCi('`+ service_name + `','` + globalMemory["task_info"]["feature_branch"] + `')"><i class="tasks icon"></i>`+globalFrontendText["start_ci"]+`</button>
+            >>
+            <button class="ui teal button tiny" onClick="startCi('`+ service_name + `', this)"><i class="tasks icon"></i>`+globalFrontendText["start_ci"]+`</button>
+            >>
             <button class="ui purple button tiny" onClick="startCd('`+ service_name + `')"><i class="docker icon"></i>`+globalFrontendText["start_cd"]+`</button>
         </div>
     `;
@@ -1137,7 +1306,7 @@ function pluginTaskList(info, ifRecover) {
                 </tr>
                 <tr>
                 <td>`+globalFrontendText["reasonfor_for_modification"]+`</td>
-                <td>`+ file["code-interpreter"] + `</td>
+                <td>`+ file["code-interpreter"].replaceAll('\n', '<br />') + `</td>
                 </tr>
                 <tr>
                 <td>`+globalFrontendText["status"]+`</td>
@@ -1178,7 +1347,9 @@ function pluginTaskList(info, ifRecover) {
     if (!ifRecover) {
         setTimeout(function () {
             info["files"].forEach(function (file, file_index, file_array) {
-                if (file["old-code"].length > 0) {
+                if (file.hasOwnProperty("step") && file["step"].length > 0) {
+                    checkCode(file["code"], file["code-interpreter"], file["uuid"], file["file-path"], info["service_name"], file["step"])
+                } else if (file["old-code"].length > 0) {
                     mergeCode(file["uuid"], file["code"], file["old-code"], file["code-interpreter"], info["service_name"], file["file-path"])
                 } else if (file["code"].length > 0 && typeof file["reference-code"] !== "undefined" && file["reference-code"].length > 0) {
                     referenceRepair(file["code"], file["code-interpreter"], file["uuid"], file["reference-file"], info["service_name"], file["file-path"])
@@ -1211,50 +1382,57 @@ function resetWorkspace(serviceName, ele) {
         myAlert("ERROR", error)
     }
 
-    setTimeout(function () {
-        sendAjaxRequest('/workspace/resetWorkspace', "POST", requestData, successCallback, ErrorCallback, false, false)
-    }, 500);
+    sendAjaxRequest('/workspace/resetWorkspace', "POST", requestData, successCallback, ErrorCallback, true, false)
 }
 
-function startPush(serviceName, ele) {
+function startPush(serviceName, ele, hideMessage) {
     $(ele).addClass("loading")
     $(ele).addClass("disabled")
 
-    resetWorkspace(serviceName, ele)
+    setTimeout(function() {
+        resetWorkspace(serviceName, ele)
 
-    // save all code
-    globalTasks[serviceName].forEach(function (file, element_index, element_array) {
-        let uuid = file.uuid
-        let file_path = file["file-path"]
-        saveCode(serviceName, file_path, uuid)
-    })
+        // save all code
+        globalTasks[serviceName].forEach(function (file, element_index, element_array) {
+            let uuid = file.uuid
+            let file_path = file["file-path"]
+            saveCode(serviceName, file_path, uuid)
+        })
 
-    var requestData = JSON.stringify({ 'service_name': serviceName, 'task_id': getTaskID() })
+        $(ele).addClass("loading")
+        $(ele).addClass("disabled")
 
-    successCallback = function(data){
-        $(ele).removeClass("loading")
-        $(ele).removeClass("disabled")
+        var requestData = JSON.stringify({ 'service_name': serviceName, 'task_id': getTaskID() })
 
-        myAlert(globalFrontendText["ok"], data.data)
-    }
+        successCallback = function(data){
+            $(ele).removeClass("loading")
+            $(ele).removeClass("disabled")
 
-    ErrorCallback = function(error) {
-        $(ele).removeClass("loading")
-        $(ele).removeClass("disabled")
-
-        if (typeof error === 'undefined') {
-            error = "Unknown error"
+            if (!hideMessage) {
+                myAlert(globalFrontendText["ok"], data.data)
+            }
         }
-        myAlert("ERROR", error)
-    }
 
-    sendAjaxRequest('/workspace/gitpush', "POST", requestData, successCallback, ErrorCallback, true, false)
+        ErrorCallback = function(error) {
+            $(ele).removeClass("loading")
+            $(ele).removeClass("disabled")
+
+            if (typeof error === 'undefined') {
+                error = "Unknown error"
+            }
+            myAlert("ERROR", error)
+        }
+
+        sendAjaxRequest('/workspace/gitpush', "POST", requestData, successCallback, ErrorCallback, true, false)
+    }, 100);
 }
 
-function startCi(repo_path, repo_branch) {  
-    customPrompt = "git repo: "+repo_path+", branch: "+repo_branch+", "+globalFrontendText["start_ci"]
+function startCi(repo_path, ele) {  
+    startPush(repo_path, ele, true);
 
-    thinkUI(customPrompt, globalFrontendText["ai_think"])
+    customPrompt = "git repo: "+repo_path+" "+globalFrontendText["start_ci"]
+
+    thinkUI(customPrompt, globalFrontendText["ai_think"], "QA")
     
     var requestData = JSON.stringify({ 'repo_path': repo_path, 'task_id': getTaskID()})
 
@@ -1268,9 +1446,9 @@ function startCi(repo_path, repo_branch) {
 function startCd(repo_path) {  
     customPrompt = globalFrontendText["start_cd"]+": "+repo_path
 
-    thinkUI(customPrompt, globalFrontendText["ai_think"])
+    thinkUI(customPrompt, globalFrontendText["ai_think"], "OP")
     
-    var requestData = JSON.stringify({ 'repo_path': repo_path, 'task_id': getTaskID()})
+    var requestData = JSON.stringify({ 'repo_path': repo_path, 'task_id': getTaskID(), 'docker_image': globalDockerImage})
 
     successCallback = function(data) {
         var str = globalFrontendText["start_cd"]+": "+data.data["internet_ip"]
@@ -1278,6 +1456,12 @@ function startCd(repo_path) {
     }
 
     sendAjaxRequest('/step_devops/trigger_cd', "POST", requestData, successCallback, aiErrorCallback, true, true)
+}
+
+function useGoodCase(classname) {
+    prompt = $("."+classname).text()
+    $('#prompt-textarea').val(prompt)
+    $('html, body').animate({ scrollTop: $(document).height() }, 'slow');
 }
 
 function taskOk(newPrompt, element, operType) {
@@ -1289,13 +1473,14 @@ function taskOk(newPrompt, element, operType) {
     $('#generate-code-button').click()
 }
 
-function taskChange(newPrompt, operType) {
+function taskChange(newPrompt, operType, serviceName) {
     var prompt = decodeURI(newPrompt)
     
     $('#generate-code-button').removeClass("disabled");
     $(".ai-prompt-container").last().children().children().find("textarea").val(prompt);
     globalContext = []
     $('#prompt-hidePrompt').val(operType);
+    $("#prompt-serviceName").val(serviceName)
     $('html, body').animate({ scrollTop: $(document).height() }, 'slow');
 }
 
@@ -1326,11 +1511,12 @@ function refreshPluginciStatus(piplineID, repopath, piplineUrl, element, times) 
         if( data.success ) {
             data=data.data
             console.log(data)
+            globalDockerImage = data.docker_mage
             var loadingClass = ""
             if( times < 20 ) {
                 loadingClass = "loading"
             }
-            var str = `<h4>`+globalFrontendText["start_ci"]+` <div class="ui olive `+loadingClass+` button" onclick="refreshPluginciStatus('` + piplineID + `','` + repopath + `', '`+piplineUrl+`', this, 20)"><i class="sync icon"></i>Update</div><div class="ui blue button" onclick="window.open('`+piplineUrl+`', '_blank');"><i class="tasks icon"></i>View</div></h4><div class="ui middle aligned divided list">`
+            var str = `<h4>`+globalFrontendText["start_ci"]+` <div class="ui olive `+loadingClass+` button" onclick="refreshPluginciStatus('` + piplineID + `','` + repopath + `', '`+piplineUrl+`', this, 20)"><i class="sync icon"></i>`+globalFrontendText["update_status"]+`</div><div class="ui blue button" onclick="window.open('`+piplineUrl+`', '_blank');"><i class="tasks icon"></i>`+globalFrontendText["view_detail"]+`</div></h4><div class="ui middle aligned divided list">`
             var allDone = true
             data["piplineJobs"].forEach(element => {
                 var jobDone = false
@@ -1361,7 +1547,7 @@ function refreshPluginciStatus(piplineID, repopath, piplineUrl, element, times) 
                 if( times < 20 ) {
                     refreshPluginciStatus(piplineID, repopath, piplineUrl, element, times)
                 }
-            }, 5000);
+            }, 20000);
         } else {
             myAlert(globalFrontendText["error"], data.error)
         }
@@ -1399,27 +1585,31 @@ function clarifyOk(element) {
     clarify(content)
 }
 
-clarifySuccessCallback = function(data){
+clarifySuccessCallback = function(data, isRecover){
+    $('#generate-code-button').removeClass("disabled");
+
     data = data.data
-    globalMemory = data.memory
     var msgJson = data.message
-    var msg = JSON.stringify(msgJson)
+    var msgStr = JSON.stringify(msgJson)
+    var msg = ""
     var str = ""
     globalContext.push({ role: 'user', content: data.input_prompt })
-    globalContext.push({ role: 'assistant', content: msg })            
-    if (msg.includes("development_requirements_overview")) {
+    globalContext.push({ role: 'assistant', content: msgStr })    
+    if (msgStr.includes("development_requirements_overview")) {
         if (msgJson["services_involved"].length > 0) {
             globalChangeServiceList = []
             msgJson["services_involved"].forEach(function (element, element_index, element_array) {
-                globalChangeServiceList.push(element["service-name"])
+                globalChangeServiceList.push(element["service_name"])
             })
-        } else {
+        }
+        if (globalChangeServiceList < 0 ) {
             myAlert(globalFrontendText["error"], globalFrontendText["service_modification_item_empty"])
         }
-        msg = globalFrontendText["ai_requirement_clarify_1"]+"\n"+msgJson.development_requirements_overview+"\n\n"+globalFrontendText["ai_requirement_clarify_2"]+"\n"+msgJson.development_requirements_detail
+        msg = msgJson.development_requirements_detail
         str = '<br /><br /><button class="ui green button" onClick="taskOk(\''+escapeHtml(msg)+'\', this, \'requirement_doc\')">'+globalFrontendText["submit"]+'</button><button class="ui blue button" onclick="taskChange(\''+escapeHtml(msg)+'\', \'requirement_doc\')">'+globalFrontendText["edit"]+'</button>'
-        msg = msg
-        msg = '<h5>'+globalFrontendText["ai_requirement_clarify_3"]+'</h5>'+msg
+        marked_msg = marked.marked(msg)
+        console.log(marked_msg)
+        msg = '<h5>'+globalFrontendText["ai_requirement_clarify_3"]+'</h5>'+marked_msg
     } else {
         var table = '<h5>'+globalFrontendText["ai_requirement_clarify_4"]+'</h5><table class="ui celled table"><thead><tr><th class="eight wide">'+globalFrontendText["question"]+'</th><th class="eight wide">'+globalFrontendText["answer"]+'</th></tr></thead><tbody>'
         console.log(msgJson)
@@ -1430,15 +1620,21 @@ clarifySuccessCallback = function(data){
         msg = table
     }
 
-    $(".ai-code").eq($('ai-code').length - 1).html(msg.replaceAll('\n', '<br />')+str);
-    $(".ai-code").eq($('ai-code').length - 1).hide().fadeIn('fast');
+    $(".ai-code").eq($('ai-code').length - 1).html(msg+str);
+
+    if (!isRecover && msgStr.includes("review") && msgJson["review"].length>10){
+        $("#prompt-textarea").val(msgJson["review"].replaceAll('\n\n', '\n'))
+        globalRole = "TL"
+        $("#generate-code-button").click()
+    } 
+    //$(".ai-code").eq($('ai-code').length - 1).hide().fadeIn('fast');
 }
 
 function clarify(customPrompt, thisElement) {
     customPrompt = decodeURI(customPrompt)
     $(thisElement).addClass("disabled");
 
-    thinkUI(customPrompt, globalFrontendText["ai_think"])
+    thinkUI(customPrompt, globalFrontendText["ai_think"], 'PM')
 
     var requestData = JSON.stringify({ 'user_prompt': customPrompt, 'global_context': JSON.stringify(globalContext), 'task_id': getTaskID() })
     var retruBtn = '<br /><br /><button class="ui green button" onClick="clarify(\''+escapeHtml(customPrompt)+'\', this)">重试</button>'
@@ -1466,7 +1662,7 @@ function genInterfaceDoc(customPrompt, thisElement) {
     customPrompt = decodeURI(customPrompt)
     $(thisElement).addClass("disabled");
 
-    thinkUI(customPrompt, globalFrontendText["ai_think"])
+    thinkUI(customPrompt, globalFrontendText["ai_think"], 'TL')
 
     var requestData = JSON.stringify({ 'user_prompt': customPrompt, 'task_id': getTaskID() })
     var retruBtn = '<br /><br /><button class="ui green button" onClick="genInterfaceDoc(\''+escapeHtml(customPrompt)+'\', this)">'+globalFrontendText["retry"]+'</button>'
@@ -1479,6 +1675,21 @@ function genInterfaceDoc(customPrompt, thisElement) {
     sendAjaxRequest('/step_api/clarify', "POST", requestData, genInterfaceDocSuccessCallback, errorCallback, true, true)
 }
 
+taskAnalysisSuccessCallback = function(data, isRecover){
+    $('#generate-code-button').removeClass("disabled");
+
+    data = data.data
+    var msg = data.message
+    var service_name = data.service_name
+    var ai_code_class = service_name.replace("/","-")
+    var str = ""  
+    str = '<br /><br /><button class="ui green button" onClick="taskSplitOK(\''+escapeHtml(msg)+'\', \''+service_name+'\', this)">'+globalFrontendText["submit"]+'</button><button class="ui blue button" onclick="taskChange(\''+escapeHtml(msg)+'\', \'tec_doc\', \''+service_name+'\')">'+globalFrontendText["edit"]+'</button>'
+    marked_msg = marked.marked(msg)
+    msg = '<h5>'+globalFrontendText["ai_tecDoc_clarify_1"]+'</h5>'+marked_msg
+
+    $("."+ai_code_class).eq($(ai_code_class).length - 1).html(msg+str);
+}
+
 function taskAnalysis(customPrompt, service_name, hideUserPrompt, thisElement) {
     customPrompt = decodeURI(customPrompt)
     $(thisElement).addClass("disabled");
@@ -1486,7 +1697,7 @@ function taskAnalysis(customPrompt, service_name, hideUserPrompt, thisElement) {
     $('#prompt-textarea').val("");
     $("#prompt-hidePrompt").val("")
     var ai_code_class = service_name.replace("/","-")
-    var newField = $('<div class="user-code-container"><div class="ui container grid"><div class="one wide column"><i class="blue  odnoklassniki square icon big" style="font-size: 3em;"></i></div><div class="fifteen wide column ai-content"><div class="ai-code" id="">'+globalFrontendText["ai_api_clarify_confirm"]+'</div></div></div></div> <div class="ai-code-container '+ai_code_class+'"><div class="ui container grid"><div class="one wide column"><i class="orange reddit square icon big" style="font-size: 3em;"></i></div><div class="fifteen wide column ai-content"><div class="ai-code '+ai_code_class+'"><i class="spinner loading icon"></i>'+globalFrontendText["ai_api_subtask_1"]+' '+service_name+' '+globalFrontendText["ai_api_subtask_2"]+'</div></div></div></div>');
+    var newField = $('<div class="user-code-container"><div class="ui container grid"><div class="one wide column"><i class="blue  grav icon big" style="font-size: 3em;"></i></div><div class="fifteen wide column ai-content"><div class="ai-code" id="">'+globalFrontendText["ai_api_clarify_confirm"]+'</div></div></div></div> <div class="ai-code-container '+ai_code_class+'"><div class="ui container grid"><div class="one wide column"><img class="ui avatar image" src="./static/image/role_tl.jpeg" data-content="TL" style="width: auto;height: auto;"></div><div class="fifteen wide column ai-content"><div class="ai-code '+ai_code_class+'"><i class="spinner loading icon"></i>'+globalFrontendText["ai_api_subtask_1"]+' '+service_name+' '+globalFrontendText["ai_api_subtask_2"]+'</div></div></div></div>');
     $(".ai-prompt-container").before(newField);
     $(".ai-code-container."+ai_code_class).eq($('.ai-code-container.'+ai_code_class).length - 1).hide();
     $(".user-code-container").eq($('.user-code-container').length - 1).hide();
@@ -1502,15 +1713,63 @@ function taskAnalysis(customPrompt, service_name, hideUserPrompt, thisElement) {
     setTimeout(function () {
         $('html, body').animate({ scrollTop: $(document).height() }, 'slow');
     }, 900);
+    $('img').popup();
 
-    var requestData = JSON.stringify({ 'service_name': service_name, 'api_doc': customPrompt, 'task_id': getTaskID() })
+    doc_type = "api"
+    if (globalChangeServiceList.length == 1) {
+        doc_type = "prd"
+    }
+    var requestData = JSON.stringify({ 'service_name': service_name, 'prompt': customPrompt, 'doc_type': doc_type, 'task_id': getTaskID() })
 
     var retruBtn = '<br /><br /><button class="ui green button" onClick="taskAnalysis(\''+escapeHtml(customPrompt)+'\',\''+service_name+'\', true, this)">'+globalFrontendText["retry"]+'</button>'
+
+    errorCallback = function(errorMsg) {
+        $(".ai-code."+ai_code_class).eq($('.ai-code.'+ai_code_class).length - 1).html(service_name+errorMsg+retruBtn);
+    }
+
+    sendAjaxRequest('/step_subtask/analysis', "POST", requestData, taskAnalysisSuccessCallback, errorCallback, true, true)
+}
+
+function taskSplitOK(customPrompt, service_name, thisElement) {
+    customPrompt = decodeURI(customPrompt)
+    $(thisElement).addClass("disabled");
+
+    var msg = customPrompt
+    if (thisElement) {
+        msg = globalFrontendText["ai_api_clarify_confirm"]
+    }
+
+    $('#prompt-textarea').val("");
+    $("#prompt-hidePrompt").val("")
+    $("#prompt-serviceName").val("")
+    var ai_code_class = service_name.replace("/","-")
+    var newField = $('<div class="user-code-container"><div class="ui container grid"><div class="one wide column"><i class="blue  grav icon big" style="font-size: 3em;"></i></div><div class="fifteen wide column ai-content"><div class="ai-code" id="">'+msg+'</div></div></div></div> <div class="ai-code-container '+ai_code_class+'"><div class="ui container grid"><div class="one wide column"><img class="ui avatar image" src="./static/image/role_tl.jpeg" data-content="TL" style="width: auto;height: auto;"></div><div class="fifteen wide column ai-content"><div class="ai-code '+ai_code_class+'"><i class="spinner loading icon"></i>'+globalFrontendText["ai_api_subtask_1"]+' '+service_name+' '+globalFrontendText["ai_api_subtask_2"]+'</div></div></div></div>');
+    $(".ai-prompt-container").before(newField);
+    $(".ai-code-container."+ai_code_class).eq($('.ai-code-container.'+ai_code_class).length - 1).hide();
+    $(".user-code-container").eq($('.user-code-container').length - 1).hide();
+    setTimeout(function () {
+        $(".user-code-container").eq($('.user-code-container').length - 1).slideDown();
+    }, 200);
+    setTimeout(function () {
+        $(".ai-code-container."+ai_code_class).eq($('ai-code-container.'+ai_code_class).length - 1).slideDown();
+    }, 700);
+    // 滚动到页面底部
+    setTimeout(function () {
+        $('html, body').animate({ scrollTop: $(document).height() }, 'slow');
+    }, 900);
+    $('img').popup();
+
+    doc_type = "api"
+    if (globalChangeServiceList.length == 1) {
+        doc_type = "prd"
+    }
+    var requestData = JSON.stringify({ 'service_name': service_name, 'prompt': customPrompt, 'doc_type': doc_type, 'task_id': getTaskID() })
+
+    var retruBtn = '<br /><br /><button class="ui green button" onClick="taskSplitOK(\''+escapeHtml(customPrompt)+'\',\''+service_name+'\', this)">'+globalFrontendText["retry"]+'</button>'
 
     successCallback = function(data) {
         data = data.data
         var plugin = data.plugin
-        globalMemory = data.memory
         if (plugin) {
             triggerPlugin(plugin)
         }
@@ -1520,12 +1779,25 @@ function taskAnalysis(customPrompt, service_name, hideUserPrompt, thisElement) {
         $(".ai-code."+ai_code_class).eq($('.ai-code.'+ai_code_class).length - 1).html(service_name+errorMsg+retruBtn);
     }
 
-    sendAjaxRequest('/step_subtask/analysis', "POST", requestData, successCallback, errorCallback, true, true)
+    sendAjaxRequest('/step_subtask/task_split', "POST", requestData, successCallback, errorCallback, true, true)
 }
 
 function escapeHtml(html) {
   return encodeURI(html.replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/'/g, ' '));
 }
+
+function decodeHTML(encodedHTML) {
+    // 首先将编码后的字符串中的空格还原为单引号
+    var decodedHTML = encodedHTML.replace(/ /g, "'");
+    
+    // 然后将编码后的特殊字符还原为原始的字符
+    decodedHTML = decodeURIComponent(decodedHTML);
+  
+    // 最后将 '&lt;' 替换回 '<'，将 '&gt;' 替换回 '>'
+    decodedHTML = decodedHTML.replace(/&lt;/g, '<').replace(/&gt;/g, '>');
+    
+    return decodedHTML;
+  }
 
 function compareCode(uuid) {
     console.log(uuid)

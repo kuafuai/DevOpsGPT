@@ -1,4 +1,5 @@
-from flask import request, session
+from flask import request
+from app.pkgs.tools import storage
 from app.controllers.common import json_response
 from app.pkgs.tools.i18b import getI18n
 from app.pkgs.devops.git_tools import pullCode, pushCode, gitResetWorkspace
@@ -20,7 +21,9 @@ def save_code():
     file_path = request.json.get('file_path')
     serviceName = request.json.get('service_name')
     code = request.json.get('code')
-    req = Requirement.get_requirement_by_id(requirementID) 
+    tenantID = storage.get("tenant_id")
+
+    req = Requirement.get_requirement_by_id(requirementID, tenantID) 
     gitPath, success = getServiceGitPath(req["app_id"] , serviceName)
     path = get_ws_path(requirementID)+'/'+gitPath+"/"+file_path
     write_file_content(path, code)
@@ -34,12 +37,14 @@ def create():
     requirementID =  request.json.get('task_id')
     serviceName = request.json.get('repo_path')
     ws_path = get_ws_path(requirementID)
-    req = Requirement.get_requirement_by_id(requirementID) 
+    tenantID = storage.get("tenant_id") 
+
+    req = Requirement.get_requirement_by_id(requirementID, tenantID) 
     
     gitPath, success = getServiceGitPath(req["app_id"], serviceName)
 
-    tenantID = session['tenant_id']
-    gitConfigList, success = getGitConfigList(tenantID, req["app_id"])
+    tenantID = storage.get("tenant_id")
+    gitConfigList, success = getGitConfigList(tenantID, req["app_id"], False)
 
     if not GIT_ENABLED:
         success = True
@@ -55,19 +60,21 @@ def create():
 @json_response
 def gitpush():
     _ = getI18n("controllers")
-    username = session['username']
+    username = storage.get("username")
     requirementID =  request.json.get('task_id')
     serviceName = request.json.get('service_name')
     wsPath = get_ws_path(requirementID)
-    req = Requirement.get_requirement_by_id(requirementID) 
+    tenantID = storage.get("tenant_id")
+
+    req = Requirement.get_requirement_by_id(requirementID, tenantID) 
     commitMsg = req["requirement_name"]
     fatureBranch = req["default_target_branch"]
     gitPath, success = getServiceGitPath(req["app_id"], serviceName)
-    tenantID = session['tenant_id']
-    username = session['username']
-    gitConfigList, success = getGitConfigList(tenantID, req["app_id"])
+    tenantID = storage.get("tenant_id")
+    username = storage.get("username")
+    gitConfigList, success = getGitConfigList(tenantID, req["app_id"], False)
 
-    Requirement.update_requirement(requirement_id=requirementID, status=REQUIREMENT_STATUS_Completed)
+    Requirement.update_requirement(requirement_id=requirementID, tenant_id=tenantID, status=REQUIREMENT_STATUS_Completed)
 
     if not GIT_ENABLED:
         raise Exception(_("Failed to push code.")+f" You did not set Git parameters in the configuration file.")
@@ -75,7 +82,10 @@ def gitpush():
         success, msg = pushCode(wsPath, gitPath, fatureBranch, commitMsg, gitConfigList)
 
     if success:
-        return _("Push code successfully.") + f" from {wsPath} to {gitPath} {fatureBranch}"
+        gitConfig = gitConfigList[0]
+        git_url = gitConfig["git_url"]+"/"+gitPath+"/tree/"+fatureBranch
+        clone_url = f"git clone -b {fatureBranch} "+gitConfig["git_url"]+f"/{gitPath}"
+        return _("Push code successfully.") + f" from {wsPath} to {git_url} <br /><br /> "+_("Fetch code command: ")+f"{clone_url}"
     else:
         raise Exception(_("Failed to push code.")+f"In the {wsPath}/{gitPath} directory, {msg}")
 
@@ -84,19 +94,21 @@ def gitpush():
 @json_response
 def resetWorkspace():
     _ = getI18n("controllers")
-    username = session['username']
+    username = storage.get("username")
     requirementID =  request.json.get('task_id')
     serviceName = request.json.get('service_name')
     wsPath = get_ws_path(requirementID)
-    req = Requirement.get_requirement_by_id(requirementID) 
+    tenantID = storage.get("tenant_id")
+
+    req = Requirement.get_requirement_by_id(requirementID, tenantID) 
     commitMsg = req["requirement_name"]
     fatureBranch = req["default_target_branch"]
     gitPath, success = getServiceGitPath(req["app_id"], serviceName)
-    tenantID = session['tenant_id']
-    username = session['username']
-    gitConfigList, success = getGitConfigList(tenantID, req["app_id"])
+    tenantID = storage.get("tenant_id")
+    username = storage.get("username")
+    gitConfigList, success = getGitConfigList(tenantID, req["app_id"], False)
 
-    Requirement.update_requirement(requirement_id=requirementID, status=REQUIREMENT_STATUS_Completed)
+    Requirement.update_requirement(requirement_id=requirementID, tenant_id=tenantID, status=REQUIREMENT_STATUS_Completed)
 
     if not GIT_ENABLED:
         raise Exception(_("Failed to reset code.")+f" You did not set Git parameters in the configuration file.")

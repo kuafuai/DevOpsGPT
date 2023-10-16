@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-09-11 12:35+0800\n"
+"POT-Creation-Date: 2023-10-13 19:02+0800\n"
 "PO-Revision-Date: 2023-07-17 18:36+0800\n"
 "Last-Translator: booboo <mac@booboo.local>\n"
 "Language-Team: Language i18n/zh\n"
@@ -15,10 +15,6 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-
-#: backend/app/pkgs/tools/i18b.py:34
-msgid "DevOpsGPT"
-msgstr ""
 
 #: backend/app/pkgs/tools/i18b.py:35
 msgid "切换为中文"
@@ -28,7 +24,7 @@ msgstr "Switch to English"
 msgid "Start"
 msgstr "开始"
 
-#: backend/app/pkgs/tools/i18b.py:37
+#: backend/app/pkgs/tools/i18b.py:37 backend/app/pkgs/tools/i18b.py:211
 msgid "More"
 msgstr "更多"
 
@@ -65,7 +61,10 @@ msgstr "你好，我是 AI 辅助需求开发助手，请先选择"
 
 #: backend/app/pkgs/tools/i18b.py:45
 msgid "to start the development task!"
-msgstr "开始开发任务吧！"
+msgstr ""
+"开始开发任务吧！（<a href='https://vvx03gck2p.feishu.cn/docx/"
+"KwnSdasq1oK3LMxfVBAcwhG2neQ' target='_blank'>还不知道玩法？戳这里10分钟带你入"
+"门。</a>）"
 
 #: backend/app/pkgs/tools/i18b.py:46
 msgid "I need to develop requirements in the"
@@ -109,7 +108,9 @@ msgstr "详细描述："
 msgid ""
 "The requirements document has been generated, and the interface document "
 "will be generated after confirmation: "
-msgstr "需求文档已生成，确认后将生成接口文档："
+msgstr ""
+"需求文档 PRD 已生成，您可以：确认文档、通过“发送消息”框反馈意见给我、或手动修"
+"改文档。"
 
 #: backend/app/pkgs/tools/i18b.py:56
 msgid ""
@@ -125,7 +126,7 @@ msgstr "接口文档已生成，确认后将开始分析如何修改程序代码
 
 #: backend/app/pkgs/tools/i18b.py:58
 msgid "Confirm interface document."
-msgstr "确认接口文档。"
+msgstr "确认文档。"
 
 #: backend/app/pkgs/tools/i18b.py:59
 msgid "Analyzing how to modify the"
@@ -145,15 +146,15 @@ msgstr "根据以上开发任务以及产品的资料库，我分析需要修改
 
 #: backend/app/pkgs/tools/i18b.py:62
 msgid "Start CI"
-msgstr "持续集成"
+msgstr "触发持续集成"
 
 #: backend/app/pkgs/tools/i18b.py:63
 msgid "Submit code"
-msgstr "提交代码"
+msgstr "将代码提交到 Git 仓库"
 
 #: backend/app/pkgs/tools/i18b.py:64
 msgid "Auto check"
-msgstr "自我检查"
+msgstr "运行代码自动检查"
 
 #: backend/app/pkgs/tools/i18b.py:65
 msgid "Modify file"
@@ -185,7 +186,7 @@ msgstr "选择应用"
 
 #: backend/app/pkgs/tools/i18b.py:72
 msgid "Requirement description"
-msgstr "开发需求"
+msgstr "发送消息"
 
 #: backend/app/pkgs/tools/i18b.py:73
 msgid "Operation"
@@ -217,7 +218,7 @@ msgstr "重试"
 
 #: backend/app/pkgs/tools/i18b.py:80
 msgid "Restart"
-msgstr "重启"
+msgstr "启动任务"
 
 #: backend/app/pkgs/tools/i18b.py:81
 msgid "Question"
@@ -264,7 +265,7 @@ msgstr ""
 
 #: backend/app/pkgs/tools/i18b.py:91
 msgid "Start deployment"
-msgstr "开始部署"
+msgstr "触发持续部署"
 
 #: backend/app/pkgs/tools/i18b.py:92
 msgid "Start task"
@@ -304,7 +305,7 @@ msgstr "默认源分支"
 
 #: backend/app/pkgs/tools/i18b.py:101
 msgid "Feature branch"
-msgstr "新需求默认分支"
+msgstr "新需求默认分支前缀"
 
 #: backend/app/pkgs/tools/i18b.py:102
 msgid "Service name"
@@ -406,7 +407,7 @@ msgstr "邮箱"
 
 #: backend/app/pkgs/tools/i18b.py:126
 msgid "Company Name"
-msgstr "企业名称"
+msgstr "组织名称"
 
 #: backend/app/pkgs/tools/i18b.py:127
 msgid "Company Status"
@@ -414,7 +415,7 @@ msgstr "状态"
 
 #: backend/app/pkgs/tools/i18b.py:128
 msgid "Company Description"
-msgstr "企业简介"
+msgstr "组织简介"
 
 #: backend/app/pkgs/tools/i18b.py:129
 msgid "Billing type"
@@ -434,7 +435,7 @@ msgstr "Plus 过期时间"
 
 #: backend/app/pkgs/tools/i18b.py:133
 msgid "Employee count"
-msgstr "企业规模"
+msgstr "组织规模"
 
 #: backend/app/pkgs/tools/i18b.py:134
 msgid "Industry type"
@@ -442,7 +443,7 @@ msgstr "所属行业"
 
 #: backend/app/pkgs/tools/i18b.py:135
 msgid "Switch Tenant"
-msgstr "切换企业"
+msgstr "切换组织"
 
 #: backend/app/pkgs/tools/i18b.py:136
 msgid "Member Count"
@@ -570,15 +571,15 @@ msgstr "配置名称"
 
 #: backend/app/pkgs/tools/i18b.py:166
 msgid "Associated CD Config"
-msgstr "关联 CD 配置（企业管理员在企业配置中添加）"
+msgstr "关联 CD 配置（组织管理员在组织配置中添加）"
 
 #: backend/app/pkgs/tools/i18b.py:167
 msgid "Associated CI Config"
-msgstr "关联 CI 配置（企业管理员在企业配置中添加）"
+msgstr "关联 CI 配置（组织管理员在组织配置中添加）"
 
 #: backend/app/pkgs/tools/i18b.py:168
 msgid "Associated Git Config"
-msgstr "关联 Git 配置（企业管理员在企业配置中添加）"
+msgstr "关联 Git 配置（组织管理员在组织配置中添加）"
 
 #: backend/app/pkgs/tools/i18b.py:169
 msgid "My Role"
@@ -586,7 +587,7 @@ msgstr "我的角色"
 
 #: backend/app/pkgs/tools/i18b.py:170
 msgid "The tenant does not exist or is abnormal"
-msgstr "当前企业不存在或状态异常，请<a href='tenant.html'>选择其他企业。</a>."
+msgstr "当前组织不存在或状态异常，请<a href='tenant.html'>选择其他组织。</a>."
 
 #: backend/app/pkgs/tools/i18b.py:171
 msgid "Insufficient authority."
@@ -614,7 +615,9 @@ msgid ""
 "previous plus duration will be reset and start counting anew."
 msgstr ""
 "注意：充值后会立即生效，如果你修改了会员类型，会员有效期将会重新从当前时间计"
-"时。"
+"时。续费赠送的码力按月一次性发放，立即生效（比如您购买2个月的会员，共应赠送2N"
+"个码力，则第一个月赠送N个码力有效期到第一个月，第二个月赠送N个码力有效期到第"
+"二个月）。"
 
 #: backend/app/pkgs/tools/i18b.py:177
 msgid ""
@@ -651,7 +654,383 @@ msgstr "账单系统异常，请检查账单。"
 
 #: backend/app/pkgs/tools/i18b.py:184
 msgid "Sync from Git"
-msgstr "从Git同步代码"
+msgstr "从 Git 同步最新代码"
+
+#: backend/app/pkgs/tools/i18b.py:185
+msgid ""
+"Way 2: Create APP via template. Templates are stored on GitHub by default, "
+"and you can clone them into your own repository."
+msgstr ""
+"方式1：通过模板创建应用，模板默认存放在<a href='https://github.com/orgs/"
+"kuafuai/repositories' target='_blank'>GitHub</a>，你可以克隆到自己的仓库中。"
+
+#: backend/app/pkgs/tools/i18b.py:186
+msgid ""
+"Way 1: Create APP via AI, give git path, AI automatically analyzes the code "
+"base to create APP, Make sure Git token has code pull permission."
+msgstr ""
+"方式2：通过AI分析代码库，自动创建应用，你需要提供代码仓库的路径并确保Git "
+"token可以拉取代码。"
+
+#: backend/app/pkgs/tools/i18b.py:187
+msgid "AI code analysis... It will take a few minutes. Please wait"
+msgstr "AI 代码分析中...预计需要几分钟时间，请稍等。"
+
+#: backend/app/pkgs/tools/i18b.py:188
+msgid "Launch code"
+msgstr "验证码"
+
+#: backend/app/pkgs/tools/i18b.py:189
+msgid "Your KUAFUAI launch code"
+msgstr "你的 KUAFUAI 验证码"
+
+#: backend/app/pkgs/tools/i18b.py:190
+msgid "The username cannot be smaller than 4 characters."
+msgstr "用户名长度不能少于4位。"
+
+#: backend/app/pkgs/tools/i18b.py:191
+msgid ""
+"The username format you entered is incorrect(Only letters a-Z and _ - are "
+"allowed)."
+msgstr "用户名只能使用英文字母以及-_字符组成。"
+
+#: backend/app/pkgs/tools/i18b.py:192
+msgid "The password cannot be smaller than 6 characters."
+msgstr "密码长度不能少于6位"
+
+#: backend/app/pkgs/tools/i18b.py:193
+msgid "The phone_number cannot be smaller than 9 characters."
+msgstr "手机号长度不能少于9位"
+
+#: backend/app/pkgs/tools/i18b.py:194
+msgid "The email format you entered is incorrect."
+msgstr "邮箱格式不正确。"
+
+#: backend/app/pkgs/tools/i18b.py:195
+msgid "The email launch code is incorrect."
+msgstr "邮箱和验证码不匹配。"
+
+#: backend/app/pkgs/tools/i18b.py:196
+msgid ""
+"invitation code (Thank you for your interest. We will open registration "
+"after the beta testing phase.)"
+msgstr "邀请码（感谢您的关注。我们将在测试阶段后开放注册。）"
+
+#: backend/app/pkgs/tools/i18b.py:197
+msgid "Alpha(internal testing)"
+msgstr "Beta 1.0"
+
+#: backend/app/pkgs/tools/i18b.py:198
+msgid ""
+"Welcome to KuafuAI, Multi agent system for AI-driven software development."
+msgstr "欢迎使用 KUAFUAI，Multi Agent AI 驱动的软件开发平台。"
+
+#: backend/app/pkgs/tools/i18b.py:199
+msgid "Natural language requirements into working software."
+msgstr "将自然语言需求转化为可工作的软件"
+
+#: backend/app/pkgs/tools/i18b.py:200
+msgid ""
+"Multi agent system for AI-driven software development. Combine LLM with "
+"DevOps tools to convert natural language requirements into working software. "
+"Supports any development language and extends the existing code."
+msgstr ""
+"Multi Agent AI 驱动的智能软件开发系统，结合 LLM 与 DevOps 工具将自然语言需求"
+"转化为可工作的软件，支持任何开发语言并扩展现有代码。"
+
+#: backend/app/pkgs/tools/i18b.py:201
+msgid "Full Process"
+msgstr "全流程"
+
+#: backend/app/pkgs/tools/i18b.py:202
+msgid "Multi-Agent"
+msgstr "Multi-Agent"
+
+#: backend/app/pkgs/tools/i18b.py:203
+msgid "Domain Models"
+msgstr "领域模型"
+
+#: backend/app/pkgs/tools/i18b.py:204
+msgid ""
+"An AI-driven development platform that covers the entire software lifecycle "
+"management, combined with various DevOps tools, achieves end-to-end delivery "
+"of software from natural language requirements."
+msgstr ""
+"一种AI驱动的开发平台，涵盖整个软件生命周期管理，结合各种DevOps工具，实现从自"
+"然语言需求到软件的端到端交付。"
+
+#: backend/app/pkgs/tools/i18b.py:205
+msgid ""
+"AI intelligently adjusts workflow orchestration based on user feedback and "
+"continuously performs autonomous self-correction and optimization of "
+"generated results, enabling flexible and high-quality software development."
+msgstr ""
+"AI根据用户反馈智能调整工作流程编排，并持续进行自主纠正和优化生成的结果，实现"
+"灵活高质量的软件开发。"
+
+#: backend/app/pkgs/tools/i18b.py:206
+msgid ""
+"Multiple domain models are trained for the software production process. "
+"These domain models collaborate to complete software development tasks and "
+"can support private deployment. Extension development based on existing "
+"software code is achieved through proprietary models."
+msgstr ""
+"针对软件生产过程训练了多个领域模型。这些领域模型协作完成软件开发任务，并支持"
+"私有部署。基于现有软件代码的扩展开发是通过专有模型实现的。"
+
+#: backend/app/pkgs/tools/i18b.py:207
+msgid "CURD Requirements"
+msgstr "WEB 应用开发"
+
+#: backend/app/pkgs/tools/i18b.py:208
+msgid ""
+"In software development, CRUD (Create, Read, Update, Delete) represents "
+"essential operations for managing data. It involves creating new records, "
+"retrieving existing data, updating information, and deleting records. These "
+"CRUD operations are fundamental in various applications, from database "
+"management systems to web and mobile applications, as they enable users to "
+"interact with and manipulate data effectively."
+msgstr ""
+"Web应用开发是指创建和构建可以通过互联网浏览器访问的软件应用程序的过程。这些应"
+"用程序通常运行在Web服务器上，可以通过各种设备（如计算机、智能手机、平板电脑）"
+"的Web浏览器进行访问，而无需安装专用的客户端软件。Web应用开发通常涉及多个技术"
+"领域，包括前端开发、后端开发和数据库管理。 <a href='https://vvx03gck2p."
+"feishu.cn/docx/GXBVd3hFdogeYsx6BoscceVPnMf' target='_blank'>了解更多</a>"
+
+#: backend/app/pkgs/tools/i18b.py:209
+msgid "ChatBot Requirements"
+msgstr "办公软件类任务"
+
+#: backend/app/pkgs/tools/i18b.py:210
+msgid ""
+"In software development, chatbot requirements for applications like "
+"Enterprise WeChat typically encompass functionalities such as real-time "
+"messaging, automated responses, integration with enterprise systems, user "
+"management, and multi-platform compatibility, ensuring efficient "
+"communication and task automation within corporate environments."
+msgstr ""
+"在软件开发中，像企业微信这样的应用的聊天机器人需求通常包括实时消息、自动回"
+"复、与企业系统的集成、用户管理和多平台兼容性等功能，以确保在企业环境中实现高"
+"效的沟通和任务自动化。"
+
+#: backend/app/pkgs/tools/i18b.py:212
+msgid ""
+"As our foundational and product capabilities continue to improve, we will "
+"gradually expand our development to encompass more complex application "
+"scenarios, bringing universal benefits to every user with software "
+"development needs. Please stay tuned and follow us for updates."
+msgstr ""
+"随着我们的基础和产品能力不断提升，我们将逐渐扩展我们的开发范围，涵盖更复杂的"
+"应用场景，为有软件开发需求的每位用户带来普遍的好处。请保持关注并关注我们的更"
+"新。"
+
+#: backend/app/pkgs/tools/i18b.py:213
+msgid ""
+"Now, you can experience our products with minimal cost. We look forward to "
+"bringing a whole new experience to your software development!"
+msgstr ""
+"现在，您能够以级低的成本体验我们的产品。我们期待为您的软件开发带来全新的体"
+"验！"
+
+#: backend/app/pkgs/tools/i18b.py:214
+msgid "Opensource"
+msgstr "开源版"
+
+#: backend/app/pkgs/tools/i18b.py:215
+msgid "Basic"
+msgstr "基础版"
+
+#: backend/app/pkgs/tools/i18b.py:216
+msgid "Pro"
+msgstr "专业版"
+
+#: backend/app/pkgs/tools/i18b.py:217
+msgid "Private Deployment"
+msgstr "私有化部署"
+
+#: backend/app/pkgs/tools/i18b.py:218
+msgid ""
+"Utilize our fine-tuned model and deploy it within your private environment "
+"to ensure data security. We welcome further communication with you."
+msgstr ""
+"利用我们经过精细调整的模型，并将其部署在您的私有环境中，以确保数据安全。我们"
+"欢迎与您进一步沟通。"
+
+#: backend/app/pkgs/tools/i18b.py:219
+msgid "Contact Us"
+msgstr "联系我们"
+
+#: backend/app/pkgs/tools/i18b.py:220
+msgid "Links"
+msgstr "链接"
+
+#: backend/app/pkgs/tools/i18b.py:221
+msgid "Get Launch code"
+msgstr "获取验证码"
+
+#: backend/app/pkgs/tools/i18b.py:222
+msgid "Service Type"
+msgstr "服务类别"
+
+#: backend/app/pkgs/tools/i18b.py:223
+msgid "The email address has been registered."
+msgstr "该邮箱已被注册"
+
+#: backend/app/pkgs/tools/i18b.py:224
+msgid "Change password"
+msgstr "修改密码"
+
+#: backend/app/pkgs/tools/i18b.py:225
+msgid "New password"
+msgstr "新密码"
+
+#: backend/app/pkgs/tools/i18b.py:226
+msgid "Help center"
+msgstr "新手指引 · 帮助中心"
+
+#: backend/app/pkgs/tools/i18b.py:227
+msgid ""
+"Technical document has been generated. You can confirm the document, or "
+"manually modify the document."
+msgstr "开发技术文档已生成，您可以：确认文档、或手动修改文档。"
+
+#: backend/app/pkgs/tools/i18b.py:228
+msgid ""
+"Assist in clarifying product requirements and produce requirement documents."
+msgstr "协助澄清产品需求，产出需求文档。"
+
+#: backend/app/pkgs/tools/i18b.py:229
+msgid ""
+"Design system architecture, break down development tasks, and produce "
+"technical documentation for development."
+msgstr "设计系统架构，拆分开发任务，产出开发技术文档。"
+
+#: backend/app/pkgs/tools/i18b.py:230
+msgid "Assess product quality, identify and report defects."
+msgstr "评估产品质量，识别和报告缺陷。"
+
+#: backend/app/pkgs/tools/i18b.py:231
+msgid "Write, review, test, and maintain software code."
+msgstr "编写、检查、测试和维护软件代码。"
+
+#: backend/app/pkgs/tools/i18b.py:232
+msgid ""
+"Responsible for application deployment, as well as managing servers, "
+"networks, and systems to ensure system availability and stability."
+msgstr "负责应用部署，以及管理服务器、网络和系统，确保系统的可用性和稳定性。"
+
+#: backend/app/pkgs/tools/i18b.py:233
+msgid ""
+"The following AI roles will assist you in completing the entire development "
+"process for requirement tasks."
+msgstr "已下 AI 角色将辅助您完成需求任务的完整开发过程。"
+
+#: backend/app/pkgs/tools/i18b.py:234
+msgid "Try it!"
+msgstr "免费试用"
+
+#: backend/app/pkgs/tools/i18b.py:235
+msgid "Web application"
+msgstr ""
+"<a href='https://vvx03gck2p.feishu.cn/docx/GXBVd3hFdogeYsx6BoscceVPnMf' "
+"target='_blank'>Web 应用</a>"
+
+#: backend/app/pkgs/tools/i18b.py:236
+msgid ""
+"Asset Registration Function: Supports adding new fixed asset information, "
+"including asset number, name, specifications, purchase date, and purchase "
+"price."
+msgstr ""
+"资产登记功能：支持添加新的固定资产信息，包括资产编号、名称、规格、采购日期、"
+"采购价格。"
+
+#: backend/app/pkgs/tools/i18b.py:237
+msgid "Office collaboration application expansion"
+msgstr ""
+"<a href='https://vvx03gck2p.feishu.cn/docx/JcaLdMYgRoYU6zxWz9Ocmlm6nCb' "
+"target='_blank'>办公协同类应用扩展</a>"
+
+#: backend/app/pkgs/tools/i18b.py:238
+msgid ""
+"Input meeting notes, invoke ChatGPT to organize the meeting notes into "
+"meeting minutes, and send them to the group via the enterprise WeChat bot."
+msgstr ""
+"传入会议记录，调用ChatGPT将会议记录整理成会议纪要，通过企业微信机器人发送到群"
+"里"
+
+#: backend/app/pkgs/tools/i18b.py:239
+msgid "Integration between services via API"
+msgstr ""
+"<a href='https://vvx03gck2p.feishu.cn/docx/GFnadpTkuoRerixLkJlcZxvznRf' "
+"target='_blank'>通过API进行系统间集成</a>"
+
+#: backend/app/pkgs/tools/i18b.py:240
+msgid ""
+"Integrate with the GitLab server using GitLab's OpenAPI. The system will "
+"query the recent one-hour continuous integration failure records every hour."
+msgstr ""
+"使用GitLab的OpenAPI与GitLab服务器进行集成。系统将每小时查询最近一小时内持续集"
+"成的失败记录。"
+
+#: backend/app/pkgs/tools/i18b.py:241
+msgid "mini-games"
+msgstr ""
+"<a href='https://vvx03gck2p.feishu.cn/docx/OMKvda3HxozhQrxcxY4cAUg0nzd' "
+"target='_blank'>小游戏</a>"
+
+#: backend/app/pkgs/tools/i18b.py:242
+msgid ""
+"Snake Game: Players control the direction of the snake, collect food, and "
+"the snake grows in length when it eats food."
+msgstr ""
+"贪吃蛇游戏：玩家控制贪吃蛇的方向，获得食物，贪吃蛇吃到食物后会增长长度。"
+
+#: backend/app/pkgs/tools/i18b.py:243
+msgid "Try this requirement"
+msgstr "试一下这个需求"
+
+#: backend/app/pkgs/tools/i18b.py:244
+msgid ""
+"Please note that different types of applications are suitable for different "
+"types of needs. Please provide a detailed description of your requirements. "
+"Below are some reference cases."
+msgstr ""
+"注意，不同类型的应用适用于不同类型的需求，请详细描述您的需求，以下是一些参考"
+"案例。"
+
+#: backend/app/pkgs/tools/i18b.py:245
+msgid "Trigger code review"
+msgstr "执行自动检查"
+
+#: backend/app/pkgs/tools/i18b.py:246
+msgid "Update status"
+msgstr "更新状态"
+
+#: backend/app/pkgs/tools/i18b.py:247
+msgid "View details"
+msgstr "查看详情"
+
+#: backend/app/pkgs/tools/i18b.py:248
+msgid "index_view_url"
+msgstr "<iframe src='//player.bilibili.com/player.html?aid=619522551&bvid=BV1Z84y117qn&cid=1297199738&p=1&autoplay=0&muted=0' scrolling='no' border='0' width='800px' height='450px' frameborder='no' framespacing='0' allowfullscreen='true'> </iframe>"
+
+#: backend/app/pkgs/tools/i18b.py:249
+msgid ""
+"You haven't created an app yet. <a href='/app.html?action=create_new' "
+"target='_blank'>You can quickly create one.</a>"
+msgstr "你还没有创建应用，<a href='/app.html?action=create_new' target='_blank'>点击快速创建应用。</a>"
+
+#: backend/app/pkgs/tools/i18b.py:250
+msgid "The verify code is incorrect."
+msgstr "验证码有误。"
+
+#: backend/app/pkgs/tools/i18b.py:251
+msgid "The phone number has been registered."
+msgstr "该手机号已被注册。"
+
+#: backend/app/pkgs/tools/i18b.py:252
+msgid "You have obtained the verify code too many times."
+msgstr "获取验证码次数过多。"
 
 #~ msgid "Phone"
 #~ msgstr "手机号"

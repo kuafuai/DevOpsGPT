@@ -26,9 +26,12 @@ REQUIREMENT_STATUS_Canceled = "Canceled"
 
 REQUIREMENT_MEM_STEP_Requirement_clarify = "Requirement_clarify"
 REQUIREMENT_MEM_STEP_Requirement_organize = "Requirement_organize"
+REQUIREMENT_MEM_STEP_Requirement_adjust = "Requirement_adjust"
+REQUIREMENT_MEM_STEP_Requirement_review = "Requirement_review"
 REQUIREMENT_MEM_STEP_API_subtasks = "API_subtasks"
 REQUIREMENT_MEM_STEP_API_organize = "API_organize"
 REQUIREMENT_MEM_STEP_Subtask_chooseLib = "Subtask_chooseLib"
+REQUIREMENT_MEM_STEP_Subtask_Subtask_genStruct = "Subtask_genStruct"
 REQUIREMENT_MEM_STEP_Subtask_subtasks = "Subtask_subtasks"
 REQUIREMENT_MEM_STEP_Subtask_pseudocode = "Subtask_pseudocode"
 REQUIREMENT_MEM_STEP_Subtask_code = "Subtask_code"
@@ -52,6 +55,8 @@ REQUIREMENT_MEM_TYPE_Code = "Code"
 REQUIREMENT_MEM_TYPE_DevOps = "DevOps"
 
 try:
+    SITE_NAME = read_config("SITE_NAME")
+    INVITATION_CODE = read_config("INVITATION_CODE")
     BACKEND_HOST = read_config("BACKEND_HOST")
     BACKEND_URL = read_config("BACKEND_URL")
     BACKEND_DEBUG = read_config("BACKEND_DEBUG")
@@ -59,7 +64,7 @@ try:
     BACKEND_PORT = read_config("BACKEND_PORT")
     APP_SECRET_KEY = read_config("APP_SECRET_KEY")
     WORKSPACE_PATH = read_config("WORKSPACE_PATH")
-    AICODER_ALLOWED_ORIGIN = read_config("AICODER_ALLOWED_ORIGIN")
+    AICODER_ALLOWED_ORIGIN = json.loads(read_config("AICODER_ALLOWED_ORIGIN"))
     SQLALCHEMY_DATABASE_URI = read_config("SQLALCHEMY_DATABASE_URI")
     GPT_KEYS = json.loads(read_config("GPT_KEYS"))
     LLM_MODEL = read_config("LLM_MODEL")
@@ -74,6 +79,7 @@ try:
     GIT_TOKEN = read_config("GIT_TOKEN")
     GIT_USERNAME = read_config("GIT_USERNAME")
     GIT_EMAIL = read_config("GIT_EMAIL")
+    GITHUB_PROXY = read_config("GITHUB_PROXY")
     CD_TOOLS = read_config("CD_TOOLS")
     CD_ACCESS_KEY = read_config("CD_ACCESS_KEY")
     CD_SECRET_KEY = read_config("CD_SECRET_KEY")
@@ -86,6 +92,11 @@ try:
     PAYPAL_MODE = read_config("PAYPAL_MODE")
     PAYPAL_ID = read_config("PAYPAL_ID")
     PAYPAL_SECRET = read_config("PAYPAL_SECRET")
+
+    ALIPAY_SERVER = read_config("ALIPAY_SERVER")
+    ALIPAY_ID = read_config("ALIPAY_ID")
+    ALIPAY_PRIVATE_KEY = read_config("ALIPAY_PRIVATE_KEY")
+    ALIPAY_PUBLIC_KEY = read_config("ALIPAY_PUBLIC_KEY")
 except Exception as e:
     print(f"\033[91mError: Failed to read the configuration, please copy a new env.yaml from env.yaml.tpl and reconfigure it according to the documentation. Error in env.yaml: {str(e)}. 读取配置错误，请重新从 env.yaml.tpl 复制一个 env.yaml 进行配置后重启程序。 \033[0m")
     input("Press Enter to exit...")

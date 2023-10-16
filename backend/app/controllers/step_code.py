@@ -1,9 +1,12 @@
-from flask import request, session
+from flask import request
+from app.pkgs.tools import storage
 from app.controllers.common import json_response
 from app.pkgs.tools.i18b import getI18n
 from app.pkgs.prompt.prompt import aiGenCode, aiMergeCode, aiCheckCode, aiFixError, aiReferenceRepair
 from app.pkgs.devops.local_tools import getFileContent
 from flask import Blueprint
+
+from app.pkgs.prompt.prompt import gen_write_code
 
 bp = Blueprint('step_code', __name__, url_prefix='/step_code')
 
@@ -31,8 +34,13 @@ def check_file():
     fileTask = request.json.get('fileTask')
     requirementID = request.json.get('task_id')
     filePath = request.json.get('file_path')
-
-    re, success = aiCheckCode(requirementID, fileTask, code, filePath)
+    step = request.json.get('step')
+    service_name = request.json.get('service_name')
+    
+    if step:
+        re, success = gen_write_code(requirementID, service_name, filePath, fileTask, step)
+    else:
+        re, success = aiCheckCode(requirementID, fileTask, code, filePath, service_name)
     if not success:
         raise Exception(_("Failed to check file."))
 
@@ -45,12 +53,11 @@ def merge_file():
     baseCode = request.json.get('base_code')
     newCode = request.json.get('new_code')
     fileTask = request.json.get('file_task')
-    userName = session["username"]
-    appName = session[userName]['memory']['task_info']['app_name']
+    userName = storage.get("username")
     requirementID = request.json.get('task_id')
     filePath = request.json.get('file_path')
 
-    re, success = aiMergeCode(requirementID, fileTask, appName, baseCode, newCode, filePath)
+    re, success = aiMergeCode(requirementID, fileTask, baseCode, newCode, filePath)
     if not success:
         raise Exception(_("Failed to merge old and new code."))
 
@@ -64,17 +71,15 @@ def reference_repair():
     newCode = request.json.get('new_code')
     referenceFile = request.json.get('reference_file')
     repo = request.json.get('repo')
-    userName = session["username"]
-    appName = session[userName]['memory']['task_info']['app_name']
-    branch = session[userName]['memory']['task_info']['source_branch']
+    userName = storage.get("username")
     requirementID = request.json.get('task_id')
     filePath = request.json.get('file_path')
 
-    hasGitCode, referenceCode =  getFileContent(referenceFile, branch, repo)
+    hasGitCode, referenceCode =  getFileContent(referenceFile, repo)
     if not hasGitCode:
         raise Exception(_("Failed to reference repair no reference file found."))
 
-    re, success = aiReferenceRepair(requirementID, newCode, appName, referenceCode, fileTask, filePath)
+    re, success = aiReferenceRepair(requirementID, newCode, referenceCode, fileTask, filePath)
     if not success:
         raise Exception(_("Reference repair failed for unknown reasons."))
 
@@ -88,8 +93,9 @@ def fix_compile():
     solution = request.json.get('solution')
     requirementID = request.json.get('task_id')
     filePath = request.json.get('file_path')
+    error_msg = request.json.get('error_msg')
 
-    re, success = aiFixError(requirementID, solution, code, filePath, "compile")
+    re, success = aiFixError(requirementID, error_msg, solution, code, filePath, "compile")
     reCode = re["code"]
     reason = re["reasoning"]
 
@@ -103,8 +109,9 @@ def fix_lint():
     solution = request.json.get('solution')
     requirementID = request.json.get('task_id')
     filePath = request.json.get('file_path')
+    error_msg = request.json.get('error_msg')
 
-    re, success = aiFixError(requirementID, solution, code, filePath, "lint")
+    re, success = aiFixError(requirementID ,error_msg, solution, code, filePath, "lint")
     reCode = re["code"]
     reason = re["reasoning"]
 

@@ -7,7 +7,7 @@ from config import GRADE
 def getAppArchitecture(appID):
     appID = int(appID)
 
-    apps = Application.get_all_application("", appID)
+    apps = Application.get_all_application(0, appID)
     appArchitecture = ""
     if len(apps) > 0:
         services = apps[0]["service"]
@@ -20,7 +20,7 @@ def getServiceSwagger(appID, serviceName):
     appID = int(appID)
 
     swaggerDoc = ""
-    apps = Application.get_all_application("", appID)
+    apps = Application.get_all_application(0, appID)
     if len(apps) > 0:
         services = apps[0]["service"]
         for service in services:
@@ -34,7 +34,7 @@ def getServiceBasePrompt(appID, serviceName):
     appID = int(appID)
 
     appBasePrompt = ""
-    apps = Application.get_all_application("", appID)
+    apps = Application.get_all_application(0, appID)
     if len(apps) > 0:
         services = apps[0]["service"]
         service_names = []
@@ -49,11 +49,11 @@ def getServiceBasePrompt(appID, serviceName):
 
     return appBasePrompt, True
 
-def getServiceIntro(appID, serviceName):
+def getServiceIntro(appID, serviceName, tenantID):
     appID = int(appID)
 
     appInfo = ""
-    apps = Application.get_all_application("", appID)
+    apps = Application.get_all_application(tenantID, appID)
     if len(apps) > 0:
         services = apps[0]["service"]
         for service in services:
@@ -71,13 +71,13 @@ def getServiceGitPath(appID, serviceName):
 def getServiceDockerImage(appID, serviceName):
     appID = int(appID)
 
-    apps = Application.get_all_application("", appID)
+    apps = Application.get_all_application(0, appID)
     if len(apps) > 0:
         services = apps[0]["service"]
         for service in services:
             if service["name"] == serviceName:
                 # todo 0
-                gitWorkflow = "todo"
+                gitWorkflow = service["cd_default_image"]
 
     return gitWorkflow, True
 

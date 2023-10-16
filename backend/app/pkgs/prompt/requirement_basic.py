@@ -1,16 +1,162 @@
 import json
-from flask import session
+import re
 from app.pkgs.tools.i18b import getI18n
 from app.pkgs.tools.i18b import getCurrentLanguageName
 from app.pkgs.tools.utils_tool import fix_llm_json_str
 from app.pkgs.prompt.requirement_interface import RequirementInterface
 from app.pkgs.tools.llm import chatCompletion
+from app.models.application_service import ApplicationService
+from app.pkgs.tools import storage
+
+_ = getI18n("prompt")
+DOC_FRONTEND = _("""
+## Original Requirements
+Develop one ... 
+
+## Product Goals
+```python
+[
+    "Create a ...",
+]
+```
+                
+## User Stories
+```python
+[
+    "As a user, ...",
+]
+```
+                
+## UI/UX Design
+```python
+[
+    "Three-column layout ...",
+]
+```
+                
+## Business logic
+```python
+[
+    "Request the back-end interface to pass parameters ...",
+]
+""")
+DOC_BACKEND = _("""
+## Original Requirements
+Develop one ... 
+
+## Product Goals
+```python
+[
+    "Create a ...",
+]
+```
+
+## 接口类型
+如RESTful API或GraphQL或GRPC等
+               
+## 请求方式
+POST、GET、DELETE、PUT等，没有请忽略
+               
+## 调用路径或调用方法
+path or method
+
+## 请求体参数
+```python
+[
+    "name, type",
+]
+```
+               
+## 响应体参数
+```python
+[
+    "name, type",
+]
+```
+
+## Business logic
+```python
+[
+    "Accept request parameter: ...",
+]
+```
+""")
+DOC_GAME = _("""
+## 游戏名称
+pingpang game...
+             
+## Original Requirements
+Develop one ... 
+
+## Product Goals
+```python
+[
+    "Create a ...",
+]
+```
+             
+## Similar game introduction
+```python
+[
+    "...",
+]
+```
+             
+## 游戏详细规则
+```python
+[
+    "Move with keyboard control ...",
+]
+```
+""")
+
+DOC_COMMON = """
+## Original Requirements
+Develop one ... 
+
+## Product Goals
+```python
+[
+    "Create a ...",
+]
+```
+
+## User Stories
+```python
+[
+    "As a user, ...",
+]
+```
+
+## Competitive Analysis
+```python
+[
+    "xxx can ...",
+]
+```
+
+## Requirement Analysis
+The product should be a ...
+
+## Requirement Pool
+```python
+[
+    "End game ..., P0",
+]
+```
+
+## UI Design
+```python
+[
+    "A button in the ...",
+]
+```
+"""
+
 
 class RequirementBasic(RequirementInterface):
-    def clarifyRequirement(self, requirementID, userPrompt, globalContext, appArchitecture):
-        _ = getI18n("prompt") 
-        requirementsDetail = _("Prerequisites, Detailed Operation Steps, Expected Results, Other Explanatory Notes.")
-    
+    def clarifyRequirement(self, requirementID, userPrompt, globalContext, appArchitecture, req):
+        _ = getI18n("prompt")
         firstPrompt = ""
         preContext = []
         try:
@@ -18,15 +164,30 @@ class RequirementBasic(RequirementInterface):
         except Exception as e:
             print(str(e))
 
+        PRDTemplate = DOC_COMMON
+        ServiceType = "COMMON"
+        service_list = ApplicationService.get_services_by_app_id(req["app_id"])
+        for service in service_list:
+            ServiceType = service["service_type"]
+            if service["service_type"] == "COMMON":
+                PRDTemplate = DOC_COMMON
+            elif service["service_type"] == "FRONTEND":
+                PRDTemplate = DOC_FRONTEND
+            elif service["service_type"] == "BACKEND":
+                PRDTemplate = DOC_BACKEND
+            elif service["service_type"] == "GAME":
+                PRDTemplate = DOC_GAME
+
+        # todo 这个参数暂时不要调整，过多的澄清会导致出现幻觉，并且程序在获取澄清列表的时候也需要调整
         maxCycle = 2
         message = ""
+        clarified_list = ""
         if len(preContext) == 0:
-            session[session["username"]]["memory"]["clarifyRequirement"] = ""
             firstPrompt = userPrompt
         elif len(preContext) < maxCycle:
             firstPrompt = preContext[0]["content"]
-            session[session["username"]]["memory"]["clarifyRequirement"] += userPrompt + "\n"
-            
+            clarified_list = userPrompt
+
             preContext = preContext[1:]
             preContext.append({
                 "role": "user",
@@ -37,16 +198,25 @@ Is there anything else unclear? If yes, continue asking less than 3 unclear ques
             })
         else:
             firstPrompt = preContext[0]["content"]
-            session[session["username"]]["memory"]["clarifyRequirement"] += userPrompt
+            clarified_list = userPrompt
 
-        if len(preContext) < maxCycle:
+        # 对已生成需求文档的修改
+        if "development_requirements_detail" in globalContext:
+            return adjust(requirementID, userPrompt, PRDTemplate, appArchitecture, service_list, ServiceType)
+        # 澄清过程
+        elif len(preContext) < maxCycle:
             finalContext = [
                 {
-                "role": "system",
-                "content": """As a senior full stack developer. Your task is to read user software development requirement and clarify or confirm them to complete a requirement document that integrates the requirement into the application. The document should include """+requirementsDetail+""".
+                    "role": "system",
+                    "content": """
+Role: You are a professional full stack developer. Your task is to read user "software development requirement" and base on "Application Information" to clarify them to complete a requirement document(PRD) like:
+```
+"""+PRDTemplate+"""
+```
 
-Specifically, First you need to think about a simple step-by-step guide, then provide a list of less than 5 highly relevant questions to clarify or confirm, and then wait for the user's answers. 
-As a senior programmer, you have a lot of expertise based on which to guide users to clarify requirements, don't ask stupid questions.
+Note that we should guide the user to make the requirements fit into the "Application implementation", and avoid completely deviating from the requirements of the application positioning.
+
+Specifically you will summarise a list of super short bullets of areas that need clarification.and wait for an answer from the user.
 
 Application Information:
 ```
@@ -68,22 +238,26 @@ Note: Keep conversations in """+getCurrentLanguageName()+""".
             ]
             finalContext.extend(preContext)
 
-            message, total_tokens, success = chatCompletion(finalContext, FAKE_CLARIFY_1)
-            
-            if message.find("Nothing more to clarify") != -1 or message.find('"question":""') != -1 :
-                return organize(firstPrompt, requirementsDetail)
+            message, total_tokens, success = chatCompletion(
+                finalContext, "")
+
+            if message.find("Nothing more to clarify") != -1 or message.find('"question":""') != -1:
+                return organize(requirementID, firstPrompt, PRDTemplate, appArchitecture, service_list, ServiceType, clarified_list)
+        # 总结需求文档
         else:
-            return organize(firstPrompt, requirementsDetail, appArchitecture)
+            return organize(requirementID, firstPrompt, PRDTemplate, appArchitecture, service_list, ServiceType, clarified_list)
 
         message = fix_llm_json_str(message)
         return json.loads(message), success
-    
-def organize(firstPrompt, requirementsDetail, appArchitecture):
+
+
+def organize(requirementID, firstPrompt, PRDTemplate, appArchitecture, service_list, ServiceType, clarified_list):
     Organize = []
     Organize.append({
         "role": "system",
         "content": """
-As a senior software developer, you will organize a long and detailed requirement document include """+requirementsDetail+""" based on the "software development requirement" and "clarified list".
+Role: You are a professional software developer, you will organize a long and detailed requirement document based on the "software development requirement" and "Application Information" and "clarified list".
+The final requirements document must match the positioning of the "Application Information". The Application can't develop features it's not good at.
 Think step by step make sure the "clarified list" answers are all taken into account, do not miss any details.
 The answers from the 'clarified list' are of utmost importance and must be included in the requirement document with as much detail as possible.
 
@@ -94,65 +268,158 @@ software development requirement:
 
 clarified list:
 ```
-"""+session[session["username"]]["memory"]["clarifyRequirement"]+"""
+"""+clarified_list+"""
 ```
 
-You need to base on "Application Information" to analyze which services need to be modified to meet the requirements document you organize.
 Application Information:
 ```
 """+appArchitecture+"""
 ```
 
-You should only directly respond in JSON format as described below, Ensure the response must can be parsed by Python json.loads, Response Format example:
-{
-"development_requirements_overview": "{The user's initial incoming development requirements}",
-"development_requirements_detail": "{"""+requirementsDetail+"""}",
-"services_involved": [{
-    "service-name": "xxx1",
-    "reasoning": "reasoning"
-}, {
-    "service-name": "xxx2",
-    "reasoning": "reasoning"
-}]
-}
+Output carefully referenced "Format example" in format.
+## Format example
+"""+PRDTemplate+"""
 
-Note: Keep conversations in """+getCurrentLanguageName()+""".
+Note: Please respond in """+getCurrentLanguageName()+""".
 """
     })
 
-    message, total_tokens, success = chatCompletion(Organize, FAKE_CLARIFY_2)
-    print("------")
-    print(message)
-    message = fix_llm_json_str(message)
-    return json.loads(message), success
+    message, total_tokens, success = chatCompletion(Organize, "")
 
-FAKE_CLARIFY_1 = """
-    [
-        {
-            "question": "这个贪吃蛇游戏需要有什么样的界面和图形效果吗？",
-            "reasoning": "界面和图形效果是游戏的重要组成部分，需要确认用户对界面和图形效果的要求。",
-            "answer_sample": "需要一个简单的游戏界面，贪吃蛇和食物应该有明显的图形表示。"
-        },
-        {
-            "question": "贪吃蛇的移动速度是固定的还是可以调整的？",
-            "reasoning": "移动速度是游戏的一个重要参数，需要确认用户对贪吃蛇移动速度的要求。",
-            "answer_sample": "贪吃蛇的移动速度应该是可调整的，用户可以根据自己的喜好来设置速度。"
-        },
-        {
-            "question": "贪吃蛇吃到食物后会变长吗？",
-            "reasoning": "贪吃蛇吃到食物后是否会变长是游戏规则的一部分，需要确认用户对此的要求。",
-            "answer_sample": "是的，贪吃蛇吃到食物后应该会变长一节。"
-        }
-    ]
-"""
-
-FAKE_CLARIFY_2 = """
-    {
-        "development_requirements_overview": "开发一个经典的贪吃蛇的网页小游戏，通过键盘控制贪吃蛇的上下左右移动",
-        "development_requirements_detail": "前置条件：无<br><br>详细操作步骤：<br>1. 打开游戏界面<br>2. 使用键盘上下左右箭头键控制贪吃蛇的移动<br>3. 贪吃蛇吃到食物后会变长一节<br>4. 游戏结束条件：贪吃蛇撞到墙壁或撞到自己的身体<br><br>预期结果：<br>- 游戏界面显示贪吃蛇和食物的图形表示<br>- 贪吃蛇根据用户的键盘操作进行移动<br>- 贪吃蛇吃到食物后会变长一节<br>- 游戏结束时显示游戏结束的提示信息<br><br>其他解释说明：<br>- 贪吃蛇的移动速度应该是可调整的，用户可以根据自己的喜好来设置速度",
-        "services_involved": [{
-            "service-name": "free_demo",
-            "reasoning": "The free_demo service can be used to develop the requirements for the snake game as it is a general-purpose service that can be used for any requirements."
-        }]
+    parsed_data = convert_code_blocks_to_markdown(message)
+    print(parsed_data)
+    services_involved = []
+    for service in service_list:
+        services_involved.append({
+            "service_name": service["name"],
+            "reasoning": ""
+        })
+    re = {
+        "development_requirements_overview": "",
+        "development_requirements_detail": parsed_data,
+        "services_involved": services_involved,
+        "review": ""
     }
+
+    # ssss
+    storage.set("last_prd", parsed_data)
+    
+    re["review"] = review(requirementID, message, ServiceType, appArchitecture)
+
+    return re, success
+
+def adjust(requirementID, userPrompt, PRDTemplate, appArchitecture, service_list, ServiceType):
+    # ssss
+    last_prd = storage.get("last_prd")
+    
+    if len(last_prd) < 1:
+        raise Exception("Failed to obtain the PRD document. 获取PRD文档失败。")
+
+    Organize = []
+    Organize.append({
+        "role": "system",
+        "content": """
+Role: You are a professional software developer, your task is to modify the requirements document based on the feedback received and provide the revised final document content without altering the original structure of the requirements document.
+
+Directly modify the original content to give the final document, there is no need to explain which part is modified.
+
+## requirements document
+```
+"""+last_prd+"""
+```
+
+## feedback list
+```
+"""+userPrompt+"""
+```
+
+Output modified requirement document content in """+getCurrentLanguageName()+""" directly.
 """
+    })
+
+    message, total_tokens, success = chatCompletion(Organize, "")
+
+    print(message)
+    services_involved = []
+    for service in service_list:
+        services_involved.append({
+            "service_name": service["name"],
+            "reasoning": ""
+        })
+    re = {
+        "development_requirements_overview": "",
+        "development_requirements_detail": message,
+        "services_involved": services_involved,
+        "review": ""
+    }
+
+    return re, success
+
+def review(requirementID, PRD, ServiceType, appArchitecture):
+    Organize = []
+    Organize.append({
+        "role": "system",
+        "content": """
+Role: You are a professional """+ServiceType+""" software developer, your task is to review the Product Requirements Document (PRD) to ensure that the requirements can be effectively developed within the existing application and that the requirements are sufficiently detailed. Please provide no more than three of the most constructive suggestions.
+
+Note: suggestions need focus on functional requirements rather than technical requirements.
+
+Requirement Document:
+'''
+"""+PRD+"""
+'''
+
+existing application info:
+```
+"""+appArchitecture+"""
+```
+
+Output carefully referenced "Format example" in format without explanation or dialogue.
+Format example:
+'''
+```python
+[
+    "suggestions 1: ...",
+]
+'''
+
+Note: List suggestions in """+getCurrentLanguageName()+""".
+"""
+    })
+
+    message, total_tokens, success = chatCompletion(Organize, "")
+
+    print(message)
+
+    return convert_code_blocks_to_markdown(message)
+
+def convert_code_blocks_to_markdown_items(input_text):
+    # 按逗号分割字符串，并去除首尾的空格
+    lines = [line.strip().strip('",').strip("',")
+             for line in input_text.split('\n')]
+
+    # 格式化成列表项
+    formatted_lines = []
+    for line in lines:
+        if len(line) > 0:
+            formatted_lines.append('- ' + line.strip('"'))
+
+    # 返回格式化后的文本
+    return '\n'.join(formatted_lines)
+
+
+def convert_code_blocks_to_markdown(input_text):
+    result = input
+
+    # 定义正则表达式模式，匹配目标格式的代码块
+    pattern = r'```python\n\[(.*?)\]\n```'
+
+    # 使用re.sub()函数进行替换
+    def replace(match):
+        content = match.group(1)
+        return convert_code_blocks_to_markdown_items(content)
+
+    # 执行替换
+    result = re.sub(pattern, replace, input_text, flags=re.DOTALL)
+
+    return result

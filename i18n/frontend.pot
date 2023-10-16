@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-09-11 12:35+0800\n"
+"POT-Creation-Date: 2023-10-13 19:02+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,10 +16,6 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-
-#: backend/app/pkgs/tools/i18b.py:34
-msgid "DevOpsGPT"
-msgstr ""
 
 #: backend/app/pkgs/tools/i18b.py:35
 msgid "切换为中文"
@@ -29,7 +25,7 @@ msgstr ""
 msgid "Start"
 msgstr ""
 
-#: backend/app/pkgs/tools/i18b.py:37
+#: backend/app/pkgs/tools/i18b.py:37 backend/app/pkgs/tools/i18b.py:211
 msgid "More"
 msgstr ""
 
@@ -649,4 +645,336 @@ msgstr ""
 
 #: backend/app/pkgs/tools/i18b.py:184
 msgid "Sync from Git"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:185
+msgid ""
+"Way 2: Create APP via template. Templates are stored on GitHub by default, "
+"and you can clone them into your own repository."
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:186
+msgid ""
+"Way 1: Create APP via AI, give git path, AI automatically analyzes the code "
+"base to create APP, Make sure Git token has code pull permission."
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:187
+msgid "AI code analysis... It will take a few minutes. Please wait"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:188
+msgid "Launch code"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:189
+msgid "Your KUAFUAI launch code"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:190
+msgid "The username cannot be smaller than 4 characters."
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:191
+msgid ""
+"The username format you entered is incorrect(Only letters a-Z and _ - are "
+"allowed)."
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:192
+msgid "The password cannot be smaller than 6 characters."
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:193
+msgid "The phone_number cannot be smaller than 9 characters."
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:194
+msgid "The email format you entered is incorrect."
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:195
+msgid "The email launch code is incorrect."
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:196
+msgid ""
+"invitation code (Thank you for your interest. We will open registration "
+"after the beta testing phase.)"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:197
+msgid "Alpha(internal testing)"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:198
+msgid ""
+"Welcome to KuafuAI, Multi agent system for AI-driven software development."
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:199
+msgid "Natural language requirements into working software."
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:200
+msgid ""
+"Multi agent system for AI-driven software development. Combine LLM with "
+"DevOps tools to convert natural language requirements into working software. "
+"Supports any development language and extends the existing code."
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:201
+msgid "Full Process"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:202
+msgid "Multi-Agent"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:203
+msgid "Domain Models"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:204
+msgid ""
+"An AI-driven development platform that covers the entire software lifecycle "
+"management, combined with various DevOps tools, achieves end-to-end delivery "
+"of software from natural language requirements."
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:205
+msgid ""
+"AI intelligently adjusts workflow orchestration based on user feedback and "
+"continuously performs autonomous self-correction and optimization of "
+"generated results, enabling flexible and high-quality software development."
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:206
+msgid ""
+"Multiple domain models are trained for the software production process. "
+"These domain models collaborate to complete software development tasks and "
+"can support private deployment. Extension development based on existing "
+"software code is achieved through proprietary models."
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:207
+msgid "CURD Requirements"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:208
+msgid ""
+"In software development, CRUD (Create, Read, Update, Delete) represents "
+"essential operations for managing data. It involves creating new records, "
+"retrieving existing data, updating information, and deleting records. These "
+"CRUD operations are fundamental in various applications, from database "
+"management systems to web and mobile applications, as they enable users to "
+"interact with and manipulate data effectively."
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:209
+msgid "ChatBot Requirements"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:210
+msgid ""
+"In software development, chatbot requirements for applications like "
+"Enterprise WeChat typically encompass functionalities such as real-time "
+"messaging, automated responses, integration with enterprise systems, user "
+"management, and multi-platform compatibility, ensuring efficient "
+"communication and task automation within corporate environments."
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:212
+msgid ""
+"As our foundational and product capabilities continue to improve, we will "
+"gradually expand our development to encompass more complex application "
+"scenarios, bringing universal benefits to every user with software "
+"development needs. Please stay tuned and follow us for updates."
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:213
+msgid ""
+"Now, you can experience our products with minimal cost. We look forward to "
+"bringing a whole new experience to your software development!"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:214
+msgid "Opensource"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:215
+msgid "Basic"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:216
+msgid "Pro"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:217
+msgid "Private Deployment"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:218
+msgid ""
+"Utilize our fine-tuned model and deploy it within your private environment "
+"to ensure data security. We welcome further communication with you."
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:219
+msgid "Contact Us"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:220
+msgid "Links"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:221
+msgid "Get Launch code"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:222
+msgid "Service Type"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:223
+msgid "The email address has been registered."
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:224
+msgid "Change password"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:225
+msgid "New password"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:226
+msgid "Help center"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:227
+msgid ""
+"Technical document has been generated. You can confirm the document, or "
+"manually modify the document."
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:228
+msgid ""
+"Assist in clarifying product requirements and produce requirement documents."
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:229
+msgid ""
+"Design system architecture, break down development tasks, and produce "
+"technical documentation for development."
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:230
+msgid "Assess product quality, identify and report defects."
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:231
+msgid "Write, review, test, and maintain software code."
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:232
+msgid ""
+"Responsible for application deployment, as well as managing servers, "
+"networks, and systems to ensure system availability and stability."
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:233
+msgid ""
+"The following AI roles will assist you in completing the entire development "
+"process for requirement tasks."
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:234
+msgid "Try it!"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:235
+msgid "Web application"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:236
+msgid ""
+"Asset Registration Function: Supports adding new fixed asset information, "
+"including asset number, name, specifications, purchase date, and purchase "
+"price."
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:237
+msgid "Office collaboration application expansion"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:238
+msgid ""
+"Input meeting notes, invoke ChatGPT to organize the meeting notes into "
+"meeting minutes, and send them to the group via the enterprise WeChat bot."
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:239
+msgid "Integration between services via API"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:240
+msgid ""
+"Integrate with the GitLab server using GitLab's OpenAPI. The system will "
+"query the recent one-hour continuous integration failure records every hour."
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:241
+msgid "mini-games"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:242
+msgid ""
+"Snake Game: Players control the direction of the snake, collect food, and "
+"the snake grows in length when it eats food."
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:243
+msgid "Try this requirement"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:244
+msgid ""
+"Please note that different types of applications are suitable for different "
+"types of needs. Please provide a detailed description of your requirements. "
+"Below are some reference cases."
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:245
+msgid "Trigger code review"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:246
+msgid "Update status"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:247
+msgid "View details"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:248
+msgid "index_view_url"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:249
+msgid ""
+"You haven't created an app yet. <a href='/app.html?action=create_new' "
+"target='_blank'>You can quickly create one.</a>"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:250
+msgid "The verify code is incorrect."
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:251
+msgid "The phone number has been registered."
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:252
+msgid "You have obtained the verify code too many times."
 msgstr ""

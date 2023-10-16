@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-09-11 12:34+0800\n"
+"POT-Creation-Date: 2023-10-13 19:29+0800\n"
 "PO-Revision-Date: 2023-07-17 15:03+0800\n"
 "Last-Translator: booboo <mac@booboo.local>\n"
 "Language-Team: Language i18n/en\n"
@@ -16,72 +16,101 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: backend/app/controllers/app.py:46
+#: backend/app/controllers/app.py:50
 msgid "Failed to add an application."
 msgstr ""
 
-#: backend/app/controllers/app.py:61
+#: backend/app/controllers/app.py:65 backend/app/controllers/app.py:79
 msgid "Failed to get applications."
 msgstr ""
 
-#: backend/app/controllers/app.py:72
+#: backend/app/controllers/app.py:89 backend/app/controllers/app.py:98
 msgid "Failed to analysis applications."
 msgstr ""
 
-#: backend/app/controllers/requirement.py:59
-#: backend/app/controllers/requirement.py:107
+#: backend/app/controllers/pay_pro.py:79 backend/app/controllers/pay_pro.py:113
+msgid "Incorrect payment status!"
+msgstr ""
+
+#: backend/app/controllers/pay_pro.py:159
+#: backend/app/controllers/pay_pro.py:182
+#: backend/app/controllers/pay_pro.py:185
+msgid "Incorrect request parameter!"
+msgstr ""
+
+#: backend/app/controllers/pay_pro.py:230
+#: backend/app/controllers/pay_pro.py:270
+msgid "Payment creation failed!"
+msgstr ""
+
+#: backend/app/controllers/requirement.py:53
+#: backend/app/controllers/requirement.py:109
 msgid "Failed to set up app."
 msgstr ""
 
-#: backend/app/controllers/setting.py:20 backend/app/controllers/setting.py:32
-#: backend/app/controllers/setting.py:44 backend/app/controllers/setting.py:52
-#: backend/app/controllers/setting.py:57
+#: backend/app/controllers/requirement.py:76
+msgid "The task does not exist."
+msgstr ""
+
+#: backend/app/controllers/setting.py:21 backend/app/controllers/setting.py:33
+#: backend/app/controllers/setting.py:45 backend/app/controllers/setting.py:53
+#: backend/app/controllers/setting.py:58
 msgid "Failed to get git config list."
 msgstr ""
 
-#: backend/app/controllers/setting.py:85 backend/app/controllers/setting.py:109
-#: backend/app/controllers/setting.py:133
+#: backend/app/controllers/setting.py:86 backend/app/controllers/setting.py:110
+#: backend/app/controllers/setting.py:134
 msgid "Failed to edit setting."
 msgstr ""
 
-#: backend/app/controllers/step_api.py:34
+#: backend/app/controllers/step_api.py:32
 msgid "Failed to clarify API."
 msgstr ""
 
-#: backend/app/controllers/step_code.py:22
+#: backend/app/controllers/step_code.py:25
 msgid "Failed to edit file with new task."
 msgstr ""
 
-#: backend/app/controllers/step_code.py:37
+#: backend/app/controllers/step_code.py:45
 msgid "Failed to check file."
 msgstr ""
 
-#: backend/app/controllers/step_code.py:55
+#: backend/app/controllers/step_code.py:62
 msgid "Failed to merge old and new code."
 msgstr ""
 
-#: backend/app/controllers/step_code.py:75
+#: backend/app/controllers/step_code.py:80
 msgid "Failed to reference repair no reference file found."
 msgstr ""
 
-#: backend/app/controllers/step_code.py:79
+#: backend/app/controllers/step_code.py:84
 msgid "Reference repair failed for unknown reasons."
 msgstr ""
 
-#: backend/app/controllers/step_devops.py:69
+#: backend/app/controllers/step_devops.py:32
+msgid "CI is not configured. Configure it in Company Settings"
+msgstr ""
+
+#: backend/app/controllers/step_devops.py:77
 msgid "Compile check pass."
 msgstr ""
 
-#: backend/app/controllers/step_devops.py:76
+#: backend/app/controllers/step_devops.py:84
 msgid "Compile check failed for unknown reasons."
 msgstr ""
 
-#: backend/app/controllers/step_devops.py:93
+#: backend/app/controllers/step_devops.py:102
 msgid "Static code scan passed."
 msgstr ""
 
-#: backend/app/controllers/step_devops.py:100
+#: backend/app/controllers/step_devops.py:109
 msgid "Static code scan failed for unknown reasons."
+msgstr ""
+
+#: backend/app/controllers/step_devops.py:125
+msgid ""
+"Could not get deployment docker image, Please “Trigger continuous "
+"integration” first."
 msgstr ""
 
 #: backend/app/controllers/step_requirement.py:28
@@ -92,53 +121,86 @@ msgstr ""
 msgid "Failed to clarify requirement."
 msgstr ""
 
-#: backend/app/controllers/step_subtask.py:64
+#: backend/app/controllers/step_subtask.py:52
+#: backend/app/controllers/step_subtask.py:87
 msgid "Failed to split task."
 msgstr ""
 
-#: backend/app/controllers/tenant_pro.py:14
-#: backend/app/controllers/tenant_pro.py:20
-msgid "The current version does not support this feature."
+#: backend/app/controllers/tenant_pro.py:85
+msgid "Unregistered"
 msgstr ""
 
-#: backend/app/controllers/user.py:65
+#: backend/app/controllers/tenant_pro.py:111
+msgid "Not a member of the company."
+msgstr ""
+
+#: backend/app/controllers/tenant_pro.py:135
+msgid ""
+"invite you to join the AI intelligent software development platform - KuafuAI"
+msgstr ""
+
+#: backend/app/controllers/tenant_pro.py:135
+msgid ""
+"Please access the following link through a browser to view the relevant "
+"information."
+msgstr ""
+
+#: backend/app/controllers/tenant_pro.py:139
+msgid "The user has already been invited."
+msgstr ""
+
+#: backend/app/controllers/user.py:37
+msgid ""
+"invitation code not right (Thank you for your interest. We will open "
+"registration after the beta testing phase.)"
+msgstr ""
+
+#: backend/app/controllers/user.py:52
+msgid "'s personal Organization"
+msgstr ""
+
+#: backend/app/controllers/user.py:88
 msgid "Login successful."
 msgstr ""
 
-#: backend/app/controllers/user.py:67
+#: backend/app/controllers/user.py:90
 msgid "Invalid username or password"
 msgstr ""
 
-#: backend/app/controllers/user.py:80
+#: backend/app/controllers/user.py:102
 msgid "Logout successful."
 msgstr ""
 
-#: backend/app/controllers/user.py:101
+#: backend/app/controllers/user.py:121 backend/app/controllers/user.py:134
 msgid "success."
 msgstr ""
 
-#: backend/app/controllers/workspace.py:27
+#: backend/app/controllers/workspace.py:30
 msgid "Saved code successfully."
 msgstr ""
 
-#: backend/app/controllers/workspace.py:50
+#: backend/app/controllers/workspace.py:55
 msgid "Create workspace successfully."
 msgstr ""
 
-#: backend/app/controllers/workspace.py:52
+#: backend/app/controllers/workspace.py:57
 msgid "Failed to create workspace."
 msgstr ""
 
-#: backend/app/controllers/workspace.py:73
 #: backend/app/controllers/workspace.py:80
+#: backend/app/controllers/workspace.py:90
 msgid "Failed to push code."
 msgstr ""
 
-#: backend/app/controllers/workspace.py:78
+#: backend/app/controllers/workspace.py:88
 msgid "Push code successfully."
 msgstr ""
 
-#: backend/app/controllers/workspace.py:102
-#: backend/app/controllers/workspace.py:109
+#: backend/app/controllers/workspace.py:88
+msgid "Fetch code command: "
+msgstr ""
+
+#: backend/app/controllers/workspace.py:114
+#: backend/app/controllers/workspace.py:121
 msgid "Failed to reset code."
 msgstr ""

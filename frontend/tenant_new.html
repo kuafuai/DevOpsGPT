@@ -22,19 +22,20 @@
 <body>
   <div class="ui borderless main menu margin-top-0">
     <div class="ui text container ai-textcontainer">
-      <div class="header item" style="padding-left: 0px;">
+      <a href="/" class="header item" style="padding-left: 0px;">
         <img class="logo" src="./static/image/logo.png" style="margin-right: 5px;">
         <span class="f_title"></span>
-      </div>
-      <a class="item" href="index.html"><span class="f_start_task"></span></a>
+      </a>
+      <a class="item" href="task.html"><span class="f_start_task"></span></a>
       <a class="item" href="requirement.html"><span class="f_requirement_list"></span></a>
       <a class="item" href="app.html"><span class="f_app_list"></span></a>
-      <a href="#" class="ui right floated dropdown item">
+      <a class="ui right floated item" onClick="openUrl('tenant.html')"><i class="university icon teal"></i><span id="current-tenant"></span></a>
+      <a href="#" class="ui right floated dropdown item" style="margin-left: 0px !important">
         <span class="f_more_operations"></span> <i class="dropdown icon"></i>
         <div class="menu">
           <div class="item"><i class="user icon tiny"></i><span class="f_hello"></span> <span id="current-username"></span></div>
-          <div class="item" onClick="openUrl('tenant.html')"><i class="university icon tiny"></i><span id="current-tenant"></span></div>
           <div class="item" onClick="changeLanguage()"><i class="exchange icon tiny"></i><span class="f_change_language"></span></div>
+          <div class="item" onClick="openUrlNew('https://vvx03gck2p.feishu.cn/docx/KwnSdasq1oK3LMxfVBAcwhG2neQ')"><i class="question circle icon tiny"></i><span class="f_help"></span></div>
           <div class="item" onClick="logout()"><i class="sign-out icon tiny"></i><span class="f_logout"></span></div>
         </div>
       </a>

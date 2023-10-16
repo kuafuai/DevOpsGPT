@@ -32,19 +32,24 @@ class DevopsGitlab(DevopsInterface):
             jobs = pipeline.jobs.list()
 
             job_info = []
+            docker_image = ""
             for job in jobs:
                 print("job:", job)
+                job_log = self.getPipelineJobLogs(repopath, pipline_id, job.id)
                 job_info.append({
                     'job_id': job.id,
                     'job_name': job.name,
                     'status': job.status,
                     'duration': job.duration,
-                    'log': self.getPipelineJobLogs(repopath, pipline_id, job.id)
+                    'log': job_log
                 })
+                img = parseDockerImage(job_log)
+                if len(img) > 1:
+                    docker_image = img
 
-            return list(reversed(job_info)), True
+            return list(reversed(job_info)), docker_image, True
         except Exception as e:
-            return "Failed to get pipline status:" + str(e), False
+            return "Failed to get pipline status:" + str(e), '', False
 
     def getPipelineJobLogs(self, repopath, pipeline_id, job_id, ciConfig):
         try:
@@ -90,3 +95,18 @@ def removeColorCodes(log_string):
     #         return True, content
     #     except Exception as e:
     #         return False, str(e)
+
+def parseDockerImage(input_str):
+    # 定义正则表达式模式
+    pattern = r'kuafuai_docker_image_pushed:(.+?)[&|\n]'
+
+    # 使用 re.search 来查找匹配项
+    match = re.search(pattern, input_str)
+
+    # 如果找到匹配项，则提取结果
+    if match:
+        result = match.group(1)
+        return result
+    else:
+        print("parseDockerImage: 未找到匹配项")
+        return ""
