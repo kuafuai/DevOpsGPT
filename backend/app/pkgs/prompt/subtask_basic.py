@@ -5,6 +5,7 @@ from app.pkgs.tools.llm import chatCompletion
 from app.pkgs.tools.utils_tool import fix_llm_json_str
 from app.pkgs.prompt.subtask_interface import SubtaskInterface
 from app.pkgs.knowledge.app_info import getServiceSpecification
+from app.pkgs.tools import storage
 from config import MODE
 
 class SubtaskBasic(SubtaskInterface):
@@ -16,7 +17,7 @@ class SubtaskBasic(SubtaskInterface):
             return jsonData, True
         
         # get libs 
-        data, success = setpReqChooseLib(feature, appBasePrompt, projectInfo, projectLib)
+        data, success = setpReqChooseLib(requirementID, feature, appBasePrompt, projectInfo, projectLib)
         code_require = []
         for t in data:
             name = t['name']
@@ -25,24 +26,38 @@ class SubtaskBasic(SubtaskInterface):
         code_require = list(set(code_require))
         print(f"get code_require:{code_require}")
         specification = '\n'.join(code_require)
+        
+        # ssss
+        storage.set("specification", specification)
 
         # subtask
-        subtask, ctx, success = setpSubTask(feature, appBasePrompt, serviceStruct, specification)
+        subtask, ctx, success = setpSubTask(requirementID, feature, appBasePrompt, serviceStruct, specification, serviceName)
+        return subtask, success
+        
+    def splitTaskDo(self, req_info, service_info, tec_doc):
+        requirement_id = req_info["requirement_id"]
+        
+        # ssss
+        specification = storage.get("specification")
+        
+        service_name = service_info["name"]
+        service_struct = service_info["struct_cache"]
+        language = service_info["language"]
+        framework = service_info["framework"]
+        original_requirement = req_info["original_requirement"]
+
+        # pseudocode
+        pseudocode, success = setpPseudocode(requirement_id, language, framework, tec_doc,  service_struct, original_requirement)
         if success:
-            # pseudocode
-            pseudocode, success = setpPseudocode(ctx, subtask,  serviceStruct, appBasePrompt)
-            if success:
-                return setpGenCode(pseudocode, feature, appBasePrompt, specification, serviceStruct, serviceName)
-            else:
-                return pseudocode, False
+            return setpGenCode(requirement_id, pseudocode, original_requirement, specification, service_struct, service_name)
         else:
-            return subtask, False
+            return pseudocode, False
 
     def write_code(self, requirement_id, service_name, file_path, development_detail, step_id):
         pass
 
 
-def setpGenCode(pseudocode, feature, appBasePrompt, specification, serviceStruct, serviceName):
+def setpGenCode(requirementID, pseudocode, feature, specification, serviceStruct, serviceName):
     context = []
     context.append({
         "role": "system",
@@ -50,8 +65,7 @@ def setpGenCode(pseudocode, feature, appBasePrompt, specification, serviceStruct
 NOTICE
 Role: As a senior full stack developer, you are very diligent and good at writing complete code. 
 You will get "Development specification" and "Development requirement" and "Pseudocode" for write the final complete code that works correctly.
-Please note that the code should be fully functional. No placeholders no todo ensure that all code can run in production environment correctly.
-"""+appBasePrompt+""" """})
+Please note that the code should be fully functional. No placeholders no todo ensure that all code can run in production environment correctly."""})
     context.append({
         "role": "user",
         "content": """
@@ -73,7 +87,7 @@ Pseudocode:
     context.append({
         "role": "user",
         "content": """
-Now complete all codes according to the above information including ALL code, it is going to be a long response.
+Now complete all Pseudocode codes according to the above information including ALL code, it is going to be a long response.
 Please note that the code should be fully functional. No placeholders no todo ensure that all code can run in production environment correctly.
 
 You will output the content of each file including ALL code.
@@ -104,20 +118,31 @@ Before you finish, double check that all parts of the architecture is present in
 
     return jsonData, success
 
-def setpPseudocode(context, subtask, serviceStruct, appBasePrompt):
-    context.append({"role": "assistant", "content": subtask})
+def setpPseudocode(requirement_id, language, framework, tec_doc,  service_struct, original_requirement):
+    context = []
 
     content =  """
+# Context
+Existing Code directory structure:
+```
+""" + service_struct + """
+```
+
+开发需求:
+```
+"""+original_requirement+"""
+```
+
+将开发需求拆解为一系列必要的子步骤，并为每个步骤提供详细的说明如下：
+```
+""" + tec_doc + """
+```
+-----
+作为一名资深""" + language + """系统架构师，你的任务是在""" + framework + """框架下开发。
 Think step by step and reason yourself to the right decisions to make sure we get it right.
 
-You will output the pseudocode of each file based on the "Existing Code directory structure" provided below. 
+You will output the pseudocode of each file based on the "Existing Code directory structure". 
 Do not write markdown code.
-"""+appBasePrompt+"""
-
-Existing code directory structure:
-```
-""" + serviceStruct + """
-```
 
 Each pseudocode file must strictly follow a markdown code block format, where the following tokens must be replaced such that
 FILEPATH is a file name that contains the file extension
@@ -137,7 +162,7 @@ Do not explain and talk, directly respond pseudocode of each file.
 
     return message, success
 
-def setpSubTask(feature, appBasePrompt, serviceStruct, specification):
+def setpSubTask(requirementID, feature, appBasePrompt, serviceStruct, specification, serviceName):
     context = []
     content = """Your job is to think step by step according to the basic "Code directory structure" and "Development specification" provided below, and break down the "Development requirement" provided below into multiple substeps of writing code. each step needs to be detailed.
 
@@ -163,6 +188,14 @@ Development requirement:
 ````
 
 Do not explain and talk, directly respond substeps.
+输出格式示例：
+```
+1. 在`xxx`文件中...用于...：
+   - 依赖以下内容：
+     - 依赖...用于..
+   - 并实现以下功能：
+     - ...
+```
 """
     context.append({"role": "system", "content": content})
     message, total_tokens, success = chatCompletion(context)
@@ -171,7 +204,7 @@ Do not explain and talk, directly respond substeps.
 
 
 # choose lib by req
-def setpReqChooseLib(feature, appBasePrompt, projectInfo, projectLib):
+def setpReqChooseLib(requirementID, feature, appBasePrompt, projectInfo, projectLib):
     context = []
     content = appBasePrompt + """, Your task is to analyze the requirements and find the appropriate component names. Think step by step, combine the existing project information and the existing component list, analyze the user input requirements to use which components, be careful to select only among the existing components. Please do not write code
 

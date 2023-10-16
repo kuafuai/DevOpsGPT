@@ -1428,7 +1428,7 @@ function startPush(serviceName, ele, hideMessage) {
 }
 
 function startCi(repo_path, ele) {  
-    startPush('freestyle_app', ele, true);
+    startPush(repo_path, ele, true);
 
     customPrompt = "git repo: "+repo_path+" "+globalFrontendText["start_ci"]
 
