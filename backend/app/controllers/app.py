@@ -95,6 +95,6 @@ def analyze_service():
 
     info, success = analyzeService(tenantID, gitPath)
     if not success:
-        raise Exception(_("Failed to analysis applications.")+"目前只支持Java和python语言 Currently, only Java and python languages are supported") 
+        raise Exception(_("Failed to analysis applications.")+"（AI 自动导入已有代码库新建应用功能，目前只支持Java和python语言，其它语言可通过<a href='/app.html?action=create_new_tpl'>模板创建</a>。 Currently, AI import existing code project only Java and python languages are supported. For other languages, use <a href='/app.html? action=create_new_tpl'> Template creation </a>）") 
         
     return info

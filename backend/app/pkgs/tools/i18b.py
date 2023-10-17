@@ -250,4 +250,10 @@ def getFrontendText():
         "others_14": _("The verify code is incorrect."),
         "others_15": _("The phone number has been registered."),
         "others_16": _("You have obtained the verify code too many times."),
+        "select_existing_application": _("Select existing applications"),
+        "select_existing_application_intro": _("Select from already created applications."),
+        "ai_imports": _("AI import existing code project"),
+        "ai_imports_intro": _("Use AI to automatically import existing code items to create new applications."),
+        "tpl_imports": _("Create application using templates"),
+        "tpl_imports_intro": _("Use templates to quickly create new application."),
     }
