@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-10-17 19:24+0800\n"
+"POT-Creation-Date: 2023-10-18 16:20+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1003,4 +1003,8 @@ msgstr ""
 
 #: backend/app/pkgs/tools/i18b.py:258
 msgid "Use templates to quickly create new application."
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:259
+msgid "Repair workspace"
 msgstr ""

@@ -256,4 +256,5 @@ def getFrontendText():
         "ai_imports_intro": _("Use AI to automatically import existing code items to create new applications."),
         "tpl_imports": _("Create application using templates"),
         "tpl_imports_intro": _("Use templates to quickly create new application."),
+        "repair_workspace": _("Repair workspace"),
     }

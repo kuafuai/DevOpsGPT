@@ -366,7 +366,9 @@ function analyzeService(elementID) {
         $("#ai_analyze_service_icon").html('<i class=" reddit square icon"></i>')
         $(".ai_analyze_service_btn").removeClass("disabled")
         $('#app-edit').dimmer('hide');
-        myAlert("ERROR", data)
+        setTimeout(function () {
+            myAlert("ERROR", data)
+        }, 1000);
     }
 
     sendAjaxRequest('/app/analyze_service', 'POST', requestData, successCallback, errorCallback, true, false)
