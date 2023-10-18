@@ -219,19 +219,19 @@ pre {
   color: #666 !important;
 }
 
-.goodcase_list .item{
+.role_list .item{
   width: 200px;
   margin-right: 12px;
   float: left;
 }
 
-.goodcase_list .content .image {
+.role_list .content .image {
   float: left;
   width: 50px !important;
   height: 50px !important;
 }
 
-.goodcase_list .content .description {
+.role_list .content .description {
   width: 145px;
   float: right;
 }
