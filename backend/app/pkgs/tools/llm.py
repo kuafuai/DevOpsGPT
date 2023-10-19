@@ -14,11 +14,31 @@ def chatCompletion(context, fackData=""):
     try:
         message, total_tokens, success = obj.chatCompletion(context, fackData)
     except Exception as e:
-        print("chatCompletion failed first time:" + str(e))
+        print("chatCompletion failed 1 time:" + str(e))
         try:
             message, total_tokens, success = obj.chatCompletion(context, fackData)
         except Exception as e:
-            print("chatCompletion failed second time:" + str(e))
+            print("chatCompletion failed 2 time:" + str(e))
             traceback.print_exc()
-            raise Exception(e)
+            try:
+                message, total_tokens, success = obj.chatCompletion(context, fackData)
+            except Exception as e:
+                print("chatCompletion failed 3 time:" + str(e))
+                traceback.print_exc()
+                try:
+                    message, total_tokens, success = obj.chatCompletion(context, fackData)
+                except Exception as e:
+                    print("chatCompletion failed 4 time:" + str(e))
+                    traceback.print_exc()
+                    try:
+                        message, total_tokens, success = obj.chatCompletion(context, fackData)
+                    except Exception as e:
+                        print("chatCompletion failed 5 time:" + str(e))
+                        traceback.print_exc()
+                        try:
+                            message, total_tokens, success = obj.chatCompletion(context, fackData)
+                        except Exception as e:
+                            print("chatCompletion failed 6 time:" + str(e))
+                            traceback.print_exc()
+                            raise Exception("服务异常，请重试。Service exception, please try again.")
     return message, total_tokens, success
