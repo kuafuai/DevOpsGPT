@@ -26,7 +26,7 @@ msgstr "获取应用失败。"
 
 #: backend/app/controllers/app.py:89 backend/app/controllers/app.py:98
 msgid "Failed to analysis applications."
-msgstr "分析应用失败。"
+msgstr "分析应用失败。请确保您输入的【代码库路径】可以通过 Git 配置拉取。"
 
 #: backend/app/controllers/pay_pro.py:79 backend/app/controllers/pay_pro.py:113
 msgid "Incorrect payment status!"

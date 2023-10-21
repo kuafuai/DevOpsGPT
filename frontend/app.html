@@ -10,9 +10,9 @@
   <script src="./static/js/jquery.min.js"></script>
   <script src="./static/js/semantic.min.js"></script>
   <script src="./static/js/marked.min.js"></script>
-  <script src="./static/js/coder.js?v=75"></script>
-  <script src="./static/js/app.js?v=75"></script>
-  <script src="./static/js/setting.js?v=75"></script>
+  <script src="./static/js/coder.js?v=78"></script>
+  <script src="./static/js/app.js?v=78"></script>
+  <script src="./static/js/setting.js?v=78"></script>
 </head>
 
 <body>
@@ -44,7 +44,7 @@
         <input class="prompt" type="text" size="40" placeholder="Search...">
         <i class="search icon"></i>
       </div>
-      <button class="ui linkedin button right floated background-color-deep-green" id="add-application">
+      <button class="ui linkedin button right floated background-color-deep-green" id="add-application" onclick="clickAddApplication()">
         <i class="plus icon"></i>
         <span class="f_create_new"></span>
       </button>
@@ -64,22 +64,23 @@
   <div class="ui modal" id="app-new">
     <div class="header"><span class="f_create_new"></span> APP</div>
     <div class="content">
-      <div class="ui form">
+      <div class="ui form" id="app-new-way1">
         <div class="field">
           <label><span class="f_create_from_tpl"></span></label>
           <select class="ui fluid dropdown" id="tpl_select">
           </select>
         </div>
         <button class="ui blue button " id="app-tpl-save"><i class=" plus icon"></i><span class="f_create_new"></span></button>
-        <button class="ui button floated right" id="app-edit-cancel-new"><span class="f_cancel"></span></button>
+        <button class="ui button floated right f_cancel"></button>
       </div>
-      <br><hr/><br>
-      <div class="ui form">
+      <div class="ui form" id="app-new-way"></div>
+      <div class="ui form" id="app-new-way2">
         <div class="field">
           <label><span class="f_create_from_gitpath"></span></label>
           <input type="text" id="ai_code_analysis_git_path" placeholder="kuafuai/DevOpsGPT">
         </div>
         <button class="ui purple button " id="app-app-save"><i class=" reddit square icon"></i><span class="f_ai_code_analysis"></span></button>
+        <button class="ui button floated right f_cancel"></button>
       </div>
     </div>
   </div>

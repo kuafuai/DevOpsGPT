@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-10-13 19:02+0800\n"
+"POT-Creation-Date: 2023-10-18 16:20+0800\n"
 "PO-Revision-Date: 2023-07-17 18:37+0800\n"
 "Last-Translator: booboo <mac@booboo.local>\n"
 "Language-Team: Language i18n/en\n"
@@ -58,13 +58,15 @@ msgstr ""
 msgid ""
 "Hello, I am the AI-assisted code development assistant, please select the"
 msgstr ""
+"Hello, I am the AI-assisted software development assistant, Please select or "
+"create the application for this task:"
 
 #: backend/app/pkgs/tools/i18b.py:45
 msgid "to start the development task!"
 msgstr ""
-"to start the development task!（<a href='https://vvx03gck2p.feishu.cn/docx/"
-"OvjMd4ImKoIyLuxmuIpcC3WrnEd' target='_blank'>Don't know how to play? Click "
-"here to get you started in 10 minutes</a>）"
+"<a href='https://vvx03gck2p.feishu.cn/docx/OvjMd4ImKoIyLuxmuIpcC3WrnEd' "
+"target='_blank'>Don't know how to play? Click here to get you started in 10 "
+"minutes</a>"
 
 #: backend/app/pkgs/tools/i18b.py:46
 msgid "I need to develop requirements in the"
@@ -999,7 +1001,11 @@ msgstr ""
 
 #: backend/app/pkgs/tools/i18b.py:248
 msgid "index_view_url"
-msgstr "<iframe src='//player.bilibili.com/player.html?aid=874614890&bvid=BV1QN4y1y7uo&cid=1297241046&p=1&autoplay=0&muted=0' scrolling='no' border='0' width='800px' height='450px' frameborder='no' framespacing='0' allowfullscreen='true'> </iframe>"
+msgstr ""
+"<iframe src='//player.bilibili.com/player.html?"
+"aid=874614890&bvid=BV1QN4y1y7uo&cid=1297241046&p=1&autoplay=0&muted=0' "
+"scrolling='no' border='0' width='800px' height='450px' frameborder='no' "
+"framespacing='0' allowfullscreen='true'> </iframe>"
 
 #: backend/app/pkgs/tools/i18b.py:249
 msgid ""
@@ -1018,4 +1024,37 @@ msgstr ""
 
 #: backend/app/pkgs/tools/i18b.py:252
 msgid "You have obtained the verify code too many times."
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:253
+#, fuzzy
+msgid "Select existing applications"
+msgstr ""
+"<a href='https://vvx03gck2p.feishu.cn/docx/L1jidyKYSoCpozxN3uQcUoHxnnd' "
+"target='_blank'>Web application</a>"
+
+#: backend/app/pkgs/tools/i18b.py:254
+msgid "Select from already created applications."
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:255
+msgid "AI import existing code project"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:256
+msgid ""
+"Use AI to automatically import existing code items to create new "
+"applications."
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:257
+msgid "Create application using templates"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:258
+msgid "Use templates to quickly create new application."
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:259
+msgid "Repair workspace"
 msgstr ""

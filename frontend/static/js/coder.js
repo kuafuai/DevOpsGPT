@@ -1382,7 +1382,7 @@ function resetWorkspace(serviceName, ele) {
         myAlert("ERROR", error)
     }
 
-    sendAjaxRequest('/workspace/resetWorkspace', "POST", requestData, successCallback, ErrorCallback, true, false)
+    sendAjaxRequest('/workspace/resetWorkspace', "POST", requestData, successCallback, ErrorCallback, false, false)
 }
 
 function startPush(serviceName, ele, hideMessage) {
@@ -1420,7 +1420,9 @@ function startPush(serviceName, ele, hideMessage) {
             if (typeof error === 'undefined') {
                 error = "Unknown error"
             }
-            myAlert("ERROR", error)
+
+            var retruBtn = '<br /><br /><button class="ui green button" onClick="createWS(\''+serviceName+'\')">'+globalFrontendText["repair_workspace"]+'</button>'
+            myAlertPure("ERROR", error + retruBtn)
         }
 
         sendAjaxRequest('/workspace/gitpush', "POST", requestData, successCallback, ErrorCallback, true, false)

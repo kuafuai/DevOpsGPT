@@ -51,15 +51,6 @@ Develop one ...
 ]
 ```
 
-## 接口类型
-如RESTful API或GraphQL或GRPC等
-               
-## 请求方式
-POST、GET、DELETE、PUT等，没有请忽略
-               
-## 调用路径或调用方法
-path or method
-
 ## 请求体参数
 ```python
 [
@@ -80,6 +71,59 @@ path or method
     "Accept request parameter: ...",
 ]
 ```
+""")
+FRONTEND_BACKEND = _("""
+## Original Requirements
+Develop one ... 
+
+Product Goals
+```python
+[
+    "Create a ...",
+]
+```
+                
+User Stories
+```python
+[
+    "As a user, ...",
+]
+```
+
+## Frontend Design
+UI/UX Design
+```python
+[
+    "Three-column layout ...",
+]
+```
+                
+Frontend Business logic
+```python
+[
+    "Request the back-end interface to pass parameters ...",
+]
+                     
+## Backend RESTful API
+请求体参数
+```python
+[
+    "name, type",
+]
+```
+               
+响应体参数
+```python
+[
+    "name, type",
+]
+```
+
+Backend Business logic
+```python
+[
+    "Accept request parameter: ...",
+]
 """)
 DOC_GAME = _("""
 ## 游戏名称
@@ -177,6 +221,8 @@ class RequirementBasic(RequirementInterface):
                 PRDTemplate = DOC_BACKEND
             elif service["service_type"] == "GAME":
                 PRDTemplate = DOC_GAME
+            elif service["service_type"] == "FRONTEND_BACKEND":
+                PRDTemplate = FRONTEND_BACKEND
 
         # todo 这个参数暂时不要调整，过多的澄清会导致出现幻觉，并且程序在获取澄清列表的时候也需要调整
         maxCycle = 2
@@ -276,11 +322,9 @@ Application Information:
 """+appArchitecture+"""
 ```
 
-Output carefully referenced "Format example" in format.
-## Format example
+Output carefully referenced "Format example" in format in """+getCurrentLanguageName()+""".
+# Format example
 """+PRDTemplate+"""
-
-Note: Please respond in """+getCurrentLanguageName()+""".
 """
     })
 
@@ -319,21 +363,19 @@ def adjust(requirementID, userPrompt, PRDTemplate, appArchitecture, service_list
     Organize.append({
         "role": "system",
         "content": """
-Role: You are a professional software developer, your task is to modify the requirements document based on the feedback received and provide the revised final document content without altering the original structure of the requirements document.
+Keep the structure of the requirements document unchanged Re-generate the requirements document based on feedback below.
 
-Directly modify the original content to give the final document, there is no need to explain which part is modified.
-
-## requirements document
-```
-"""+last_prd+"""
-```
-
-## feedback list
+feedback
 ```
 """+userPrompt+"""
 ```
 
-Output modified requirement document content in """+getCurrentLanguageName()+""" directly.
+requirements document
+```
+"""+last_prd+"""
+```
+
+Output modified final requirement document content directly in """+getCurrentLanguageName()+""".
 """
     })
 

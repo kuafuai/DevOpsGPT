@@ -218,3 +218,34 @@ pre {
 .goodcase_list .content .header{
   color: #666 !important;
 }
+
+.role_list .item{
+  width: 200px;
+  margin-right: 12px;
+  float: left;
+}
+
+.role_list .content .image {
+  float: left;
+  width: 50px !important;
+  height: 50px !important;
+}
+
+.role_list .content .description {
+  width: 145px;
+  float: right;
+}
+
+.model-selector .content {
+  cursor: pointer;
+}
+
+.hideitem {
+  display: none;
+}
+
+#app-new-way {
+    margin-top: 50px;
+    border-top: 1px solid #999;
+    padding-bottom: 50px;
+}

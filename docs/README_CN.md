@@ -60,6 +60,10 @@
 - 持续集成：使用 DevOps 工具进行持续集成，确保代码的集成和测试过程自动化。
 - 软件版本发布：通过 DevOpsGPT 和 DevOps 工具，将软件版本发布到目标环境。
 
+## 在线环境
+直接访问 [kuafuai.net](https://www.kuafuai.net)
+
+
 ## 快速开始
 
 1. 源码运行

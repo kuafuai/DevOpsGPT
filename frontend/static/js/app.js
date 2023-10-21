@@ -2,7 +2,7 @@ $(document).ready(function () {
     getAppList()
 
     action = getAction()
-    if (action == "create_new") {
+    if (action == "create_new" || action == "create_new_ai" || action == "create_new_tpl") {
         setTimeout(function () {
             $("#add-application").click()
         }, 1000);
@@ -17,6 +17,18 @@ $(document).ready(function () {
         cleanUpApp()
         rendSelect()
         getAppTplList()
+
+        $("#app-new-way1").removeClass('hideitem');
+        $("#app-new-way2").removeClass('hideitem');
+        $("#app-new-way").removeClass('hideitem');
+        if (action == "create_new_ai") {
+            $("#app-new-way1").addClass('hideitem');
+            $("#app-new-way").addClass('hideitem');
+        }
+        if (action == "create_new_tpl") {
+            $("#app-new-way2").addClass('hideitem');
+            $("#app-new-way").addClass('hideitem');
+        }
         $('#app-new').modal('show');
     });
 
@@ -67,7 +79,7 @@ $(document).ready(function () {
     $("#app-edit-cancel").click(function () {
         window.location.href = "/app.html"
     });
-    $("#app-edit-cancel-new").click(function () {
+    $(".f_cancel").click(function () {
         $('#app-new').modal('hide');
     });
 
@@ -106,6 +118,7 @@ $(document).ready(function () {
                 <select class="ui fluid dropdown" id="service_service_type_`+serviceID+`">
                     <option value="FRONTEND">前端/移动端（Frontend/Mobile）</option>
                     <option value="BACKEND">后端服务（Backend）</option>
+                    <option value="FRONTEND_BACKEND">前端+后端（Frontend + Backend）</option>
                     <option value="GAME">游戏（GAME）</option>
                     <option value="COMMON">其它（Others）</option>
                 </select>
@@ -232,6 +245,7 @@ function showApp(appID, isTpl) {
                     <label>`+globalFrontendText["service_type"]+`</label>
                     <select class="ui fluid dropdown" id="service_service_type_`+idx+`" value=`+service.service_type+`>
                         <option value="FRONTEND">前端/移动端（Frontend/Mobile）</option>
+                        <option value="FRONTEND_BACKEND">前端+后端（Frontend + Backend）</option>
                         <option value="BACKEND">后端服务（Backend）</option>
                         <option value="GAME">游戏（GAME）</option>
                         <option value="COMMON">其它（Others）</option>
@@ -354,7 +368,9 @@ function analyzeService(elementID) {
         $("#ai_analyze_service_icon").html('<i class=" reddit square icon"></i>')
         $(".ai_analyze_service_btn").removeClass("disabled")
         $('#app-edit').dimmer('hide');
-        $("#service_name_"+elementID).val(data)
+        setTimeout(function () {
+            myAlert("ERROR", data)
+        }, 1000);
     }
 
     sendAjaxRequest('/app/analyze_service', 'POST', requestData, successCallback, errorCallback, true, false)
@@ -469,4 +485,8 @@ function getAction() {
     var action = params.get('action');
 
     return action
+}
+
+function clickAddApplication() {
+    action = ""
 }

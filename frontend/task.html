@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="robots" content="noarchive">
   <title class="f_title"></title>
-  <link rel="stylesheet" href="./static/css/style.css?v=6">
+  <link rel="stylesheet" href="./static/css/style.css?v=78">
   <link rel="stylesheet" href="./static/css/semantic.min.css">
   <link rel="stylesheet" href="./static/css/codemirror.min.css" />
   <link rel="stylesheet" href="./static/css/darcula.min.css" />
@@ -15,7 +15,7 @@
   <script src="./static/js/semantic.min.js"></script>
   <script src="./static/js/marked.min.js"></script>
   <script src="./static/js/diff.min.js"></script>
-  <script src="./static/js/coder.js?v=76"></script>
+  <script src="./static/js/coder.js?v=78"></script>
 </head>
 
 <body>
@@ -49,46 +49,60 @@
       <div class="fifteen wide column ai-content">
         <div class="ai-code">
           <span class="f_ai_start_1"></span>
-          <i class="hand point right outline icon big red"></i>
-          <div class="ui olive button model-selector">
-            <i class="app store ios icon"></i> <span class="f_app"></span>
+          <div class="ui cards model-selector" style="margin-top: 0px; margin-bottom: 0px;">
+            <div class="card">
+              <div class="content" style="background-color: #38bcb596;">
+                <div class="header"><i class="app store ios icon"></i><span class="f_select_existing_application"></span></div>
+                <div class="description f_select_existing_application_intro">
+                </div>
+              </div>
+            </div>
+            <div class="card">
+              <div class="content" onclick="openUrl('/app.html?action=create_new_ai')">
+                <div class="header"><i class="android icon"></i><span class="f_ai_imports"></span></div>
+                <div class="description f_ai_imports_intro">
+                </div>
+              </div>
+            </div>
+            <div class="card">
+              <div class="content" onclick="openUrl('/app.html?action=create_new_tpl')">
+                <div class="header"><i class="copy icon"></i><span class="f_tpl_imports"></span></div>
+                <div class="description f_tpl_imports_intro">
+                </div>
+              </div>
+            </div>
           </div>
           <span class="f_ai_start_2"></span>
-          <div class="ui list goodcase_list">
+          <div class="ui list role_list" style="margin-top: 40px;">
             <h4 class="f_ai_intro"></h4>
             <div class="item">
-              <img class="ui avatar image" src="./static/image/role_pm.jpeg">
               <div class="content">
-                <div class="header">PM</div>
-                <div class="description f_ai_pm"></div>
+                <img class="ui avatar image" src="./static/image/role_pm.jpeg">
+                <div class="description">PM：<span class="f_ai_pm"></span></div>
               </div>
             </div>
             <div class="item">
-              <img class="ui avatar image" src="./static/image/role_tl.jpeg">
               <div class="content">
-                <div class="header">TL</div>
-                <div class="description f_ai_tl"></div>
+                <img class="ui avatar image" src="./static/image/role_tl.jpeg">
+                <div class="description">TL：<span class="f_ai_tl"></span></div>
               </div>
             </div>
             <div class="item">
-              <img class="ui avatar image" src="./static/image/role_rd.jpeg">
               <div class="content">
-                <div class="header">RD</div>
-                <div class="description f_ai_rd"></div>
+                <img class="ui avatar image" src="./static/image/role_rd.jpeg">
+                <div class="description">RD：<span class="f_ai_rd"></span></div>
               </div>
             </div>
             <div class="item">
-              <img class="ui avatar image" src="./static/image/role_qa.jpeg">
               <div class="content">
-                <div class="header">QA</div>
-                <div class="description f_ai_qa"></div>
+                <img class="ui avatar image" src="./static/image/role_qa.jpeg">
+                <div class="description">QA：<span class="f_ai_qa"></span></div>
               </div>
             </div>
             <div class="item">
-              <img class="ui avatar image" src="./static/image/role_op.jpeg">
               <div class="content">
-                <div class="header">OP</div>
-                <div class="description f_ai_op"></div>
+                <img class="ui avatar image" src="./static/image/role_op.jpeg">
+                <div class="description">OP：<span class="f_ai_op"></span></div>
               </div>
             </div>
           </div>

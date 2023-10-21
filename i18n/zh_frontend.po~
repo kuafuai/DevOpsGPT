@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-10-12 22:27+0800\n"
+"POT-Creation-Date: 2023-10-17 19:24+0800\n"
 "PO-Revision-Date: 2023-07-17 18:36+0800\n"
 "Last-Translator: booboo <mac@booboo.local>\n"
 "Language-Team: Language i18n/zh\n"
@@ -57,14 +57,13 @@ msgstr "思考中..."
 #: backend/app/pkgs/tools/i18b.py:44
 msgid ""
 "Hello, I am the AI-assisted code development assistant, please select the"
-msgstr "你好，我是 AI 辅助需求开发助手，请先选择"
+msgstr "你好，我是 AI 软件开发助手，请选择或创建本次任务操作的应用："
 
 #: backend/app/pkgs/tools/i18b.py:45
 msgid "to start the development task!"
 msgstr ""
-"开始开发任务吧！（<a href='https://vvx03gck2p.feishu.cn/docx/"
-"KwnSdasq1oK3LMxfVBAcwhG2neQ' target='_blank'>还不知道玩法？戳这里10分钟带你入"
-"门。</a>）"
+"<a href='https://vvx03gck2p.feishu.cn/docx/KwnSdasq1oK3LMxfVBAcwhG2neQ' "
+"target='_blank'>查看用户手册</a>，快速了解 KUAFUAI~"
 
 #: backend/app/pkgs/tools/i18b.py:46
 msgid "I need to develop requirements in the"
@@ -108,7 +107,9 @@ msgstr "详细描述："
 msgid ""
 "The requirements document has been generated, and the interface document "
 "will be generated after confirmation: "
-msgstr "需求文档 PRD 已生成，您可以：确认文档、通过“发送消息”框反馈意见给我、或手动修改文档。"
+msgstr ""
+"需求文档 PRD 已生成，您可以：确认文档、通过“发送消息”框反馈意见给我、或手动修"
+"改文档。"
 
 #: backend/app/pkgs/tools/i18b.py:56
 msgid ""
@@ -1010,7 +1011,58 @@ msgstr "查看详情"
 
 #: backend/app/pkgs/tools/i18b.py:248
 msgid "index_view_url"
-msgstr "<iframe src='//player.bilibili.com/player.html?aid=619522551&bvid=BV1Z84y117qn&cid=1297199738&p=1&autoplay=0&muted=0' scrolling='no' border='0' width='800px' height='450px' frameborder='no' framespacing='0' allowfullscreen='true'> </iframe>"
+msgstr ""
+"<iframe src='//player.bilibili.com/player.html?"
+"aid=619522551&bvid=BV1Z84y117qn&cid=1297199738&p=1&autoplay=0&muted=0' "
+"scrolling='no' border='0' width='800px' height='450px' frameborder='no' "
+"framespacing='0' allowfullscreen='true'> </iframe>"
+
+#: backend/app/pkgs/tools/i18b.py:249
+msgid ""
+"You haven't created an app yet. <a href='/app.html?action=create_new' "
+"target='_blank'>You can quickly create one.</a>"
+msgstr ""
+"你还没有创建应用，<a href='/app.html?action=create_new' target='_blank'>点击"
+"快速创建应用。</a>"
+
+#: backend/app/pkgs/tools/i18b.py:250
+msgid "The verify code is incorrect."
+msgstr "验证码有误。"
+
+#: backend/app/pkgs/tools/i18b.py:251
+msgid "The phone number has been registered."
+msgstr "该手机号已被注册。"
+
+#: backend/app/pkgs/tools/i18b.py:252
+msgid "You have obtained the verify code too many times."
+msgstr "获取验证码次数过多。"
+
+#: backend/app/pkgs/tools/i18b.py:253
+msgid "Select existing applications"
+msgstr ""
+"选择已有应用"
+
+#: backend/app/pkgs/tools/i18b.py:254
+msgid "Select from already created applications."
+msgstr "从已经创建的应用中选择。"
+
+#: backend/app/pkgs/tools/i18b.py:255
+msgid "AI import existing code project"
+msgstr "AI 自动导入已有代码库新建应用"
+
+#: backend/app/pkgs/tools/i18b.py:256
+msgid ""
+"Use AI to automatically import existing code items to create new "
+"applications."
+msgstr "用 AI 来自动分析您已有代码库，快速创建应用。"
+
+#: backend/app/pkgs/tools/i18b.py:257
+msgid "Create application using templates"
+msgstr "通过模板新建应用"
+
+#: backend/app/pkgs/tools/i18b.py:258
+msgid "Use templates to quickly create new application."
+msgstr "通过平台提供的基础模板，快速创建应用。"
 
 #~ msgid "Phone"
 #~ msgstr "手机号"

@@ -26,7 +26,7 @@ msgstr ""
 
 #: backend/app/controllers/app.py:89 backend/app/controllers/app.py:98
 msgid "Failed to analysis applications."
-msgstr ""
+msgstr "Failed to analysis applications. Make sure that the 【repository path】 you enter can be pulled through the Git configuration."
 
 #: backend/app/controllers/pay_pro.py:79 backend/app/controllers/pay_pro.py:113
 msgid "Incorrect payment status!"
