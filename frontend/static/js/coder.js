@@ -1610,6 +1610,8 @@ clarifySuccessCallback = function(data, isRecover){
         msg = msgJson.development_requirements_detail
         str = '<br /><br /><button class="ui green button" onClick="taskOk(\''+escapeHtml(msg)+'\', this, \'requirement_doc\')">'+globalFrontendText["submit"]+'</button><button class="ui blue button" onclick="taskChange(\''+escapeHtml(msg)+'\', \'requirement_doc\')">'+globalFrontendText["edit"]+'</button>'
         marked_msg = marked.marked(msg)
+        marked_msg = marked_msg.replaceAll("</code></pre>", "")
+        marked_msg = marked_msg.replaceAll("<pre><code>", "")
         console.log(marked_msg)
         msg = '<h5>'+globalFrontendText["ai_requirement_clarify_3"]+'</h5>'+marked_msg
     } else {
