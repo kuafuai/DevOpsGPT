@@ -20,7 +20,10 @@ NOT_CHECK_LOGIN_PATH = [
     '/user/changepassword',
     '/user/logout',
     '/user/register',
-    '/pay/get_price'
+    '/pay/get_price',
+    '/pay/send_pay',
+    '/tenant/join',
+    '/tenant/get_all_tenant'
 ]
 
 

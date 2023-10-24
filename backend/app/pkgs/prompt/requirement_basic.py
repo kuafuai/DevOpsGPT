@@ -311,19 +311,20 @@ def organize(requirementID, firstPrompt, PRDTemplate, appArchitecture, service_l
 """+appArchitecture+"""
 ```
 
-## Format example
+## Product document Templates
 ---
 """+PRDTemplate+"""
 ---
 
 -----
 
-Role: You are a professional product manager, you will organize a long and detailed requirement document according to the context, fill in the "Format example" missing information.
+Role: You are a professional product manager, you will organize requirement document according to the context, fill in the "Product document Templates" missing information.
 The final requirements document must match the positioning of the "Application Information". The Application can't develop features it's not good at.
 Think step by step make sure the "clarified list" answers are all taken into account, do not miss any details.
 The answers from the 'clarified list' are of utmost importance and must be included in the requirement document with as much detail as possible.
 
-Output results directly carefully referenced the "Format example" without dialogue and explanation.
+Follow the "Product document Templates" structure strictly and don't add any extra structure.
+Output results directly carefully referenced the "Product document Templates" without dialogue and explanation.
 Note: output in """+getCurrentLanguageName()+""".
 """
     })
