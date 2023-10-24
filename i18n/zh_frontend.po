@@ -828,7 +828,7 @@ msgid ""
 "Now, you can experience our products with minimal cost. We look forward to "
 "bringing a whole new experience to your software development!"
 msgstr ""
-"现在，您能够以级低的成本体验我们的产品。我们期待为您的软件开发带来全新的体"
+"现在，您能够以极低的成本体验我们的产品。我们期待为您的软件开发带来全新的体"
 "验！"
 
 #: backend/app/pkgs/tools/i18b.py:214
