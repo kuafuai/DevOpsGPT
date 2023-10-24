@@ -73,7 +73,7 @@ function useTenant(tenant_id) {
         window.location.href = "task.html";
     }
 
-    sendAjaxRequest('/tenant/use_tenant', 'POST', requestData, successCallback, alertErrorCallback, true, false)
+    sendAjaxRequest('/tenant/use_tenant?tenant_id='+tenant_id, 'POST', requestData, successCallback, alertErrorCallback, true, false)
 }
 
 function showTenant(tenant_id) {
