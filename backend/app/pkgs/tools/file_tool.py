@@ -25,3 +25,9 @@ def write_file_content(filename, content):
 
 def get_ws_path(task_id):
     return WORKSPACE_PATH + task_id
+
+
+def get_base_path(task_id, git_path):
+    ws_path = get_ws_path(task_id)
+    bath_path = ws_path +"/"+ git_path
+    return bath_path

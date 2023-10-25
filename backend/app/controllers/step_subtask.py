@@ -8,6 +8,7 @@ from app.pkgs.prompt.prompt import splitTask, splitTaskDo
 from app.pkgs.knowledge.app_info import getServiceBasePrompt, getServiceIntro, getServiceLib, getServiceStruct
 from app.models.requirement import Requirement
 from app.models.application_service import ApplicationService
+from app.pkgs.tools.file_tool import get_base_path, get_ws_path
 
 bp = Blueprint('step_subtask', __name__, url_prefix='/step_subtask')
 
@@ -66,16 +67,18 @@ def task_split():
 
     filesToEdit, success = splitTaskDo(req_info, service_info, tec_doc)
 
+    git_path = service_info["git_path"]
+    bath_path = get_base_path(task_id, git_path)
     if success and filesToEdit:
         for index, file in enumerate(filesToEdit):
             file_path = file["file-path"] if 'file-path' in file else file["file_path"]
-            isSuccess, oldCode = getFileContent(file_path, service_name)
+            isSuccess, oldCode = getFileContent(file_path, bath_path)
             filesToEdit[index]["old-code"] = oldCode
             if not isSuccess:
                 filesToEdit[index]["old-code"] = ''
 
             reference_file = file["reference-file"] if 'reference-file' in file else ''
-            isSuccess, referenceCode = getFileContent(reference_file, service_name)
+            isSuccess, referenceCode = getFileContent(reference_file, bath_path)
             filesToEdit[index]["reference-code"] = referenceCode
             if not isSuccess:
                 filesToEdit[index]["reference-code"] = ''
