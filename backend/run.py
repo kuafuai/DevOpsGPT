@@ -23,7 +23,8 @@ NOT_CHECK_LOGIN_PATH = [
     '/pay/get_price',
     '/pay/send_pay',
     '/tenant/join',
-    '/tenant/get_all_tenant'
+    '/tenant/get_all_tenant',
+    '/plugine/repo_analyzer'
 ]
 
 
