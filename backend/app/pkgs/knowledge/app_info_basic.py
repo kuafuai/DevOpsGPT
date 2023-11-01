@@ -69,5 +69,5 @@ class AppInfoBasic(AppInfoInterface):
         }
         return reJson, True
 
-    def repo_analyzer(self, type, repo):
+    def repo_analyzer(self, type, repo, task_id):
         return "", False

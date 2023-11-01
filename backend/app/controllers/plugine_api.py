@@ -4,6 +4,7 @@ from flask import Blueprint
 
 from app.pkgs.knowledge.app_info import repo_analyzer
 from app.pkgs.tools.i18b import getI18n
+from app.models.async_task import AsyncTask
 
 bp = Blueprint('plugine', __name__, url_prefix='/plugine')
 
@@ -15,10 +16,29 @@ def repo_analyzer_plugine():
 
     type = request.args.get("type")
     repo = request.args.get("repo")
-    print(type, repo)
-    info, success = repo_analyzer(type, repo)
-    if not success:
-        raise Exception(
-            _("Failed to analysis applications.") + "（AI 自动导入已有代码库新建应用功能，目前只支持Java和python语言，其它语言可通过<a href='/app.html?action=create_new_tpl'>模板创建</a>。 Currently, AI import existing code project only Java and python languages are supported. For other languages, use <a href='/app.html? action=create_new_tpl'> Template creation </a>）")
+    if type is None or repo is None:
+        raise Exception("param error")
+    if len(type) == 0 or len(repo) == 0:
+        raise Exception("param error")
 
-    return info
+    data = {"type": type, "repo": repo}
+
+    task = AsyncTask.create_task(AsyncTask.Type_Analyzer_Code, "分析代码仓库", str(data))
+    if task:
+        return {"task_no": task.token}
+    else:
+        raise Exception("服务器异常")
+
+
+@bp.route('/repo_analyzer_check', methods=['GET'])
+@json_response
+def repo_analyzer_check():
+    task_no = request.args.get("task_no")
+    if task_no is None or len(task_no) == 0:
+        raise Exception("param error")
+
+    task = AsyncTask.get_task_by_token(task_no)
+    if task:
+        return {"task_no": task.token, "status": task.task_status, "message": task.task_status_message}
+    else:
+        raise Exception("服务器异常")

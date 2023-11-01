@@ -5,7 +5,10 @@ from flask import Flask, request
 from flask_cors import CORS
 from app.models.tenant_pro import Tenant
 from app.pkgs.tools import storage
+from app.pkgs.scheduler import register_job
 from config import APP_SECRET_KEY, BACKEND_DEBUG, BACKEND_HOST, BACKEND_PORT, AICODER_ALLOWED_ORIGIN, AUTO_LOGIN, GRADE
+
+from apscheduler.schedulers.background import BackgroundScheduler
 
 app = Flask(__name__)
 CORS(app)
@@ -24,7 +27,8 @@ NOT_CHECK_LOGIN_PATH = [
     '/pay/send_pay',
     '/tenant/join',
     '/tenant/get_all_tenant',
-    '/plugine/repo_analyzer'
+    '/plugine/repo_analyzer',
+    '/plugine/repo_analyzer_check'
 ]
 
 
@@ -75,6 +79,10 @@ def after_request(response):
 register_controllers(app)
 
 db.init_app(app)
+
+scheduler = BackgroundScheduler(daemon=True)
+register_job(scheduler, app)
+scheduler.start()
 
 if __name__ == '__main__':
     app.run(host=BACKEND_HOST, port=BACKEND_PORT, debug=BACKEND_DEBUG)

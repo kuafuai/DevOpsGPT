@@ -21,5 +21,5 @@ class AppInfoInterface(ABC):
         pass
 
 
-    def repo_analyzer(self, type, repo):
+    def repo_analyzer(self, type, repo, task_id):
         pass
