@@ -17,6 +17,6 @@ def task(app):
             AsyncTask.update_task_status(async_task.id, AsyncTask.Status_Running)
             result, success = repo_analyzer(type, repo, async_task.id)
             if success:
-                AsyncTask.update_task_status_and_message(async_task.id, AsyncTask.Status_Done, str(result))
+                AsyncTask.update_task_status_and_message(async_task.id, AsyncTask.Status_Done, json.dumps(result))
             else:
                 AsyncTask.update_task_status_and_message(async_task.id, AsyncTask.Status_Fail, "分析失败")
