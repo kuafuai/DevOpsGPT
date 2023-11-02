@@ -37,7 +37,7 @@ class AsyncTask(db.Model):
 
     @staticmethod
     def get_task_by_token(token):
-        st = AsyncTask.query.filter_by(token=token).one()
+        st = AsyncTask.query.filter_by(token=token).first()
 
         return st
 

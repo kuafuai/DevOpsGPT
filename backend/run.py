@@ -1,4 +1,5 @@
 from app.extensions import db
+from app.flask_ext import limiter_ip
 import datetime
 from app.controllers import register_controllers
 from flask import Flask, request
@@ -81,9 +82,12 @@ def after_request(response):
     return response
 
 
+limiter_ip.init_app(app)
+
 register_controllers(app)
 
 db.init_app(app)
+
 if os.environ.get('WERKZEUG_RUN_MAIN') != 'true':
     print("init scheduler")
     scheduler = BackgroundScheduler(daemon=True)
