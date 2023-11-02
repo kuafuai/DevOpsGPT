@@ -112,3 +112,12 @@ def analyzeService(tenant_id, gitPath):
         obj = AppInfoPro()
 
     return obj.analyzeService(tenant_id, gitPath)
+
+
+def repo_analyzer(type, repo, task_id):
+    if GRADE == "base":
+        obj = AppInfoBasic()
+    else:
+        obj = AppInfoPro()
+
+    return obj.repo_analyzer(type, repo, task_id)

@@ -68,3 +68,6 @@ class AppInfoBasic(AppInfoInterface):
             "service_libs_name": "no"
         }
         return reJson, True
+
+    def repo_analyzer(self, type, repo, task_id):
+        return "", False

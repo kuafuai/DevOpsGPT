@@ -5,9 +5,12 @@ def set(key, value):
     session.update
 
 def get(key):
-    if key in session:
-        return session[key]
-    return None
+    try:
+        if key in session:
+            return session[key]
+        return None
+    except Exception as e:
+        return None
 
 def pop(key):
     session.pop(key)
