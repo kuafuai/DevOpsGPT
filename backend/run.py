@@ -8,7 +8,12 @@ from app.pkgs.tools import storage
 from app.pkgs.scheduler import register_job
 from config import APP_SECRET_KEY, BACKEND_DEBUG, BACKEND_HOST, BACKEND_PORT, AICODER_ALLOWED_ORIGIN, AUTO_LOGIN, GRADE
 
+import logging
+import os
 from apscheduler.schedulers.background import BackgroundScheduler
+
+aps_logger = logging.getLogger('apscheduler')
+aps_logger.setLevel(logging.ERROR)
 
 app = Flask(__name__)
 CORS(app)
@@ -79,10 +84,11 @@ def after_request(response):
 register_controllers(app)
 
 db.init_app(app)
-
-scheduler = BackgroundScheduler(daemon=True)
-register_job(scheduler, app)
-scheduler.start()
+if os.environ.get('WERKZEUG_RUN_MAIN') != 'true':
+    print("init scheduler")
+    scheduler = BackgroundScheduler(daemon=True)
+    register_job(scheduler, app)
+    scheduler.start()
 
 if __name__ == '__main__':
     app.run(host=BACKEND_HOST, port=BACKEND_PORT, debug=BACKEND_DEBUG)

@@ -4,7 +4,7 @@ import json
 
 
 def task(app):
-    print("hello world")
+    print("scanning task ... ")
     with app.app_context():
         async_task = AsyncTask.get_analyzer_code_task_one()
 
