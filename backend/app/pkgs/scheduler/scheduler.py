@@ -19,4 +19,4 @@ def task(app):
             if success:
                 AsyncTask.update_task_status_and_message(async_task.id, AsyncTask.Status_Done, json.dumps(result))
             else:
-                AsyncTask.update_task_status_and_message(async_task.id, AsyncTask.Status_Fail, "分析失败")
+                AsyncTask.update_task_status_and_message(async_task.id, AsyncTask.Status_Fail, result)
