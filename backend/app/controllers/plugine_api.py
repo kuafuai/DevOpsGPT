@@ -1,7 +1,8 @@
 from flask import request
+import json
 from app.controllers.common import json_response
-from flask import Blueprint
-
+from flask import Blueprint, request
+from flask_limiter import Limiter
 from app.pkgs.knowledge.app_info import repo_analyzer
 from app.pkgs.tools.i18b import getI18n
 from app.models.async_task import AsyncTask
@@ -9,6 +10,21 @@ from app.models.async_task import AsyncTask
 bp = Blueprint('plugine', __name__, url_prefix='/plugine')
 
 
+def limit_key_func():
+    print(request.headers)
+    return str(request.headers.get("X-Forwarded-For", '127.0.0.1'))
+
+
+limiter = Limiter(key_func=limit_key_func)
+
+
+@limiter.request_filter
+def custom_response(limit):
+    print("1111", limit)
+    return {'error': 'Rate limit exceeded. Please try again later.'}
+
+
+@limiter.limit("1/minute")
 @bp.route('/repo_analyzer', methods=['GET'])
 @json_response
 def repo_analyzer_plugine():
@@ -23,8 +39,8 @@ def repo_analyzer_plugine():
 
     data = {"type": type, "repo": repo}
 
-    task = AsyncTask.create_task(AsyncTask.Type_Analyzer_Code, "分析代码仓库", str(data))
-    if task:
+    task = AsyncTask.create_task(AsyncTask.Type_Analyzer_Code, "分析代码仓库", json.dumps(data))
+    if True:
         return {"task_no": task.token}
     else:
         raise Exception("服务器异常")
