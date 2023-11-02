@@ -4,8 +4,8 @@ from app.pkgs.devops.local_tools_pro import LocalToolsPro
 from config import GRADE
 from config import WORKSPACE_PATH
 
-def getFileContent(file_path, repopath):
-    path = WORKSPACE_PATH + repopath + "/" + file_path
+def getFileContent(file_path, bath_path):
+    path = bath_path + "/" + file_path
 
     try:
         success, content = read_file_content(path)
