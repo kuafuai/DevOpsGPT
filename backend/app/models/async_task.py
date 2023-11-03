@@ -12,6 +12,7 @@ class AsyncTask(db.Model):
     task_content = db.Column(db.String(200))
     task_status = db.Column(db.Integer, nullable=False)
     task_status_message = db.Column(db.String(200))
+    ip = db.Column(db.String(50))
     created_at = db.Column(db.TIMESTAMP, default=db.func.current_timestamp())
     updated_at = db.Column(db.TIMESTAMP, default=db.func.current_timestamp(), onupdate=db.func.current_timestamp())
 
@@ -22,14 +23,21 @@ class AsyncTask(db.Model):
 
     Type_Analyzer_Code = 1
 
+    Search_Process_Key = "process"
+    Search_Done_key = "done"
+
+    Search_Process_Value = [Status_Init, Status_Running]
+    Search_Done_Value = [Status_Done, Status_Fail]
+    Search_All_Value = [Status_Init, Status_Running, Status_Done, Status_Fail]
+
     @staticmethod
-    def create_task(task_type, task_name, task_content):
+    def create_task(task_type, task_name, task_content, ip):
         hash_object = hashlib.md5()
         hash_object.update(str(time.time()).encode('utf-8'))
         md5_hash = hash_object.hexdigest()
 
         st = AsyncTask(token=md5_hash, task_type=task_type, task_name=task_name, task_content=task_content,
-                       task_status=AsyncTask.Status_Init, task_status_message="Init Task")
+                       task_status=AsyncTask.Status_Init, task_status_message="Init Task", ip=ip)
 
         db.session.add(st)
         db.session.commit()
@@ -37,7 +45,7 @@ class AsyncTask(db.Model):
 
     @staticmethod
     def get_task_by_token(token):
-        st = AsyncTask.query.filter_by(token=token).one()
+        st = AsyncTask.query.filter_by(token=token).first()
 
         return st
 
@@ -51,6 +59,26 @@ class AsyncTask(db.Model):
             return query_tasks[0]
         else:
             return None
+
+    # 今天 分析代码
+    @staticmethod
+    def get_today_analyzer_code_count(ip, type):
+        if type == AsyncTask.Search_Process_Key:
+            param_status = AsyncTask.Search_Process_Value
+        elif type == AsyncTask.Search_Done_key:
+            param_status = AsyncTask.Search_Done_Value
+        else:
+            param_status = AsyncTask.Search_All_Value
+
+        today = datetime.today()
+        start_date = today.replace(hour=0, minute=0, second=0, microsecond=0)
+
+        count = AsyncTask.query.filter(AsyncTask.task_type == AsyncTask.Type_Analyzer_Code,
+                                       AsyncTask.task_status.in_(param_status),
+                                       AsyncTask.created_at >= start_date,
+                                       AsyncTask.created_at <= today,
+                                       AsyncTask.ip == ip).count()
+        return count
 
     @staticmethod
     def update_task_status(task_id, status):
