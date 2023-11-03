@@ -30,12 +30,12 @@ def repo_analyzer_plugine():
             content = json.loads(process_task.task_content)
             repo = content['repo']
             task_no = process_task.token
-            raise AnalyzerCodeProcessException("当前有正在处理的任务，请稍后...", 1001, task_no, repo)
-        raise AnalyzerCodeException("当前有正在处理的任务，请稍后...", 1001)
+            raise AnalyzerCodeProcessException("There are currently tasks being processed, please wait...", 1001, task_no, repo)
+        raise AnalyzerCodeException("There are currently tasks being processed, please wait...", 1001)
 
     count = AsyncTask.get_today_analyzer_code_count(ip, AsyncTask.Search_Done_key)
     if count >= 3:
-        raise AnalyzerCodeException("今日分析次数已经使用完，您可以到平台注册使用", 3001)
+        raise AnalyzerCodeException("The analysis frequency for today has been used up. You can register for use on the platform", 3001)
 
     data = {"type": type, "repo": repo}
 
@@ -43,7 +43,7 @@ def repo_analyzer_plugine():
     if task:
         return {"task_no": task.token}
     else:
-        raise AnalyzerCodeException("服务器异常", 5001)
+        raise AnalyzerCodeException("Server exception, please contact the administrator", 5001)
 
 
 @bp.route('/repo_analyzer_check', methods=['GET'])
