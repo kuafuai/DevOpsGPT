@@ -5,7 +5,7 @@ from app.pkgs.devops.local_tools import getFileContent
 from app.pkgs.tools.i18b import getI18n
 from flask import Blueprint
 from app.pkgs.prompt.prompt import splitTask, splitTaskDo
-from app.pkgs.knowledge.app_info import getServiceBasePrompt, getServiceIntro, getServiceLib, getServiceStruct
+from app.pkgs.knowledge.app_info import getServiceBasePrompt, getServiceInfo, getServiceIntro, getServiceLib, getServiceStruct
 from app.models.requirement import Requirement
 from app.models.application_service import ApplicationService
 from app.pkgs.tools.file_tool import get_base_path, get_ws_path
@@ -41,11 +41,12 @@ You need to think on the basis of the following interface documentation：
         newfeature = requirementDoc
         
     appBasePrompt, _ = getServiceBasePrompt(req["app_id"], serviceName)
-    projectInfo, _ = getServiceIntro(req["app_id"], serviceName, tenantID)
+    projectIntro, _ = getServiceIntro(req["app_id"], serviceName, tenantID)
     projectLib, _ = getServiceLib(req["app_id"], serviceName)
     serviceStruct, _ = getServiceStruct(req["app_id"], serviceName)
+    projectInfo, _ = getServiceInfo(req["app_id"], serviceName, tenantID)
 
-    subtask, success = splitTask(requirementID, newfeature, serviceName, appBasePrompt, projectInfo, projectLib, serviceStruct, req["app_id"])
+    subtask, success = splitTask(projectInfo, requirementID, newfeature, serviceName, appBasePrompt, projectIntro, projectLib, serviceStruct, req["app_id"], tenantID)
 
     if success and subtask:
         return {'message': subtask, 'service_name': serviceName}

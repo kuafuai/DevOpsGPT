@@ -62,6 +62,19 @@ def getServiceIntro(appID, serviceName, tenantID):
 
     return appInfo, True
 
+def getServiceInfo(appID, serviceName, tenantID):
+    appID = int(appID)
+
+    appInfo = ""
+    apps = Application.get_all_application(tenantID, appID)
+    if len(apps) > 0:
+        services = apps[0]["service"]
+        for service in services:
+            if service["name"] == serviceName:
+                return service, True
+
+    return None, False
+
 def getServiceGitPath(appID, serviceName):
     serviceInfo = ApplicationService.get_service_by_name(appID, serviceName)
     gitPath = serviceInfo["git_path"]
