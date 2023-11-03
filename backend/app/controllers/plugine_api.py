@@ -39,7 +39,7 @@ def repo_analyzer_plugine():
 
     data = {"type": type, "repo": repo}
 
-    task = AsyncTask.create_task(AsyncTask.Type_Analyzer_Code, "分析代码仓库", json.dumps(data), ip)
+    task = AsyncTask.create_task(AsyncTask.Type_Analyzer_Code, type + ":" + repo, json.dumps(data), ip)
     if task:
         return {"task_no": task.token}
     else:
