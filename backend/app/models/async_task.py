@@ -1,7 +1,7 @@
 from app.extensions import db
 import time
 import hashlib
-from datetime import datetime
+from datetime import datetime, timedelta
 
 
 class AsyncTask(db.Model):
@@ -13,6 +13,7 @@ class AsyncTask(db.Model):
     task_status = db.Column(db.Integer, nullable=False)
     task_status_message = db.Column(db.String(200))
     ip = db.Column(db.String(50))
+    version = db.Column(db.Integer, nullable=False)
     created_at = db.Column(db.TIMESTAMP, default=db.func.current_timestamp())
     updated_at = db.Column(db.TIMESTAMP, default=db.func.current_timestamp(), onupdate=db.func.current_timestamp())
 
@@ -37,7 +38,8 @@ class AsyncTask(db.Model):
         md5_hash = hash_object.hexdigest()
 
         st = AsyncTask(token=md5_hash, task_type=task_type, task_name=task_name, task_content=task_content,
-                       task_status=AsyncTask.Status_Init, task_status_message="Init Task", ip=ip)
+                       task_status=AsyncTask.Status_Init, task_status_message="Init Task", ip=ip, version=0,
+                       created_at=datetime.now())
 
         db.session.add(st)
         db.session.commit()
@@ -50,11 +52,25 @@ class AsyncTask(db.Model):
         return st
 
     @staticmethod
-    def get_analyzer_code_task_one():
+    def get_analyzer_code_task_one(status):
         query_tasks = AsyncTask.query.filter(AsyncTask.task_type == AsyncTask.Type_Analyzer_Code,
-                                             AsyncTask.task_status.in_(
-                                                 [AsyncTask.Status_Init, AsyncTask.Status_Running])
+                                             AsyncTask.task_status.in_([status])
                                              ).limit(1).all()
+        if len(query_tasks) == 1:
+            return query_tasks[0]
+        else:
+            return None
+
+    @staticmethod
+    def get_analyzer_code_by_name(task_name):
+        today = datetime.today()
+        start_date = today - timedelta(days=7)
+
+        query_tasks = AsyncTask.query.filter(AsyncTask.task_type == AsyncTask.Type_Analyzer_Code,
+                                             AsyncTask.task_status.in_([AsyncTask.Status_Done]),
+                                             AsyncTask.created_at >= start_date,
+                                             AsyncTask.created_at <= today,
+                                             AsyncTask.task_name == task_name).limit(1).all()
         if len(query_tasks) == 1:
             return query_tasks[0]
         else:
@@ -81,11 +97,47 @@ class AsyncTask(db.Model):
         return count
 
     @staticmethod
+    def get_today_analyzer_code_list(ip, type):
+        if type == AsyncTask.Search_Process_Key:
+            param_status = AsyncTask.Search_Process_Value
+        elif type == AsyncTask.Search_Done_key:
+            param_status = AsyncTask.Search_Done_Value
+        else:
+            param_status = AsyncTask.Search_All_Value
+
+        today = datetime.today()
+        start_date = today.replace(hour=0, minute=0, second=0, microsecond=0)
+
+        query_tasks = AsyncTask.query.filter(AsyncTask.task_type == AsyncTask.Type_Analyzer_Code,
+                                             AsyncTask.task_status.in_(param_status),
+                                             AsyncTask.created_at >= start_date,
+                                             AsyncTask.created_at <= today,
+                                             AsyncTask.ip == ip).limit(1).all()
+        if len(query_tasks) == 1:
+            return query_tasks[0]
+        else:
+            return None
+
+    @staticmethod
     def update_task_status(task_id, status):
         task = AsyncTask.query.get(task_id)
         if task:
-            task.updated_at = datetime.utcnow()
+            task.updated_at = datetime.now()
             task.task_status = status
+            db.session.commit()
+
+            return task
+        else:
+            return None
+
+    @staticmethod
+    def update_task_status_and_version(task_id, status, version):
+        task = AsyncTask.query.get(task_id)
+        if task and task.version == version:
+
+            task.updated_at = datetime.now()
+            task.task_status = status
+            task.version = task.version + 1
             db.session.commit()
 
             return task
@@ -96,7 +148,7 @@ class AsyncTask(db.Model):
     def update_task_message(task_id, message):
         task = AsyncTask.query.get(task_id)
         if task:
-            task.updated_at = datetime.utcnow()
+            task.updated_at = datetime.now()
             task.task_status_message = message
             db.session.commit()
 
@@ -108,9 +160,23 @@ class AsyncTask(db.Model):
     def update_task_status_and_message(task_id, status, message):
         task = AsyncTask.query.get(task_id)
         if task:
-            task.updated_at = datetime.utcnow()
+            task.updated_at = datetime.now()
             task.task_status = status
             task.task_status_message = message
+            db.session.commit()
+
+            return task
+        else:
+            return None
+
+    @staticmethod
+    def update_task_status_and_message_and_name(task_id, status, message, name):
+        task = AsyncTask.query.get(task_id)
+        if task:
+            task.updated_at = datetime.now()
+            task.task_status = status
+            task.task_status_message = message
+            task.task_name = name
             db.session.commit()
 
             return task

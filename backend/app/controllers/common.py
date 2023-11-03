@@ -2,7 +2,7 @@ from functools import wraps
 import traceback
 from flask import jsonify
 from flask_limiter import RateLimitExceeded
-from app.pkgs.analyzer_code_exception import AnalyzerCodeException
+from app.pkgs.analyzer_code_exception import AnalyzerCodeException, AnalyzerCodeProcessException
 
 
 def json_response(func):
@@ -27,6 +27,16 @@ def json_response(func):
                 'data': {
                     'message': str(e),
                     'error_code': e.error_code
+                }
+            }
+        except AnalyzerCodeProcessException as e:
+            response = {
+                'success': False,
+                'data': {
+                    'message': str(e),
+                    'error_code': e.error_code,
+                    'task_no': e.task_no,
+                    'repo': e.repo
                 }
             }
         except Exception as e:
