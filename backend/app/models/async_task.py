@@ -67,7 +67,7 @@ class AsyncTask(db.Model):
         start_date = today - timedelta(days=7)
 
         query_tasks = AsyncTask.query.filter(AsyncTask.task_type == AsyncTask.Type_Analyzer_Code,
-                                             AsyncTask.task_status.in_(AsyncTask.Status_Done),
+                                             AsyncTask.task_status.in_([AsyncTask.Status_Done]),
                                              AsyncTask.created_at >= start_date,
                                              AsyncTask.created_at <= today,
                                              AsyncTask.task_name == task_name).limit(1).all()
