@@ -13,6 +13,7 @@ class AsyncTask(db.Model):
     task_status = db.Column(db.Integer, nullable=False)
     task_status_message = db.Column(db.String(200))
     ip = db.Column(db.String(50))
+    version = db.Column(db.Integer, nullable=False)
     created_at = db.Column(db.TIMESTAMP, default=db.func.current_timestamp())
     updated_at = db.Column(db.TIMESTAMP, default=db.func.current_timestamp(), onupdate=db.func.current_timestamp())
 
@@ -37,7 +38,7 @@ class AsyncTask(db.Model):
         md5_hash = hash_object.hexdigest()
 
         st = AsyncTask(token=md5_hash, task_type=task_type, task_name=task_name, task_content=task_content,
-                       task_status=AsyncTask.Status_Init, task_status_message="Init Task", ip=ip)
+                       task_status=AsyncTask.Status_Init, task_status_message="Init Task", ip=ip, version=0)
 
         db.session.add(st)
         db.session.commit()
@@ -52,8 +53,7 @@ class AsyncTask(db.Model):
     @staticmethod
     def get_analyzer_code_task_one():
         query_tasks = AsyncTask.query.filter(AsyncTask.task_type == AsyncTask.Type_Analyzer_Code,
-                                             AsyncTask.task_status.in_(
-                                                 [AsyncTask.Status_Init, AsyncTask.Status_Running])
+                                             AsyncTask.task_status.in_([AsyncTask.Status_Init])
                                              ).limit(1).all()
         if len(query_tasks) == 1:
             return query_tasks[0]
@@ -86,6 +86,20 @@ class AsyncTask(db.Model):
         if task:
             task.updated_at = datetime.utcnow()
             task.task_status = status
+            db.session.commit()
+
+            return task
+        else:
+            return None
+
+    @staticmethod
+    def update_task_status_and_version(task_id, status, version):
+        task = AsyncTask.query.get(task_id)
+        if task and task.version == version:
+
+            task.updated_at = datetime.utcnow()
+            task.task_status = status
+            task.version = task.version + 1
             db.session.commit()
 
             return task
