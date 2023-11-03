@@ -81,6 +81,28 @@ class AsyncTask(db.Model):
         return count
 
     @staticmethod
+    def get_today_analyzer_code_list(ip, type):
+        if type == AsyncTask.Search_Process_Key:
+            param_status = AsyncTask.Search_Process_Value
+        elif type == AsyncTask.Search_Done_key:
+            param_status = AsyncTask.Search_Done_Value
+        else:
+            param_status = AsyncTask.Search_All_Value
+
+        today = datetime.today()
+        start_date = today.replace(hour=0, minute=0, second=0, microsecond=0)
+
+        query_tasks = AsyncTask.query.filter(AsyncTask.task_type == AsyncTask.Type_Analyzer_Code,
+                                             AsyncTask.task_status.in_(param_status),
+                                             AsyncTask.created_at >= start_date,
+                                             AsyncTask.created_at <= today,
+                                             AsyncTask.ip == ip).limit(1).all()
+        if len(query_tasks) == 1:
+            return query_tasks[0]
+        else:
+            return None
+
+    @staticmethod
     def update_task_status(task_id, status):
         task = AsyncTask.query.get(task_id)
         if task:

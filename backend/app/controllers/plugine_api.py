@@ -4,7 +4,7 @@ from app.flask_ext import limiter_ip
 from flask import Blueprint, request
 from app.pkgs.tools.i18b import getI18n
 from app.models.async_task import AsyncTask
-from app.pkgs.analyzer_code_exception import AnalyzerCodeException
+from app.pkgs.analyzer_code_exception import AnalyzerCodeException, AnalyzerCodeProcessException
 
 bp = Blueprint('plugine', __name__, url_prefix='/plugine')
 
@@ -25,6 +25,12 @@ def repo_analyzer_plugine():
 
     count = AsyncTask.get_today_analyzer_code_count(ip, AsyncTask.Search_Process_Key)
     if count > 0:
+        process_task = AsyncTask.get_today_analyzer_code_list(ip, AsyncTask.Search_Process_Key)
+        if process_task:
+            content = json.loads(process_task.task_content)
+            repo = content['repo']
+            task_no = process_task.token
+            raise AnalyzerCodeProcessException("当前有正在处理的任务，请稍后...", 1001, task_no, repo)
         raise AnalyzerCodeException("当前有正在处理的任务，请稍后...", 1001)
 
     count = AsyncTask.get_today_analyzer_code_count(ip, AsyncTask.Search_Done_key)
