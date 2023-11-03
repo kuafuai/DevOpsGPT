@@ -5,7 +5,10 @@ from config import GRADE
 from config import WORKSPACE_PATH
 
 def getFileContent(file_path, bath_path):
-    path = bath_path + "/" + file_path
+    if len(bath_path) > 2:
+        path = bath_path + "/" + file_path
+    else:
+        path = file_path
 
     try:
         success, content = read_file_content(path)

@@ -65,7 +65,7 @@ def task_split():
     req_info = Requirement.get_requirement_by_id(task_id, tenant_id) 
     service_info = ApplicationService.get_service_by_name(req_info["app_id"], service_name)
 
-    filesToEdit, success = splitTaskDo(req_info, service_info, tec_doc)
+    filesToEdit, success = splitTaskDo(req_info, service_info, tec_doc, tenant_id)
 
     git_path = service_info["git_path"]
     bath_path = get_base_path(task_id, git_path)

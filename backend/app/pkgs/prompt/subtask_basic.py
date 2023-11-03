@@ -34,7 +34,7 @@ class SubtaskBasic(SubtaskInterface):
         subtask, ctx, success = setpSubTask(requirementID, feature, appBasePrompt, serviceStruct, specification, serviceName)
         return subtask, success
         
-    def splitTaskDo(self, req_info, service_info, tec_doc):
+    def splitTaskDo(self, req_info, service_info, tec_doc, tenant_id):
         requirement_id = req_info["requirement_id"]
         
         # ssss

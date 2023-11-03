@@ -64,7 +64,7 @@ def splitTask(requirementID, newfeature, serviceName, appBasePrompt, projectInfo
     return obj.splitTask(requirementID, newfeature, serviceName, appBasePrompt, projectInfo, projectLib, serviceStruct, appID)
 
 @pre_check_quota
-def splitTaskDo(req_info, service_info, tec_doc):
+def splitTaskDo(req_info, service_info, tec_doc, tenant_id):
     if GRADE == "base":
         obj = SubtaskBasic()
     else:
@@ -76,7 +76,7 @@ def splitTaskDo(req_info, service_info, tec_doc):
         else:
             obj = SubtaskPro()
 
-    return obj.splitTaskDo(req_info, service_info, tec_doc)
+    return obj.splitTaskDo(req_info, service_info, tec_doc, tenant_id)
 
 @pre_check_quota
 def aiReferenceRepair(requirementID, newCode, referenceCode, fileTask, filePath):
