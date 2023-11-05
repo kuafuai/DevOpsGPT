@@ -1,17 +1,10 @@
 import json
 import random
 import re
-import smtplib
-from email.mime.text import MIMEText
-from email.mime.multipart import MIMEMultipart
-from email.mime.application import MIMEApplication
-import ssl
 import uuid
 import time
 from datetime import datetime, timedelta
-
 from app.pkgs.tools.llm import chatCompletion
-from config import EMAIL_PASSWORD, EMAIL_PORT, EMAIL_SENDER, EMAIL_SERVER, EMAIL_SSL
 
 
 def detect_programming_language(file_path):
@@ -195,99 +188,4 @@ def is_valid_username(username):
     if re.match(pattern, username):
         return True
     else:
-        return False
-
-def send_email(receiver_email, subject, html_content):
-    # 邮件服务器的信息
-    smtp_server = EMAIL_SERVER
-    smtp_port = EMAIL_PORT
-
-    # 发件人和收件人信息
-    sender_email = EMAIL_SENDER
-    password = EMAIL_PASSWORD
-
-    msg = MIMEMultipart()
-    msg['From'] = sender_email
-    msg['To'] = receiver_email
-    msg['Subject'] = subject
-
-    html = """
-<!DOCTYPE html>
-<html>
-<head>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            margin: 0;
-            padding: 0;
-        }
-
-        .container {
-            max-width: 600px;
-            margin: 0 auto;
-            background-color: #ffffff;
-            padding: 20px;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-            border-radius: 5px;
-        }
-
-        .header {
-            text-align: center;
-            padding: 20px 0;
-        }
-
-        .header h1 {
-            color: #333;
-            margin: 0;
-        }
-
-        .content {
-            padding: 20px 0;
-        }
-
-        .footer {
-            text-align: center;
-            padding: 20px 0;
-            color: #888;
-            font-size: 12px;
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <div class="header">
-            <h1>"""+subject+"""</h1>
-        </div>
-        <div class="content">
-            """+html_content+"""
-        </div>
-        <div class="footer">
-            <p>本邮件为系统邮件，请勿回复。This email is a system email, please do not reply.</p>
-            <p>如有疑问，请添加我们的公众号：KuafuAI</p>
-            <p>© 2023 kuafuai.net</p>
-        </div>
-    </div>
-</body>
-</html>
-
-"""
-
-    html_part = MIMEText(html, 'html')
-    msg.attach(html_part)
-
-    # 建立与邮件服务器的连接并发送邮件
-    try:
-        if EMAIL_SSL:
-           context = ssl.create_default_context()
-           server = smtplib.SMTP_SSL(smtp_server, smtp_port, context=context)
-        else:
-            server = smtplib.SMTP(smtp_server, smtp_port)
-        server.login(sender_email, password)
-        server.sendmail(sender_email, receiver_email, msg.as_string())
-        server.quit()
-        print("邮件发送成功")
-        return True
-    except Exception as e:
-        print(f"邮件发送失败: {e}")
         return False
