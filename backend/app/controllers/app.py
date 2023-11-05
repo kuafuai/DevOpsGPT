@@ -36,7 +36,9 @@ def add():
             ApplicationService.delete_service_by_app_id(app_id)
             appID = app_id
         else:
-            app = Application.create(tenant_id, creater, name, description, default_source_branch, default_target_branch, git_config, ci_config, cd_config)
+            app, success = Application.create(tenant_id, creater, name, description, default_source_branch, default_target_branch, git_config, ci_config, cd_config)
+            if not success:
+                raise Exception(app)
             appID = app.app_id
 
         for service in services:

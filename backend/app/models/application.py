@@ -17,6 +17,11 @@ class Application(db.Model):
         if not tenant_id:
             tenant_id = 0
 
+        if len(name) < 2:
+            return "The name field cannot be empty", False
+        if len(description) < 2:
+            return "The description field cannot be empty", False
+
         app = Application(
             tenant_id=tenant_id,
             creater=creater,
@@ -30,7 +35,7 @@ class Application(db.Model):
         )
         db.session.add(app)
         db.session.commit()
-        return app
+        return app, True
 
     @staticmethod
     def get_all_application(tenant_id, appID):
