@@ -1560,7 +1560,7 @@ function refreshPluginciStatus(piplineID, repopath, piplineUrl, element, times, 
             str += '</div>'
 
             
-            if (uuid.length > 0 ) {
+            if (uuid && uuid.length > 0 ) {
                 $("."+uuid).html(str);
             } else {
                 $(".ai-code").eq($('ai-code').length - 1).html(str);
