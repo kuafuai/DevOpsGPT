@@ -29,11 +29,14 @@ def task(app):
                     task_name = async_task.task_name+"(history)"
                     AsyncTask.update_task_status_and_message_and_name(async_task.id, AsyncTask.Status_Done, task_status_message, task_name)
                 else:
-                    result, success = repo_analyzer(type, repo, async_task.id)
-                    if success:
-                        AsyncTask.update_task_status_and_message(async_task.id, AsyncTask.Status_Done, json.dumps(result))
-                    else:
-                        AsyncTask.update_task_status_and_message(async_task.id, AsyncTask.Status_Fail, result)
+                    try:
+                        result, success = repo_analyzer(type, repo, async_task.id)
+                        if success:
+                            AsyncTask.update_task_status_and_message(async_task.id, AsyncTask.Status_Done, json.dumps(result))
+                        else:
+                            AsyncTask.update_task_status_and_message(async_task.id, AsyncTask.Status_Fail, result)
+                    except Exception as e:
+                        AsyncTask.update_task_status_and_message(async_task.id, AsyncTask.Status_Fail, "analyzer error")
 
             else:
                 print("process lock task fail token: ", async_task.token)
