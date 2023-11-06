@@ -15,7 +15,7 @@ bp = Blueprint('plugine', __name__, url_prefix='/plugine')
 def repo_analyzer_plugine():
     _ = getI18n("controllers")
 
-    ip = request.remote_addr or "127.0.0.1"
+    ip = str(request.headers.get("X-Forwarded-For", '127.0.0.1'))
     type = request.args.get("type")
     repo = request.args.get("repo")
     if type is None or repo is None:
