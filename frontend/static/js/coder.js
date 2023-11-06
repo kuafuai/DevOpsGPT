@@ -102,13 +102,15 @@ function getRoleImg(role_img, role) {
 
 
 function thinkUI(customPrompt, thinkText, role) {
+    uuid = Math.random().toString(36).substr(2, 9) + Date.now().toString();
+
     role_img = getRoleImg('<i class="blue  grav icon big" style="font-size: 3em;"></i>', role)
     query_img = getRoleImg('<i class="blue  grav icon big" style="font-size: 3em;"></i>', globalRole)
     globalRole = ""
     
     $('#prompt-textarea').val("");
     $("#prompt-hidePrompt").val("")
-    var newField = $('<div class="user-code-container"><div class="ui container grid"><div class="one wide column">'+query_img+'</div><div class="fifteen wide column ai-content"><div class="ai-code">' + marked.marked(customPrompt).replaceAll("\n", "<br />") + '</div></div></div></div> <div class="ai-code-container"><div class="ui container grid"><div class="one wide column">'+role_img+'</div><div class="fifteen wide column ai-content"><div class="ai-code"><i class="spinner loading icon"></i>'+thinkText+'</div></div></div></div>');
+    var newField = $('<div class="user-code-container"><div class="ui container grid"><div class="one wide column">'+query_img+'</div><div class="fifteen wide column ai-content"><div class="ai-code">' + marked.marked(customPrompt).replaceAll("\n", "<br />") + '</div></div></div></div> <div class="ai-code-container"><div class="ui container grid"><div class="one wide column">'+role_img+'</div><div class="fifteen wide column ai-content"><div class="ai-code '+uuid+'"><i class="spinner loading icon"></i>'+thinkText+'</div></div></div></div>');
     $(".ai-prompt-container").eq($('ai-prompt-container').length - 1).before(newField);
     $(".ai-code-container").eq($('ai-code-container').length - 1).hide();
     $(".user-code-container").eq($('user-code-container').length - 1).hide();
@@ -122,6 +124,8 @@ function thinkUI(customPrompt, thinkText, role) {
         $('html, body').animate({ scrollTop: $(document).height() }, 'slow');
     }, 900);
     $('img').popup();
+
+    return uuid
 }
 
 function thinkUIShow(customPrompt, thinkText, role, role_two, service_name) {
@@ -461,7 +465,7 @@ function getRequirement() {
                 genInterfaceDocSuccessCallback(d);
             }
             if (memory.step == "Subtask_subtasks") {
-                thinkUIShow(memory.input_prompt, globalFrontendText["ai_think"], 'TL', '', memory.artifact_path);
+                thinkUIShow(memory.artifact_path, globalFrontendText["ai_think"], 'TL', '', memory.artifact_path);
                 const d = {
                     "data": {
                         "message": memory.artifact_content,
@@ -471,7 +475,7 @@ function getRequirement() {
                 taskAnalysisSuccessCallback(d, true);
             }
             if (memory.step == "Subtask_code") {
-                thinkUIShow(memory.artifact_path, globalFrontendText["ai_think"], 'TL');
+                thinkUIShow(memory.artifact_path, globalFrontendText["ai_think"], 'TL', '', memory.artifact_path);
                 const info = {
                         "files": JSON.parse(memory.artifact_content),
                         "service_name": memory.artifact_path
@@ -537,13 +541,27 @@ function getRequirement() {
                 fixLintSuccessCallback(codedata, service_name, element_index, uuid, memory.artifact_path)
             }
             if (memory.step == "DevOps_CI") {
-                thinkUI(memory.artifact_type, globalFrontendText["ai_think"], 'QA');
-                try {
-                    const info = JSON.parse(memory.artifact_content.replaceAll("'", '"'))
-                    pluginci(info, true)
-                } catch (error) {
-
+                if (memory.artifact_content.length > 0 ) {
+                    uuid = thinkUI(memory.step, globalFrontendText["ai_think"], 'QA');
+                    try {
+                        const info = JSON.parse(memory.artifact_content.replaceAll("'", '"'))
+                        pluginci(info, uuid)
+                    } catch (error) {
+    
+                    }
                 }
+            }
+            if (memory.step == "DevOps_CD") {
+                setTimeout(function () {
+                    thinkUI(memory.step, globalFrontendText["ai_think"], 'OP');
+                    const d = {
+                        "data": {
+                            "internet_ip": memory.artifact_content,
+                        }
+                    };
+                    startCDsuccessCallback(d, true);
+                }, 1000);
+                
             }
         }        
     }
@@ -1445,6 +1463,11 @@ function startCi(repo_path, ele) {
     sendAjaxRequest('/step_devops/trigger_ci', "POST", requestData, successCallback, aiErrorCallback, true, true)
 }
 
+startCDsuccessCallback = function(data) {
+    var str = globalFrontendText["start_cd"]+": "+data.data["internet_ip"]
+    $(".ai-code").eq($('ai-code').length - 1).html(str);
+}
+
 function startCd(repo_path) {  
     customPrompt = globalFrontendText["start_cd"]+": "+repo_path
 
@@ -1452,12 +1475,7 @@ function startCd(repo_path) {
     
     var requestData = JSON.stringify({ 'repo_path': repo_path, 'task_id': getTaskID(), 'docker_image': globalDockerImage})
 
-    successCallback = function(data) {
-        var str = globalFrontendText["start_cd"]+": "+data.data["internet_ip"]
-        $(".ai-code").eq($('ai-code').length - 1).html(str);
-    }
-
-    sendAjaxRequest('/step_devops/trigger_cd', "POST", requestData, successCallback, aiErrorCallback, true, true)
+    sendAjaxRequest('/step_devops/trigger_cd', "POST", requestData, startCDsuccessCallback, aiErrorCallback, true, true)
 }
 
 function useGoodCase(classname) {
@@ -1486,13 +1504,13 @@ function taskChange(newPrompt, operType, serviceName) {
     $('html, body').animate({ scrollTop: $(document).height() }, 'slow');
 }
 
-function pluginci(info) {
+function pluginci(info, uuid) {
     if (info["piplineID"]) {
-        refreshPluginciStatus(info["piplineID"], info["repopath"], info["piplineUrl"])
+        refreshPluginciStatus(info["piplineID"], info["repopath"], info["piplineUrl"], undefined, 1, uuid)
     }
 }
 
-function refreshPluginciStatus(piplineID, repopath, piplineUrl, element, times) {
+function refreshPluginciStatus(piplineID, repopath, piplineUrl, element, times, uuid) {
     if (typeof times === 'number' && times % 1 === 0) {
         times++
     } else {
@@ -1539,9 +1557,15 @@ function refreshPluginciStatus(piplineID, repopath, piplineUrl, element, times) 
                 str = str.replace("ui olive loading button", "ui olive button")
                 times = 20
             }
-        str += '</div>'
+            str += '</div>'
 
-            $(".ai-code").eq($('ai-code').length - 1).html(str);
+            
+            if (uuid && uuid.length > 0 ) {
+                $("."+uuid).html(str);
+            } else {
+                $(".ai-code").eq($('ai-code').length - 1).html(str);
+            }
+
             // $(".ai-code").eq($('ai-code').length - 1).hide().fadeIn('fast');
             $('.pluginci-refresh').popup();
             $('.pluginci-status').popup();

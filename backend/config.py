@@ -47,6 +47,7 @@ REQUIREMENT_MEM_STEP_DevOps_lintCheck = "DevOps_lintCheck"
 REQUIREMENT_MEM_STEP_DevOps_unitTest = "DevOps_unitTest"
 REQUIREMENT_MEM_STEP_DevOps_apiTest = "DevOps_apiTest"
 REQUIREMENT_MEM_STEP_DevOps_CI = "DevOps_CI"
+REQUIREMENT_MEM_STEP_DevOps_CD = "DevOps_CD"
 
 REQUIREMENT_MEM_TYPE_RequirementDocument = "RequirementDocument"
 REQUIREMENT_MEM_TYPE_APIDocument = "APIDocument"
