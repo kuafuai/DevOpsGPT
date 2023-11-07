@@ -11,7 +11,7 @@ bp = Blueprint('plugine', __name__, url_prefix='/plugine')
 
 @bp.route('/repo_analyzer', methods=['GET'])
 @json_response
-@limiter_ip.limit("1 per 60 second")
+@limiter_ip.limit("1 per 5 second")
 def repo_analyzer_plugine():
     _ = getI18n("controllers")
 
