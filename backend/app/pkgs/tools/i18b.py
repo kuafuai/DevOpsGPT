@@ -257,4 +257,5 @@ def getFrontendText():
         "tpl_imports": _("Create application using templates"),
         "tpl_imports_intro": _("Use templates to quickly create new application."),
         "repair_workspace": _("Repair workspace"),
+        "task_code_finish": _("task_code_finish"),
     }

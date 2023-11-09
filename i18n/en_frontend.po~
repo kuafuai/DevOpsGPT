@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-10-17 19:24+0800\n"
+"POT-Creation-Date: 2023-10-18 16:20+0800\n"
 "PO-Revision-Date: 2023-07-17 18:37+0800\n"
 "Last-Translator: booboo <mac@booboo.local>\n"
 "Language-Team: Language i18n/en\n"
@@ -58,8 +58,8 @@ msgstr ""
 msgid ""
 "Hello, I am the AI-assisted code development assistant, please select the"
 msgstr ""
-"Hello, I am the AI-assisted software development assistant, Please select or create "
-"the application for this task:"
+"Hello, I am the AI-assisted software development assistant, Please select or "
+"create the application for this task:"
 
 #: backend/app/pkgs/tools/i18b.py:45
 msgid "to start the development task!"
@@ -725,7 +725,7 @@ msgstr "verify code is incorrect."
 msgid ""
 "invitation code (Thank you for your interest. We will open registration "
 "after the beta testing phase.)"
-msgstr ""
+msgstr "invitation code (Thank you for your interest. We will open registration after the beta testing phase. Contact us for a chance to qualify: service@kuafuai.net)"
 
 #: backend/app/pkgs/tools/i18b.py:197
 msgid "Alpha(internal testing)"
@@ -745,7 +745,7 @@ msgid ""
 "Multi agent system for AI-driven software development. Combine LLM with "
 "DevOps tools to convert natural language requirements into working software. "
 "Supports any development language and extends the existing code."
-msgstr ""
+msgstr "Multi agent system for AI-driven software development. Combine LLM with DevOps tools to convert natural language requirements into working software. Supports any development language and extends the existing code. <br />We also launched the GitHub <a href='https://www.youtube.com/watch?v=8NoFvq_d0JQ' target='_blank'>AI Code analyzer</a> plug-in to help you quickly understand the details of a code base, welcome to experience."
 
 #: backend/app/pkgs/tools/i18b.py:201
 msgid "Full Process"
@@ -1053,4 +1053,8 @@ msgstr ""
 
 #: backend/app/pkgs/tools/i18b.py:258
 msgid "Use templates to quickly create new application."
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:259
+msgid "Repair workspace"
 msgstr ""

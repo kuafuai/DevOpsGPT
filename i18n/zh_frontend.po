@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-10-18 16:20+0800\n"
+"POT-Creation-Date: 2023-11-09 15:28+0800\n"
 "PO-Revision-Date: 2023-07-17 18:36+0800\n"
 "Last-Translator: booboo <mac@booboo.local>\n"
 "Language-Team: Language i18n/zh\n"
@@ -713,7 +713,10 @@ msgstr "邮箱和验证码不匹配。"
 msgid ""
 "invitation code (Thank you for your interest. We will open registration "
 "after the beta testing phase.)"
-msgstr "邀请码（感谢您的关注。我们将在测试阶段后开放注册。）"
+msgstr ""
+"邀请码（感谢您的关注。我们将在测试阶段后开放注册。<a href='https://github."
+"com/kuafuai/DevOpsGPT/blob/master/docs/CONTACT.md' target='_blank'>联系我们</"
+"a>获得体验资格）"
 
 #: backend/app/pkgs/tools/i18b.py:197
 msgid "Alpha(internal testing)"
@@ -735,7 +738,10 @@ msgid ""
 "Supports any development language and extends the existing code."
 msgstr ""
 "Multi Agent AI 驱动的智能软件开发系统，结合 LLM 与 DevOps 工具将自然语言需求"
-"转化为可工作的软件，支持任何开发语言并扩展现有代码。"
+"转化为可工作的软件，支持任何开发语言并扩展现有代码。<br />我们也发布了 <a "
+"href='https://www.bilibili.com/video/BV1Wj411h7b9?"
+"vd_source=e237e77929dbd2a6edd24a25406c7ebf' target='_blank'>AI Code "
+"analyzer</a> GitHub 代码分析插件，帮助您快速学习一个新项目，欢迎体验！"
 
 #: backend/app/pkgs/tools/i18b.py:201
 msgid "Full Process"
@@ -1066,6 +1072,10 @@ msgstr "通过平台提供的基础模板，快速创建应用。"
 #: backend/app/pkgs/tools/i18b.py:259
 msgid "Repair workspace"
 msgstr "修复 workspace 工作区"
+
+#: backend/app/pkgs/tools/i18b.py:260
+msgid "task_code_finish"
+msgstr "当前任务已生成代码，无法追加需求。您可以在“将代码提交到 Git 仓库”后，点击本链接在当前代码基础上开始新的需求。"
 
 #~ msgid "Phone"
 #~ msgstr "手机号"
