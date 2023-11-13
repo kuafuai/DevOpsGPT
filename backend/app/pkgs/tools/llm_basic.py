@@ -38,7 +38,7 @@ def get_next_api_key():
     return get_next_api_key()
 
 class LLMBase(LLMInterface):
-    def chatCompletion(self, context, fackData):
+    def chatCompletion(self, context, fackData, bill):
         # Test frontend
         if MODE == "FAKE" and len(fackData) > 0:
             time.sleep(5)
