@@ -89,7 +89,7 @@ register_controllers(app)
 
 db.init_app(app)
 
-if os.environ.get('WERKZEUG_RUN_MAIN') != 'true':
+if os.environ.get('WERKZEUG_RUN_MAIN') != 'true' and GRADE != 'base':
     print("init scheduler")
     scheduler = BackgroundScheduler(daemon=True)
     register_job(scheduler, app)
