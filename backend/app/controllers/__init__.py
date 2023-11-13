@@ -11,6 +11,7 @@ from .setting import bp as setting_bp
 from .tenant_pro import bp as tenant_bp
 from .pay_pro import bp as pay_bp
 from .plugine_api import bp as plugine_bp
+from .tencent_pro import bp as tencent_bp
 
 def register_controllers(app):
     app.register_blueprint(user_bp)
@@ -26,3 +27,4 @@ def register_controllers(app):
     app.register_blueprint(tenant_bp)
     app.register_blueprint(pay_bp)
     app.register_blueprint(plugine_bp)
+    app.register_blueprint(tencent_bp)

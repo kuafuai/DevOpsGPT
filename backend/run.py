@@ -34,7 +34,8 @@ NOT_CHECK_LOGIN_PATH = [
     '/tenant/join',
     '/tenant/get_all_tenant',
     '/plugine/repo_analyzer',
-    '/plugine/repo_analyzer_check'
+    '/plugine/repo_analyzer_check',
+    '/tencent/shop_create_item'
 ]
 
 
