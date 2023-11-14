@@ -33,6 +33,15 @@ $(document).ready(function () {
     });
 
     $("#app-edit-save").click(function () {
+        appCreateErrorCallback = function(error) {
+            $("#app-message").html(error)
+            $("#app-message").fadeOut().fadeIn()
+    
+            setTimeout(function () {
+                $("#app-message").fadeOut();
+            }, 6000);
+        }
+
         var requestData = { 
             'app_id': $("#app_id").val(),
             'app_git_config': $("#app_git_config").val(),
@@ -44,6 +53,19 @@ $(document).ready(function () {
             'app_default_target_branch': $("#app_default_target_branch").val(),
             'service': []
         }
+
+        var err_msg = ''
+        if (requestData.app_name.length < 2) {
+            err_msg = "The 'APP name' field cannot be empty. '应用名称'字段不能为空。"
+        }
+        if (requestData.app_description.length < 2) {
+            err_msg = "The 'APP introduction' field cannot be empty. '应用介绍'字段不能为空。"
+        }
+        if (err_msg.length > 0) {
+            appCreateErrorCallback(err_msg)
+            return
+        }
+
         serviceLen = $(".subservice").length+1
         for (var i = 1; i < serviceLen; i++) {
             var service = {
@@ -63,7 +85,10 @@ $(document).ready(function () {
                 'service_region' : $("#service_region_"+i).val(),
                 'service_security_group' : $("#service_security_group_"+i).val(),
                 'service_cd_subnet' : $("#service_cd_subnet_"+i).val(),
-                'service_service_type' : $("#service_service_type_"+i).val()
+                'service_service_type' : $("#service_service_type_"+i).val(),
+                'service_cd_subnet2' : $("#service_cd_subnet2_"+i).val(),
+                'service_cd_vpc' : $("#service_cd_vpc_"+i).val(),
+                'service_cd_execution_role_arn' : $("#service_cd_execution_role_arn_"+i).val(),
             }
             requestData.service.push(service)
         }
@@ -73,7 +98,7 @@ $(document).ready(function () {
             window.location.href = "/app.html"
         }
 
-        sendAjaxRequest('/app/create', 'POST', requestData, successCallback, alertErrorCallback, true, false)
+        sendAjaxRequest('/app/create', 'POST', requestData, successCallback, appCreateErrorCallback, true, false)
     });
 
     $("#app-edit-cancel").click(function () {
@@ -208,8 +233,10 @@ function showApp(appID, isTpl) {
         }
         $("#app_default_source_branch").val(data.default_source_branch)
         $("#app_default_target_branch").val(data.default_target_branch)
-        $("#app_description").val(data.description)
-        $("#app_name").val(data.name)
+        if (!isTpl) {
+            $("#app_description").val(data.description)
+            $("#app_name").val(data.name)
+        }
         $("#app_git_config").val(data.git_config),
         $("#app_ci_config").val(data.ci_config),
         $("#app_cd_config").val(data.cd_config),
@@ -306,6 +333,19 @@ function showApp(appID, isTpl) {
                     <div class="field">
                     <label>CD - SUBNET/SWITCH</label>
                     <input type="text" id="service_cd_subnet_`+idx+`" value="`+service.cd_subnet+`">
+                    </div>
+
+                    <div class="field">
+                    <label>CD - SUBNET2(AWS)</label>
+                    <input type="text" id="service_cd_subnet2_`+idx+`" value="`+service.cd_subnet2+`">
+                    </div>
+                    <div class="field">
+                    <label>CD - VPC(AWS)</label>
+                    <input type="text" id="service_cd_vpc_`+idx+`" value="`+service.cd_vpc+`">
+                    </div>
+                    <div class="field">
+                    <label>CD - role_arn(AWS)</label>
+                    <input type="text" id="service_cd_execution_role_arn_`+idx+`" value="`+service.cd_execution_role_arn+`">
                     </div>
                 </div>
             </div>`

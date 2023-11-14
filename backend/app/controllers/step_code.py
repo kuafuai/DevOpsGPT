@@ -50,7 +50,7 @@ def check_file():
 @json_response
 def merge_file():
     _ = getI18n("controllers")
-    baseCode = request.json.get('base_code')
+    baseCode = request.json.get('old_code')
     newCode = request.json.get('new_code')
     fileTask = request.json.get('file_task')
     userName = storage.get("username")

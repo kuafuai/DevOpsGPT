@@ -50,21 +50,23 @@ def clarifyAPI(requirementID, userPrompt, apiDoc):
     return obj.clarifyAPI(requirementID, userPrompt, apiDoc)
 
 @pre_check_quota
-def splitTask(requirementID, newfeature, serviceName, appBasePrompt, projectInfo, projectLib, serviceStruct, appID):
+def splitTask(projectInfo, requirementID, newfeature, serviceName, appBasePrompt, projectIntro, projectLib, serviceStruct, appID, tenant_id):
+    language = projectInfo["language"].lower()
+    print("splitTask language:"+language)
     if GRADE == "base":
         obj = SubtaskBasic()
     else:
-        if "java" in serviceName:
+        if "java" in language:
             obj = SubtaskJavaPro()
-        elif "python" in serviceName:
+        elif "python" in language:
             obj = SubtaskPythonPro()
         else:
             obj = SubtaskPro()
 
-    return obj.splitTask(requirementID, newfeature, serviceName, appBasePrompt, projectInfo, projectLib, serviceStruct, appID)
+    return obj.splitTask(requirementID, newfeature, serviceName, appBasePrompt, projectIntro, projectLib, serviceStruct, appID, tenant_id)
 
 @pre_check_quota
-def splitTaskDo(req_info, service_info, tec_doc):
+def splitTaskDo(req_info, service_info, tec_doc, tenant_id):
     if GRADE == "base":
         obj = SubtaskBasic()
     else:
@@ -76,7 +78,7 @@ def splitTaskDo(req_info, service_info, tec_doc):
         else:
             obj = SubtaskPro()
 
-    return obj.splitTaskDo(req_info, service_info, tec_doc)
+    return obj.splitTaskDo(req_info, service_info, tec_doc, tenant_id)
 
 @pre_check_quota
 def aiReferenceRepair(requirementID, newCode, referenceCode, fileTask, filePath):

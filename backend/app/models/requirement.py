@@ -94,6 +94,10 @@ class Requirement(db.Model):
     def update_requirement(requirement_id, tenant_id, **kwargs):
         tenant_id = int(tenant_id)
         requirement = Requirement.query.get(requirement_id)
+        if not requirement:
+            print("update_requirement requirement not found:"+requirement_id)
+            return None
+        
         if tenant_id and tenant_id != requirement.tenant_id:
             return None
         

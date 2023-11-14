@@ -36,12 +36,14 @@ def add():
             ApplicationService.delete_service_by_app_id(app_id)
             appID = app_id
         else:
-            app = Application.create(tenant_id, creater, name, description, default_source_branch, default_target_branch, git_config, ci_config, cd_config)
+            app, success = Application.create(tenant_id, creater, name, description, default_source_branch, default_target_branch, git_config, ci_config, cd_config)
+            if not success:
+                raise Exception(app)
             appID = app.app_id
 
         for service in services:
             if "service_name" in service:
-                newService = ApplicationService.create_service(appID, service["service_name"], service["service_git_path"], service["service_workflow"], service["service_role"], service["service_language"], service["service_framework"], service["service_database"], service["service_api_type"], service["service_api_location"], service["service_container_name"], service["service_container_group"], service["service_region"], '', service["service_security_group"], service["service_cd_subnet"], service["service_struct_cache"], '', service["service_service_type"])
+                newService = ApplicationService.create_service(appID, service["service_name"], service["service_git_path"], service["service_workflow"], service["service_role"], service["service_language"], service["service_framework"], service["service_database"], service["service_api_type"], service["service_api_location"], service["service_container_name"], service["service_container_group"], service["service_region"], '', service["service_security_group"], service["service_cd_subnet"], service["service_struct_cache"], '', service["service_service_type"], service["service_cd_subnet2"], service["service_cd_execution_role_arn"], service["service_cd_vpc"])
 
             ApplicationServiceLib.create_libs(newService.service_id, service["service_libs_name"])
 

@@ -15,3 +15,5 @@ click
 mysqlclient
 alibabacloud_dysmsapi20170525
 certifi
+apscheduler
+flask-limiter

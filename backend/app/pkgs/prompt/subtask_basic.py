@@ -9,7 +9,7 @@ from app.pkgs.tools import storage
 from config import MODE
 
 class SubtaskBasic(SubtaskInterface):
-    def splitTask(self, requirementID, feature, serviceName, appBasePrompt, projectInfo, projectLib, serviceStruct, appID):
+    def splitTask(self, requirementID, feature, serviceName, appBasePrompt, projectInfo, projectLib, serviceStruct, appID, tenant_id):
         #return setpGenCode(TEST_PSEUDOCODE, feature, appBasePrompt, "- You can choose any appropriate development language", serviceStruct)
         if MODE == "FAKE":
             time.sleep(5)
@@ -34,7 +34,7 @@ class SubtaskBasic(SubtaskInterface):
         subtask, ctx, success = setpSubTask(requirementID, feature, appBasePrompt, serviceStruct, specification, serviceName)
         return subtask, success
         
-    def splitTaskDo(self, req_info, service_info, tec_doc):
+    def splitTaskDo(self, req_info, service_info, tec_doc, tenant_id):
         requirement_id = req_info["requirement_id"]
         
         # ssss

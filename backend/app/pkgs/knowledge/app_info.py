@@ -12,7 +12,7 @@ def getAppArchitecture(appID):
     if len(apps) > 0:
         services = apps[0]["service"]
         for service in services:
-            appArchitecture += "service name: "+service["name"]+"\nrole of service: "+service["role"]+"\ndevelopment_language: "+service["language"]+"\ndevelopment_framework: "+service["framework"]+"\n\n"
+            appArchitecture += "applicatin introduction: "+apps[0]["description"]+" \n\nThe subservices that the application contains:\n\nservice name: "+service["name"]+"\nrole of service: "+service["role"]+"\ndevelopment_language: "+service["language"]+"\ndevelopment_framework: "+service["framework"]+"\n\n"
 
     return appArchitecture.strip(), True
 
@@ -42,7 +42,7 @@ def getServiceBasePrompt(appID, serviceName):
         for service in services:
             service_names.append(service["name"])
             if service["name"] == serviceName:
-                currentServiceStr = "and you are responsible for the development of "+service["name"]+" services. The service uses the "+service["language"]+" language and is developed under the "+service["framework"]+" framework"
+                currentServiceStr = "and you are responsible for the development of "+service["name"]+" services. The service uses the "+service["language"]+" language and is developed under the "+service["framework"]+" framework. \nThe role of the service is "+service["role"]+"."
 
         serviceNameStr = ','.join(service_names)
         appBasePrompt = "The application consists of "+serviceNameStr+" services, "+currentServiceStr
@@ -61,6 +61,19 @@ def getServiceIntro(appID, serviceName, tenantID):
                 appInfo = "service name: "+service["name"]+"\nrole of service: "+service["role"]+"\ndevelopment_language: "+service["language"]+"\ndevelopment_framework: "+service["framework"]
 
     return appInfo, True
+
+def getServiceInfo(appID, serviceName, tenantID):
+    appID = int(appID)
+
+    appInfo = ""
+    apps = Application.get_all_application(tenantID, appID)
+    if len(apps) > 0:
+        services = apps[0]["service"]
+        for service in services:
+            if service["name"] == serviceName:
+                return service, True
+
+    return None, False
 
 def getServiceGitPath(appID, serviceName):
     serviceInfo = ApplicationService.get_service_by_name(appID, serviceName)
@@ -112,3 +125,12 @@ def analyzeService(tenant_id, gitPath):
         obj = AppInfoPro()
 
     return obj.analyzeService(tenant_id, gitPath)
+
+
+def repo_analyzer(type, repo, task_id):
+    if GRADE == "base":
+        obj = AppInfoBasic()
+    else:
+        obj = AppInfoPro()
+
+    return obj.repo_analyzer(type, repo, task_id)
