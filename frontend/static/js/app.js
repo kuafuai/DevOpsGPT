@@ -85,7 +85,10 @@ $(document).ready(function () {
                 'service_region' : $("#service_region_"+i).val(),
                 'service_security_group' : $("#service_security_group_"+i).val(),
                 'service_cd_subnet' : $("#service_cd_subnet_"+i).val(),
-                'service_service_type' : $("#service_service_type_"+i).val()
+                'service_service_type' : $("#service_service_type_"+i).val(),
+                'service_cd_subnet2' : $("#service_cd_subnet2_"+i).val(),
+                'service_cd_vpc' : $("#service_cd_vpc_"+i).val(),
+                'service_cd_execution_role_arn' : $("#service_cd_execution_role_arn_"+i).val(),
             }
             requestData.service.push(service)
         }
@@ -330,6 +333,19 @@ function showApp(appID, isTpl) {
                     <div class="field">
                     <label>CD - SUBNET/SWITCH</label>
                     <input type="text" id="service_cd_subnet_`+idx+`" value="`+service.cd_subnet+`">
+                    </div>
+
+                    <div class="field">
+                    <label>CD - SUBNET2(AWS)</label>
+                    <input type="text" id="service_cd_subnet2_`+idx+`" value="`+service.cd_subnet2+`">
+                    </div>
+                    <div class="field">
+                    <label>CD - VPC(AWS)</label>
+                    <input type="text" id="service_cd_vpc_`+idx+`" value="`+service.cd_vpc+`">
+                    </div>
+                    <div class="field">
+                    <label>CD - role_arn(AWS)</label>
+                    <input type="text" id="service_cd_execution_role_arn_`+idx+`" value="`+service.cd_execution_role_arn+`">
                     </div>
                 </div>
             </div>`
