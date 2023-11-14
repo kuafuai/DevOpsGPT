@@ -28,7 +28,7 @@ class CDAWS:
         # 创建任务定义
         container_definition = {
             "name": serviceInfo["cd_container_name"],
-            "image": 'registry.cn-hangzhou.aliyuncs.com/kuafuai/test',
+            "image": image,
             "cpu": 1024,  # 0.5 vCPU
             "memory": 2048,  # 2GB RAM
             "essential": True,
