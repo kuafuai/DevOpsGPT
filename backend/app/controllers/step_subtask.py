@@ -24,7 +24,7 @@ def analysis():
     requirementID = request.json.get('task_id')
     tenantID = storage.get("tenant_id")
 
-    req = Requirement.get_requirement_by_id(requirementID, tenantID) 
+    req = Requirement.get_requirement_by_id(requirementID, tenantID)
 
     if doc_type == "api":
         requirementDoc = req["original_requirement"]
@@ -39,7 +39,7 @@ You need to think on the basis of the following interface documentation：
         requirementDoc = prompt
         Requirement.update_requirement(requirement_id=requirementID, tenant_id=tenantID, original_requirement=prompt)
         newfeature = requirementDoc
-        
+
     appBasePrompt, _ = getServiceBasePrompt(req["app_id"], serviceName)
     projectIntro, _ = getServiceIntro(req["app_id"], serviceName, tenantID)
     projectLib, _ = getServiceLib(req["app_id"], serviceName)
@@ -49,10 +49,14 @@ You need to think on the basis of the following interface documentation：
     subtask, success = splitTask(projectInfo, requirementID, newfeature, serviceName, appBasePrompt, projectIntro, projectLib, serviceStruct, req["app_id"], tenantID)
 
     if success and subtask:
-        return {'message': subtask, 'service_name': serviceName}
+        service_type = projectInfo['service_type'].lower()
+        if "mis" in service_type:
+            return {'message': subtask, 'type': 'mis', 'service_name': serviceName}
+        else:
+            return {'message': subtask, 'service_name': serviceName}
     else:
         raise Exception(_("Failed to split task."))
-    
+
 @bp.route('/task_split', methods=['POST'])
 @json_response
 def task_split():
@@ -63,29 +67,36 @@ def task_split():
     task_id = request.json.get('task_id')
     tenant_id = storage.get("tenant_id")
 
-    req_info = Requirement.get_requirement_by_id(task_id, tenant_id) 
+    req_info = Requirement.get_requirement_by_id(task_id, tenant_id)
     service_info = ApplicationService.get_service_by_name(req_info["app_id"], service_name)
 
     filesToEdit, success = splitTaskDo(req_info, service_info, tec_doc, tenant_id)
 
-    git_path = service_info["git_path"]
-    bath_path = get_base_path(task_id, git_path)
-    if success and filesToEdit:
-        for index, file in enumerate(filesToEdit):
-            file_path = file["file-path"] if 'file-path' in file else file["file_path"]
-            isSuccess, oldCode = getFileContent(file_path, bath_path)
-            filesToEdit[index]["old-code"] = oldCode
-            if not isSuccess:
-                filesToEdit[index]["old-code"] = ''
-
-            reference_file = file["reference-file"] if 'reference-file' in file else ''
-            isSuccess, referenceCode = getFileContent(reference_file, bath_path)
-            filesToEdit[index]["reference-code"] = referenceCode
-            if not isSuccess:
-                filesToEdit[index]["reference-code"] = ''
-    
-        plugin = {"name": 'task_list', "info": {"files":filesToEdit, "service_name": service_name}}
-
-        return {'plugin': plugin}
+    service_type = service_info['service_type'].lower()
+    if "mis" in service_type:
+        if success:
+            return filesToEdit
+        else:
+            raise Exception(_("Failed to split task."))
     else:
-        raise Exception(_("Failed to split task."))
+        git_path = service_info["git_path"]
+        bath_path = get_base_path(task_id, git_path)
+        if success and filesToEdit:
+            for index, file in enumerate(filesToEdit):
+                file_path = file["file-path"] if 'file-path' in file else file["file_path"]
+                isSuccess, oldCode = getFileContent(file_path, bath_path)
+                filesToEdit[index]["old-code"] = oldCode
+                if not isSuccess:
+                    filesToEdit[index]["old-code"] = ''
+
+                reference_file = file["reference-file"] if 'reference-file' in file else ''
+                isSuccess, referenceCode = getFileContent(reference_file, bath_path)
+                filesToEdit[index]["reference-code"] = referenceCode
+                if not isSuccess:
+                    filesToEdit[index]["reference-code"] = ''
+
+            plugin = {"name": 'task_list', "info": {"files":filesToEdit, "service_name": service_name}}
+
+            return {'plugin': plugin}
+        else:
+            raise Exception(_("Failed to split task."))

@@ -7,6 +7,7 @@ from app.pkgs.prompt.api_basic import ApiBasic
 from app.pkgs.prompt.subtask_basic import SubtaskBasic
 from app.pkgs.prompt.subtask_java_pro import SubtaskJavaPro
 from app.pkgs.prompt.subtask_python_pro import SubtaskPythonPro
+from app.pkgs.prompt.subtask_mis_pro import SubtaskMisPro
 from app.pkgs.prompt.subtask_vue_pro import SubtaskVuePro
 from app.pkgs.prompt.code_basic import CodeBasic
 from app.pkgs.prompt.code_pro import CodePro
@@ -52,16 +53,20 @@ def clarifyAPI(requirementID, userPrompt, apiDoc):
 @pre_check_quota
 def splitTask(projectInfo, requirementID, newfeature, serviceName, appBasePrompt, projectIntro, projectLib, serviceStruct, appID, tenant_id):
     language = projectInfo["language"].lower()
+    service_type = projectInfo['service_type'].lower()
     print("splitTask language:"+language)
     if GRADE == "base":
         obj = SubtaskBasic()
     else:
-        if "java" in language:
-            obj = SubtaskJavaPro()
-        elif "python" in language:
-            obj = SubtaskPythonPro()
+        if "mis" in service_type:
+            obj = SubtaskMisPro()
         else:
-            obj = SubtaskPro()
+            if "java" in language:
+                obj = SubtaskJavaPro()
+            elif "python" in language:
+                obj = SubtaskPythonPro()
+            else:
+                obj = SubtaskPro()
 
     return obj.splitTask(requirementID, newfeature, serviceName, appBasePrompt, projectIntro, projectLib, serviceStruct, appID, tenant_id)
 
@@ -71,12 +76,16 @@ def splitTaskDo(req_info, service_info, tec_doc, tenant_id):
         obj = SubtaskBasic()
     else:
         language = service_info["language"].lower()
-        if "java" in language:
-            obj = SubtaskJavaPro()
-        elif "python" in language:
-            obj = SubtaskPythonPro()
+        service_type = service_info['service_type'].lower()
+        if "mis" in service_type:
+            obj = SubtaskMisPro()
         else:
-            obj = SubtaskPro()
+            if "java" in language:
+                obj = SubtaskJavaPro()
+            elif "python" in language:
+                obj = SubtaskPythonPro()
+            else:
+                obj = SubtaskPro()
 
     return obj.splitTaskDo(req_info, service_info, tec_doc, tenant_id)
 

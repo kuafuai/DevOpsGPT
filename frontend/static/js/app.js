@@ -275,6 +275,7 @@ function showApp(appID, isTpl) {
                         <option value="FRONTEND_BACKEND">前端+后端（Frontend + Backend）</option>
                         <option value="BACKEND">后端服务（Backend）</option>
                         <option value="GAME">游戏（GAME）</option>
+                        <option value="MIS">管理信息系统（MIS）</option>
                         <option value="COMMON">其它（Others）</option>
                     </select>
                     </div>
