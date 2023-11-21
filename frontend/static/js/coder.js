@@ -1728,7 +1728,7 @@ taskAnalysisSuccessCallback = function(data, isRecover) {
   var ai_code_class = service_name.replace('/', '-')
   var str = ''
 
-  if (type == 'mis') {
+  if (type == 'mis'||service_name=='mis_app') {
     let cols = JSON.parse(msg).columns
     str =
       '<table class="ui table" id="editableTable"><thead><th>name</th><th>comment</th><th>type</th><th>is_pk</th><th>is_required</th><th>is_increment</th><th></th></thead>'
@@ -1750,18 +1750,18 @@ taskAnalysisSuccessCallback = function(data, isRecover) {
         '><label> </label></label></div></td><td><div class="ui checkbox"><input type="checkbox"' +
         isIncrement +
         '><label> </label></label></div></td><td><button class="ui red button" onClick="delRow(this)">' +
-        // globalFrontendText['delete'] +
-        'delete' +
+        globalFrontendText['Delete'] +
         '</button></td></tr>'
     }
     str +=
-      '</table><button class="ui green button ' +
-      globalFrontendText['submit'] +
-      '" onClick="submitTable(\'' +
+      '</table><button class="ui blue button" onClick="addRow(\'' +
       service_name +
       '\',this)">' +
-      // globalFrontendText['submit'] +
-      'submit' +
+      globalFrontendText['AddRow'] +
+      '</button><button class="ui green button" onClick="submitTable(\'' +
+      service_name +
+      '\',this)">' +
+      globalFrontendText['submit'] +
       '</button>'
     console.log(str)
 
@@ -1769,11 +1769,6 @@ taskAnalysisSuccessCallback = function(data, isRecover) {
       .eq($(ai_code_class).length - 1)
       .html(str)
   } else {
-    data = data.data
-    var msg = data.message
-    var service_name = data.service_name
-    var ai_code_class = service_name.replace("/","-")
-    var str = ""
     str = '<br /><br /><button class="ui green button" onClick="taskSplitOK(\''+escapeHtml(msg)+'\', \''+service_name+'\', this)">'+globalFrontendText["submit"]+'</button><button class="ui blue button" onclick="taskChange(\''+escapeHtml(msg)+'\', \'tec_doc\', \''+service_name+'\')">'+globalFrontendText["edit"]+'</button>'
     marked_msg = marked.marked(msg)
     msg = '<h5>'+globalFrontendText["ai_tecDoc_clarify_1"]+'</h5>'+marked_msg
@@ -1785,6 +1780,12 @@ taskAnalysisSuccessCallback = function(data, isRecover) {
 function delRow(e) {
   $(e).closest('tr').remove()
 }
+function addRow(e) {
+    $('tbody').append('<tr><td><div class="ui input"><input type="text" class="ui input" value=""></div></td><td><div class="ui input"><input type="text" class="ui input" value=""></div></td><td><div class="ui input"><input type="text" class="ui input" value=""></div></td><td><div class="ui checkbox"><input type="checkbox"><label> </label></label></div></td><td><div class="ui checkbox"><input type="checkbox"><label> </label></label></div></td><td><div class="ui checkbox"><input type="checkbox"><label> </label></label></div></td><td><button class="ui red button" onClick="delRow(this)">' +
+    globalFrontendText['Delete'] +
+    '</button></td></tr>');
+}
+
 
 function submitTable(service_name, e) {
   var allData = []
@@ -1808,20 +1809,10 @@ function submitTable(service_name, e) {
   taskSplitOK(requestData, service_name, e)
 }
 
-function openIframe(data) {
-   // TODO get url
-  // data = {
-  //   data: {
-  //     b_port: 63043,
-  //     f_port: 63691,
-  //     type: 'mis',
-  //   },
-  //   success: true,
-  // }
+function openIframe(data,service_name) {
   let port = data.f_port || 63691
   var iframe = document.createElement('iframe')
 
-  // 设置 iframe 的属性
   iframe.src = 'http://8.218.90.105:' + port + '/login?redirect=/index'
   iframe.width = '1068'
   iframe.height = '800'
@@ -1829,10 +1820,7 @@ function openIframe(data) {
   iframe.style.borderRadius = '4px'
   iframe.style.marginTop = '14px'
 
-  // 将 iframe 添加到页面中
-  $('.ai-code')
-    .eq($('.ai-code').length - 1)
-    .append(iframe)
+  $(".ai-code."+service_name).eq($('.ai-code.'+service_name).length - 1).html(iframe)
 }
 
 
@@ -1920,7 +1908,7 @@ function taskSplitOK(customPrompt, service_name, thisElement) {
             triggerPlugin(plugin)
         }
         if(data.type=='mis'){
-          openIframe(data)
+          openIframe(data,service_name)
         }
     }
 
