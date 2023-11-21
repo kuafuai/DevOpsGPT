@@ -1077,5 +1077,17 @@ msgstr "修复 workspace 工作区"
 msgid "task_code_finish"
 msgstr "当前任务已生成代码，无法追加需求。您可以在“将代码提交到 Git 仓库”后，点击本链接在当前代码基础上开始新的需求。"
 
+#: backend/app/pkgs/tools/i18b.py:261
+msgid "Add row"
+msgstr "增加新行"
+
+#: backend/app/pkgs/tools/i18b.py:262
+msgid "Delete"
+msgstr "删除"
+
+#: backend/app/pkgs/tools/i18b.py:263
+msgid "Refresh"
+msgstr "刷新"
+
 #~ msgid "Phone"
 #~ msgstr "手机号"

@@ -1729,41 +1729,38 @@ taskAnalysisSuccessCallback = function(data, isRecover) {
   var str = ''
 
   if (type == 'mis'||service_name=='mis_app') {
-    let cols = JSON.parse(msg).columns
+    let {name,comment,module,columns} = JSON.parse(msg)
     str =
-      '<table class="ui table" id="editableTable"><thead><th>name</th><th>comment</th><th>type</th><th>is_pk</th><th>is_required</th><th>is_increment</th><th></th></thead><tbody>'
-    for (let i = 0; i < cols.length; i++) {
-      var isPk = cols[i].is_pk == 1 ? 'checked' : ''
-      var isRequired = cols[i].is_required == 1 ? 'checked' : ''
-      var isIncrement = cols[i].is_increment == 1 ? 'checked' : ''
+      '<table class="ui table"><thead><th>name</th><th>comment</th><th>type</th><th>is_pk</th><th>is_required</th><th>is_increment</th><th></th></thead><tbody>'
+    for (let i = 0; i < columns.length; i++) {
+      var isPk = columns[i].is_pk == 1 ? 'checked' : ''
+      var isRequired = columns[i].is_required == 1 ? 'checked' : ''
+      var isIncrement = columns[i].is_increment == 1 ? 'checked' : ''
       str +=
         '<tr><td><div class="ui input"><input type="text" class="ui input" value="' +
-        cols[i].name +
+        columns[i].name +
         '"></div></td><td><div class="ui input"><input type="text" class="ui input" value="' +
-        cols[i].comment +
+        columns[i].comment +
         '"></div></td><td><div class="ui input"><input type="text" class="ui input" value="' +
-        cols[i].type +
+        columns[i].type +
         '"></div></td><td><div class="ui checkbox"><input type="checkbox"' +
         isPk +
         '><label> </label></label></div></td><td><div class="ui checkbox"><input type="checkbox"' +
         isRequired +
         '><label> </label></label></div></td><td><div class="ui checkbox"><input type="checkbox"' +
         isIncrement +
-        '><label> </label></label></div></td><td><button class="ui red button f_delete" onClick="delRow(this)">' +
-        // globalFrontendText['Delete'] +
-        'Delete'+
+        '><label> </label></label></div></td><td><button class="ui red button" onClick="delRow(this)">' +
+        globalFrontendText['delete'] + 
         '</button></td></tr>'
     }
     str +=
-      '</tbody><tfoot><tr><th colspan="7"><button class="ui blue button f_add_row" onClick="addRow(this)">' +
-    //   globalFrontendText['AddRow'] +
-    'Add row'+
-      '</button></th></tr></tfoot></table><button class="ui green button" onClick="submitTable(\'' +
-      service_name +
+      '</tbody><tfoot><tr><th colspan="7"><button class="ui blue button" onClick="addRow(this)"><span>' +
+      globalFrontendText['add_row'] +
+      '</span></button></th></tr></tfoot></table><button class="ui green button" onClick="submitTable(\'' +
+      name+'\',\''+comment+'\',\''+module+'\',\''+service_name+
       '\',this)">' +
       globalFrontendText['submit'] +
       '</button>'
-    console.log(str)
 
     $('.' + ai_code_class)
       .eq($(ai_code_class).length - 1)
@@ -1781,17 +1778,14 @@ function delRow(e) {
   $(e).closest('tr').remove()
 }
 function addRow(e) {
-    console.log(e)
-    $(e).parent().parent().parent().prev().append('<tr><td><div class="ui input"><input type="text" class="ui input" value=""></div></td><td><div class="ui input"><input type="text" class="ui input" value=""></div></td><td><div class="ui input"><input type="text" class="ui input" value=""></div></td><td><div class="ui checkbox"><input type="checkbox"><label> </label></label></div></td><td><div class="ui checkbox"><input type="checkbox"><label> </label></label></div></td><td><div class="ui checkbox"><input type="checkbox"><label> </label></label></div></td><td><button class="ui red button f_delete" onClick="delRow(this)">' +
-    // globalFrontendText['Delete'] +
-    'Delete'+
+    $(e).parent().parent().parent().prev().append('<tr><td><div class="ui input"><input type="text" class="ui input" value=""></div></td><td><div class="ui input"><input type="text" class="ui input" value=""></div></td><td><div class="ui input"><input type="text" class="ui input" value=""></div></td><td><div class="ui checkbox"><input type="checkbox"><label> </label></label></div></td><td><div class="ui checkbox"><input type="checkbox"><label> </label></label></div></td><td><div class="ui checkbox"><input type="checkbox"><label> </label></label></div></td><td><button class="ui red button" onClick="delRow(this)">' +
+    globalFrontendText['Delete'] +
     '</button></td></tr>');
 }
 
-
-function submitTable(service_name, e) {
+function submitTable(table_name, table_comment, table_module, service_name, e) {
   var allData = []
-  $('#editableTable tbody tr').each(function () {
+  $(e).prev().children('tbody').children('tr').each(function () {
     var name = $(this).find('input:eq(0)').val()
     var comment = $(this).find('input:eq(1)').val()
     var type = $(this).find('input:eq(2)').val()
@@ -1807,7 +1801,13 @@ function submitTable(service_name, e) {
       is_increment: is_increment ? '1' : '0',
     })
   })
-  var requestData = JSON.stringify(allData)
+  var mapData={
+    "name":table_name,
+    "comment":table_comment,
+    "module":table_module,
+    "columns":allData
+  }
+  var requestData = JSON.stringify(mapData)
   taskSplitOK(requestData, service_name, e)
 }
 
@@ -1822,9 +1822,15 @@ function openIframe(data,service_name) {
   iframe.style.borderRadius = '4px'
   iframe.style.marginTop = '14px'
 
-  $(".ai-code."+service_name).eq($('.ai-code.'+service_name).length - 1).html(iframe)
+  let refreshBtn='<button class="ui blue button" onClick="refreshIframe(this)">' +
+    globalFrontendText['refresh'] +
+    '</button>'
+  $(".ai-code."+service_name).eq($('.ai-code.'+service_name).length - 1).html(iframe).append(refreshBtn)
 }
 
+function refreshIframe(e){
+    $(e).prev()[0].contentWindow.location.reload(true);
+}
 
 function taskAnalysis(customPrompt, service_name, hideUserPrompt, thisElement) {
     customPrompt = decodeURI(customPrompt)

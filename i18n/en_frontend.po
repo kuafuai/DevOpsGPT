@@ -1071,3 +1071,15 @@ msgstr ""
 #: backend/app/pkgs/tools/i18b.py:260
 msgid "task_code_finish"
 msgstr "The current task has generated code, unable to add requirements, after “Push code”, click this link to start a new requirement based on the current code."
+
+#: backend/app/pkgs/tools/i18b.py:261
+msgid "Add row"
+msgstr "Add row"
+
+#: backend/app/pkgs/tools/i18b.py:262
+msgid "Delete"
+msgstr "Delete"
+
+#: backend/app/pkgs/tools/i18b.py:263
+msgid "Refresh"
+msgstr ""
