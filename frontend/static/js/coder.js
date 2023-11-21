@@ -1731,7 +1731,7 @@ taskAnalysisSuccessCallback = function(data, isRecover) {
   if (type == 'mis'||service_name=='mis_app') {
     let cols = JSON.parse(msg).columns
     str =
-      '<table class="ui table" id="editableTable"><thead><th>name</th><th>comment</th><th>type</th><th>is_pk</th><th>is_required</th><th>is_increment</th><th></th></thead>'
+      '<table class="ui table" id="editableTable"><thead><th>name</th><th>comment</th><th>type</th><th>is_pk</th><th>is_required</th><th>is_increment</th><th></th></thead><tbody>'
     for (let i = 0; i < cols.length; i++) {
       var isPk = cols[i].is_pk == 1 ? 'checked' : ''
       var isRequired = cols[i].is_required == 1 ? 'checked' : ''
@@ -1749,16 +1749,16 @@ taskAnalysisSuccessCallback = function(data, isRecover) {
         isRequired +
         '><label> </label></label></div></td><td><div class="ui checkbox"><input type="checkbox"' +
         isIncrement +
-        '><label> </label></label></div></td><td><button class="ui red button" onClick="delRow(this)">' +
-        globalFrontendText['Delete'] +
+        '><label> </label></label></div></td><td><button class="ui red button f_delete" onClick="delRow(this)">' +
+        // globalFrontendText['Delete'] +
+        'Delete'+
         '</button></td></tr>'
     }
     str +=
-      '</table><button class="ui blue button" onClick="addRow(\'' +
-      service_name +
-      '\',this)">' +
-      globalFrontendText['AddRow'] +
-      '</button><button class="ui green button" onClick="submitTable(\'' +
+      '</tbody><tfoot><tr><th colspan="7"><button class="ui blue button f_add_row" onClick="addRow(this)">' +
+    //   globalFrontendText['AddRow'] +
+    'Add row'+
+      '</button></th></tr></tfoot></table><button class="ui green button" onClick="submitTable(\'' +
       service_name +
       '\',this)">' +
       globalFrontendText['submit'] +
@@ -1781,8 +1781,10 @@ function delRow(e) {
   $(e).closest('tr').remove()
 }
 function addRow(e) {
-    $('tbody').append('<tr><td><div class="ui input"><input type="text" class="ui input" value=""></div></td><td><div class="ui input"><input type="text" class="ui input" value=""></div></td><td><div class="ui input"><input type="text" class="ui input" value=""></div></td><td><div class="ui checkbox"><input type="checkbox"><label> </label></label></div></td><td><div class="ui checkbox"><input type="checkbox"><label> </label></label></div></td><td><div class="ui checkbox"><input type="checkbox"><label> </label></label></div></td><td><button class="ui red button" onClick="delRow(this)">' +
-    globalFrontendText['Delete'] +
+    console.log(e)
+    $(e).parent().parent().parent().prev().append('<tr><td><div class="ui input"><input type="text" class="ui input" value=""></div></td><td><div class="ui input"><input type="text" class="ui input" value=""></div></td><td><div class="ui input"><input type="text" class="ui input" value=""></div></td><td><div class="ui checkbox"><input type="checkbox"><label> </label></label></div></td><td><div class="ui checkbox"><input type="checkbox"><label> </label></label></div></td><td><div class="ui checkbox"><input type="checkbox"><label> </label></label></div></td><td><button class="ui red button f_delete" onClick="delRow(this)">' +
+    // globalFrontendText['Delete'] +
+    'Delete'+
     '</button></td></tr>');
 }
 
