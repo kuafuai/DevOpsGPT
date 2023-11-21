@@ -1729,7 +1729,11 @@ taskAnalysisSuccessCallback = function(data, isRecover) {
   var str = ''
 
   if (type == 'mis'||service_name=='mis_app') {
-    let cols = JSON.parse(msg).columns
+    let table_json = JSON.parse(msg)
+    let cols = table_json.columns
+    let table_name = table_json.name
+    let table_comment = table_json.comment
+    let table_module = table_json.module
     str =
       '<table class="ui table"><thead><th>name</th><th>comment</th><th>type</th><th>is_pk</th><th>is_required</th><th>is_increment</th><th></th></thead><tbody>'
     for (let i = 0; i < cols.length; i++) {
@@ -1759,7 +1763,7 @@ taskAnalysisSuccessCallback = function(data, isRecover) {
     //   globalFrontendText['AddRow'] +
     'Add row'+
       '</button></th></tr></tfoot></table><button class="ui green button" onClick="submitTable(\'' +
-      service_name +
+      service_name + '\',\''+table_name+'\',\''+table_comment+'\',\''+table_module+
       '\',this)">' +
       globalFrontendText['submit'] +
       '</button>'
@@ -1789,7 +1793,8 @@ function addRow(e) {
 }
 
 
-function submitTable(service_name, e) {
+function submitTable(service_name,table_name, table_comment ,table_module, e) {
+
   var allData = []
   $(e).prev().children('tbody').children('tr').each(function () {
     var name = $(this).find('input:eq(0)').val()
@@ -1807,7 +1812,15 @@ function submitTable(service_name, e) {
       is_increment: is_increment ? '1' : '0',
     })
   })
-  var requestData = JSON.stringify(allData)
+
+  var mapData = {
+    'name': table_name,
+    'comment': table_comment,
+    'module': table_module,
+    'columns': allData
+  }
+
+  var requestData = JSON.stringify(mapData)
   taskSplitOK(requestData, service_name, e)
 }
 
