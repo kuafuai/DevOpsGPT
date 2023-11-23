@@ -1750,11 +1750,7 @@ taskAnalysisSuccessCallback = function(data, isRecover) {
         '><label> </label></label></div></td><td><div class="ui checkbox"><input type="checkbox"' +
         isIncrement +
         '><label> </label></label></div></td><td><button class="ui red button" onClick="delRow(this)">' +
-<<<<<<< HEAD
         globalFrontendText['delete'] + 
-=======
-        globalFrontendText['delete'] +
->>>>>>> ddb14710139d4422b9272a5b750ec74a056228b7
         '</button></td></tr>'
     }
     str +=
@@ -1833,11 +1829,7 @@ function openIframe(data,service_name) {
 }
 
 function refreshIframe(e){
-<<<<<<< HEAD
     $(e).prev()[0].contentWindow.postMessage('reload', '*');
-=======
-    $(e).prev()[0].contentWindow.location.reload(true);
->>>>>>> ddb14710139d4422b9272a5b750ec74a056228b7
 }
 
 function taskAnalysis(customPrompt, service_name, hideUserPrompt, thisElement) {
