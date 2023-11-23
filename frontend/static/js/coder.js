@@ -1829,7 +1829,7 @@ function openIframe(data,service_name) {
 }
 
 function refreshIframe(e){
-    $(e).prev()[0].contentWindow.location.reload(true);
+    $(e).prev()[0].contentWindow.postMessage('reload', '*');
 }
 
 function taskAnalysis(customPrompt, service_name, hideUserPrompt, thisElement) {

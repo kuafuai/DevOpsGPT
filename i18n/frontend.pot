@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-11-09 15:28+0800\n"
+"POT-Creation-Date: 2023-11-22 10:58+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1011,4 +1011,16 @@ msgstr ""
 
 #: backend/app/pkgs/tools/i18b.py:260
 msgid "task_code_finish"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:261
+msgid "Add row"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:262
+msgid "Delete"
+msgstr ""
+
+#: backend/app/pkgs/tools/i18b.py:263
+msgid "Refresh"
 msgstr ""
