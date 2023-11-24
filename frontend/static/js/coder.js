@@ -1821,6 +1821,7 @@ function openIframe(data,service_name) {
   iframe.style.border = '1px solid rgba(34,36,38,.15)'
   iframe.style.borderRadius = '4px'
   iframe.style.marginTop = '14px'
+  iframe.sandbox="allow-same-origin allow-scripts"
 
   let refreshBtn='<button class="ui blue button" onClick="refreshIframe(this)">' +
     globalFrontendText['refresh'] +
