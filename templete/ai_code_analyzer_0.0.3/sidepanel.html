@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Document</title>
+    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/sidepanel.css" rel="stylesheet">
+    <script src="js/jquery.js"></script>
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="sidepanel.js" defer></script>
+</head>
+<body>
+
+<div id="mainsidepanel">
+    <div class="jumbotron">
+        <h1 class="display-4">KuaFuAI</h1>
+        <p class="lead">AI analyzes code with KuaFuAI to help you quickly learn code purpose, code language and
+            development
+            framework, and even detailed code structure information.</p>
+        <hr class="my-4">
+        <p>You can go to the github repository homepage and click the "AI Analyze" button, the analysis result will be
+            displayed in the sidebar, and the analysis time is expected to be 5-10 minutes</p>
+        <a class="btn btn-primary btn-lg" href="https://www.kuafuai.net" role="button" target="_blank">Go to the
+            official website</a>
+    </div>
+</div>
+
+<main id="sidepanel">
+    <!--    <button id="test">请求后端</button>-->
+    <!--    </div>-->
+
+    <div class="all">
+        <div class="reponame">
+            <div class="repo">Repo:</div>
+            <span class="repo-item" id="title"></span>
+        </div>
+        <!--    报异常展示的信息-->
+        <div class="error" id="error" style="display: none">
+            <div class="jumbotron jumbotron-fluid">
+                <div class="container">
+                    <h1 class="display-4">Analysis failure</h1>
+                    <!--                <div class="row">-->
+                    <!--                    <div class="col"></div>-->
+                    <!--                    <div class="col-md-6">-->
+                    <div id="errmessage" class="alert alert-danger" role="alert" style="white-space: pre-line;">
+                    </div>
+                    <!--                    </div>-->
+                    <!--                    <div class="col"></div>-->
+                </div>
+                <!--                <p class="lead">This is a modified jumbotron that occupies the entire horizontal space of its parent.</p>-->
+            </div>
+        </div>
+        <!--    正常展示的信息-->
+        <div class="container">
+
+            <!--            <button id="sendrequest" type="button" class="btn btn-primary">显示</button>-->
+            <div id="loadId" class="loader-container">
+                <div>
+                    <div class="loader"></div>
+                </div>
+                <div id="loadcontent" class="loadmessage">Loading....</div>
+                <div id="loadmessage"></div>
+            </div>
+
+            <!--    标题-->
+            <div id="contentId" class="content">
+                <div class="item">
+                    <div class="item_title">Language</div>
+                    <p class="item_content" id="language"></p>
+                </div>
+                <div class="item">
+                    <div class="item_title">Framework</div>
+                    <p class="item_content" id="framework"></p>
+                </div>
+                <!-- 使用组件-->
+                <div class="item">
+                    <div class="item_title">Module</div>
+                    <p class="item_content" id="module"></p>
+                </div>
+                <div class="item"><!--    服务用户-->
+                    <div class="item_title">Service usage</div>
+                    <p class="item_content" id="usage"></p>
+                </div>
+                <div class="item">
+                    <div class="item_title">Code structure</div>
+                    <p class="item_content" id="code">
+                    </p>
+                </div>
+            </div>
+            <!--    底部栏-->
+        </div>
+
+    </div>
+    <footer class="footer">
+        <!--        <div>-->
+        <img class="footerimg" src="./images/logo.png" alt="">
+        <span>Powered By</span>
+        <a href="https://www.kuafuai.net" target="_blank">KuaFuAI</a>
+        <!--        </div>-->
+    </footer>
+    <!--    代码结构-->
+
+
+    <!--    <button id="sendrequest" type="button" class="btn btn-primary">请求</button>-->
+    <!--    <button type="button" class="btn btn-primary">Primary</button>-->
+</main>
+</body>
+
+</html>

@@ -1,0 +1,37 @@
+{
+  "manifest_version": 3,
+  "name": "AI code analyzer",
+  "description": "AI analyzes code with KuaFuAI to help you understand its purpose, language, framework,module, and code structure quickly.",
+  "version": "0.0.3",
+  "icons": {
+    "16": "images/icon-16.png",
+    "48": "images/icon-48.png",
+    "128": "images/icon-128.png"
+  },
+  "permissions": [
+    "sidePanel",
+    "tabs",
+    "scripting",
+    "storage"
+  ],
+  "homepage_url": "https://www.kuafuai.net",
+  "background": {
+    "service_worker": "service-worker.js"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://*.github.com/*"
+      ],
+      "js": [
+        "lock.js"
+      ]
+    }
+  ],
+  "host_permissions": [
+    "https://github.com/*"
+  ],
+  "action": {
+    "default_title": "KuaFuAI"
+  }
+}
