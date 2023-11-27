@@ -339,6 +339,7 @@ $(document).ready(function () {
 
     // 提交任务
     $('#generate-code-button').click(function () {
+
         $('#generate-code-button').addClass("disabled");
         var customPrompt = $('#prompt-textarea').val();
         $('#prompt-textarea').val('');
@@ -346,6 +347,15 @@ $(document).ready(function () {
         $('#prompt-hidePrompt').val('');
         var serviceName = $('#prompt-serviceName').val();
         $('#prompt-serviceName').val('');
+
+        console.log('提交任务',serviceName)
+        if (recordCustomPrompt) { //&& recordCustomPrompt
+            customPromptAll.push(customPrompt);
+            console.log(customPromptAll);
+            // TODO 调用taskAnalysis，增加"supplement_prompt": "新增xxxx\n字段xxxx",
+            taskAnalysis(customPrompt,'mis_app');
+            return
+          }
         if (operType == "tec_doc") {
             taskSplitOK(customPrompt, serviceName)
         } else if (operType == "api_doc") {
@@ -364,15 +374,10 @@ $(document).ready(function () {
             } else {
                 genInterfaceDoc(customPrompt)
             }
-        } else {
+        }  else {
             clarify(customPrompt)
         }
-        if (serviceName == 'mis_app' && recordCustomPrompt) {
-            customPromptAll.push(customPrompt);
-            console.log(customPromptAll);
-            // TODO 调用taskAnalysis，增加"supplement_prompt": "新增xxxx\n字段xxxx",
-            taskAnalysis(customPrompt);
-          }
+        
     });
 
     $('#cancel-task').click(function () {
@@ -1740,7 +1745,7 @@ taskAnalysisSuccessCallback = function (data, isRecover) {
       let { name, comment, module, columns } = JSON.parse(msg);
   
       str +=
-        '<div>AI已经根据PRD文档设计出相应的数据模型，您可以点击查看 “<a id="tableLink" style="cursor:pointer">详情</a>” ，查看具体的数据模型。<br/><br/>接下来，将自动为您开发相关代码、运行持续和持续部署，最终将开发好的应用部署好，方便您访问体验。<br/><br/>请问是否继续？</div><br/><button id="continue" class="ui green button" onClick="submitTable(\'business\',\'' +
+        '<div>AI已经根据PRD文档设计出相应的数据模型，您可以点击查看 “<a class="tableLink" style="cursor:pointer">详情</a>” ，查看具体的数据模型。<br/><br/>接下来，将自动为您开发相关代码、运行持续和持续部署，最终将开发好的应用部署好，方便您访问体验。<br/><br/>请问是否继续？</div><br/><button class="ui green button continue" onClick="submitTable(\'business\',\'' +
         escapeHtml(msg) +
         "',0,0,'" +
         service_name +
@@ -1774,7 +1779,7 @@ taskAnalysisSuccessCallback = function (data, isRecover) {
       tableStr +=
         '</tbody><tfoot><tr><th colspan="7"><button class="ui blue button" onClick="addRow(this)"><span>' +
         globalFrontendText['add_row'] +
-        '</span></button></th></tr></tfoot></table><button class="ui green button" onClick="submitTable(\'table\',\'' +
+        '</span></button></th></tr></tfoot></table><button class="ui green button " onClick="submitTable(\'table\',\'' +
         name +
         "','" +
         comment +
@@ -1790,12 +1795,15 @@ taskAnalysisSuccessCallback = function (data, isRecover) {
         .eq($(ai_code_class).length - 1)
         .html(str);
   
-      $('#tableLink').one('click', function () {
-        $('.' + ai_code_class)
-          .eq($(ai_code_class).length - 1)
-          .append(tableStr)
-          .find($('#continue'))
-          .remove();
+      $('.tableLink').one('click', function () {
+         $(this).parent().parent().html(str).append(tableStr)
+         .find($('.continue'))
+         .remove();
+        // $('.' + ai_code_class)
+        //   .eq($(ai_code_class).length - 1)
+        //   .append(tableStr)
+        //   .find($('.continue'))
+        //   .remove();
       });
     } else {
       str =
@@ -1863,6 +1871,7 @@ function submitTable(type,table_name, table_comment, table_module, service_name,
             "columns":allData
         }
     }
+    $('#prompt-serviceName').val(service_name);
     recordCustomPrompt=true
   var requestData = JSON.stringify(mapData)
   taskSplitOK(requestData, service_name, e)
@@ -1921,7 +1930,7 @@ function taskAnalysis(customPrompt, service_name, hideUserPrompt, thisElement) {
     if (globalChangeServiceList.length == 1) {
         doc_type = "prd"
     }
-    var requestData = JSON.stringify({ 'service_name': service_name, 'prompt': customPrompt, 'doc_type': doc_type, 'task_id': getTaskID(), supplement_prompt: service_name == 'mis_app' && recordCustomPrompt ? customPromptAll.join('/n') : '',
+    var requestData = JSON.stringify({ 'service_name': service_name, 'prompt': customPrompt, 'doc_type': doc_type, 'task_id': getTaskID(), supplement_prompt: customPromptAll.join('/n')//service_name == 'mis_app' && recordCustomPrompt ? customPromptAll.join('/n') : ''
 })
 
     var retruBtn = '<br /><br /><button class="ui green button" onClick="taskAnalysis(\''+escapeHtml(customPrompt)+'\',\''+service_name+'\', true, this)">'+globalFrontendText["retry"]+'</button>'
