@@ -10,6 +10,8 @@ var globalRole = ""
 var globalAppInfo = {}
 var codeMirror
 var apiUrl = "http://127.0.0.1:8081"
+var customPromptAll=[]
+var recordCustomPrompt=false
 
 var _hmt = _hmt || [];
 (function() {
@@ -365,6 +367,12 @@ $(document).ready(function () {
         } else {
             clarify(customPrompt)
         }
+        if (serviceName == 'mis_app' && recordCustomPrompt) {
+            customPromptAll.push(customPrompt);
+            console.log(customPromptAll);
+            // TODO 调用taskAnalysis，增加"supplement_prompt": "新增xxxx\n字段xxxx",
+            taskAnalysis(customPrompt);
+          }
     });
 
     $('#cancel-task').click(function () {
@@ -1718,68 +1726,102 @@ function genInterfaceDoc(customPrompt, thisElement) {
     sendAjaxRequest('/step_api/clarify', "POST", requestData, genInterfaceDocSuccessCallback, errorCallback, true, true)
 }
 
-taskAnalysisSuccessCallback = function(data, isRecover) {
-  $('#generate-code-button').removeClass("disabled");
-
-  data = data.data
-  let type = data.type
-  var msg = data.message
-  var service_name = data.service_name
-  var ai_code_class = service_name.replace('/', '-')
-  var str = ''
-
-  if (type == 'mis'||service_name=='mis_app') {
-    let {name,comment,module,columns} = JSON.parse(msg)
-
-    var tableStr =
-      '<table class="ui table"><thead><th>name</th><th>comment</th><th>type</th><th>is_pk</th><th>is_required</th><th>is_increment</th><th></th></thead><tbody>'
-    for (let i = 0; i < columns.length; i++) {
-      var isPk = columns[i].is_pk == 1 ? 'checked' : ''
-      var isRequired = columns[i].is_required == 1 ? 'checked' : ''
-      var isIncrement = columns[i].is_increment == 1 ? 'checked' : ''
+taskAnalysisSuccessCallback = function (data, isRecover) {
+    $('#generate-code-button').removeClass('disabled');
+  
+    data = data.data;
+    let type = data.type;
+    var msg = data.message;
+    var service_name = data.service_name;
+    var ai_code_class = service_name.replace('/', '-');
+    var str = '';
+  
+    if (type == 'mis' || service_name == 'mis_app') {
+      let { name, comment, module, columns } = JSON.parse(msg);
+  
+      str +=
+        '<div>AI已经根据PRD文档设计出相应的数据模型，您可以点击查看 “<a id="tableLink" style="cursor:pointer">详情</a>” ，查看具体的数据模型。<br/><br/>接下来，将自动为您开发相关代码、运行持续和持续部署，最终将开发好的应用部署好，方便您访问体验。<br/><br/>请问是否继续？</div><br/><button id="continue" class="ui green button" onClick="submitTable(\'business\',\'' +
+        escapeHtml(msg) +
+        "',0,0,'" +
+        service_name +
+        '\',this)">' +
+        '继续' +
+        '</button>';
+  
+      var tableStr =
+        '<table class="ui table"><thead><th>name</th><th>comment</th><th>type</th><th>is_pk</th><th>is_required</th><th>is_increment</th><th></th></thead><tbody>';
+      for (let i = 0; i < columns.length; i++) {
+        var isPk = columns[i].is_pk == 1 ? 'checked' : '';
+        var isRequired = columns[i].is_required == 1 ? 'checked' : '';
+        var isIncrement = columns[i].is_increment == 1 ? 'checked' : '';
+        tableStr +=
+          '<tr><td><div class="ui input"><input type="text" class="ui input" value="' +
+          columns[i].name +
+          '"></div></td><td><div class="ui input"><input type="text" class="ui input" value="' +
+          columns[i].comment +
+          '"></div></td><td><div class="ui input"><input type="text" class="ui input" value="' +
+          columns[i].type +
+          '"></div></td><td><div class="ui checkbox"><input type="checkbox"' +
+          isPk +
+          '><label> </label></label></div></td><td><div class="ui checkbox"><input type="checkbox"' +
+          isRequired +
+          '><label> </label></label></div></td><td><div class="ui checkbox"><input type="checkbox"' +
+          isIncrement +
+          '><label> </label></label></div></td><td><button class="ui red button" onClick="delRow(this)">' +
+          globalFrontendText['delete'] +
+          '</button></td></tr>';
+      }
       tableStr +=
-        '<tr><td><div class="ui input"><input type="text" class="ui input" value="' +
-        columns[i].name +
-        '"></div></td><td><div class="ui input"><input type="text" class="ui input" value="' +
-        columns[i].comment +
-        '"></div></td><td><div class="ui input"><input type="text" class="ui input" value="' +
-        columns[i].type +
-        '"></div></td><td><div class="ui checkbox"><input type="checkbox"' +
-        isPk +
-        '><label> </label></label></div></td><td><div class="ui checkbox"><input type="checkbox"' +
-        isRequired +
-        '><label> </label></label></div></td><td><div class="ui checkbox"><input type="checkbox"' +
-        isIncrement +
-        '><label> </label></label></div></td><td><button class="ui red button" onClick="delRow(this)">' +
-        globalFrontendText['delete'] + 
-        '</button></td></tr>'
+        '</tbody><tfoot><tr><th colspan="7"><button class="ui blue button" onClick="addRow(this)"><span>' +
+        globalFrontendText['add_row'] +
+        '</span></button></th></tr></tfoot></table><button class="ui green button" onClick="submitTable(\'table\',\'' +
+        name +
+        "','" +
+        comment +
+        "','" +
+        module +
+        "','" +
+        service_name +
+        '\', this)">' +
+        '继续' +
+        '</button>';
+  
+      $('.' + ai_code_class)
+        .eq($(ai_code_class).length - 1)
+        .html(str);
+  
+      $('#tableLink').one('click', function () {
+        $('.' + ai_code_class)
+          .eq($(ai_code_class).length - 1)
+          .append(tableStr)
+          .find($('#continue'))
+          .remove();
+      });
+    } else {
+      str =
+        '<br /><br /><button class="ui green button" onClick="taskSplitOK(\'' +
+        escapeHtml(msg) +
+        "', '" +
+        service_name +
+        '\', this)">' +
+        globalFrontendText['submit'] +
+        '</button><button class="ui blue button" onclick="taskChange(\'' +
+        escapeHtml(msg) +
+        "', 'tec_doc', '" +
+        service_name +
+        '\')">' +
+        globalFrontendText['edit'] +
+        '</button>';
+      marked_msg = marked.marked(msg);
+      msg =
+        '<h5>' + globalFrontendText['ai_tecDoc_clarify_1'] + '</h5>' + marked_msg;
+  
+      $('.' + ai_code_class)
+        .eq($(ai_code_class).length - 1)
+        .html(msg + str);
     }
-    tableStr +=
-      '</tbody><tfoot><tr><th colspan="7"><button class="ui blue button" onClick="addRow(this)"><span>' +
-      globalFrontendText['add_row'] +
-      '</span></button></th></tr></tfoot></table><button class="ui green button" onClick="submitTable(\'table\',\'' +
-      name+'\',\''+comment+'\',\''+module+'\',\''+service_name+
-      '\', this)">' +
-      globalFrontendText['submit'] +
-      '</button>'
-    var businessStr = '<button class="ui green button" onClick="submitTable(\'business\',\''+escapeHtml(msg)+'\',0,0,\''+service_name+
-      '\',this)">' +
-      globalFrontendText['submit'] +
-      '</button>'
-    let tabs='<div class="ui top attached tabular menu"><a class="item active" data-tab="first">业务模式</a><a class="item" data-tab="second">设计模式</a></div><div class="ui bottom attached tab segment active" data-tab="first">'+businessStr+'</div><div class="ui bottom attached tab segment" data-tab="second">'+tableStr+'</div>'
-
-    $('.' + ai_code_class)
-      .eq($(ai_code_class).length - 1)
-      .html(tabs)
-    $('.menu .item').tab()
-  } else {
-    str = '<br /><br /><button class="ui green button" onClick="taskSplitOK(\''+escapeHtml(msg)+'\', \''+service_name+'\', this)">'+globalFrontendText["submit"]+'</button><button class="ui blue button" onclick="taskChange(\''+escapeHtml(msg)+'\', \'tec_doc\', \''+service_name+'\')">'+globalFrontendText["edit"]+'</button>'
-    marked_msg = marked.marked(msg)
-    msg = '<h5>'+globalFrontendText["ai_tecDoc_clarify_1"]+'</h5>'+marked_msg
-
-    $("."+ai_code_class).eq($(ai_code_class).length - 1).html(msg+str);
-  }
-}
+  };
+  
 
 function delRow(e) {
   $(e).closest('tr').remove()
@@ -1821,6 +1863,7 @@ function submitTable(type,table_name, table_comment, table_module, service_name,
             "columns":allData
         }
     }
+    recordCustomPrompt=true
   var requestData = JSON.stringify(mapData)
   taskSplitOK(requestData, service_name, e)
 }
@@ -1878,7 +1921,8 @@ function taskAnalysis(customPrompt, service_name, hideUserPrompt, thisElement) {
     if (globalChangeServiceList.length == 1) {
         doc_type = "prd"
     }
-    var requestData = JSON.stringify({ 'service_name': service_name, 'prompt': customPrompt, 'doc_type': doc_type, 'task_id': getTaskID() })
+    var requestData = JSON.stringify({ 'service_name': service_name, 'prompt': customPrompt, 'doc_type': doc_type, 'task_id': getTaskID(), supplement_prompt: service_name == 'mis_app' && recordCustomPrompt ? customPromptAll.join('/n') : '',
+})
 
     var retruBtn = '<br /><br /><button class="ui green button" onClick="taskAnalysis(\''+escapeHtml(customPrompt)+'\',\''+service_name+'\', true, this)">'+globalFrontendText["retry"]+'</button>'
 
