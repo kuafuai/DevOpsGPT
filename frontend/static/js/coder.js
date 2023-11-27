@@ -12,6 +12,7 @@ var codeMirror
 var apiUrl = "http://127.0.0.1:8081"
 var customPromptAll=[]
 var recordCustomPrompt=false
+var lastestDevelopmentRequirementsDetail=''
 
 var _hmt = _hmt || [];
 (function() {
@@ -337,25 +338,22 @@ $(document).ready(function () {
         modelInfoUpdate(appName, content)
     });
 
-    // 提交任务
+    // TODO 提交任务
     $('#generate-code-button').click(function () {
 
         $('#generate-code-button').addClass("disabled");
         var customPrompt = $('#prompt-textarea').val();
+        console.log('customPrompt',customPrompt)
         $('#prompt-textarea').val('');
+
         var operType = $('#prompt-hidePrompt').val();
+        console.log('operType',operType)
         $('#prompt-hidePrompt').val('');
+
         var serviceName = $('#prompt-serviceName').val();
+        console.log('serviceName',serviceName)
         $('#prompt-serviceName').val('');
 
-        console.log('提交任务',serviceName)
-        if (recordCustomPrompt) { //&& recordCustomPrompt
-            customPromptAll.push(customPrompt);
-            console.log(customPromptAll);
-            // TODO 调用taskAnalysis，增加"supplement_prompt": "新增xxxx\n字段xxxx",
-            taskAnalysis(customPrompt,'mis_app');
-            return
-          }
         if (operType == "tec_doc") {
             taskSplitOK(customPrompt, serviceName)
         } else if (operType == "api_doc") {
@@ -374,7 +372,15 @@ $(document).ready(function () {
             } else {
                 genInterfaceDoc(customPrompt)
             }
-        }  else {
+        }  else if (operType == "change_table" ) { 
+            // TODO 调用taskAnalysis，增加"supplement_prompt": "新增xxxx\n字段xxxx",
+            customPromptAll.push(customPrompt);
+            console.log(customPromptAll,lastestDevelopmentRequirementsDetail);
+            if (globalChangeServiceList.length ) {
+                taskAnalysis(lastestDevelopmentRequirementsDetail,globalChangeServiceList[0]);
+            }
+            return
+          } else {
             clarify(customPrompt)
         }
         
@@ -1660,6 +1666,7 @@ clarifySuccessCallback = function(data, isRecover){
             myAlert(globalFrontendText["error"], globalFrontendText["service_modification_item_empty"])
         }
         msg = msgJson.development_requirements_detail
+        lastestDevelopmentRequirementsDetail=msgJson.development_requirements_detail
         str = '<br /><br /><button class="ui green button" onClick="taskOk(\''+escapeHtml(msg)+'\', this, \'requirement_doc\')">'+globalFrontendText["submit"]+'</button><button class="ui blue button" onclick="taskChange(\''+escapeHtml(msg)+'\', \'requirement_doc\')">'+globalFrontendText["edit"]+'</button>'
         marked_msg = marked.marked(msg)
         marked_msg = marked_msg.replaceAll("</code></pre>", "")
@@ -1799,11 +1806,6 @@ taskAnalysisSuccessCallback = function (data, isRecover) {
          $(this).parent().parent().html(str).append(tableStr)
          .find($('.continue'))
          .remove();
-        // $('.' + ai_code_class)
-        //   .eq($(ai_code_class).length - 1)
-        //   .append(tableStr)
-        //   .find($('.continue'))
-        //   .remove();
       });
     } else {
       str =
@@ -1941,7 +1943,7 @@ function taskAnalysis(customPrompt, service_name, hideUserPrompt, thisElement) {
 
     sendAjaxRequest('/step_subtask/analysis', "POST", requestData, taskAnalysisSuccessCallback, errorCallback, true, true)
 }
-
+// TODO 
 function taskSplitOK(customPrompt, service_name, thisElement) {
     customPrompt = decodeURI(customPrompt)
     $(thisElement).addClass("disabled");
@@ -1987,6 +1989,8 @@ function taskSplitOK(customPrompt, service_name, thisElement) {
         }
         if(data.type=='mis'){
           openIframe(data,service_name)
+          $("#prompt-hidePrompt").val("change_table")
+          $("#prompt-serviceName").val(service_name)
         }
     }
 
