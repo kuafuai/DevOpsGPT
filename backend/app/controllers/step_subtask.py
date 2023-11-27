@@ -19,6 +19,7 @@ def analysis():
     data = request.json
     serviceName = data['service_name']
     prompt = data['prompt']
+    supplement_prompt = data['supplement_prompt']
     doc_type = data['doc_type']
     username = storage.get("username")
     requirementID = request.json.get('task_id')
@@ -39,6 +40,8 @@ You need to think on the basis of the following interface documentation：
         requirementDoc = prompt
         Requirement.update_requirement(requirement_id=requirementID, tenant_id=tenantID, original_requirement=prompt)
         newfeature = requirementDoc
+        if supplement_prompt is not None and len(supplement_prompt) > 0:
+            newfeature += "\n## 补充需求\n"+supplement_prompt
 
     appBasePrompt, _ = getServiceBasePrompt(req["app_id"], serviceName)
     projectIntro, _ = getServiceIntro(req["app_id"], serviceName, tenantID)
