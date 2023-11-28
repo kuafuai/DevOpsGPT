@@ -1882,6 +1882,7 @@ function submitTable(type,table_name, table_comment, table_module, service_name,
 function openIframe(data,service_name) {
   let port = data.f_port || 63691
   let src = 'http://8.218.90.105:' + port + '/login?redirect=/index'
+  $('#ruoyiIframe').panrent().html('<div>应用已更新，请前往下方最新的预览窗口体验。</div>')
   var iframe = document.createElement('iframe')
 
   iframe.id='ruoyiIframe'
