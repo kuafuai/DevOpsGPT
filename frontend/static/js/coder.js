@@ -262,7 +262,7 @@ $(document).ready(function () {
 
     const url = window.location;
     const path = url.pathname;
-    if (path != "/index.html" && path != "/") {
+    if (path != "/index.html" && path != "/" && path != "/i_clouderwork.html") {
         logincheck()
         getRequirement()
     }
