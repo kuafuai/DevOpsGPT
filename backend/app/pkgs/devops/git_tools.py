@@ -20,11 +20,11 @@ def pullCode(ws_path, repo_path, base_branch, feature_branch, gitConfigList):
     gitUrl = genCloneUrl(repo_path, gitConfig["git_url"], gitConfig["git_username"], gitConfig["git_token"])
     print(f"pullCode start {gitUrl} {base_branch} {repo_path} {ws_path}")
     # 先从feature_branch拉代码，如果失败再从base_branch拉
-    result = subprocess.run(['git', 'clone', '-b', feature_branch, gitUrl, repo_path], capture_output=True, text=True, cwd=ws_path)
+    result = subprocess.run(['git', 'clone', '-b', feature_branch, gitUrl, repo_path, '--depth', '1'], capture_output=True, text=True, cwd=ws_path)
     if result.returncode != 0:
         print("git clone feature_branch failed: "+result.stderr)
 
-        result = subprocess.run(['git', 'clone', '-b', base_branch, gitUrl, repo_path], capture_output=True, text=True, cwd=ws_path)
+        result = subprocess.run(['git', 'clone', '-b', base_branch, gitUrl, repo_path, '--depth', '1'], capture_output=True, text=True, cwd=ws_path)
         if result.returncode != 0:
             print("git clone base_branch failed: "+result.stderr)
             # 克隆失败，说明目录已存在，尝试重置目录

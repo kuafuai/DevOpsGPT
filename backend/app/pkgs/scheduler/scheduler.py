@@ -5,13 +5,13 @@ from datetime import datetime, timedelta
 import threading
 
 def task(app):
-    print("scanning task ... ", datetime.now(), threading.current_thread().name)
+    print("scanning task ... ", datetime.now(), threading.current_thread().name, flush=True)
     with app.app_context():
         # 查询 任务
         async_task = AsyncTask.get_analyzer_code_task_one(AsyncTask.Status_Init)
 
         if async_task:
-            print("process task token : ", async_task.token, async_task.version)
+            print("process task token : ", async_task.token, async_task.version, flush=True)
 
             content = json.loads(async_task.task_content)
             type = content['type']
