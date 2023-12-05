@@ -1911,7 +1911,11 @@ function taskAnalysis(customPrompt, service_name, hideUserPrompt, thisElement) {
     $('#prompt-textarea').val("");
     $("#prompt-hidePrompt").val("")
     var ai_code_class = service_name.replace("/","-")
-    var newField = $('<div class="user-code-container"><div class="ui container grid"><div class="one wide column"><i class="blue  grav icon big" style="font-size: 3em;"></i></div><div class="fifteen wide column ai-content"><div class="ai-code" id="">'+globalFrontendText["ai_api_clarify_confirm"]+'</div></div></div></div> <div class="ai-code-container '+ai_code_class+'"><div class="ui container grid"><div class="one wide column"><img class="ui avatar image" src="./static/image/role_tl.jpeg" data-content="TL" style="width: auto;height: auto;"></div><div class="fifteen wide column ai-content"><div class="ai-code '+ai_code_class+'"><i class="spinner loading icon"></i>'+globalFrontendText["ai_api_subtask_1"]+' '+service_name+' '+globalFrontendText["ai_api_subtask_2"]+'</div></div></div></div>');
+    var show_title_msg = globalFrontendText["ai_api_clarify_confirm"];
+    if(customPromptAll.length > 0){
+        show_title_msg = customPromptAll.at(-1)
+    }
+    var newField = $('<div class="user-code-container"><div class="ui container grid"><div class="one wide column"><i class="blue  grav icon big" style="font-size: 3em;"></i></div><div class="fifteen wide column ai-content"><div class="ai-code" id="">'+show_title_msg+'</div></div></div></div> <div class="ai-code-container '+ai_code_class+'"><div class="ui container grid"><div class="one wide column"><img class="ui avatar image" src="./static/image/role_tl.jpeg" data-content="TL" style="width: auto;height: auto;"></div><div class="fifteen wide column ai-content"><div class="ai-code '+ai_code_class+'"><i class="spinner loading icon"></i>'+globalFrontendText["ai_api_subtask_1"]+' '+service_name+' '+globalFrontendText["ai_api_subtask_2"]+'</div></div></div></div>');
     $(".ai-prompt-container").before(newField);
     $(".ai-code-container."+ai_code_class).eq($('.ai-code-container.'+ai_code_class).length - 1).hide();
     $(".user-code-container").eq($('.user-code-container').length - 1).hide();
