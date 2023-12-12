@@ -14,7 +14,7 @@ var apiUrl = "http://127.0.0.1:8081"
 var _hmt = _hmt || [];
 (function() {
   var hm = document.createElement("script");
-  hm.src = "https://hm.baidu.com/hm.js?b4ab6a8ab861f8cca03710ba96cb53c7";
+  hm.src = "https://hm.baidu.com/hm.js?ba13cfae7c858d80f3ec31fceb54db21";
   var s = document.getElementsByTagName("script")[0]; 
   s.parentNode.insertBefore(hm, s);
 })();
