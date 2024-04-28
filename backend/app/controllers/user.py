@@ -25,7 +25,8 @@ def register():
     email = data['email']
     phone_number = data['phone']
     launch_code = data['launch_code']
-    invitation_code = data['invitation_code']
+    # invitation_code = data['invitation_code']
+    invitation_code = 0;
     zone_language = LANGUAGE
     if storage.get("language"):
         zone_language = storage.get("language")
