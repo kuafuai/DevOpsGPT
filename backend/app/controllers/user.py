@@ -34,7 +34,8 @@ def register():
         raise Exception("The current version does not support this feature")
     else:
         if invitation_code != INVITATION_CODE:
-            raise Exception(_("invitation code not right (Thank you for your interest. We will open registration after the beta testing phase.)"))
+            # raise Exception(_("invitation code not right (Thank you for your interest. We will open registration after the beta testing phase.)"))
+            pass
         current_tenant = 0
         tus = TenantUser.get_tenant_user_by_invite_email(email)
         for tu in tus:
