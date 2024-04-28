@@ -53,23 +53,22 @@ class LLMBase(LLMInterface):
         
         openai.api_key = key
         openai.api_type = provider_data["api_type"]
-        openai.api_base = provider_data["api_base"]
         openai.api_version = provider_data["api_version"]
         openai.proxy = None if provider_data["proxy"]=="None" else provider_data["proxy"]
+        openai_cli = openai.OpenAI(api_key=key, base_url=provider_data["api_base"])
         print("chatGPT - get api key:"+openai.api_key, flush=True)
         print(f"provider_data:{provider_data}")
 
         try:
-            response = openai.ChatCompletion.create(
+            response = openai_cli.chat.completions.create(
                 model= LLM_MODEL,
-                deployment_id = provider_data.get("deployment_id", None),
                 messages=context,
                 max_tokens=10000,
-                temperature=0,
+                temperature=0
             )
 
-            response_text = response["choices"][0]["message"]["content"]
-            total_tokens = response["usage"]["total_tokens"]
+            total_tokens = response.usage.total_tokens
+            response_text = response.choices[0].message.content
             print("chatGPT - response_text:"+response_text, flush=True)
             return response_text, total_tokens, True
         except Exception as e:
