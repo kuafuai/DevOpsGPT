@@ -64,7 +64,8 @@ class LLMBase(LLMInterface):
                 model= LLM_MODEL,
                 messages=context,
                 max_tokens=10000,
-                temperature=0
+                temperature=0,
+                timeout=600
             )
 
             total_tokens = response.usage.total_tokens
