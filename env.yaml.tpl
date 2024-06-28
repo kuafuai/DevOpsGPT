@@ -24,6 +24,30 @@ GPT_KEYS: |
         }
     }
 
+GPT_KEYS_BACKUP: |
+    {
+        "openai": {
+            "keys": [
+                {"sk-xxxx": {"count": 0, "timestamp": 0}}
+            ],
+            "api_type": "open_ai",
+            "api_base": "https://api.openai.com/v1",
+            "api_version": "2020-11-07",
+            "proxy": "None"
+        }
+        ,
+        "azure": {
+            "keys": [
+                {"sk-xxxx": {"count": 0, "timestamp": 0}}
+            ],
+            "api_type": "azure",
+            "api_base": "https://example-gpt.openai.azure.com/",
+            "api_version": "2023-05-15",
+            "deployment_id": "deployment-name",
+            "proxy": "None"
+        }
+    }
+
 # Configure the model used (do not use less than 16k token model), [note] openai plus members and API members are different, you opena plus member does not mean that you can use gpt4 model, specifically consult the official documentation of openai
 # 配置使用的模型（不要使用小于16k token的模型），【注意】openai的plus会员和API会员是不同的，你开通了plus会员不代表可以用gpt4的模型，具体查阅openai的官方文档
 LLM_MODEL: "gpt-3.5-turbo-16k-0613"  

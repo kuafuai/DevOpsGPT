@@ -69,6 +69,7 @@ try:
     SQLALCHEMY_DATABASE_URI = read_config("SQLALCHEMY_DATABASE_URI")
     GPT_KEYS = json.loads(read_config("GPT_KEYS"))
     LLM_MODEL = read_config("LLM_MODEL")
+    GPT_KEYS_BACKUP =  json.loads(read_config("GPT_KEYS_BACKUP"))
     MODE = read_config("MODE")
     GRADE = read_config("GRADE")
     AUTO_LOGIN = read_config("AUTO_LOGIN")
